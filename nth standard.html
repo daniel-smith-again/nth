@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<head>
+	<title>nth</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		:root{
+
+			--bg:rgb(240, 217, 198);
+			--bgd:rgb(188, 199, 199);
+			--fg:rgb(43, 18, 0);
+			--fgl:rgb(154, 52, 1);
+			--hg:rgb(188, 199, 199);
+			--size:calc(17px + ((1vw + 1vh) / 6));
+		}
+		:target{background-color:var(--hg);}
+		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
+		p, dt, dd, table{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+		dl{width:50%;margin-left:auto;margin-right:auto;}
+		dt{font-style:oblique;}
+		a:active{color:var(--hg);} a:link{color:var(--fg);} a:visited{color:var(--fg);}
+		table{text-align:center;width:fit-content;}
+		td{padding-left:1ch;padding-right:1ch;}
+		td code{text-align:left;}
+		code{color:var(--fgl);border-radius:calc(var(--size) / 6);font-size:var(--size);}
+		code *{color:var(--fgl);}
+		h1, h2, h3, h4, h5, h6{font-weight:normal;}
+		h1{font-size:calc(var(--size) * 3);}
+		h2{font-size:calc(var(--size) * 2);}
+		h3, h4, h5, h6{font-size:calc(var(--size) * 1.5);font-weight:normal;}
+		figure{border-style:solid;border-color:var(--fg);background-color:var(--bgd);border-radius:var(--size);width:fit-content;margin-left:auto;margin-right:auto;padding:1ch;}
+		hr{color:var(--fgl);}
+		article{border-color:var(--fg);border-width:calc(var(--size) / 10);border-top-style:solid;}
+		@media print{h1, h2, h3, h4{page-break-after:avoid;}article{page-break-after:always;}figure{page-break-inside:avoid;}}
+	</style>
+</head>
+<body>
+	<article style="height:100vh;page-break-after:initial;border-style:none;">
+		<svg viewBox="0 0 100 100" version="1.1" style="height:50%;width:auto;margin-top:10%;stroke-width:0.2ch;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+			<defs id="defs54" />
+			<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+				ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
+			<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
+				d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
+				id="path47" />
+			<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+				d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
+		</svg>
+	</article>
+	<article style="height:100vh;page-break-after:initial;border-style:none;">
+		<h1>Standard Documentation for the</h1>
+		<h1><i>n</i><sup>th</sup></h1>
+		<h1>System for Computation</h1>
+		<h5>Copyright &copy; Daniel Smith, 2023</h5>
+		<h3>Revision 0</h3>
+	</article>
+	<article>
+		<h1>Introduction</h1>
+		<p>
+			This document contains the specification of "<i>n</i><sup>th</sup>", a system for creating and performing computations.
+			This system is intended to be generally useful when applied to any problem which requires computing.
+		</p>
+		<p>
+			The system is comprised of a description language for composing programs and a small environment to compute those programs.
+			In this document, the name "<i>n</i><sup>th</sup>" refers to the description language.
+			The term "environment" shall refer to the mechanisms and resources through which computation is facilitated.
+		</p>
+		<p>
+			As this document is a specification, all properties and behaviors of the system as described are considered requirements for an implementation.
+		</p>
+		<h2>Conventions</h2>
+		<h3>Terminology</h3>
+		<p>
+			This document assumes basic knowledge of mathematics and computer science.
+			Terms which have a meaning specific to this document are written as clickable links.
+			Each term will link back to the point in this document where it was defined.
+		</p>
+		<h3>Notations</h3>
+		<p>
+			The <i>n</i><sup>th</sup> langauge can be described and extended in terms of itself.
+			As such, figures which describe syntax and semantics are written as valid <i>n</i><sup>th</sup> programs which construct syntactic or semantic entities as they would appear in a <a href="#Context">Context</a>.
+			In order to fulfill the behavior and semantics of the default <a href="#Expressions">Expressions</a>, certain capabilities must be assumed.
+			These capabilities are included in figures as <a href="#Operation">Operations</a> written in <code><b>bold monospace font</b></code>.
+			Each <a href="#Operation">Operation</a> included in a figure will also be described in plain wording.
+		</p>
+	</article>
+	<article>
+		<h1>Syntax</h1>
+		<h2>Character Set</h2>
+		<p>
+			<i>n</i><sup>th</sup> is written as a sequence of characters.
+			The minimal set of characters required to write an <i>n</i><sup>th</sup> program is supported by the printable subset of the ASCII character encoding (all characters excluding control characters).
+			<i>n</i><sup>th</sup> is intended to be compatible with any character encoding which provides the same set of printable characters as the ASCII encoding.
+			For the purposes of this standard, the ASCII subset is assumed, with the addition of a line break character.
+		</p>
+		<p>
+			<i>n</i><sup>th</sup> assumes a classification of characters which is applied to any encoding.
+			A character may either be a Digit, Glyph, or Blank.
+			<span id="Digit">A Digit is a character corresponding to one of the ten decimal digits.</span>
+			<span id="Glyph">A Glyph is any character which is visible when printed.</span>
+			<span id="Blank">A Blank is any character which results in some blank space or formatting structure when printed.</span>
+		</p>
+		<h2>Grammatical Components</h2>
+		<p>
+			The grammatical components of an <i>n</i><sup>th</sup> program are classified as Symbols, Numbers, and Punctuation.
+			These are combined to form a <a href="#Program-Model">Program Model</a>.
+		</p>
+		<p id="Symbol">
+			A Symbol is any sequence of characters not including <a href="#Punctuation">Punctuation</a> or a <a href="#Blank">Blank</a>.
+		</p>
+		<p id="Written-Number">
+			A Number is any symbol which only contains decimal digits.
+			Numbers may optionally include either a fractional or decimal component as a forward slash or period dot respectively.
+			These components cannot occur as the first or last character in the Number.
+			Numbers may optionally include a sign component as a plus or dash.
+			The sign can only occur as the first character in the Number.
+		</p>
+		<p id="Punctuation">
+			Punctuation is any one of the following characters, <code>(){}[],'"</code>.
+			A Punctuation character represents grammatical structure and cannot be treated as a Symbol.
+		</p>
+		<h2>Programs</h2>
+		<p>
+			<span id="Expression">An Expression is a closed pair of round braces surrounding zero or more programs.</span>
+			<span id="Sequence">A Sequence is a series of programs separated by a comma.</span>
+			<span id="Program">A Program is a composition of Expressions, Sequences, and <a href="#Constructor">Constructors</a>.</span>
+		</p>
+		<p>
+			The grammar below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
+			A character sequence is denoted by a mixed list of literal characters given in <code>monospaced font</code> and names of other character sequences.
+			In this grammar, the arrow (&rarr;) denotes one or more character sequences listed after the arrow which may occurr at a position identified by the name given left of the arrow.
+			The bar (|) separates two individual character sequences.
+			The star (*) suffixes a sequence that can occur one or more times.
+		</p>
+		<figure>
+			<table>
+				<tr><td>Program &rarr; <a href="#Expression">Expression</a> | <a href="#Sequence">Sequence</a> | <a href="#Quote">Quote</a> | <a href="#Collection">Collection</a> | <a href="#String">String</a> | <a href="#Type">Type</a> | <a href="#Symbol">Symbol</a> | <a href="#Writen-Number">Number</a></td></tr>
+				<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+				<tr><td>Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
+				<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
+				<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+				<tr><td>String &rarr; <code>"</code> Character * | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="#Digit">Digit</a> * <code>.</code></td></tr>
+				<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+			</table>
+		</figure>
+	</article>
+	<article>
+		<h1>The Program Model</h1>
+		<h2>Format</h2>
+		<p>
+			<span id="Program-Model">A Program Model is some structured data corresponding to a written <i>n</i><sup>th</sup> program.</span>
+			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
+		</p>
+		<p>
+			A <a href="#Program-Model">Program Model</a> is composed of nested <a href="#Collection">Collections</a> containing sequences of <a href="#Symbol">Symbols</a>, <a href="#Constructor">Constructors</a>, and other <a href="#Collection">Collections</a>.
+			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
+			<a href="#Program">Programs</a> are discretely classified as <a href="#Operation">Operations</a> and <a href="#Constructor">Constructors</a>.
+			<span id="Operation">An Operation is a <a href="#Program">Program</a> which represents a manipulation performed on some <a href="#Data">Data</a>.</span>
+			<span id="Constructor">A Constructor is a <a href="#Program">Program</a> which represents a specific formation of <a href="#Data">Data</a>.</span>
+		</p>
+		<h3>Construction</h3>
+		<p>
+			There is an exact correspondence between a <a href="#Program">Program</a> and a <a href="#Program-Model">Program Model</a>.
+			<a href="#Expression">Expressions</a>, <a href="#Sequence">Sequences</a>, <a href="#Collection">Collections</a>, and <a href="#Type">Types</a> all correspond to individual <a href="#Node">Nodes</a> within a <a href="#Program-Model">Program Model</a>.
+			If an <a href="#Expression">Expression</a>, <a href="#Sequence">Sequence</a>, <a href="#Collection">Collection</a>, or <a href="#Type">Type</a> is nested within another in a <a href="#Program">Program</a>, then the resulting <a href="#Node">Nodes</a> in the <a href="#Program-Model">Program Model</a> will be nested.
+			The following figure demonstrates how a textual <a href="#Program">Program</a> corresponds to a <a href="#Program-Model">Program Model</a> shown by a program which constructs that model.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>(a {b} (123 d) [e])</code></td><td>...</td><td style="text-align:right;"><i>a written program</i></td></tr>
+				<tr><td><code>{'a {'b} {123 'd} {'e}}</code></td><td>...</td><td style="text-align:right;"><i>the program model</i></td></tr>
+			</table>
+		</figure>
+		<h2>Computation</h2>
+		<p>
+			<span id="Compute">Computation, in terms of the <i>n</i><sup>th</sup> langauge, is the process of transforming a <a href="#Program-Model">Program Model</a> to a data result through repeated reductive steps.</span>
+			A single reductive step will determine the first <a href="#Node">Node</a> in a <a href="#Program-Model">Program Model</a> which does not contain nested <a href="#Node">Nodes</a> and reduce a <a href="#Node">Node</a> to some data.
+			When a <a href="#Node">Node</a> is reduced, it will be replaced with the resultant data in the <a href="#Program-Model">Program Model</a>.
+			The figure below demonstrates the reductive steps that take place when <a href="#Compute">computing</a> a <a href="#Program-Model">Program Model</a> representing a compound arithmetic expression.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>{1 '+ {1 '+ 1}}</code></td><td>...</td><td style="text-align:right;"><i>1</i></td></tr>
+				<tr><td><code>{1 '+ 2}</code></td><td>...</td><td style="text-align:right;"><i>2</i></td></tr>
+				<tr><td><code>3</code></td><td>...</td><td style="text-align:right;"><i>3</i></td></tr>
+			</table>
+		</figure>
+		<p>
+			The result of <a href="#Compute">computing</a> a <a href="#Node">Node</a> is determined by the semantics corresponding to the <a href="#Operation">Operation</a> or <a href="#Constructor">Constructor</a> that the <a href="#Node">Node</a> represents.
+			<i>n</i><sup>th</sup> relies on a group of interdependent semantic models.
+			Each of the models are described in the following sections.
+		</p>
+	</article>
+	<article>
+		<h1 id="Environment">Environment</h1>
+		<h2>Overview</h2>
+		<p>
+			The <i>n</i><sup>th</sup> environment consists of some finite number of <a href="#Data">Data</a> units which can store values.
+		</p>
+		<p>
+			Each unit can be accessed through a <a href="#Reference">Reference</a> which uniquely identifies that <a href="#Data">Data</a> unit.
+		</p>
+		<p>
+			<a href="#Constructor">Constructors</a> and <a href="#Operation">Operations</a> will claim resources from the environment in the form of some number of <a href="#Data">Data</a> units.
+		</p>
+		<h2>Data</h2>
+		<p>
+			<span id="Data">Data is a type corresponding to the smallest individual unit of storage provided by the environment.</span>
+			A <a href="#Data">Data</a> unit can store one of a number of abstract values.
+			The number of values which can be stored as <a href="#Data">Data</a> are dependent on the nature of the storage medium supplied by the environment.
+			<i>n</i><sup>th</sup> enumerates these values as a set of sequential <a href="#Number">numerical</a> values beginning with zero and ending with a <a href="#Number">number</a> which is one less than the cardinality of the set.
+		</p>
+		<p>
+			There is a unique <a href="#Reference">Reference</a> value for each unique <a href="#Data">Data</a> unit available in the environment.
+		</p>
+		<h3>Operations on Data</h3>
+		<p>
+			Data is constructed by converting a <a href="#Number">number</a> corresponding to a <a href="#Data">Data</a> value to a format which can be stored as <a href="#Data">Data</a>.
+			Values can also be <a href="#Compute">computed</a> using a modular arithmetic over existing <a href="#Data">Data</a>.
+		</p>
+		<p>
+			The <a href="#Data">Data</a> <a href="#Constructor">Constructor</a> accepts a <a href="#Number">Number</a> corresponding to a <a href="#Data">Data</a> value and will convert it to a format which can be stored.
+			The <a href="#Constructor">Constructor</a> <a href="#Expression">Expression</a> is given below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><i>given </i><code>Maximum</code><i> which binds the maximum possible value for the Data type,</i></td></tr>
+				<tr><td><code>({'% [(n : Number), (? ((n < Maximum) /\ (n > -1)) n)]} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>data constructor</i></td></tr>
+			</table>
+		</figure>
+		<h3>Arithmetic over Data</h3>
+		<p>
+			Modular arithmetic can be performed on <a href="#Data">Data</a> values which <a href="#Compute">computes</a> to other <a href="#Data">Data</a> values.
+			There are five arithmetic operations provided which are given in the figure below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>({Data '+ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
+				<tr><td><code>({Data '- Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
+				<tr><td><code>({Data '* Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
+				<tr><td><code>({Data '/ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>division</i></td></tr>
+				<tr><td><code>({Data '// Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>modulus</i></td></tr>
+			</table>
+		</figure>
+		<p>
+			All arithmetic operations on <a href="#Data">Data</a> are performed identically to arithmetic for <a href="#Number">Numbers</a>. 
+			There is an added restriction specifically for <a href="#Data">Data</a> that all operations will result in a value which is part of the set of values which can be stored as <a href="#Data">Data</a>.
+			In the case that an arithmetic operation on <a href="#Data">Data</a> would result in a value that cannot be stored, the actual result is adjusted to a corresponding modular result according to the <a href="#modular-algorithm">algorithm</a> given below.
+		</p>
+		<figure id="modular-algorithm">
+			<table>
+				<tr><td><i>given </i><code>Maximum</code><i> which binds the maximum possible value for the Data type,</i></td></tr>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					(n -><br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;(? (n &gt; Maximum)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(n // Maximum)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(? (n &lt; 0)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(-1 * (n // Maximum))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;n)))</code></td></tr>
+			</table>
+		</figure>
+		<h2>References</h2>
+		<p>
+			<span id="Reference">A Reference represents an abstract value identifying a single unit of <a href="#Data">Data</a>.</span>
+			There is a unique <a href="#Reference">Reference</a> value for each and every single <a href="#Data">Data</a> unit available in the environment.
+		</p>
+		<h3>Operations on References</h3>
+		<p>
+			A <a href="#Reference">Reference</a> is not explicitly <a href="#Constructor">constructed</a>.
+			It can only be derived from some other entity which has been <a href="#Constructor">constructed</a>.
+			There are two operations, one which derives a <a href="#Reference">Reference</a> from an entity, and one which exposes an entity through a <a href="#Reference">Reference</a>.
+			The two <a href="#Expressions">Expressions</a> for the <a href="#Operation">Operations</a> are given in the figure below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>({'@@ *} -> Reference)</code></td><td>...</td><td style="text-align:right;"><i>derive reference</i></td></tr>
+				<tr><td><code>({'@ Reference} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dereference</i></td></tr>
+			</table>
+		</figure>
+	</article>
+	<article>
+		<h1 id="Numbers">Numbers</h1>
+	</article>
+	<article>
+		<h1 id="Logic">Logic</h1>
+	</article>
+	<article>
+		<h1 id="Collections">Collections</h1>
+	</article>
+	<article>
+		<h1 id="Types">Types</h1>
+	</article>
+	<article>
+		<h1 id="Functions">Functions</h1>
+	</article>
+	<article>
+		<h1 id="Contexts">Contexts</h1>
+	</article>
+</body>
