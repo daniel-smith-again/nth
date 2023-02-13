@@ -18,11 +18,12 @@
 		p, dt, dd, table{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
 		dl{width:50%;margin-left:auto;margin-right:auto;}
 		dt{font-style:oblique;}
-		a:active{color:var(--hg);} a:link{color:var(--fg);} a:visited{color:var(--fg);}
+		a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
+		a{text-decoration:none;}
 		table{text-align:center;width:fit-content;}
 		td{padding-left:1ch;padding-right:1ch;}
 		td code{text-align:left;}
-		code{color:var(--fgl);border-radius:calc(var(--size) / 6);font-size:var(--size);}
+		code{color:var(--fg);border-radius:calc(var(--size) / 6);font-size:var(--size);}
 		code *{color:var(--fgl);}
 		h1, h2, h3, h4, h5, h6{font-weight:normal;}
 		h1{font-size:calc(var(--size) * 3);}
@@ -283,12 +284,30 @@
 	</article>
 	<article>
 		<h1 id="Logic">Logic</h1>
+		<p>
+			
+		</p>
 	</article>
 	<article>
 		<h1 id="Collections">Collections</h1>
+		<p>
+			<span id="Collection">A Collection is a structured entity which represents a grouping of other entities.</span>
+		</p>
 	</article>
 	<article>
 		<h1 id="Types">Types</h1>
+		<p>
+			The <i>n</i><sup>th</sup> langauge provides a system of <a href="#Type">Types</a> which allows for constraints to be placed on what values may occurr at any point in a program.
+			<span id="Type">A Type is a potentially infinitely large <a href="#Collection">Collection</a> of unique entities enumerating all possible entities which may occur where that Type occurs.</span>
+			The entities grouped as a <a href="#Type">Type</a> are referred to as values.
+			<a href="#Type">Types</a> may be values of other <a href="#Types">Types</a>.
+		</p>
+		<p>
+			A <a href="#Type">Type</a> is <a href="#Constructor">constructed</a> by listing any number of programs in between the two punctuation characters <code>[</code> and <code>]</code>.
+			The form of that type is then the values that result from <a href="#Compute">computing</a> each of the programs.
+		</p>
+		<h2>Valid Programs</h2>
+		<h2>Quantification</h2>
 	</article>
 	<article>
 		<h1 id="Functions">Functions</h1>
