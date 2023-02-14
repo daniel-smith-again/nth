@@ -321,11 +321,18 @@
 			<span id="well-typed">A well-typed program is a <a href="#Program">program</a> which contains no type errors.</span>
 		</p>
 		<p>
-			In order to determine if a <a href="#Program">program</a> has no type errors, it must be checked against a number of rules given in the figures below.
-			A <a href="#Program">program</a> which conforms to all these rules will have no type errors.
+			A <a href="#Program">program</a> will have no type errors if it conforms to a set of <a href="#Type">Type</a> rules.
+			These rules are given in the figures below.
 		</p>
+		<figure>
+			<table>
+				<tr><td><code>((:(e)) = T)</code></td></tr>
+				<tr><td>Given a constructor expression, <i>e</i>, which constructs a type <i>T</i>, computing the constructor will always produce a value of <i>T</i>.</td></tr>
+			</table>
+		</figure>
 		<!--
 			typing rules?
+			a constructor will always result in the type it constructs
 
 		-->
 		<h2>Quantification</h2>
