@@ -16,6 +16,7 @@
 		:target{background-color:var(--hg);}
 		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
 		p, dt, dd, table{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+		ul, ol{text-align:left;max-width:160ch;width:50vw;margin-left:auto;margin-right:auto;}
 		dl{width:50%;margin-left:auto;margin-right:auto;}
 		dt{font-style:oblique;}
 		a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
@@ -375,8 +376,8 @@
 		<figure>
 			<table><tr><td><code>
 				(T <- [t]),<br>
-				(<- ({'k T} -> T)),
-				(x : T),
+				(<- ({'k T} -> T)),<br>
+				(x : T),<br>
 				((k x) < Type) 
 			</code></td></tr></table>
 			<hr>
@@ -384,15 +385,13 @@
 		</figure>
 		<h3>Lexical Extent of Quantification</h3>
 		<p>
-			<a href="#Quantification">Quantification</a> 
-		</p>
-		<p>
 			In some cases, <a href="#Quantification">quantification</a> may apply to only a sub-program containing an independent variable.
 			These cases are listed below...
 		</p>
 		<ul>
 			<li>A <a href="#Collection">Collection</a> containing a <a href="#Quantification">quantified</a> sub-program as an element will not be <a href="#Quantification">quantified</a> and will instead hold the type produced by <a href="Quantification">quantifying</a> only the sub-program.</li>
-			<li>A <a href="#Sequence">Sequence</a> containing a <a href="#Quantification">quantified</a> sub-program </li>
+			<li>A <a href="#Sequence">Sequence</a> containing a <a href="#Quantification">quantified</a> sub-program which is not the last sub-program in the <a href="#Sequence">Sequence</a> will not be <a href="#Quantification">quantified</a>.</li>
+			<li>An <a href="#Expression">expression</a> which accepts a type will accept a <a href="#Quantification">quantified</a> <a href="#Program">program</a> as a sub-program that <a href="#Compute">computes</a> to a type without being <a href="#Quantification">quantified</a> itself.</li>
 		</ul>
 	</article>
 	<article>

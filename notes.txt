@@ -13,8 +13,7 @@ Q, A, B
 quantify over side effects?
 yes.
 Q, A, B
-
-
-
 (f (g (h ((x : T), x))))
 so in this case the quantification is propagated
+How would I make a sequence by quantified?
+(x : T), ((A, B, x), C)
