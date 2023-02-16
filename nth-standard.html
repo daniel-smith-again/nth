@@ -24,7 +24,6 @@
 		td{padding-left:1ch;padding-right:1ch;}
 		td code{text-align:left;}
 		code{color:var(--fg);border-radius:calc(var(--size) / 6);font-size:var(--size);}
-		code *{color:var(--fgl);}
 		h1, h2, h3, h4, h5, h6{font-weight:normal;}
 		h1{font-size:calc(var(--size) * 3);}
 		h2{font-size:calc(var(--size) * 2);}
@@ -285,16 +284,6 @@
 	<article>
 		<h1 id="Logic">Logic</h1>
 		<p>
-			<!--
-				is logic one big expression? or a bunch of little ones for each operation
-				it makes sense to do a bunch of little operations
-				like (a /\ (b /\ c ))
-				even tho they're symmetric and associative
-				weird I can't just repeat associative operations like 
-				(a /\ b /\ c)
-				yes, there's no order of ops, you can just write 
-				(a /\ b \/ c) and it will sum them all up
-			-->
 		</p>
 	</article>
 	<article>
@@ -326,16 +315,85 @@
 		</p>
 		<figure>
 			<table>
-				<tr><td><code>((:(e)) = T)</code></td></tr>
-				<tr><td>Given a constructor expression, <i>e</i>, which constructs a type <i>T</i>, computing the constructor will always produce a value of <i>T</i>.</td></tr>
+				<tr><td><code>((e) = t)</code></td></tr>
 			</table>
+			<hr>
+			<p>Given an expression, <i>e</i>, which computes to a value <i>t</i>, computing <i>e</i> will always produce <i>t</i>.</p>
 		</figure>
-		<!--
-			typing rules?
-			a constructor will always result in the type it constructs
-
-		-->
+		<figure>
+			<table>
+				<tr><td><code>(T <- [t]), ((: e) = T)</code></td></tr>
+			</table>
+			<hr>
+			<p>Given an expression <i>e</i>, which computes to  a value of <i>T</i>, computing <i>e</i> will always produce a value of <i>T</i>.</p>
+		</figure>
+		<figure>
+			<table>
+				<tr><td><code>
+					(T <- [t]),<br>
+					(<- ({'k T} -> t)),<br>
+					(<- ({'l} -> t),<br>
+					((:(k (l))) = T)
+				</code></td></tr>
+			</table>
+			<hr>
+			<p>Given an expression which accepts a value of <i>T</i>, and an expression that computes to a value of <i>T</i>, nesting the second in the first is well-typed.</p>
+		</figure>
+		<figure>
+			<table>
+				<tr><td><code>
+					(T <- [n m]),<br>
+					(<- ({'k n} -> m)),<br>
+					(x : T),<br>
+					((k x) = m)
+				</code></td></tr>
+			</table>
+			<hr>
+			<p>Given an expression, <i>k</i>, which accepts a specific value of a type <i>T</i>, and an expression, <i>x</i>, which computes to any value of <i>T</i>, then <i>x</i>, when nested as a sub-program in <i>k</i>, must compute to a value of <i>T</i> which <i>k</i> accepts.</p>
+		</figure>
+		<figure>
+			<table>
+				<tr><td><code>(((n -> m) n) = m)</code></td></tr>
+			</table>
+			<hr>
+			<p>Given a function mapping a value <i>n</i> to a value <i>m</i>, applying that function to <i>n</i> will always compute to the value <i>m</i>.</p>
+		</figure>
+		<figure>
+			<table>
+				<tr><td><code>(T <- [t]), ((:((T -> T) t)) = T)</code></td></tr>
+			</table>
+			<hr>
+			<p>Given a function mapping a type <i>T</i> to a type <i>T</i>, applying that function to a value of <i>T</i> will always compute to the type <i>T</i>.</p>
+		</figure>
 		<h2>Quantification</h2>
+		<p>
+			<span id="Quantification">Quantification is a process which <a href="#Compute">computes</a> a program once for each value of a <a href="#Type">Type</a> and constructs a new <a href="#Type">Type</a> representing the values resulting from the quantification.</span>
+			Quantification is engaged by creating an <a href="#Independent-Variable">independent variable</a>.
+			<span id="Independent-Variable">An independent variable is a variable which has been constrained by a type, but is not bound to a single value.</span>
+			Any program featuring an independent variable is quantified.
+		</p>
+		<figure>
+			<table><tr><td><code>
+				(T <- [t]),<br>
+				(<- ({'k T} -> T)),
+				(x : T),
+				((k x) < Type) 
+			</code></td></tr></table>
+			<hr>
+			<p>A program, <i>k</i>, may be quantified by creating an independent variable <i>x</i> and using it in place of a bound variable.</p>
+		</figure>
+		<h3>Lexical Extent of Quantification</h3>
+		<p>
+			<a href="#Quantification">Quantification</a> 
+		</p>
+		<p>
+			In some cases, <a href="#Quantification">quantification</a> may apply to only a sub-program containing an independent variable.
+			These cases are listed below...
+		</p>
+		<ul>
+			<li>A <a href="#Collection">Collection</a> containing a <a href="#Quantification">quantified</a> sub-program as an element will not be <a href="#Quantification">quantified</a> and will instead hold the type produced by <a href="Quantification">quantifying</a> only the sub-program.</li>
+			<li>A <a href="#Sequence">Sequence</a> containing a <a href="#Quantification">quantified</a> sub-program </li>
+		</ul>
 	</article>
 	<article>
 		<h1 id="Functions">Functions</h1>

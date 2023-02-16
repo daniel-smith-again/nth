@@ -1,0 +1,20 @@
+What operations and forms are NOT quantified?
+Q represents a quantified sub-program,
+(x : T), (x)
+What operations are quantified over the sub-program.
+{(x : T), (x)}
+does this result in a quantification of collections?
+What if I want to specify the quantification of a collection?
+The type of a collection of a bunch of things
+what about a sequence?
+A, B, Q
+Q, A, B
+((x : T), (x)), A, B
+quantify over side effects?
+yes.
+Q, A, B
+
+
+
+(f (g (h ((x : T), x))))
+so in this case the quantification is propagated
