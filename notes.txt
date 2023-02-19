@@ -17,3 +17,17 @@ Q, A, B
 so in this case the quantification is propagated
 How would I make a sequence by quantified?
 (x : T), ((A, B, x), C)
+
+
+
+how to create operations that do not affect context?
+Macros don't affect context by default.
+or do i need that if i have closures?
+because closures capture everything.
+Also i dont want to capture too small of a tree.
+how would i implement green threads?
+well you'd have to call a function that captures the continuation.
+
+(yield <- (_ -> (threads \\ (# threads) &), (schedule)))
+what does that capture though?
+the rest of the program.
