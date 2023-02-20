@@ -15,7 +15,7 @@
 		}
 		:target{background-color:var(--hg);}
 		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
-		p, dt, dd, table{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+		p, dt, dd, table, figcaption{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
 		ul, ol{text-align:left;max-width:160ch;width:50vw;margin-left:auto;margin-right:auto;}
 		dl{width:50%;margin-left:auto;margin-right:auto;}
 		dt{font-style:oblique;}
@@ -283,7 +283,7 @@
 		</p>
 		<p>
 			The <i>"dereference"</i> <a href="#Operation">Operation</a> will <a href="#Compute">compute</a> to the entity which is stored beginning with the <a href="#Data">Data</a> identified by the <a href="#Reference">Reference</a> provided to the <a href="#Operation">Operation</a>.
-			The entity resulting from the <a href="#Operation">Operation</a> will be of a type expected by the outer <a href="#Expression">expression</a>.
+			The entity resulting from the <a href="#Operation">Operation</a> will be of a type expected by the outer <a href="#Expression">expression</a> according to the <a href="#Type-Rule-4">rules</a> for <a href="#well-typed">well-typed</a> <a href="#Program">programs</a>.
 		</p>
 	</article>
 	<article>
@@ -321,21 +321,21 @@
 			A <a href="#Program">program</a> will have no type errors if it conforms to a set of <a href="#Type">Type</a> rules.
 			These rules are given in the figures below.
 		</p>
-		<figure>
+		<figure id="Type-Rule-1">
 			<table>
 				<tr><td><code>((e) = t)</code></td></tr>
 			</table>
 			<hr>
-			<p>Given an expression, <i>e</i>, which computes to a value <i>t</i>, computing <i>e</i> will always produce <i>t</i>.</p>
+			<figcaption>Given an expression, <i>e</i>, which computes to a value <i>t</i>, computing <i>e</i> will always produce <i>t</i>.</figcaption>
 		</figure>
-		<figure>
+		<figure id="Type-Rule-2">
 			<table>
-				<tr><td><code>(T <- [t]), ((: e) = T)</code></td></tr>
+				<tr><td><code>(T <- [t]), ((: (e)) = T)</code></td></tr>
 			</table>
 			<hr>
-			<p>Given an expression <i>e</i>, which computes to  a value of <i>T</i>, computing <i>e</i> will always produce a value of <i>T</i>.</p>
+			<figcaption>Given an expression <i>e</i>, which computes to  a value of <i>T</i>, computing <i>e</i> will always produce a value of <i>T</i>.</figcaption>
 		</figure>
-		<figure>
+		<figure id="Type-Rule-3">
 			<table>
 				<tr><td><code>
 					(T <- [t]),<br>
@@ -345,9 +345,10 @@
 				</code></td></tr>
 			</table>
 			<hr>
-			<p>Given an expression which accepts a value of <i>T</i>, and an expression that computes to a value of <i>T</i>, nesting the second in the first is well-typed.</p>
+			<figcaption>Given an expression which accepts a value of <i>T</i>, and an expression that computes to a value of <i>T</i>, nesting the second in the first is well-typed.</figcaption>
 		</figure>
-		<figure>
+
+		<figure id="Type-Rule-4">
 			<table>
 				<tr><td><code>
 					(T <- [n m]),<br>
@@ -357,21 +358,21 @@
 				</code></td></tr>
 			</table>
 			<hr>
-			<p>Given an expression, <i>k</i>, which accepts a specific value of a type <i>T</i>, and an expression, <i>x</i>, which computes to any value of <i>T</i>, then <i>x</i>, when nested as a sub-program in <i>k</i>, must compute to a value of <i>T</i> which <i>k</i> accepts.</p>
+			<figcaption>Given an expression, <i>k</i>, which accepts a specific value of a type <i>T</i>, and an expression, <i>x</i>, which computes to any value of <i>T</i>, then <i>x</i>, when nested as a sub-program in <i>k</i>, must compute to a value of <i>T</i> which <i>k</i> accepts.</figcaption>
 		</figure>
-		<figure>
+		<figure id="Type-Rule-5">
 			<table>
 				<tr><td><code>(((n -> m) n) = m)</code></td></tr>
 			</table>
 			<hr>
-			<p>Given a function mapping a value <i>n</i> to a value <i>m</i>, applying that function to <i>n</i> will always compute to the value <i>m</i>.</p>
+			<figcaption>Given a function mapping a value <i>n</i> to a value <i>m</i>, applying that function to <i>n</i> will always compute to the value <i>m</i>.</figcaption>
 		</figure>
-		<figure>
+		<figure id="Type-Rule-6">
 			<table>
 				<tr><td><code>(T <- [t]), ((:((T -> T) t)) = T)</code></td></tr>
 			</table>
 			<hr>
-			<p>Given a function mapping a type <i>T</i> to a type <i>T</i>, applying that function to a value of <i>T</i> will always compute to the type <i>T</i>.</p>
+			<figcaption>Given a function mapping a type <i>T</i> to a type <i>T</i>, applying that function to a value of <i>T</i> will always compute to the type <i>T</i>.</figcaption>
 		</figure>
 		<h2>Quantification</h2>
 		<p>
@@ -379,17 +380,27 @@
 			Quantification is engaged by creating an <a href="#Independent-Variable">independent variable</a>.
 			<span id="Independent-Variable">An independent variable is a variable which has been constrained by a type, but is not bound to a single value.</span>
 			Any program featuring an independent variable is quantified.
+			An example of a <a href="#Quantification">quantified</a> program and an equivalent non-quantified program is given in the figure below.
 		</p>
 		<figure>
-			<table><tr><td><code>
-				(T <- [t]),<br>
-				(<- ({'k T} -> T)),<br>
-				(x : T),<br>
-				((k x) < Type) 
-			</code></td></tr></table>
+			<table>
+				<tr><td><code>
+					(f <- (n -> (n // 7))),<br>
+					(x : Natural),<br>
+					((f x) = [0 1 2 3 4 5 6])
+				</code></td><td>...</td><td style="text-align:right;"><i>a quantified program</i></td></tr>
+			</table>
 			<hr>
-			<p>A program, <i>k</i>, may be quantified by creating an independent variable <i>x</i> and using it in place of a bound variable.</p>
+			<table>
+				<tr><td><code>
+					(f <- (n -> (n // 7))),<br>
+					(([(f 0) (f 1) (f 2) <b>...</b> (f n)]) = [0 1 2 3 4 5 6])
+				</code></td><td>...</td><td style="text-align:right;"><i>an equivalent program with no quantification</i></td></tr>
+			</table>
 		</figure>
+		<p>
+			A <a href="#Quantification">quantified</a> program will be computed for all the values of the <a href="#Type">Type</a> it's being <a href="#Quantification">quantified</a> over.
+		</p>
 		<h3>Lexical Extent of Quantification</h3>
 		<p>
 			In some cases, <a href="#Quantification">quantification</a> may apply to only a sub-program containing an independent variable.
@@ -398,8 +409,8 @@
 		<ul>
 			<li>A <a href="#Collection">Collection</a> containing a <a href="#Quantification">quantified</a> sub-program as an element will not be <a href="#Quantification">quantified</a> and will instead hold the type produced by <a href="Quantification">quantifying</a> only the sub-program.</li>
 			<li>A <a href="#Sequence">Sequence</a> containing a <a href="#Quantification">quantified</a> sub-program which is not the last sub-program in the <a href="#Sequence">Sequence</a> will not be <a href="#Quantification">quantified</a>.</li>
-			<li>An <a href="#Expression">expression</a> which accepts a type will accept a <a href="#Quantification">quantified</a> <a href="#Program">program</a> as a sub-program that <a href="#Compute">computes</a> to a type without being <a href="#Quantification">quantified</a> itself.</li>
-			<li>An <a href="#Expression">expression</a> which accepts any program will not be quantified.</li>
+			<li>Any <a href="#Expression">Expression</a> which accepts a sub-program that <a href="#Compute">computes</a> to a <a href="#Type">Type</a> will not be <a href="#Quantification">quantified</a>.</li>
+			<li>Any <a href="#Expression">Expression</a> which accepts any sub-program of any <a href="#Type">Type</a> will not be <a href="#Quantification">quantified</a>.</li>
 		</ul>
 	</article>
 	<article>
