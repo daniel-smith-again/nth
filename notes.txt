@@ -27,7 +27,13 @@ because closures capture everything.
 Also i dont want to capture too small of a tree.
 how would i implement green threads?
 well you'd have to call a function that captures the continuation.
+So there's a list of threads, a scheduler, and a function to capture a point and switch to another thread.
+What does that look like?
+You can turn all of them into a yield function over a list of continuations.
+(threads <- {}),
+(yield <- (_ -> ))
 
-(yield <- (_ -> (threads \\ (# threads) &), (schedule)))
-what does that capture though?
-the rest of the program.
+
+I'd like to make an in-place insert operation.
+(({1 3} \\ 1 2) = {1 2 3})
+
