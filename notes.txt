@@ -37,3 +37,22 @@ You can turn all of them into a yield function over a list of continuations.
 I'd like to make an in-place insert operation.
 (({1 3} \\ 1 2) = {1 2 3})
 
+
+What if there's an expression which accepts anything?
+Does that allow quantification?
+(<- ((n : {'m *}) -> (f (n \ 2))),
+(m (1 + Nat))
+What about quantification as iteration?
+Loop incrementing an array
+
+how to loop?
+Do I do tail call optimization? yes
+can I also just do continuations? yes
+
+(countdown <- (i -> (? (i > 0) (& <- (countdown (i - 1)) i))))
+(countdown <- (i -> (? (i > 0) (countdown (i - 1)) i)))
+(countdown <- (i -> (& \ 0 '(? (i > 0) (& <- (i <- (i - 1))) i))))
+named let is such a convenient form. 
+what's the equivalent of named let?
+(& <- (loop <- `(a, (& <- loop))))
+
