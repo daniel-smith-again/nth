@@ -55,4 +55,12 @@ can I also just do continuations? yes
 named let is such a convenient form. 
 what's the equivalent of named let?
 (& <- (loop <- `(a, (& <- loop))))
+is there no equivalent of named let?
+No but you can make it pretty easily.
+((e : {'loop Symbol Expression}) -> ((e \ 1) <- (e \ 2)), (! (e \ 1)))
 
+
+
+lets say I want to take the context so that I can always get a value back.
+Contexts are bound by functions.
+New functions create new contexts.
