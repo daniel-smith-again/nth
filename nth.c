@@ -28,7 +28,7 @@ int main ()
 	char *buffer;
 	unsigned long long int buffer_length = 0;
 	unsigned long long int buffer_size = 0;
-	unsigned long long int balance = 0;
+	unsigned long long int RBalance = 0, CBalance = 0, SBalance = 0;
 	unsigned long long int quoted = 0;
 FILL_BUFFER:
 	while(read(0, &c, 1) > 0)
@@ -47,7 +47,7 @@ FILL_BUFFER:
 		switch(c) {
 			case '\n':
 			case '\r':
-				if (balance == 0) goto EXIT;
+				if (RBalance == 0 && CBalance == 0 && SBalance == 0 && quoted == 0) goto EXIT;
 				c = '\n';
 				write(1, "\n\r", 2);
 				break;
@@ -55,28 +55,73 @@ FILL_BUFFER:
 				goto EXIT;
 				break;
 			case '(':
+			{
+				RBalance ++;
+				if (!quoted) write(1, "\x1b[90m", 5);
+				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
+				break;
+			}
 			case '[':
+			{
+				SBalance ++;
+				if (!quoted) write(1, "\x1b[31m", 5);
+				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
+				break;
+			}
 			case '{':
-				balance ++;
+			{
+				CBalance ++;
+				if (!quoted) write(1, "\x1b[32m", 5);
 				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
 				break;
+			}
 			case ')':
-			case ']':
-			case '}':
-				if (balance > 0) balance --;
+			{
+				if (RBalance > 0) RBalance --;
+				if (!quoted) write(1, "\x1b[90m", 5);
 				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
 				break;
+			}
+			case ']':
+			{
+				if (SBalance > 0) SBalance --;
+				if (!quoted) write(1, "\x1b[31m", 5);
+				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
+				break;
+			}
+			case '}':
+			{
+				if (CBalance > 0) CBalance --;
+				if (!quoted) write(1, "\x1b[32m", 5);
+				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
+				break;
+			}
 			case '\"':
 			{
 				if (quoted) {
-					if (balance > 0) balance --;
 					quoted = 0;
+					write(1, &c, 1);
+					write(1, "\x1b[0m", 4);
 				}
 				else {
-					balance ++;
-					quoted = 1;
+					quoted = !quoted;
+					write(1, "\x1b[90m", 5);
+					write(1, &c, 1);
 				}
+				break;
+			}
+			case '\'':
+			{
+				if (!quoted) write(1, "\x1b[93m", 5);
 				write(1, &c, 1);
+				write(1, "\x1b[0m", 4);
+				break;
 			}
 			case 27:
 			{
