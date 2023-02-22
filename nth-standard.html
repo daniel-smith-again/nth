@@ -78,11 +78,11 @@
 		</p>
 		<h3>Notations</h3>
 		<p>
-			The <i>n</i><sup>th</sup> langauge can be described and extended in terms of itself.
-			As such, figures which describe syntax and semantics are written as valid <i>n</i><sup>th</sup> programs which construct syntactic or semantic entities as they would appear in a <a href="#Context">Context</a>.
-			In order to fulfill the behavior and semantics of the default <a href="#Expressions">Expressions</a>, certain capabilities must be assumed.
-			These capabilities are included in figures as <a href="#Operation">Operations</a> written in <code><b>bold monospace font</b></code>.
-			Each <a href="#Operation">Operation</a> included in a figure will also be described in plain wording.
+			The <i>n</i><sup>th</sup> language can be described and extended in terms of itself.
+			As such, figures describing concepts and properties of the <i>n</i><sup>th</sup> language are written as valid <i>n</i><sup>th</sup> <a href="#Program">programs</a>.
+			It is necessary that certain behavior must be assumed in order to express a concept or property as a <a href="#Program">program</a>.
+			A component of a <a href="#Program">program</a> which is assumed is written using <code><b>bold monospaced font</b></code>.
+			Additionally, an explanation will be given for the behavior of each assumed component.
 		</p>
 	</article>
 	<article>
@@ -136,7 +136,7 @@
 		<figure>
 			<table>
 				<tr><td>Program &rarr; <a href="#Expression">Expression</a> | <a href="#Sequence">Sequence</a> | <a href="#Quote">Quote</a> | <a href="#Collection">Collection</a> | <a href="#String">String</a> | <a href="#Type">Type</a> | <a href="#Symbol">Symbol</a> | <a href="#Writen-Number">Number</a></td></tr>
-				<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+				<tr><td>Expression &rarr; Symbol | Symbol Expression * | <code>(</code> Program * <code>)</code></td></tr>
 				<tr><td>Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
 				<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
 				<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>

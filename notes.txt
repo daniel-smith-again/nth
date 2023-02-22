@@ -64,3 +64,9 @@ No but you can make it pretty easily.
 lets say I want to take the context so that I can always get a value back.
 Contexts are bound by functions.
 New functions create new contexts.
+So when I use '&, it's referring to the immediate function context.
+But it's not actually, it's referring the rest of the program.
+So then how would I do threads?
+use a FIFO proc list.
+
+threads <- {}
