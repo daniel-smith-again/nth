@@ -44,84 +44,67 @@ FILL_BUFFER:
 			free(buffer);
 			buffer = tmp;
 		}
-		switch(c) {
+		switch(c) 
+		{
 			case '\n':
 			case '\r':
-				if (RBalance == 0 && CBalance == 0 && SBalance == 0 && quoted == 0) goto EXIT;
-				c = '\n';
-				write(1, "\n\r", 2);
-				break;
+			{
+				if (RBalance == 0 && 
+				    CBalance == 0 && 
+				    SBalance == 0 &&
+				    quoted == 0) 
+				    	goto EXIT;
+				else
+				{
+					c = '\n';
+					write(1, "\n\r", 2);
+					break;
+				}
+			}
 			case 4:
+			{
 				goto EXIT;
 				break;
+			}
 			case '(':
 			{
-				RBalance ++;
-				if (!quoted) write(1, "\x1b[90m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) RBalance++;
 				break;
 			}
 			case '[':
 			{
-				SBalance ++;
-				if (!quoted) write(1, "\x1b[31m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) SBalance++;
 				break;
 			}
 			case '{':
 			{
-				CBalance ++;
-				if (!quoted) write(1, "\x1b[32m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) CBalance++;
 				break;
 			}
 			case ')':
 			{
-				if (RBalance > 0) RBalance --;
-				if (!quoted) write(1, "\x1b[90m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) if (RBalance > 0) RBalance--;
 				break;
 			}
 			case ']':
 			{
-				if (SBalance > 0) SBalance --;
-				if (!quoted) write(1, "\x1b[31m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) if (SBalance > 0) SBalance--;
 				break;
 			}
 			case '}':
 			{
-				if (CBalance > 0) CBalance --;
-				if (!quoted) write(1, "\x1b[32m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
+				if (!quoted) if (CBalance > 0) CBalance--;
 				break;
 			}
 			case '\"':
 			{
-				if (quoted) {
-					quoted = 0;
-					write(1, &c, 1);
-					write(1, "\x1b[0m", 4);
+				if (buffer_length > 1 && buffer[buffer_length - 1] != '\\')
+				{
+					if (quoted) 
+						quoted = 0;
+					else
+						quoted = 1;
 				}
-				else {
-					quoted = !quoted;
-					write(1, "\x1b[90m", 5);
-					write(1, &c, 1);
-				}
-				break;
-			}
-			case '\'':
-			{
-				if (!quoted) write(1, "\x1b[93m", 5);
-				write(1, &c, 1);
-				write(1, "\x1b[0m", 4);
-				break;
 			}
 			case 27:
 			{
@@ -131,6 +114,7 @@ FILL_BUFFER:
 				c = 0;
 				break;
 			}
+
 			case 8:
 			case 127:
 			{
@@ -138,11 +122,9 @@ FILL_BUFFER:
 				write(1, "\x1b[D\x1b[K", 6);
 				c = 0;
 				break;
-			}
-			default:
-				write(1, &c, 1);
+			}			
 		}
-		if (c != 0) buffer[buffer_length] = c;
+		if (c != 0) write(1, &c, 1), buffer[buffer_length] = c;
 	}
 EXIT:
 	tcsetattr(0, TCSANOW, &restore);
