@@ -70,3 +70,17 @@ So then how would I do threads?
 use a FIFO proc list.
 
 threads <- {}
+
+
+
+The expression problem:
+You're making a game.
+You have players with health and healing.
+You set it up so
+
+Health : Natural
+Player : [(m : Collection), (? (m / Health) m)]
+Damage : ((p : Player) -> (p / Health (lower (p / Health))))
+Heal : ((p : Player) -> (p / Health (raise (p / Health))))
+Crate : Player
+Damage : ((p : Crate) -> (p / Health (lower (p / Health))))
