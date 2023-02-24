@@ -71,16 +71,18 @@ use a FIFO proc list.
 
 threads <- {}
 
-
-
-The expression problem:
-You're making a game.
-You have players with health and healing.
-You set it up so
-
-Health : Natural
-Player : [(m : Collection), (? (m / Health) m)]
-Damage : ((p : Player) -> (p / Health (lower (p / Health))))
-Heal : ((p : Player) -> (p / Health (raise (p / Health))))
-Crate : Player
-Damage : ((p : Crate) -> (p / Health (lower (p / Health))))
+sticking point, if the function boundary is the prompt, then what happens when 
+you take the context at different points?
+(f <- (x -> &, (g x), &, (h x))
+it all equals the lambda with fixed arguments.
+How to loop
+(countdown <- (n -> 
+	(? (n > 0) 
+	   (n ~ (n - 1)), (& <- &)
+	   n)))
+or does it set control to a specific point?
+what about returning, can you exit to a different place?
+In a sequence, the context is the position at the sequence so 
+(a, (x <- &), b, c, (y <- &), d)
+((x \ 0) = (b, c, d))
+((y \ 0) = (d))

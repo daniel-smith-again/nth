@@ -127,16 +127,16 @@
 			<span id="Program">A Program is a composition of Expressions, Sequences, and <a href="#Constructor">Constructors</a>.</span>
 		</p>
 		<p>
-			The grammar below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
+			The <a href="#nth-Grammar">grammar</a>> below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
 			A character sequence is denoted by a mixed list of literal characters given in <code>monospaced font</code> and names of other character sequences.
 			In this grammar, the arrow (&rarr;) denotes one or more character sequences listed after the arrow which may occurr at a position identified by the name given left of the arrow.
 			The bar (|) separates two individual character sequences.
 			The star (*) suffixes a sequence that can occur one or more times.
 		</p>
-		<figure>
+		<figure id="nth-Grammar">
 			<table>
 				<tr><td>Program &rarr; <a href="#Expression">Expression</a> | <a href="#Sequence">Sequence</a> | <a href="#Quote">Quote</a> | <a href="#Collection">Collection</a> | <a href="#String">String</a> | <a href="#Type">Type</a> | <a href="#Symbol">Symbol</a> | <a href="#Writen-Number">Number</a></td></tr>
-				<tr><td>Expression &rarr; Symbol | Symbol Expression * | <code>(</code> Program * <code>)</code></td></tr>
+				<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
 				<tr><td>Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
 				<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
 				<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
@@ -153,13 +153,34 @@
 			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
 		</p>
 		<p>
-			A <a href="#Program-Model">Program Model</a> is composed of nested <a href="#Collection">Collections</a> containing sequences of <a href="#Symbol">Symbols</a>, <a href="#Constructor">Constructors</a>, and other <a href="#Collection">Collections</a>.
+			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a> and <a href="#Collection">Collections</a>.
 			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
+		</p>
+		<h3>Construction</h3>
+		<p>
+			The structure of a <a href="#Program-Model">Program Model</a> directly corresponds to the formation of a written <a href="#Program">Program</a>.
+		</p>
+		<!--
+		<h2>Format</h2>
+		<p>
+			<span id="Program-Model">A Program Model is some structured data corresponding to a written <i>n</i><sup>th</sup> program.</span>
+			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
+		</p>
+		<p>
+			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a> and other <a href="#Collection">Collections</a>.
+			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
+		</p>
+		<p>
 			<a href="#Program">Programs</a> are discretely classified as <a href="#Operation">Operations</a> and <a href="#Constructor">Constructors</a>.
 			<span id="Operation">An Operation is a <a href="#Program">Program</a> which represents a manipulation performed on some <a href="#Data">Data</a>.</span>
 			<span id="Constructor">A Constructor is a <a href="#Program">Program</a> which represents a specific formation of <a href="#Data">Data</a>.</span>
 		</p>
 		<h3>Construction</h3>
+		<p>
+			A <a href="#Program-Model">Program Model</a> corresponds exactly to a <a href="#Program">Program</a> as it is written.
+			Certain components in the <a href="#nth-Grammar">grammar</a> given in Syntax correspond to formations in the <a href="#Program-Model">Program Model</a>.
+			<a href="#Expression">Expressions</a>, <a href="#Sequence">Sequences</a>, <a href="#Quote">Quotes</a>, <a href="#Collection">Collections</a>, and <a href="#Type">Types</a>
+		</p>
 		<p>
 			There is an exact correspondence between a <a href="#Program">Program</a> and a <a href="#Program-Model">Program Model</a>.
 			<a href="#Expression">Expressions</a>, <a href="#Sequence">Sequences</a>, <a href="#Collection">Collections</a>, and <a href="#Type">Types</a> all correspond to individual <a href="#Node">Nodes</a> within a <a href="#Program-Model">Program Model</a>.
@@ -191,6 +212,7 @@
 			<i>n</i><sup>th</sup> relies on a group of interdependent semantic models.
 			Each of the models are described in the following sections.
 		</p>
+		-->
 	</article>
 	<article>
 		<h1 id="Environment">Environment</h1>
