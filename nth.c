@@ -127,6 +127,7 @@ FILL_BUFFER:
 		if (c != 0) write(1, &c, 1), buffer[buffer_length] = c;
 	}
 EXIT:
+	write(1, "\n", 1);
 	tcsetattr(0, TCSANOW, &restore);
 	exit(0);
 	return 0;
