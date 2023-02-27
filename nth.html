@@ -9,14 +9,13 @@
 			--bg:rgb(240, 217, 198);
 			--bgd:rgb(188, 199, 199);
 			--fg:rgb(43, 18, 0);
-			--fgl:rgb(154, 52, 1);
+			--fgl:rgb(109, 46, 4);
 			--hg:rgb(188, 199, 199);
 			--size:calc(17px + ((1vw + 1vh) / 6));
 		}
 		:target{background-color:var(--hg);}
 		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
-		p, dt, dd, table, figcaption{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
-		ul, ol{text-align:left;max-width:160ch;width:50vw;margin-left:auto;margin-right:auto;}
+		p, dt, dd, table, figcaption, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
 		dl{width:50%;margin-left:auto;margin-right:auto;}
 		dt{font-style:oblique;}
 		a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
@@ -70,7 +69,6 @@
 			As this document is a specification, all properties and behaviors of the system as described are considered requirements for an implementation.
 		</p>
 		<h2>Conventions</h2>
-		<h3>Terminology</h3>
 		<p>
 			This document assumes basic knowledge of mathematics and computer science.
 			Terms which have a meaning specific to this document are written as clickable links.
@@ -127,7 +125,7 @@
 			<span id="Program">A Program is a composition of Expressions, Sequences, and <a href="#Constructor">Constructors</a>.</span>
 		</p>
 		<p>
-			The <a href="#nth-Grammar">grammar</a>> below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
+			The <a href="#nth-Grammar">grammar</a> below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
 			A character sequence is denoted by a mixed list of literal characters given in <code>monospaced font</code> and names of other character sequences.
 			In this grammar, the arrow (&rarr;) denotes one or more character sequences listed after the arrow which may occurr at a position identified by the name given left of the arrow.
 			The bar (|) separates two individual character sequences.
@@ -136,12 +134,12 @@
 		<figure id="nth-Grammar">
 			<table>
 				<tr><td>Program &rarr; <a href="#Expression">Expression</a> | <a href="#Sequence">Sequence</a> | <a href="#Quote">Quote</a> | <a href="#Collection">Collection</a> | <a href="#String">String</a> | <a href="#Type">Type</a> | <a href="#Symbol">Symbol</a> | <a href="#Writen-Number">Number</a></td></tr>
-				<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
-				<tr><td>Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
-				<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
-				<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
-				<tr><td>String &rarr; <code>"</code> Character * | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="#Digit">Digit</a> * <code>.</code></td></tr>
-				<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+				<tr><td id="Expression-Grammar">Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+				<tr><td id="Sequence-Grammar">Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
+				<tr><td id="Quote-Grammar">Quote &rarr; <code>'</code> Program</td></tr>
+				<tr><td id="Collection-Grammar">Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+				<tr><td id="String-Grammar">String &rarr; <code>"</code> Character * | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="#Digit">Digit</a> * <code>.</code></td></tr>
+				<tr><td id="Type-Grammar">Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
 			</table>
 		</figure>
 	</article>
@@ -153,13 +151,23 @@
 			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
 		</p>
 		<p>
-			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a> and <a href="#Collection">Collections</a>.
+			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a>, other entities, and <a href="#Collection">Collections</a>.
 			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
 		</p>
 		<h3>Construction</h3>
 		<p>
 			The structure of a <a href="#Program-Model">Program Model</a> directly corresponds to the form of a written <a href="#Program">Program</a>.
+			Each syntactic component will either correspond to a <a href="#Node">Node</a>, <a href="#Constructor">Constructor</a>, or <a href="#Symbol">Symbol</a>.
+			The exact correspondence between <a href="#Program">Program</a> and <a href="#Program-Model">Program Model</a> components is given in the list below.
 		</p>
+		<ul>
+			<li>An <a href="#Expression-Grammar">expression</a> corresponds to a <a href="#Node">Node</a>.</li>
+			<li>A <a href="#Sequence-Grammar">Sequence</a> <a href="#Expression">expression</a> corresponds to a <a href="#Sequence">Sequence</a>.</li>
+			<li>A <a href="#Collection-Grammar">Collection</a> <a href="#Expression">expression</a> corresponds to a <a href="#Collection">Collection</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#Quote-Grammar">Quote</a> <a href="#Expression">expression</a> corresponds to a <a href="#Program-Model">Program Model</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#String-Grammar">String</a> <a href="#Expression">expression</a> corresponds to a <a href="#String">String</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#Type-Grammar">Type</a> <a href="#Expression">expression</a> corresponds to a <a href="#Type">Type</a> <a href="#Constructor">constructor</a>.</li>
+		</ul>
 		<!--
 		<h2>Format</h2>
 		<p>

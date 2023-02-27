@@ -86,3 +86,12 @@ In a sequence, the context is the position at the sequence so
 (a, (x <- &), b, c, (y <- &), d)
 ((x \ 0) = (b, c, d))
 ((y \ 0) = (d))
+
+
+
+Say I define some function on a collection and i call it 
+(f <- ((n : Collection) -> n + {0})),
+(f (1 2))
+how does it know to treat '(1 2) as an expression not a collection?
+type tags.
+(1 2) is not the same as {1 2} because there's a type tag.
