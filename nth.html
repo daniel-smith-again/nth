@@ -15,7 +15,7 @@
 		}
 		:target{background-color:var(--hg);}
 		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
-		p, dt, dd, table, figcaption, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+		p, dt, dd, table, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
 		dl{width:50%;margin-left:auto;margin-right:auto;}
 		dt{font-style:oblique;}
 		a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
@@ -29,6 +29,7 @@
 		h2{font-size:calc(var(--size) * 2);}
 		h3, h4, h5, h6{font-size:calc(var(--size) * 1.5);font-weight:normal;}
 		figure{border-style:solid;border-color:var(--fg);background-color:var(--bgd);border-radius:var(--size);width:fit-content;margin-left:auto;margin-right:auto;padding:1ch;}
+		figcaption{width:fit-content;text-align:center;max-width:80ch;margin-left:auto;margin-right:auto;}
 		hr{color:var(--fgl);}
 		article{border-color:var(--fg);border-width:calc(var(--size) / 10);border-top-style:solid;}
 		@media print{h1, h2, h3, h4{page-break-after:avoid;}article{page-break-after:always;}figure{page-break-inside:avoid;}}
@@ -81,6 +82,7 @@
 			It is necessary that certain behavior must be assumed in order to express a concept or property as a <a href="#Program">program</a>.
 			A component of a <a href="#Program">program</a> which is assumed is written using <code><b>bold monospaced font</b></code>.
 			Additionally, an explanation will be given for the behavior of each assumed component.
+			Meta-characters which affect the visual presentation of Glyphs are treated as Glyphs.
 		</p>
 	</article>
 	<article>
@@ -121,7 +123,7 @@
 		<h2>Programs</h2>
 		<p>
 			<span id="Expression">An Expression is a closed pair of round braces surrounding zero or more programs.</span>
-			<span id="Sequence">A Sequence is a series of programs separated by a comma.</span>
+			<span id="Sequence-Expression">A Sequence is a series of programs separated by a comma.</span>
 			<span id="Program">A Program is a composition of Expressions, Sequences, and <a href="#Constructor">Constructors</a>.</span>
 		</p>
 		<p>
@@ -168,59 +170,31 @@
 			<li>A <a href="#String-Grammar">String</a> <a href="#Expression">expression</a> corresponds to a <a href="#String">String</a> <a href="#Constructor">constructor</a>.</li>
 			<li>A <a href="#Type-Grammar">Type</a> <a href="#Expression">expression</a> corresponds to a <a href="#Type">Type</a> <a href="#Constructor">constructor</a>.</li>
 		</ul>
-		<!--
-		<h2>Format</h2>
-		<p>
-			<span id="Program-Model">A Program Model is some structured data corresponding to a written <i>n</i><sup>th</sup> program.</span>
-			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
-		</p>
-		<p>
-			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a> and other <a href="#Collection">Collections</a>.
-			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
-		</p>
-		<p>
-			<a href="#Program">Programs</a> are discretely classified as <a href="#Operation">Operations</a> and <a href="#Constructor">Constructors</a>.
-			<span id="Operation">An Operation is a <a href="#Program">Program</a> which represents a manipulation performed on some <a href="#Data">Data</a>.</span>
-			<span id="Constructor">A Constructor is a <a href="#Program">Program</a> which represents a specific formation of <a href="#Data">Data</a>.</span>
-		</p>
-		<h3>Construction</h3>
-		<p>
-			A <a href="#Program-Model">Program Model</a> corresponds exactly to a <a href="#Program">Program</a> as it is written.
-			Certain components in the <a href="#nth-Grammar">grammar</a> given in Syntax correspond to formations in the <a href="#Program-Model">Program Model</a>.
-			<a href="#Expression">Expressions</a>, <a href="#Sequence">Sequences</a>, <a href="#Quote">Quotes</a>, <a href="#Collection">Collections</a>, and <a href="#Type">Types</a>
-		</p>
-		<p>
-			There is an exact correspondence between a <a href="#Program">Program</a> and a <a href="#Program-Model">Program Model</a>.
-			<a href="#Expression">Expressions</a>, <a href="#Sequence">Sequences</a>, <a href="#Collection">Collections</a>, and <a href="#Type">Types</a> all correspond to individual <a href="#Node">Nodes</a> within a <a href="#Program-Model">Program Model</a>.
-			If an <a href="#Expression">Expression</a>, <a href="#Sequence">Sequence</a>, <a href="#Collection">Collection</a>, or <a href="#Type">Type</a> is nested within another in a <a href="#Program">Program</a>, then the resulting <a href="#Node">Nodes</a> in the <a href="#Program-Model">Program Model</a> will be nested.
-			The following figure demonstrates how a textual <a href="#Program">Program</a> corresponds to a <a href="#Program-Model">Program Model</a> shown by a program which constructs that model.
-		</p>
-		<figure>
-			<table>
-				<tr><td><code>(a {b} (123 d) [e])</code></td><td>...</td><td style="text-align:right;"><i>a written program</i></td></tr>
-				<tr><td><code>{'a {'b} {123 'd} {'e}}</code></td><td>...</td><td style="text-align:right;"><i>the program model</i></td></tr>
-			</table>
-		</figure>
 		<h2>Computation</h2>
 		<p>
-			<span id="Compute">Computation, in terms of the <i>n</i><sup>th</sup> langauge, is the process of transforming a <a href="#Program-Model">Program Model</a> to a data result through repeated reductive steps.</span>
-			A single reductive step will determine the first <a href="#Node">Node</a> in a <a href="#Program-Model">Program Model</a> which does not contain nested <a href="#Node">Nodes</a> and reduce a <a href="#Node">Node</a> to some data.
-			When a <a href="#Node">Node</a> is reduced, it will be replaced with the resultant data in the <a href="#Program-Model">Program Model</a>.
-			The figure below demonstrates the reductive steps that take place when <a href="#Compute">computing</a> a <a href="#Program-Model">Program Model</a> representing a compound arithmetic expression.
+			<span id="Computation">Computation is the process of reducing a <a href="#Program-Model">Program Model</a> to a resultant entity by replacing <a href="#Expressions">expressions</a>.</span>
+			Computation is process performed repeatedly to a <a href="#Program-Model">Program Model</a> according to these ordered steps...
 		</p>
-		<figure>
+		<ol>
+			<li>Determine the next <a href="#Node">Node</a> of the <a href="#Program-Model">Program Model</a> to reduce according to the specified <a href="#Next-Node-Search">algorithm</a>.</li>
+			<li>Replace the <a href="#Node">Node</a> with the <a href="#Computation">computed</a> result determined according to the specified <a href="#Node-Reduction">algorithm</a>.</li>
+			<li>If the <a href="#Program-Model">Program Model</a> still contains <a href="#Expression">expressions</a>, repeat these steps.</li>
+		</ol>
+		<figure id="Next-Node-Search">
 			<table>
-				<tr><td><code>{1 '+ {1 '+ 1}}</code></td><td>...</td><td style="text-align:right;"><i>1</i></td></tr>
-				<tr><td><code>{1 '+ 2}</code></td><td>...</td><td style="text-align:right;"><i>2</i></td></tr>
-				<tr><td><code>3</code></td><td>...</td><td style="text-align:right;"><i>3</i></td></tr>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					(next-node <-<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;(n -><br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(? (n / Expression)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(f ((n / Expression)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{((x : Collection) -> (x \ 0))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(x -> x)}))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;n)))
+				</code></td></tr>
 			</table>
+			<hr>
+			<figcaption>A recursive function which determines the next Node to compute.</figcaption>
 		</figure>
-		<p>
-			The result of <a href="#Compute">computing</a> a <a href="#Node">Node</a> is determined by the semantics corresponding to the <a href="#Operation">Operation</a> or <a href="#Constructor">Constructor</a> that the <a href="#Node">Node</a> represents.
-			<i>n</i><sup>th</sup> relies on a group of interdependent semantic models.
-			Each of the models are described in the following sections.
-		</p>
-		-->
 	</article>
 	<article>
 		<h1 id="Environment">Environment</h1>
@@ -328,6 +302,15 @@
 		<h1 id="Collections">Collections</h1>
 		<p>
 			<span id="Collection">A Collection is a structured entity which represents a grouping of other entities.</span>
+		</p>
+		<h2>Special Collection Sub-Types</h2>
+		<h3>Sequence</h3>
+		<p>
+
+		</p>
+		<h3>String</h3>
+		<p>
+
 		</p>
 	</article>
 	<article>
@@ -448,5 +431,14 @@
 	</article>
 	<article>
 		<h1 id="Contexts">Contexts</h1>
+		<figure id="Node-Reduction">
+			<table>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					((n : Expression) (m : Context) -> (m n))
+				</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>The function which determines the result of computing a node.</figcaption>
+		</figure>
 	</article>
 </body>
