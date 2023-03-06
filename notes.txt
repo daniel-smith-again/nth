@@ -31,7 +31,7 @@ So there's a list of threads, a scheduler, and a function to capture a point and
 What does that look like?
 You can turn all of them into a yield function over a list of continuations.
 (threads <- {}),
-(yield <- (_ -> ))
+(yield <- (c -> ))
 
 
 I'd like to make an in-place insert operation.
