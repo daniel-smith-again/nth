@@ -176,7 +176,22 @@
 		<p>
 			Nested grammatical components correspond to nested <a href="#Node">Nodes</a>.
 			The order in which a component is nested decides the order in which that <a href="#Node">Node</a> is nested within the containing <a href="#Node">Node</a>.
+			The figure below demonstrates how nested components of a <a href="#Program">Program</a> correspond to nested <a href="#Node">Nodes</a>.
 		</p>
+		<figure>
+			<table>
+				<tr><td><code>
+					(a (b c) (d (e) f))
+				</code></td><td>...</td><td style="text-align:right;"><i>a written program</i></td></tr>
+				<tr><td><code>
+					{'a {'b 'c} {'d {'e} 'f}}
+				</code></td><td>...</td><td style="text-align:right;"><i>a program model of the written program</i></td></tr>
+			</table>
+			<hr>
+			<figcaption>
+				The formation of the written program is identical to the Program Model, given as a nested structure of nodes.
+			</figcaption>
+		</figure>
 		<h2>Computation</h2>
 		<p>
 			<span id="Computation">Computation is the process of reducing a <a href="#Program-Model">Program Model</a> to a result by replacing <a href="#Expressions">expressions</a>.</span>
