@@ -95,3 +95,28 @@ Say I define some function on a collection and i call it
 how does it know to treat '(1 2) as an expression not a collection?
 type tags.
 (1 2) is not the same as {1 2} because there's a type tag.
+
+
+
+how to do pointers with one symbol?
+there's two operations: derive the location of some data and refer to a location
+@ is pointer operations.
+trivial ((@ (@ x)) = x)
+that looks nice
+what about taking the address of a location?
+(x <- (@ y)),
+((@ x) = y)
+if it's possible to take the address of an address then i can do it.
+I have to do some type-level wrenching to do it.
+((: y) = Location), (@ (y : *))
+you can't upcast.
+how to get the address of an address?
+there's two types of the expression, 
+[({'@ *} -> Location) ({'@ Location} -> *)]
+what I need is ({'@ Location} -> Location)
+so what kind of type-level wrenching can do this?
+if I expect a location, then thats the operation that's applied
+so now I have 
+(({'@ *} -> Location) : Location)
+(({'@ Location} -> *) : *)
+(({'@ Location} -> Location) : Location)
