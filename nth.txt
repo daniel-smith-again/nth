@@ -1,0 +1,89 @@
+Standard Documentation for the nth Programming Language
+
+0.	nth is a programming language and companion environment for writing and 
+computing programs.
+
+1.0	The nth language is written as a sequence of characters.
+
+1.1	Characters are classified into three discrete groups, Glyphs, Digits, 
+and Blanks.
+
+1.1.0	Glyphs are any visible character written as a symbol.
+
+1.1.1	Digits are specifically the ten decimal digits.
+
+1.1.2	Blanks are any character which results in space between other 
+characters.
+
+1.2	Certain subsequences of characters are grouped into individual syntax 
+components of a grammar.
+
+1.2.0	The grammar is given below using a notation where an arrow, "->", 
+represents a relationship where any sequence given right of the arrow can occur 
+in a sequence where the name given left of the arrow occurs.
+
+1.2.0.0	Names are two or more characters.
+
+1.2.0.1	Multiple sequences given right of the arrow are separated with a line 
+break.
+
+1.2.0.2	Sequences that can repeat multiple times are followed by a star, "*".
+
+1.2.0.3	Individual characters are given as themselves.
+
+1.3	The grammar representing the syntax of all possible nth programs is as 
+follows...
+		Program ->	Expression 
+				Sequence 
+				Quote 
+				Collection 
+				Type 
+				String
+				Symbol
+				Number
+
+		Expression ->	( Symbol * )
+
+		Sequence ->	Program , Program
+				Program , Sequence
+
+		Quote ->	' Program
+
+		Collection ->	{ Program * }
+
+		Type ->		[ Program ]
+
+		String ->	" Characters "
+
+		Symbol ->	Glyph
+				Symbol *
+				Digit Symbol *
+				Symbol Digit
+
+		Number ->	Digit *
+				Sign Digit *
+				Sign Digit * Ratio Digit *
+				Number ^ Digit *
+				Number ^ Sign Digit *
+
+		Characters -> 	Glyph
+				Digit
+				Blank
+				\ "
+				\ \
+				\ Digit * .
+				\ # Hex * .
+		Sign ->		+
+				-
+
+		Ratio ->	/
+				.
+
+		Hex ->		Hex Hex
+				Digit
+				A
+				B
+				C	
+				D
+				E	
+				F
