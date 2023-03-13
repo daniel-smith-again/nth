@@ -132,6 +132,8 @@ composition?
 use it to terminate a bunch of closing braces.
 No that's harder to read.
 Actually should I use it to look up names?
-
+dot can be used as subscript or name lookup
+it's overloaded based on whether you're handing it a number or a symbol.
 (m <- {(x <- 1) (y <- 2) (z <- 3)}),
-(<- ((n : {Collection '. Symbol}) -> ((	
+((m . 1) = 1),
+((m . 'x) = 1)
