@@ -1,6 +1,6 @@
 Standard Documentation for the nth Programming Language
 
-0.	nth is a programming language and companion environment for writing and 
+0.0	nth is a programming language and companion environment for writing and 
 computing programs.
 
 1.0	The nth language is written as a sequence of characters.
