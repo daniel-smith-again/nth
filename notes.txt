@@ -120,3 +120,18 @@ so now I have
 (({'@ *} -> Location) : Location)
 (({'@ Location} -> *) : *)
 (({'@ Location} -> Location) : Location)
+
+
+
+where to use period?
+its used as a decimal point in a symbol.
+1.1
+what notation should it be used for?
+composition?
+(f : Function), (g : Function), ((f . g) : Function)
+use it to terminate a bunch of closing braces.
+No that's harder to read.
+Actually should I use it to look up names?
+
+(m <- {(x <- 1) (y <- 2) (z <- 3)}),
+(<- ((n : {Collection '. Symbol}) -> ((	
