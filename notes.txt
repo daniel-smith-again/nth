@@ -137,3 +137,24 @@ it's overloaded based on whether you're handing it a number or a symbol.
 (m <- {(x <- 1) (y <- 2) (z <- 3)}),
 ((m . 1) = 1),
 ((m . 'x) = 1)
+no this sucks
+
+
+Whats my syntax?
+(math <- ({Number} + ['+ '- '* '/ '//] + [{Number} math]))
+(logic <- ([{Boolean} {'- Boolean}] + ['/\ '\/] + [{Boolean} {'- Boolean} logic])
+(collection-algebra <- ({Collection} + ['+ '- '/] + [{Collection} collection-algebra]))
+(type-algebra <- ({Type} + ['+ '- '/] + [{Type} type-algebra]))
+{Collection '. Number}
+{Collection '. Symbol}
+{Collection '/ *}
+{Collection *}
+({Symbol} * Collection + {'->} + Expression)
+(Function + Collection)
+{'@ *}
+{'@ Location}
+{Number ['< '>] Number}
+{Type ['< '>] Type}
+{* '= *}
+{'? Boolean Expression Expression}
+{'? Boolean Expression}
