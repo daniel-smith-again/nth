@@ -1,59 +1,117 @@
 <!DOCTYPE html>
 <head>
-	<title>nth</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		:root{
-
-			--bg:rgb(240, 217, 198);
-			--bgd:rgb(188, 199, 199);
-			--fg:rgb(43, 18, 0);
-			--fgl:rgb(109, 46, 4);
-			--hg:rgb(188, 199, 199);
-			--size:calc(17px + ((1vw + 1vh) / 6));
-		}
-		:target{background-color:var(--hg);}
-		body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
-		p, dt, dd, table, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
-		dl{width:50%;margin-left:auto;margin-right:auto;}
-		dt{font-style:oblique;}
-		a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
-		a{text-decoration:none;}
-		table{text-align:center;width:fit-content;}
-		td{padding-left:1ch;padding-right:1ch;}
-		td code{text-align:left;}
-		code{color:var(--fg);border-radius:calc(var(--size) / 6);font-size:var(--size);}
-		h1, h2, h3, h4, h5, h6{font-weight:normal;}
-		h1{font-size:calc(var(--size) * 3);}
-		h2{font-size:calc(var(--size) * 2);}
-		h3, h4, h5, h6{font-size:calc(var(--size) * 1.5);font-weight:normal;}
-		figure{border-style:solid;border-color:var(--fg);background-color:var(--bgd);border-radius:var(--size);width:fit-content;margin-left:auto;margin-right:auto;padding:1ch;}
-		figcaption{width:fit-content;text-align:center;max-width:80ch;margin-left:auto;margin-right:auto;}
-		hr{color:var(--fgl);}
-		article{border-color:var(--fg);border-width:calc(var(--size) / 10);border-top-style:solid;}
-		@media print{h1, h2, h3, h4{page-break-after:avoid;}article{page-break-after:always;}figure{page-break-inside:avoid;}}
-	</style>
+<title>nth</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+--bg:rgb(240, 217, 198);
+--bgd:rgb(188, 199, 199);
+--fg:rgb(43, 18, 0);
+--fgl:rgb(109, 46, 4);
+--hg:rgb(188, 199, 199);
+--size:calc(17px + ((1vw + 1vh) / 6));
+}
+:target{background-color:var(--hg);}
+body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
+p, dt, dd, table, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+dl{width:50%;margin-left:auto;margin-right:auto;}
+dt{font-style:oblique;}
+a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
+a{text-decoration:none;}
+table{text-align:center;width:fit-content;}
+td{padding-left:1ch;padding-right:1ch;}
+td code{text-align:left;}
+code{color:var(--fg);border-radius:calc(var(--size) / 6);font-size:var(--size);}
+h1, h2, h3, h4, h5, h6{font-weight:normal;}
+h1{font-size:calc(var(--size) * 3);}
+h2{font-size:calc(var(--size) * 2);}
+h3, h4, h5, h6{font-size:calc(var(--size) * 1.5);font-weight:normal;}
+figure{border-style:solid;border-color:var(--fg);background-color:var(--bgd);border-radius:var(--size);width:fit-content;margin-left:auto;margin-right:auto;padding:1ch;}
+figcaption{width:fit-content;text-align:center;max-width:80ch;margin-left:auto;margin-right:auto;}
+hr{color:var(--fgl);}
+article{border-color:var(--fg);border-width:calc(var(--size) / 10);border-top-style:solid;}
+@media print{h1, h2, h3, h4{page-break-after:avoid;}article{page-break-after:always;}figure{page-break-inside:avoid;}}
+</style>
 </head>
 <body>
-	<article style="height:100vh;page-break-after:initial;border-style:none;">
-		<svg viewBox="0 0 100 100" version="1.1" style="height:50%;width:auto;margin-top:10%;stroke-width:0.2ch;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-			<defs id="defs54" />
-			<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-				ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
-			<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
-				d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
-				id="path47" />
-			<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-				d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
-		</svg>
-	</article>
-	<article style="height:100vh;page-break-after:initial;border-style:none;">
-		<h1>Standard Documentation for the</h1>
-		<h1><i>n</i><sup>th</sup></h1>
-		<h1>System for Computation</h1>
-		<h5>Copyright &copy; Daniel Smith, 2023</h5>
-		<h3>Revision 0</h3>
+<article style="height:100vh;page-break-after:initial;border-style:none;">
+<svg viewBox="0 0 100 100" version="1.1" style="height:50%;width:auto;margin-top:10%;stroke-width:0.2ch;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<defs id="defs54" />
+<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
+<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
+d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
+id="path47" />
+<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
+</svg>
+</article>
+<article style="height:100vh;page-break-after:initial;border-style:none;">
+<h1>Standard Documentation for the</h1>
+<h1><i>n</i><sup>th</sup></h1>
+<h1>System for Computation</h1>
+<h5>Copyright &copy; Daniel Smith, 2023</h5>
+<h3>Revision 0</h3>
+</article>
+<article>
+<h1>Introduction</h1>
+<p>This document contains the specification of "nth" (stylized as <i>n</i><sup>th</sup>) an interactive system for creating programs and computing them.</p>
+<p><i>n</i><sup>th</sup> is comprised of two components, a language for describing programs, and an environment which facilitates computation.</p>
+<p>In this document, "<i>n</i><sup>th</sup>" refers to the language, and "environment" refers to the <i>n</i><sup>th</sup> environment.</p>
+<p>As this document is a definitive and complete specification, all properties and behaviors of the system as described in this document are considered requirements for an implementation of the system.</p>
+<h2>Conventions</h2>
+<p>This document assumes basic knowledge of set theory, arithmetic, functions, and algorithms.</p>
+<h3>Notation</h3>
+<p>The behavior of an <i>n</i><sup>th</sup> program can be described by another program that interprets the first.
+Wherever it is most succinct, <i>n</i><sup>th</sup> will be described using figures containing valid, annotated <i>n</i><sup>th</sup> programs.</p>
+</article>
+<article>
+<h1>Environment</h1>
+<p>The environment fulfills several necessary primitive functions which are required by the <i>n</i><sup>th</sup> system...</p>
+<ul>
+<li>It facilitates computation by marshalling resources from the underlying system to be consumed by the program.</li>
+<li>It exposes the interface through which programs are submitted for computation.</li>
+<li>It provides the default entities which are required by the <i>n</i><sup>th</sup> language.</li>
+</ul>
+<h2>Resource Management</h2>
+<h2>Environment Interface</h2>
+<h2>Default Entities</h2>
+</article>
+<article>
+<h1>Computation</h1>
+<h2>The Program Model</h2>
+</article>
+<article>
+<h1>Syntax</h1>
+<h2>Tokens</h2>
+<h2>Grammar</h2>
+</article>
+<article>
+<h1>Collections</h1>
+<h2>Strings</h2>
+</article>
+<article>
+<h1>Types</h1>
+<h2>Quantification</h2>
+</article>
+<article>
+<h1>Functions</h1>
+</article>
+<article>
+<h1>Numbers</h1>
+</article>
+<article>
+<h1>Data</h1>
+<h2>Byte</h2>
+<h2>Register</h2>
+<h2>Reference</h2>
+</article>
+<article>
+<h1>Contexts</h1>
+</article>
+	<article>
+		<h1 style="color:red;">OutDated</h1>
 	</article>
 	<article>
 		<h1>Introduction</h1>

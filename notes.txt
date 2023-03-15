@@ -156,5 +156,24 @@ Whats my syntax?
 {Number ['< '>] Number}
 {Type ['< '>] Type}
 {* '= *}
-{'? Boolean Expression Expression}
-{'? Boolean Expression}
+{'? Boolean Program Program}
+{'? Boolean Program}
+
+
+
+What are my basic types?
+- Number
+  - Integer
+  - Natural
+- Function
+- Collection
+  - Type
+  - Expression
+  - String
+- Program
+  - Expression
+  - Symbol
+- Character
+- Data
+- Reference
+- Value
