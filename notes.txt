@@ -177,3 +177,15 @@ What are my basic types?
 - Data
 - Reference
 - Value
+
+
+
+Is it possible to statically type code when you don't know the expression?
+Depends.
+I can verify functions just fine and same with lambdas, so it must be the same with contexts.
+Contexts are lexical boundaries with lexical closures so stuff is only bound if it's declared lexically.
+There's even syntax for it, (<- *)
+So let's say I enter a function and I define a lambda and an expression.
+(f : (n -> 
+(<- ((e : {'a *}) -> (e . 2))),
+(a 1)))
