@@ -145,7 +145,7 @@ Whats my syntax?
 (logic <- ([{Boolean} {'- Boolean}] + ['/\ '\/] + [{Boolean} {'- Boolean} logic])
 (collection-algebra <- ({Collection} + ['+ '- '/] + [{Collection} collection-algebra]))
 (type-algebra <- ({Type} + ['+ '- '/] + [{Type} type-algebra]))
-{Collection '. Number}
+(access <- {'. [Number Symbol access]}), {Collection} + access
 {Collection '. Symbol}
 {Collection '/ *}
 {Collection *}
