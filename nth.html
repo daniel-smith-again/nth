@@ -81,9 +81,33 @@ Wherever it is most succinct, <i>n</i><sup>th</sup> will be described using figu
 <article>
 <h1>Computation</h1>
 <h2>The Program Model</h2>
+<h3>Default Expressions</h3>
+<p>The figure below give the structures for all default expressions provided by the <i>n</i><sup>th</sup> language.</p>
+<figure>
+<table>
+<tr><td><code>(math <- ({Number} + {(* : ['+ '- '* '/ '//])} + (* : [{Number} math)))</code></td></tr>
+<tr><td><code>(logic <- ((Collection : [{Boolean} {'- Boolean}] + {(* : ['/\ '\/])} + (Collection : [{Boolean} {'- Boolean} logic])))</code></td>
+<tr><td><code>(multisets <- ({Collection} + {(* : ['+ '- '* '/])} + (* : [{Collection} multisets])))</code></td></tr>
+<tr><td><code>(sets <- ({Type} + {(* : ['+ '- '/])} + (* : [{Type} sets])))</code></td></tr>
+<tr><td><code>(data <- ({'|} + (Collection : [{*} {* Natural}]) + (* : [{'|} data])))</code></td></tr>
+<tr><td><code>{Collection '. (* : [Number Symbol)}</code></td></tr>
+<tr><td><code>{Collection '/ *}</code></td></tr>
+<tr><td><code>{Collection *}</code></td></tr>
+<tr><td><code>({Symbol} * (* : Collection) + {'->} + Expression)</code></td></tr>
+<tr><td><code>({Function} + (* : Collection))</code></td></tr>
+<tr><td><code>{'@ *}</code></td></tr>
+<tr><td><code>{'@ Location}</code></td></tr>
+<tr><td><code>{Number (* : ['< '>]) Number}</code></td></tr>
+<tr><td><code>{Type (* : ['< '>]) Type}</code></td></tr>
+<tr><td><code>{* '= *}</code></td></tr>
+<tr><td><code>{'? Boolean Expression Expression}</code></td></tr>
+<tr><td><code>{'? Boolean Expression}</code></td></tr>
+</table>
+</figure>
 </article>
 <article>
 <h1>Syntax</h1>
+<h2>Characters</h2>
 <h2>Tokens</h2>
 <h2>Grammar</h2>
 </article>

@@ -158,6 +158,7 @@ Whats my syntax?
 {* '= *}
 {'? Boolean Program Program}
 {'? Boolean Program}
+(data <- {'|} + [{*} {* Natural}] + [{'|} data])
 
 
 
@@ -175,8 +176,9 @@ What are my basic types?
   - Symbol
 - Character
 - Data
-- Reference
-- Value
+  - Value
+  - Reference
+  - Byte
 
 
 
@@ -189,3 +191,40 @@ So let's say I enter a function and I define a lambda and an expression.
 (f : (n -> 
 (<- ((e : {'a *}) -> (e . 2))),
 (a 1)))
+You can statically type if you have prior knowledge of the meaning of the code.
+In a language like mine where the meaning of a phrase is completely contextual, you don't know.
+It's equivalent to introducing a new word used in the next sentence.
+That's fine in English and it's proven comprehensible by AI programs.
+Should be fine here too.
+Should I skip lisp though and just make a different kind?
+I can make more node types than just the few involved in the Lisp AST.
+Multi-typed AST.
+That's the way to go.
+An AST node with different semantics.
+I can make a new constructor for it.
+Can't be at the reader level though because the primitive reader only reads certain things.
+That's okay though, I don't want every possible notation.
+There's a difference between being able to conveniently extend syntax and having to include every possible syntax.
+
+
+
+So it's impossible for a function to accept any expression and apply it.
+This sucks.
+In Lisp, everything is a function.
+Maybe I'm doing it wrong.
+Pattern matching over the structure of a thing without worrying about lookup or anything.
+It's highly expressive, but difficult to interpret.
+A faster interpreter would be a normal Lisp where you can dispatch on the first symbol reliably.
+But I want an actual language, not a functional DSL.
+I want to write variable sized math expressions (1 + 2 / 4 * 5)
+I want to be able to write logic expressions (True /\ - False \/ True)
+There's interleaved lookup though because you can't decide for any given context that a symbol is reserved as an operator.
+This means that I can absolutely do (/\ <- True), (\/ <- False), ((/\ /\ /\) = /\)
+No this isn't possible because symbols are resolved before the expression is evaluated so the previous expression would be {True True True} which isn't interpretable.
+If a symbol isn't bound, then it's syntax.
+That's a nice simple rule.
+
+
+
+I need a data constructor so I can create vectors and segments of data.
+That's (| Value | Value | Value | Reference | Byte 100 |)
