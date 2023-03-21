@@ -3,9 +3,9 @@
 <meta charset='utf-8'>
 <title>Nth Standard</title>
 <style>
-	body{color:black;background-color:#d0d0d0;width:50%;max-width:160ch;min-width:40ch;margin-left:auto;margin-right:auto;font-size:calc((1vh + 1vw) / 1);}
-	code{font-family:monospace;background-color:#d0d0d0;border-radius:1ch;display:block;}
-	p, h1{text-align:center;background-color:white;border-radius:1ch;padding:1ch;}
+	body{color:black;background-color:#a8a8a8;width:50%;max-width:160ch;min-width:40ch;margin-left:auto;margin-right:auto;font-size:calc((1vh + 1vw) / 1);}
+	code{font-family:monospace;background-color:#a8a8a8;border-radius:1ch;display:block;}
+	p, h1{text-align:center;background-color:#ffffff;border-radius:1ch;padding:1ch;}
 	figure{border:solid 0.1ch black;border-radius:1ch;padding:1ch;}
 	cite{display:block;height:3ch;width:100%;font-style:normal;text-align:left;}
 	a{text-decoration:underline;color:black;}
@@ -34,4 +34,26 @@ The written form of the language coresponds exactly to the literal structure rep
 <p>
 The term "Program Model" refers to the cannonical representation of a program in Nth.
 </p>
+<p>
+A written program is then homoiconic with the Program Model.
+</p>
+<p>
+A written program is formed as a sequence of character values.
+Nth minimally requires the characters provided by the ASCII character encoding scheme.
+</p>
+<p>
+The character sequence is grouped into discrete tokens.
+Tokens are either Symbols, Numbers, Blanks, or Punctuation.
+</p>
+<p>
+A Symbol is a token which does not contain any Blanks or Punctuation.
+</p>
+<p>
+A Number is a Symbol comprised of only the decimal digits, one of
+<code>0123456789</code>
+It may optionally contain some characters denoting rational values or exponents.
+The program below quantifies the construction of all valid Number tokens.
+<code></code>
+</p>
+
 </body>
