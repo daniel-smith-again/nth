@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<head>
+<title>nth</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+--bg:rgb(240, 217, 198);
+--bgd:rgb(188, 199, 199);
+--fg:rgb(43, 18, 0);
+--fgl:rgb(109, 46, 4);
+--hg:rgb(188, 199, 199);
+--size:calc(17px + ((1vw + 1vh) / 6));
+}
+:target{background-color:var(--hg);}
+body{text-align:center;font-size:var(--size);color:var(--fg);background-color:var(--bg);}
+p, dt, dd, table, ul, ol{text-align:center;max-width:160ch;width:75vw;margin-left:auto;margin-right:auto;}
+dl{width:50%;margin-left:auto;margin-right:auto;}
+dt{font-style:oblique;}
+a:active{color:var(--fgl);} a:link{color:var(--fgl);} a:visited{color:var(--fgl);}
+a{text-decoration:none;}
+table{text-align:center;width:fit-content;}
+td{padding-left:1ch;padding-right:1ch;}
+td code{text-align:left;}
+code{color:var(--fg);border-radius:calc(var(--size) / 6);font-size:var(--size);}
+h1, h2, h3, h4, h5, h6{font-weight:normal;}
+h1{font-size:calc(var(--size) * 3);}
+h2{font-size:calc(var(--size) * 2);}
+h3, h4, h5, h6{font-size:calc(var(--size) * 1.5);font-weight:normal;}
+figure{border-style:solid;border-color:var(--fg);background-color:var(--bgd);border-radius:var(--size);width:fit-content;margin-left:auto;margin-right:auto;padding:1ch;}
+figcaption{width:fit-content;text-align:center;max-width:80ch;margin-left:auto;margin-right:auto;}
+hr{color:var(--fgl);}
+article{border-color:var(--fg);border-width:calc(var(--size) / 10);border-top-style:solid;}
+@media print{h1, h2, h3, h4{page-break-after:avoid;}article{page-break-after:always;}figure{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<article style="height:100vh;page-break-after:initial;border-style:none;">
+<svg viewBox="0 0 100 100" version="1.1" style="height:50%;width:auto;margin-top:10%;stroke-width:0.2ch;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<defs id="defs54" />
+<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
+<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
+d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
+id="path47" />
+<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
+</svg>
+</article>
+<article style="height:100vh;page-break-after:initial;border-style:none;">
+<h1>Standard Documentation for the</h1>
+<h1><i>n</i><sup>th</sup></h1>
+<h1>System for Computation</h1>
+<h5>Copyright &copy; Daniel Smith, 2023</h5>
+<h3>Revision 0</h3>
+</article>
+<article>
+<h1>Introduction</h1>
+<p>This document contains the specification of "nth" (stylized as <i>n</i><sup>th</sup>) an interactive system for creating programs and computing them.</p>
+<p><i>n</i><sup>th</sup> is comprised of two components, a language for describing programs, and an environment which facilitates computation.</p>
+<p>In this document, "<i>n</i><sup>th</sup>" refers to the language, and "environment" refers to the <i>n</i><sup>th</sup> environment.</p>
+<p>As this document is a definitive and complete specification, all properties and behaviors of the system as described in this document are considered requirements for an implementation of the system.</p>
+<h2>Conventions</h2>
+<p>This document assumes basic knowledge of set theory, arithmetic, functions, and algorithms.</p>
+<h3>Notation</h3>
+<p>The behavior of an <i>n</i><sup>th</sup> program can be described by another program that interprets the first.
+Wherever it is most succinct, <i>n</i><sup>th</sup> will be described using figures containing valid, annotated <i>n</i><sup>th</sup> programs.</p>
+</article>
+<article>
+<h1>Environment</h1>
+<p>The environment fulfills several necessary primitive functions which are required by the <i>n</i><sup>th</sup> system...</p>
+<ul>
+<li>It facilitates computation by marshalling resources from the underlying system to be consumed by the program.</li>
+<li>It exposes the interface through which programs are submitted for computation.</li>
+<li>It provides the default entities which are required by the <i>n</i><sup>th</sup> language.</li>
+</ul>
+<h2>Resource Management</h2>
+<h2>Environment Interface</h2>
+<h2>Default Entities</h2>
+</article>
+<article>
+<h1>Computation</h1>
+<h2>The Program Model</h2>
+<h3>Default Expressions</h3>
+<p>The figure below give the structures for all default expressions provided by the <i>n</i><sup>th</sup> language.</p>
+<figure>
+<table>
+<tr><td><code>(math <- ({Number} + {(* : ['+ '- '* '/ '//])} + (* : [{Number} math)))</code></td></tr>
+<tr><td><code>(logic <- ((Collection : [{Boolean} {'- Boolean}] + {(* : ['/\ '\/])} + (Collection : [{Boolean} {'- Boolean} logic])))</code></td>
+<tr><td><code>(multisets <- ({Collection} + {(* : ['+ '- '* '/])} + (* : [{Collection} multisets])))</code></td></tr>
+<tr><td><code>(sets <- ({Type} + {(* : ['+ '- '/])} + (* : [{Type} sets])))</code></td></tr>
+<tr><td><code>(data <- ({'|} + (Collection : [{*} {* Natural}]) + (* : [{'|} data])))</code></td></tr>
+<tr><td><code>{Collection '. (* : [Number Symbol)}</code></td></tr>
+<tr><td><code>{Collection '/ *}</code></td></tr>
+<tr><td><code>{Collection *}</code></td></tr>
+<tr><td><code>({Symbol} * (* : Collection) + {'->} + Expression)</code></td></tr>
+<tr><td><code>({Function} + (* : Collection))</code></td></tr>
+<tr><td><code>{'@ *}</code></td></tr>
+<tr><td><code>{'@ Location}</code></td></tr>
+<tr><td><code>{Number (* : ['< '>]) Number}</code></td></tr>
+<tr><td><code>{Type (* : ['< '>]) Type}</code></td></tr>
+<tr><td><code>{* '= *}</code></td></tr>
+<tr><td><code>{'? Boolean Expression Expression}</code></td></tr>
+<tr><td><code>{'? Boolean Expression}</code></td></tr>
+</table>
+</figure>
+</article>
+<article>
+<h1>Syntax</h1>
+<h2>Characters</h2>
+<h2>Tokens</h2>
+<h2>Grammar</h2>
+</article>
+<article>
+<h1>Collections</h1>
+<h2>Strings</h2>
+</article>
+<article>
+<h1>Types</h1>
+<h2>Quantification</h2>
+</article>
+<article>
+<h1>Functions</h1>
+</article>
+<article>
+<h1>Numbers</h1>
+</article>
+<article>
+<h1>Data</h1>
+<h2>Byte</h2>
+<h2>Register</h2>
+<h2>Reference</h2>
+</article>
+<article>
+<h1>Contexts</h1>
+</article>
+	<article>
+		<h1 style="color:red;">OutDated</h1>
+	</article>
+	<article>
+		<h1>Introduction</h1>
+		<p>
+			This document contains the specification of "<i>n</i><sup>th</sup>", an intteractive system for creating and performing computations.
+			This system is intended to be generally useful when applied to any problem which requires computing.
+		</p>
+		<p>
+			The system is comprised of a description language for composing programs and a small environment to compute those programs.
+			In this document, the name "<i>n</i><sup>th</sup>" refers to the description language.
+			The term "environment" shall refer to the mechanisms and resources through which computation is facilitated.
+		</p>
+		<p>
+			As this document is a specification, all properties and behaviors of the system as described are considered requirements for an implementation.
+		</p>
+		<h2>Conventions</h2>
+		<p>
+			This document assumes basic knowledge of mathematics and computer science.
+			Terms which have a meaning specific to this document are written as clickable links.
+			Each term will link back to the point in this document where it was defined.
+		</p>
+		<h3>Notations</h3>
+		<p>
+			The <i>n</i><sup>th</sup> language can be described and extended in terms of itself.
+			As such, figures describing concepts and properties of the <i>n</i><sup>th</sup> language are written as valid <i>n</i><sup>th</sup> <a href="#Program">programs</a>.
+			It is necessary that certain behavior must be assumed in order to express a concept or property as a <a href="#Program">program</a>.
+			A component of a <a href="#Program">program</a> which is assumed is written using <code><b>bold monospaced font</b></code>.
+			Additionally, an explanation will be given for the behavior of each assumed component.
+			Meta-characters which affect the visual presentation of Glyphs are treated as Glyphs.
+		</p>
+	</article>
+	<article>
+		<h1>Syntax</h1>
+		<h2>Character Set</h2>
+		<p>
+			<i>n</i><sup>th</sup> is written as a sequence of characters.
+			The minimal set of characters required to write an <i>n</i><sup>th</sup> program is supported by the printable subset of the ASCII character encoding (all characters excluding control characters).
+			<i>n</i><sup>th</sup> is intended to be compatible with any character encoding which provides the same set of printable characters as the ASCII encoding.
+			For the purposes of this standard, the ASCII subset is assumed, with the addition of a line break character.
+		</p>
+		<p>
+			<i>n</i><sup>th</sup> assumes a classification of characters which is applied to any encoding.
+			A character may either be a Digit, Glyph, or Blank.
+			<span id="Digit">A Digit is a character corresponding to one of the ten decimal digits.</span>
+			<span id="Glyph">A Glyph is any character which is visible when printed.</span>
+			<span id="Blank">A Blank is any character which results in some blank space or formatting structure when printed.</span>
+		</p>
+		<h2>Grammatical Components</h2>
+		<p>
+			The grammatical components of an <i>n</i><sup>th</sup> program are classified as Symbols, Numbers, and Punctuation.
+			These are combined to form a <a href="#Program-Model">Program Model</a>.
+		</p>
+		<p id="Symbol">
+			A Symbol is any sequence of characters not including <a href="#Punctuation">Punctuation</a> or a <a href="#Blank">Blank</a>.
+		</p>
+		<p id="Written-Number">
+			A Number is any symbol which only contains decimal digits.
+			Numbers may optionally include either a fractional or decimal component as a forward slash or period dot respectively.
+			These components cannot occur as the first or last character in the Number.
+			Numbers may optionally include a sign component as a plus or dash.
+			The sign can only occur as the first character in the Number.
+		</p>
+		<p>
+			The complete syntax for the <i>n</i><sup>th</sup> language includes additional syntax components which provide a shorthand notation for common uses of <a href="#Data">Data</a> <a href="#Constructor">Constructors</a>.
+		</p>
+		<p id="Punctuation">
+			Punctuation is any one of the following characters, <code>(){}[],'"</code>.
+			A Punctuation character represents grammatical structure and cannot be treated as a Symbol.
+		</p>
+		<h2>Programs</h2>
+		<p>
+			<span id="Expression">An Expression is a closed pair of round braces surrounding zero or more programs.</span>
+			<span id="Sequence-Expression">A Sequence is a series of programs separated by a comma.</span>
+			<span id="Program">A Program is a composition of Expressions, Sequences, and <a href="#Constructor">Constructors</a>.</span>
+		</p>
+		<p>
+			The <a href="#nth-Grammar">grammar</a> below describes all possible valid sequences of characters which can form a <a href="#Program">Program</a>.
+			A character sequence is denoted by a mixed list of literal characters given in <code>monospaced font</code> and names of other character sequences.
+			In this grammar, the arrow (&rarr;) denotes one or more character sequences listed after the arrow which may occurr at a position identified by the name given left of the arrow.
+			The bar (|) separates two individual character sequences.
+			The star (*) suffixes a sequence that can occur one or more times.
+		</p>
+		<figure id="nth-Grammar">
+			<table>
+				<tr><td>Program &rarr; <a href="#Expression">Expression</a> | <a href="#Sequence">Sequence</a> | <a href="#Quote">Quote</a> | <a href="#Collection">Collection</a> | <a href="#String">String</a> | <a href="#Type">Type</a> | <a href="#Symbol">Symbol</a> | <a href="#Writen-Number">Number</a></td></tr>
+				<tr><td id="Expression-Grammar">Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+				<tr><td id="Sequence-Grammar">Sequence &rarr; Program <code>,</code> Sequence | Program <code>,</code> Program</td></tr>
+				<tr><td id="Quote-Grammar">Quote &rarr; <code>'</code> Program</td></tr>
+				<tr><td id="Collection-Grammar">Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+				<tr><td id="String-Grammar">String &rarr; <code>"</code> Character * | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="#Digit">Digit</a> * <code>.</code></td></tr>
+				<tr><td id="Type-Grammar">Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+			</table>
+		</figure>
+	</article>
+	<article>
+		<h1>The Program Model</h1>
+		<h2>Format</h2>
+		<p>
+			<span id="Program-Model">A Program Model is some structured data corresponding to a written <i>n</i><sup>th</sup> program.</span>
+			It unambiguously represents the data used by a program and the exact order of the manipulations performed on that data.
+		</p>
+		<p>
+			A <a href="#Program-Model">Program Model</a> is composed of <a href="#Collection">Collections</a> containing <a href="#Symbol">Symbols</a>, other entities, and <a href="#Collection">Collections</a>.
+			<span id="Node">A Node refers to a <a href="#Collection">Collection</a> used as a structural component of a <a href="#Program-Model">Program Model</a>.</span>
+		</p>
+		<h3>Construction</h3>
+		<p>
+			The structure of a <a href="#Program-Model">Program Model</a> directly corresponds to the form of a written <a href="#Program">Program</a>.
+			Each syntactic component will either correspond to a <a href="#Node">Node</a>, <a href="#Constructor">Constructor</a>, or <a href="#Symbol">Symbol</a>.
+			The exact correspondence between <a href="#Program">Program</a> and <a href="#Program-Model">Program Model</a> components is given in the list below.
+		</p>
+		<ul>
+			<li>An <a href="#Expression-Grammar">expression</a> corresponds to a <a href="#Node">Node</a>.</li>
+			<li>A <a href="#Sequence-Grammar">Sequence</a> <a href="#Expression">expression</a> corresponds to a <a href="#Sequence">Sequence</a>.</li>
+			<li>A <a href="#Collection-Grammar">Collection</a> <a href="#Expression">expression</a> corresponds to a <a href="#Collection">Collection</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#Quote-Grammar">Quote</a> <a href="#Expression">expression</a> corresponds to a <a href="#Program-Model">Program Model</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#String-Grammar">String</a> <a href="#Expression">expression</a> corresponds to a <a href="#String">String</a> <a href="#Constructor">constructor</a>.</li>
+			<li>A <a href="#Type-Grammar">Type</a> <a href="#Expression">expression</a> corresponds to a <a href="#Type">Type</a> <a href="#Constructor">constructor</a>.</li>
+		</ul>
+		<p>
+			Nested grammatical components correspond to nested <a href="#Node">Nodes</a>.
+			The order in which a component is nested decides the order in which that <a href="#Node">Node</a> is nested within the containing <a href="#Node">Node</a>.
+			The figure below demonstrates how nested components of a <a href="#Program">Program</a> correspond to nested <a href="#Node">Nodes</a>.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>
+					(a (b c) (d (e) f))
+				</code></td><td>...</td><td style="text-align:right;"><i>a written program</i></td></tr>
+				<tr><td><code>
+					{'a {'b 'c} {'d {'e} 'f}}
+				</code></td><td>...</td><td style="text-align:right;"><i>a program model of the written program</i></td></tr>
+			</table>
+			<hr>
+			<figcaption>
+				The formation of the written program is identical to the Program Model, given as a nested structure of nodes.
+			</figcaption>
+		</figure>
+		<h2>Computation</h2>
+		<p>
+			<span id="Computation">Computation is the process of reducing a <a href="#Program-Model">Program Model</a> to a result by replacing <a href="#Expressions">expressions</a>.</span>
+			Computation is process performed repeatedly to a <a href="#Program-Model">Program Model</a> according to these ordered steps...
+		</p>
+		<ol>
+			<li>Determine the next <a href="#Node">Node</a> of the <a href="#Program-Model">Program Model</a> to reduce according to the specified <a href="#Next-Node-Search">algorithm</a>.</li>
+			<li>Replace the <a href="#Node">Node</a> with the <a href="#Computation">computed</a> result determined according to the specified <a href="#Node-Reduction">algorithm</a>.</li>
+			<li>If the <a href="#Program-Model">Program Model</a> still contains <a href="#Expression">expressions</a>, repeat these steps.</li>
+		</ol>
+		<figure id="Next-Node-Search">
+			<table>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					(next-node <-<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;(n -><br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(? (n / Expression)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(next-node ((n / Expression)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{((x : Collection) -> (x \ 0))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(x -> x)}))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;n)))
+				</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>A recursive function which determines the next Node to compute.</figcaption>
+		</figure>
+	</article>
+	<article>
+		<h1 id="Environment">Environment</h1>
+		<h2>Summary</h2>
+		<p>
+			The <i>n</i><sup>th</sup> environment consists of some finite number of <a href="#Data">Data</a> units which can store values.
+			Each unit is identified by a unique <a href="#Reference">Reference</a> value.
+			Engaging <a href="#Computation">computations</a> will claim resources from the environment in the form of some amount of <a href="#Data">Data</a> units.
+		</p>
+		<h2>Data</h2>
+		<p>
+			<span id="Data">Data is a type corresponding to the smallest individual unit of storage provided by the environment.</span>
+			A <a href="#Data">Data</a> unit can store one of a number of abstract values.
+			The number of values which can be stored as <a href="#Data">Data</a> are dependent on the nature of the storage medium supplied by the environment.
+			<i>n</i><sup>th</sup> enumerates these values as a set of sequential <a href="#Number">numerical</a> values beginning with zero and ending with a <a href="#Number">number</a> which is one less than the cardinality of the set.
+		</p>
+		<p>
+			There is a unique <a href="#Reference">Reference</a> value for each unique <a href="#Data">Data</a> unit available in the environment.
+		</p>
+		<h3>Operations on Data</h3>
+		<p>
+			Data is constructed by converting a <a href="#Number">number</a> corresponding to a <a href="#Data">Data</a> value to a format which can be stored as <a href="#Data">Data</a>.
+			Values can also be <a href="#Compute">computed</a> using a modular arithmetic over existing <a href="#Data">Data</a>.
+		</p>
+		<p>
+			The <a href="#Data">Data</a> <a href="#Constructor">Constructor</a> accepts a <a href="#Number">Number</a> corresponding to a <a href="#Data">Data</a> value and will convert it to a format which can be stored.
+			The <a href="#Constructor">Constructor</a> <a href="#Expression">Expression</a> is given below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><i>given </i><code>Maximum</code><i> which binds the maximum possible value for the Data type,</i></td></tr>
+				<tr><td><code>({'% [(n : Number), (? ((n < Maximum) /\ (n > -1)) n)]} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>data constructor</i></td></tr>
+			</table>
+		</figure>
+		<h3>Arithmetic over Data</h3>
+		<p>
+			Modular arithmetic can be performed on <a href="#Data">Data</a> values which <a href="#Compute">computes</a> to other <a href="#Data">Data</a> values.
+			There are five arithmetic operations provided which are given in the figure below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>({Data '+ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
+				<tr><td><code>({Data '- Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
+				<tr><td><code>({Data '* Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
+				<tr><td><code>({Data '/ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>division</i></td></tr>
+				<tr><td><code>({Data '// Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>modulus</i></td></tr>
+			</table>
+		</figure>
+		<p>
+			All arithmetic operations on <a href="#Data">Data</a> are performed identically to arithmetic for <a href="#Number">Numbers</a>. 
+			There is an added restriction specifically for <a href="#Data">Data</a> that all operations will result in a value which is part of the set of values which can be stored as <a href="#Data">Data</a>.
+			In the case that an arithmetic operation on <a href="#Data">Data</a> would result in a value that cannot be stored, the actual result is adjusted to a corresponding modular result according to the <a href="#modular-algorithm">algorithm</a> given below.
+		</p>
+		<figure id="modular-algorithm">
+			<table>
+				<tr><td><i>given </i><code>Maximum</code><i> which binds the maximum possible value for the Data type,</i></td></tr>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					(n -><br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;(? (n &gt; Maximum)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(n // Maximum)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(? (n &lt; 0)<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(-1 * (n // Maximum))<br>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;n)))</code></td></tr>
+			</table>
+		</figure>
+		<h2>References</h2>
+		<p>
+			<span id="Reference">A Reference represents an abstract value identifying a single unit of <a href="#Data">Data</a>.</span>
+			There is a unique <a href="#Reference">Reference</a> value for each and every single <a href="#Data">Data</a> unit available in the environment.
+		</p>
+		<h3>Operations on References</h3>
+		<p>
+			A <a href="#Reference">Reference</a> is not explicitly <a href="#Constructor">constructed</a>.
+			It can only be derived from some other entity which has been <a href="#Constructor">constructed</a>.
+			There are two operations, one which derives a <a href="#Reference">Reference</a> from an entity, and one which exposes an entity through a <a href="#Reference">Reference</a>.
+			The two <a href="#Expressions">Expressions</a> for the <a href="#Operation">Operations</a> are given in the figure below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>({'@@ *} -> Reference)</code></td><td>...</td><td style="text-align:right;"><i>derive reference</i></td></tr>
+				<tr><td><code>({'@ Reference} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dereference</i></td></tr>
+			</table>
+		</figure>
+		<p>
+			The <i>"derive reference"</i> <a href="#Operation">Operation</a> will <a href="#Compute">compute</a> to the <a href="#Reference">Reference</a> which identifies the beginning position of the <a href="#Data">Data</a> units storing the entity which the <a href="#Reference">Reference</a> is being derived from.
+		</p>
+		<p>
+			The <i>"dereference"</i> <a href="#Operation">Operation</a> will <a href="#Compute">compute</a> to the entity which is stored beginning with the <a href="#Data">Data</a> identified by the <a href="#Reference">Reference</a> provided to the <a href="#Operation">Operation</a>.
+			The entity resulting from the <a href="#Operation">Operation</a> will be of a type expected by the outer <a href="#Expression">expression</a> according to the <a href="#Type-Rule-4">rules</a> for <a href="#well-typed">well-typed</a> <a href="#Program">programs</a>.
+		</p>
+	</article>
+	<article>
+		<h1 id="Numbers">Numbers</h1>
+	</article>
+	<article>
+		<h1 id="Logic">Logic</h1>
+		<p>
+		</p>
+	</article>
+	<article>
+		<h1 id="Collections">Collections</h1>
+		<p>
+			<span id="Collection">A Collection is a structured entity which represents a grouping of other entities.</span>
+		</p>
+		<h2>Special Collection Sub-Types</h2>
+		<h3>Sequence</h3>
+		<p>
+
+		</p>
+		<h3>String</h3>
+		<p>
+
+		</p>
+	</article>
+	<article>
+		<h1 id="Types">Types</h1>
+		<p>
+			The <i>n</i><sup>th</sup> langauge provides a system of <a href="#Type">Types</a> which allows for constraints to be placed on what values may occurr at any point in a program.
+			<span id="Type">A Type is a potentially infinitely large <a href="#Collection">Collection</a> of unique entities enumerating all possible entities which may occur where that Type occurs.</span>
+			The entities grouped as a <a href="#Type">Type</a> are referred to as values.
+			<a href="#Type">Types</a> may be values of other <a href="#Types">Types</a>.
+		</p>
+		<p>
+			A <a href="#Type">Type</a> is <a href="#Constructor">constructed</a> by listing any number of programs in between the two punctuation characters <code>[</code> and <code>]</code>.
+			The form of that type is then the values that result from <a href="#Compute">computing</a> each of the programs.
+		</p>
+		<h2>Typed Programs</h2>
+		<p>
+			A <a href="#Program">program</a> can only be <a href="#Compute">computed</a> if it is considered <a href="#well-typed">well-typed</a>.
+			<span id="well-typed">A well-typed program is a <a href="#Program">program</a> which contains no type errors.</span>
+		</p>
+		<p>
+			A <a href="#Program">program</a> will have no type errors if it conforms to a set of <a href="#Type">Type</a> rules.
+			These rules are given in the figures below.
+		</p>
+		<figure id="Type-Rule-1">
+			<table>
+				<tr><td><code>((e) = t)</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given an expression, <i>e</i>, which computes to a value <i>t</i>, computing <i>e</i> will always produce <i>t</i>.</figcaption>
+		</figure>
+		<figure id="Type-Rule-2">
+			<table>
+				<tr><td><code>(T <- [t]), ((: (e)) = T)</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given an expression <i>e</i>, which computes to  a value of <i>T</i>, computing <i>e</i> will always produce a value of <i>T</i>.</figcaption>
+		</figure>
+		<figure id="Type-Rule-3">
+			<table>
+				<tr><td><code>
+					(T <- [t]),<br>
+					(<- ({'k T} -> t)),<br>
+					(<- ({'l} -> t),<br>
+					((:(k (l))) = T)
+				</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given an expression which accepts a value of <i>T</i>, and an expression that computes to a value of <i>T</i>, nesting the second in the first is well-typed.</figcaption>
+		</figure>
+
+		<figure id="Type-Rule-4">
+			<table>
+				<tr><td><code>
+					(T <- [n m]),<br>
+					(<- ({'k n} -> m)),<br>
+					(x : T),<br>
+					((k x) = m)
+				</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given an expression, <i>k</i>, which accepts a specific value of a type <i>T</i>, and an expression, <i>x</i>, which computes to any value of <i>T</i>, then <i>x</i>, when nested as a sub-program in <i>k</i>, must compute to a value of <i>T</i> which <i>k</i> accepts.</figcaption>
+		</figure>
+		<figure id="Type-Rule-5">
+			<table>
+				<tr><td><code>(((n -> m) n) = m)</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given a function mapping a value <i>n</i> to a value <i>m</i>, applying that function to <i>n</i> will always compute to the value <i>m</i>.</figcaption>
+		</figure>
+		<figure id="Type-Rule-6">
+			<table>
+				<tr><td><code>(T <- [t]), ((:((T -> T) t)) = T)</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>Given a function mapping a type <i>T</i> to a type <i>T</i>, applying that function to a value of <i>T</i> will always compute to the type <i>T</i>.</figcaption>
+		</figure>
+		<h2>Quantification</h2>
+		<p>
+			<span id="Quantification">Quantification is a process which <a href="#Compute">computes</a> a program once for each value of a <a href="#Type">Type</a> and constructs a new <a href="#Type">Type</a> representing the values resulting from the quantification.</span>
+			Quantification is engaged by creating an <a href="#Independent-Variable">independent variable</a>.
+			<span id="Independent-Variable">An independent variable is a variable which has been constrained by a type, but is not bound to a single value.</span>
+			Any program featuring an independent variable is quantified.
+			An example of a <a href="#Quantification">quantified</a> program and an equivalent non-quantified program is given in the figure below.
+		</p>
+		<figure>
+			<table>
+				<tr><td><code>
+					(f <- (n -> (n // 7))),<br>
+					(x : Natural),<br>
+					((f x) = [0 1 2 3 4 5 6])
+				</code></td><td>...</td><td style="text-align:right;"><i>a quantified program</i></td></tr>
+			</table>
+			<hr>
+			<table>
+				<tr><td><code>
+					(f <- (n -> (n // 7))),<br>
+					(([(f 0) (f 1) (f 2) <b>...</b> (f n)]) = [0 1 2 3 4 5 6])
+				</code></td><td>...</td><td style="text-align:right;"><i>an equivalent program with no quantification</i></td></tr>
+			</table>
+		</figure>
+		<p>
+			A <a href="#Quantification">quantified</a> program will be computed for all the values of the <a href="#Type">Type</a> it's being <a href="#Quantification">quantified</a> over.
+		</p>
+		<h3>Lexical Extent of Quantification</h3>
+		<p>
+			In some cases, <a href="#Quantification">quantification</a> may apply to only a sub-program containing an independent variable.
+			These cases are listed below...
+		</p>
+		<ul>
+			<li>A <a href="#Collection">Collection</a> containing a <a href="#Quantification">quantified</a> sub-program as an element will not be <a href="#Quantification">quantified</a> and will instead hold the type produced by <a href="Quantification">quantifying</a> only the sub-program.</li>
+			<li>A <a href="#Sequence">Sequence</a> containing a <a href="#Quantification">quantified</a> sub-program which is not the last sub-program in the <a href="#Sequence">Sequence</a> will not be <a href="#Quantification">quantified</a>.</li>
+			<li>Any <a href="#Expression">Expression</a> which accepts a sub-program that <a href="#Compute">computes</a> to a <a href="#Type">Type</a> will not be <a href="#Quantification">quantified</a>.</li>
+			<li>Any <a href="#Expression">Expression</a> which accepts any sub-program of any <a href="#Type">Type</a> will not be <a href="#Quantification">quantified</a>.</li>
+		</ul>
+	</article>
+	<article>
+		<h1 id="Functions">Functions</h1>
+	</article>
+	<article>
+		<h1 id="Contexts">Contexts</h1>
+		<figure id="Node-Reduction">
+			<table>
+				<tr><td style="text-align:left;margin-left:auto;margin-right:auto;width:fit-content;display:block;"><code>
+					((n : Expression) (m : Context) -> (m n))
+				</code></td></tr>
+			</table>
+			<hr>
+			<figcaption>The function which determines the result of computing a node.</figcaption>
+		</figure>
+	</article>
+</body>
