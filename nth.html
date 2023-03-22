@@ -10,11 +10,11 @@
 	}
 	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.3);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-	p, h1{width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
-	figure{width:fit-content;max-width:90%;margin-left:auto;margin-right:auto;border:solid 0.1ch var(--fg);border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
+	p, h1, figcaption{width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
+	figure{width:66%;max-width:90%;margin-left:auto;margin-right:auto;border:solid 0.2ch var(--fg);border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
 	figcaption{text-align:center;}
-	hr{color:var(--fg);}
-	cite{display:block;width:100%;font-style:normal;text-align:center;}
+	hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
+	cite{display:block;width:100%;font-style:normal;text-align:left;}
 	a{text-decoration:none;color:inherit;}
 	table{text-align:left;}
 </style>
@@ -31,14 +31,14 @@ id="path47" />
 d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
 <h1>Standard Document<br>for<br>Nth</h1>
-<p><cite id="0"><a href="#0">0</a><br>|</cite>
+<p><cite id="0"><a href="#0">0</a></cite>
 This document specifies a system for describing and computing programs called "Nth".
 </p>
-<p><cite id="1"><a href="#1">1</a><br>|</cite>
+<p><cite id="1"><a href="#1">1</a></cite>
 This document represents a standard. 
 The descriptions therein represent requirements for an implementation of Nth. 
 </p>
-<p><cite id="1.1"><a href="#1.1">1.1</a><br>|</cite>
+<p><cite id="1.1"><a href="#1.1">1.1</a></cite>
 An implementation is said to be "conforming" if it behaves according to all requirements given in this standard.
 </p>
 <p>
@@ -75,17 +75,14 @@ A Digit is a Glyph, specifically one of the ten decimal digits,
 <p>
 A Blank is any character which is expressed by empty space between, or the positioning of, some characters.
 </p>
-<p>
-The figure below gives the program which reads a sequence of characters and constructs a program model.
-</p>
-<p>
+<figure>
+<figcaption>
 The following grammar describes all valid sequences of characters forming a program.
 The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
 The symbol, |, separates elements in a list.
 The symbol, *, denotes an element which may repeat one or more times where it occurs.
 Characters given in <code>monospace</code> represent themselves literally.
-</p>
-<figure>
+</figcaption><hr>
 <table>
 <tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
@@ -116,7 +113,4 @@ The figure below gives the equivalent program model structure for each of the wr
 <tr><td><code>({"'" *})</code></td><td>...</td><td style="text-align:right;"><i>quote</i></td></tr>
 </table>
 </figure>
-<p>
-A program model consists of a tree of nested collections and other entities.
-</p>
 </body>
