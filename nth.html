@@ -3,18 +3,33 @@
 <meta charset='utf-8'>
 <title>Nth Standard</title>
 <style>
-	body{color:#00251d;background-color:#f0e9e2;width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;font-size:clamp(20px, calc((1vh + 1vw) / 1), 30px);}
-	code{font-family:monospace;background-color:#e3d4c1;border-radius:1ch;display:inline-block;}
-	p, h1{text-align:center;border-radius:1ch;padding:1ch;box-shadow: 0 0 0.0ch 0.0ch #241500;padding-bottom:3ch;}
-	figure{border:solid 0.1ch #00251d;border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
+	:root{
+		--bg:#f3e3d2ff;
+		--fg:#00251dff;
+		--dbg:#d4c4afff;
+	}
+	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.3);}
+	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
+	p, h1{width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
+	figure{width:fit-content;max-width:90%;margin-left:auto;margin-right:auto;border:solid 0.1ch var(--fg);border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
 	figcaption{text-align:center;}
-	hr{color:#00251d;}
+	hr{color:var(--fg);}
 	cite{display:block;width:100%;font-style:normal;text-align:center;}
 	a{text-decoration:none;color:inherit;}
 	table{text-align:left;}
 </style>
 </head>
 <body>
+<svg viewBox="0 0 100 100" version="1.1" style="height:20ch;margin-left:auto;margin-right:auto;width:auto;display:block;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<defs id="defs54" />
+<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
+<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
+d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
+id="path47" />
+<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
+</svg>
 <h1>Standard Document<br>for<br>Nth</h1>
 <p><cite id="0"><a href="#0">0</a><br>|</cite>
 This document specifies a system for describing and computing programs called "Nth".
@@ -61,6 +76,9 @@ A Digit is a Glyph, specifically one of the ten decimal digits,
 A Blank is any character which is expressed by empty space between, or the positioning of, some characters.
 </p>
 <p>
+The figure below gives the program which reads a sequence of characters and constructs a program model.
+</p>
+<p>
 The following grammar describes all valid sequences of characters forming a program.
 The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
 The symbol, |, separates elements in a list.
@@ -68,10 +86,8 @@ The symbol, *, denotes an element which may repeat one or more times where it oc
 Characters given in <code>monospace</code> represent themselves literally.
 </p>
 <figure>
-<figcaption>The grammar for written Nth programs.</figcaption>
-<hr>
 <table>
-<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number</td></tr>
+<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
 <tr><td>Sequence &rarr; Program <code>,</code> Program | Program <code>,</code> Sequence</td></tr>
 <tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
@@ -80,10 +96,25 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td>Characters &rarr; Glyph | Digit | Blank | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
 <tr><td>Quote &rarr; <code>'</code> Program</td></tr>
 <tr><td>Symbol &rarr; Glyph | Digit | Symbol *</td></tr>
-<tr><td>Number &rarr; Whole | Integer | Rational | Hex</td></tr>
-<tr><td>Whole &rarr; Digit *</td></tr>
-<tr><td>Integer &rarr; <code>+</code> Whole | <code>-</code> Whole</td></tr>
-<tr><td>Rational &rarr; Whole <code>.</code> Whole | Integer <code>.</code> Whole</td></tr>
+<tr><td>Number &rarr; Digit * | Digit * <code>.</code> Digit *</td></tr>
+<tr><td>Delimiter &rarr; Blank *</td></tr>
 </table>
 </figure>
+<p>
+A special case which is not represented in this grammar is that when a symbol or number immediately follows another symbol or number, a Delimiter must occur between the two.
+</p>
+<p>
+Expressions, Sequences, Collections, Types, and Quotes in a written program correspond to individual substructures in a program model.
+The figure below gives the equivalent program model structure for each of the written structures.
+</p>
+<figure>
+<table>
+<tr><td><code>({"("} + (* : Collection) + {")"})</code></td><td>...</td><td style="text-align:right;"><i>expression</i></td></tr>
+<tr><td><code>(s <- ((* : Collection) + {","} + [(* : Collection) s]))</code></td><td>...</td><td style="text-align:left;"><i>sequence</i></td></tr>
+<tr><td><code>({"{"} + Collection + {"}"})</code></td><td>...</td><td style="text-align:left;"><i>collection</i></td></tr>
+</table>
+</figure>
+<p>
+A program model consists of a tree of nested collections and other entities.
+</p>
 </body>

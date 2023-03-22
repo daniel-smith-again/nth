@@ -228,3 +228,39 @@ That's a nice simple rule.
 
 I need a data constructor so I can create vectors and segments of data.
 That's (| Value | Value | Value | Reference | Byte 100 |)
+
+
+
+where must a blank separate two things?
+(Symbol Symbol) 
+(Number Number)
+If two Symbols or numbers are adjacent, they must be separated by a blank.
+
+
+
+
+what's a program to read in a program model?
+(-> 
+ (program : _),
+ (symbol : ""),
+ (c : character),
+ (c <- (read)),
+ ({
+   ((n : [Glyph Digit]) -> 
+     (symbol <- (symbol + {c}))
+   ((n : Blank) -> 
+     (? (program = _) 
+        (program <- symbol), (compute program)
+	(? )))
+((n : "(") -> )
+((n : ")") -> )
+((n : "[") -> )
+((n : "]") -> )
+((n : "{") -> )
+((n : "}") -> )
+((n : "\"") -> )
+((n : "'") -> )
+((n : Character) -> (error))
+((n : _) -> (compute program))
+} c)
+)
