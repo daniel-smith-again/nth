@@ -105,12 +105,13 @@ Expressions, Sequences, Collections, Types, and Quotes in a written program corr
 The figure below gives the equivalent program model structure for each of the written structures.
 </p>
 <figure>
+	<figcaption>This figure features the types which describe the construction of each substructure which can be used in a program model.</figcaption>
 <table>
-<tr><td><code>({"("} + (* : Collection) + {")"})</code></td><td>...</td><td style="text-align:right;"><i>expression</i></td></tr>
-<tr><td><code>(s <- ((* : Collection) + {","} + [(* : Collection) s]))</code></td><td>...</td><td style="text-align:right;"><i>sequence</i></td></tr>
-<tr><td><code>({"{"} + Collection + {"}"})</code></td><td>...</td><td style="text-align:right;"><i>collection</i></td></tr>
-<tr><td><code>({"["} + Collection + {"]"})</code></td><td>...</td><td style="text-align:right;"><i>type</i></td></tr>
-<tr><td><code>({"'" *})</code></td><td>...</td><td style="text-align:right;"><i>quote</i></td></tr>
+<tr><td><code>[({"("} + (* : Collection) + {")"})]</code></td><td>...</td><td style="text-align:right;"><i>expression</i></td></tr>
+<tr><td><code>[(s &lt;- ((* : Collection) + {","} + [(* : Collection) s]))]</code></td><td>...</td><td style="text-align:right;"><i>sequence</i></td></tr>
+<tr><td><code>[({"{"} + Collection + {"}"})]</code></td><td>...</td><td style="text-align:right;"><i>collection</i></td></tr>
+<tr><td><code>[({"["} + Collection + {"]"})]</code></td><td>...</td><td style="text-align:right;"><i>type</i></td></tr>
+<tr><td><code>[({"'" *})]</code></td><td>...</td><td style="text-align:right;"><i>quote</i></td></tr>
 </table>
 </figure>
 </body>
