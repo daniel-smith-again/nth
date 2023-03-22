@@ -110,8 +110,10 @@ The figure below gives the equivalent program model structure for each of the wr
 <figure>
 <table>
 <tr><td><code>({"("} + (* : Collection) + {")"})</code></td><td>...</td><td style="text-align:right;"><i>expression</i></td></tr>
-<tr><td><code>(s <- ((* : Collection) + {","} + [(* : Collection) s]))</code></td><td>...</td><td style="text-align:left;"><i>sequence</i></td></tr>
-<tr><td><code>({"{"} + Collection + {"}"})</code></td><td>...</td><td style="text-align:left;"><i>collection</i></td></tr>
+<tr><td><code>(s <- ((* : Collection) + {","} + [(* : Collection) s]))</code></td><td>...</td><td style="text-align:right;"><i>sequence</i></td></tr>
+<tr><td><code>({"{"} + Collection + {"}"})</code></td><td>...</td><td style="text-align:right;"><i>collection</i></td></tr>
+<tr><td><code>({"["} + Collection + {"]"})</code></td><td>...</td><td style="text-align:right;"><i>type</i></td></tr>
+<tr><td><code>({"'" *})</code></td><td>...</td><td style="text-align:right;"><i>quote</i></td></tr>
 </table>
 </figure>
 <p>
