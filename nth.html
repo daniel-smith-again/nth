@@ -3,24 +3,27 @@
 <meta charset='utf-8'>
 <title>Nth Standard</title>
 <style>
-	body{color:black;background-color:white;width:50%;max-width:160ch;min-width:40ch;margin-left:auto;margin-right:auto;font-size:calc((1vh + 1vw) / 1);}
-	code{font-family:monospace;background-color:#a8a8a8;border-radius:1ch;display:block;}
-	p, h1{text-align:center;border-radius:1ch;padding:1ch;box-shadow: 0 0 1ch 0.1ch black;}
-	figure{border:solid 0.1ch black;border-radius:1ch;padding:1ch;}
-	cite{display:block;height:3ch;width:100%;font-style:normal;text-align:left;}
-	a{text-decoration:underline;color:black;}
+	body{color:#00251d;background-color:#f0e9e2;width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;font-size:clamp(20px, calc((1vh + 1vw) / 1), 30px);}
+	code{font-family:monospace;background-color:#e3d4c1;border-radius:1ch;display:inline-block;}
+	p, h1{text-align:center;border-radius:1ch;padding:1ch;box-shadow: 0 0 0.0ch 0.0ch #241500;padding-bottom:3ch;}
+	figure{border:solid 0.1ch #00251d;border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
+	figcaption{text-align:center;}
+	hr{color:#00251d;}
+	cite{display:block;width:100%;font-style:normal;text-align:center;}
+	a{text-decoration:none;color:inherit;}
+	table{text-align:left;}
 </style>
 </head>
 <body>
 <h1>Standard Document<br>for<br>Nth</h1>
-<p><cite id="0"><a href="#0">0</a></cite>
+<p><cite id="0"><a href="#0">0</a><br>|</cite>
 This document specifies a system for describing and computing programs called "Nth".
 </p>
-<p><cite id="1"><a href="#1">1</a></cite>
+<p><cite id="1"><a href="#1">1</a><br>|</cite>
 This document represents a standard. 
 The descriptions therein represent requirements for an implementation of Nth. 
 </p>
-<p><cite id="1.1"><a href="#1.1">1.1</a></cite>
+<p><cite id="1.1"><a href="#1.1">1.1</a><br>|</cite>
 An implementation is said to be "conforming" if it behaves according to all requirements given in this standard.
 </p>
 <p>
@@ -39,21 +42,48 @@ A written program is then homoiconic with the Program Model.
 </p>
 <p>
 A written program is formed as a sequence of character values.
+</p>
+<p>
 Nth minimally requires the characters provided by the ASCII character encoding scheme.
+Other encoding schemes which include the characters provided in the ASCII character set may be used.
 </p>
 <p>
-The character sequence is grouped into discrete tokens.
-Tokens are either Symbols, Numbers, Blanks, or Punctuation.
+Characters are classified into one of three generic groups, Glyphs, Digits, and Blanks.
 </p>
 <p>
-A Symbol is a token which does not contain any Blanks or Punctuation.
+A Glyph is any character which is expressed visually.
 </p>
 <p>
-A Number is a Symbol comprised of only the decimal digits, one of
+A Digit is a Glyph, specifically one of the ten decimal digits,
 <code>0123456789</code>
-It may optionally contain some characters denoting rational values or exponents.
-The program below quantifies the construction of all valid Number tokens.
-<code></code>
 </p>
-
+<p>
+A Blank is any character which is expressed by empty space between, or the positioning of, some characters.
+</p>
+<p>
+The following grammar describes all valid sequences of characters forming a program.
+The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
+The symbol, |, separates elements in a list.
+The symbol, *, denotes an element which may repeat one or more times where it occurs.
+Characters given in <code>monospace</code> represent themselves literally.
+</p>
+<figure>
+<figcaption>The grammar for written Nth programs.</figcaption>
+<hr>
+<table>
+<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number</td></tr>
+<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+<tr><td>Sequence &rarr; Program <code>,</code> Program | Program <code>,</code> Sequence</td></tr>
+<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+<tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
+<tr><td>Characters &rarr; Glyph | Digit | Blank | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
+<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
+<tr><td>Symbol &rarr; Glyph | Digit | Symbol *</td></tr>
+<tr><td>Number &rarr; Whole | Integer | Rational | Hex</td></tr>
+<tr><td>Whole &rarr; Digit *</td></tr>
+<tr><td>Integer &rarr; <code>+</code> Whole | <code>-</code> Whole</td></tr>
+<tr><td>Rational &rarr; Whole <code>.</code> Whole | Integer <code>.</code> Whole</td></tr>
+</table>
+</figure>
 </body>
