@@ -31,50 +31,19 @@ id="path47" />
 d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
 <h1>Standard Document<br>for<br>Nth</h1>
-<p><cite id="0"><a href="#0">0</a></cite>
-This document specifies a system for describing and computing programs called "Nth".
-</p>
-<p><cite id="1"><a href="#1">1</a></cite>
-This document represents a standard. 
-The descriptions therein represent requirements for an implementation of Nth. 
-</p>
-<p><cite id="1.1"><a href="#1.1">1.1</a></cite>
-An implementation is said to be "conforming" if it behaves according to all requirements given in this standard.
-</p>
-<p>
-There are two discrete components to the Nth system, the language and the computational environment.
-In this document, "Nth" refers specifically to the language component and the environment is referred to by "environment".
-</p>
-<p>
-Nth is a homoiconic language.
-The written form of the language coresponds exactly to the literal structure representing the program.
-</p>
-<p>
-The term "Program Model" refers to the cannonical representation of a program in Nth.
-</p>
-<p><cite id="?"><a href="#?">?</a></cite>
-A written program is then homoiconic with the Program Model.
-</p>
-<p>
-A written program is formed as a sequence of character values.
-</p>
-<p>
-Nth minimally requires the characters provided by the ASCII character encoding scheme.
-Other encoding schemes which include the characters provided in the ASCII character set may be used.
-</p>
-<p>
-Characters are classified into one of three generic groups, Glyphs, Digits, and Blanks.
-</p>
-<p>
-A Glyph is any character which is expressed visually.
-</p>
-<p>
-A Digit is a Glyph, specifically one of the ten decimal digits,
-<code>0123456789</code>
-</p>
-<p>
-A Blank is any character which is expressed by empty space between, or the positioning of, some characters.
-</p>
+<p><cite id="0"><a href="#0">0</a></cite>This document specifies a system for describing and computing programs called "Nth".</p>
+<p><cite id="1"><a href="#1">1</a></cite>This document represents a standard. The descriptions therein represent requirements for an implementation of Nth.</p>
+<p><cite id="1.1"><a href="#1.1">1.1</a></cite>An implementation is said to be "conforming" if it behaves according to all requirements given in this standard.</p>
+<p>There are two discrete components to the Nth system, the language and the computational environment.In this document, "Nth" refers specifically to the language component and the environment is referred to by "environment".</p>
+<p>Nth is a homoiconic language.The written form of the language coresponds exactly to the literal structure representing the program.</p>
+<p>The term "Program Model" refers to the cannonical representation of a program in Nth.</p>
+<p><cite id="?"><a href="#?">?</a></cite>A written program is then homoiconic with the Program Model.</p>
+<p>A written program is formed as a sequence of character values.</p>
+<p>Nth minimally requires the characters provided by the ASCII character encoding scheme. Other encoding schemes which include the characters provided in the ASCII character set may be used.</p>
+<p>Characters are classified into one of three generic groups, Glyphs, Digits, and Blanks.</p>
+<p>A Glyph is any character which is expressed visually.</p>
+<p>A Digit is a Glyph, specifically one of the ten decimal digits, <code>0123456789</code></p>
+<p>A Blank is any character which is expressed by empty space between, or the positioning of, some characters.</p>
 <figure>
 <figcaption>
 The following grammar describes all valid sequences of characters forming a program.
@@ -97,10 +66,18 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td>Delimiter &rarr; Blank *</td></tr>
 </table>
 </figure>
-<p>
-A special case which is not represented in this grammar is that when a symbol or number immediately follows another symbol or number, a Delimiter must occur between the two.
-</p>
-<p>
-Expressions, Sequences, Collections, Types, and Quotes in a written program correspond to individual substructures in a program model.
-</p>
+<p>A special case which is not represented in this grammar is that when a symbol or number immediately follows another symbol or number, a Delimiter must occur between the two.</p>
+<p>Expressions, Sequences, Collections, Types, and Quotes in the grammar correspond to substructures in the program model.</p>
+<p>Each of the substructures is a nominally distinct type of collection.</p>
+
+<p>A collection is a structural type which represents a grouping of entities. Entities which are part of a collection are referred to as "elements".</p>
+<p>A collection constructor will evaluate each of the sub-programs, holding the result as an element.</p>
+<p>The order of elements in a collection is determined by the order in which the sub-programs are oriented in the program model.</p>
+<p>A collection forms a fresh context which closes over the context in which the collection is constructed.</p>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on collections, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>(e -> ({Collection (* : ['+ '- '* '/])} + (* : [Collection e]))</code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+</table>
+</figure>
 </body>
