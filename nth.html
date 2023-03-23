@@ -4,14 +4,14 @@
 <title>Nth Standard</title>
 <style>
 	:root{
-		--bg:#f3e3d2ff;
-		--fg:#00251dff;
-		--dbg:#d4c4afff;
+		--bg:rgb(242, 234, 225);
+		--fg:rgb(0, 37, 33);
+		--dbg:rgb(212, 203, 191);
 	}
-	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.3);}
+	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.5);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-	p, h1, figcaption{width:66%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
-	figure{width:66%;max-width:90%;margin-left:auto;margin-right:auto;border:solid 0.2ch var(--fg);border-radius:1ch;padding:1ch;margin-left:auto;margin-right:auto;text-align:center;}
+	p, h1, figure, figcaption{width:90%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
+	figure{border:solid 0.2ch var(--fg);}
 	figcaption{text-align:center;}
 	hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
 	cite{display:block;width:100%;font-style:normal;text-align:left;}
@@ -52,7 +52,7 @@ The written form of the language coresponds exactly to the literal structure rep
 <p>
 The term "Program Model" refers to the cannonical representation of a program in Nth.
 </p>
-<p>
+<p><cite id="?"><a href="#?">?</a></cite>
 A written program is then homoiconic with the Program Model.
 </p>
 <p>
@@ -102,16 +102,5 @@ A special case which is not represented in this grammar is that when a symbol or
 </p>
 <p>
 Expressions, Sequences, Collections, Types, and Quotes in a written program correspond to individual substructures in a program model.
-The figure below gives the equivalent program model structure for each of the written structures.
 </p>
-<figure>
-	<figcaption>This figure features the types which describe the construction of each substructure which can be used in a program model.</figcaption>
-<table>
-<tr><td><code>[({"("} + (* : Collection) + {")"})]</code></td><td>...</td><td style="text-align:right;"><i>expression</i></td></tr>
-<tr><td><code>[(s &lt;- ((* : Collection) + {","} + [(* : Collection) s]))]</code></td><td>...</td><td style="text-align:right;"><i>sequence</i></td></tr>
-<tr><td><code>[({"{"} + Collection + {"}"})]</code></td><td>...</td><td style="text-align:right;"><i>collection</i></td></tr>
-<tr><td><code>[({"["} + Collection + {"]"})]</code></td><td>...</td><td style="text-align:right;"><i>type</i></td></tr>
-<tr><td><code>[({"'" *})]</code></td><td>...</td><td style="text-align:right;"><i>quote</i></td></tr>
-</table>
-</figure>
 </body>
