@@ -264,3 +264,18 @@ what's a program to read in a program model?
 ((n : _) -> (compute program))
 } c)
 )
+
+
+how bad is it if I don't have complicated multiple operation forms?
+
+What would be the type if I can't
+
+(1 + (2 + ((3 - 1) / 1.5)))
+
+Add together three collections
+(Collection + (Collection + Collection))
+
+logic problems
+((True \/ True) /\ (False \/ True)) 
+vs 
+(True \/ True /\ False \/ True)

@@ -8,7 +8,7 @@
 		--fg:rgb(0, 37, 33);
 		--dbg:rgb(212, 203, 191);
 	}
-	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.5);}
+	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.3);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
 	p, h1, figure, figcaption{width:90%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
 	figure{border:solid 0.2ch var(--fg);}
@@ -16,7 +16,7 @@
 	hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
 	cite{display:block;width:100%;font-style:normal;text-align:left;}
 	a{text-decoration:none;color:inherit;}
-	table{text-align:left;}
+	table{text-align:left;margin-left:auto;margin-right:auto;}
 </style>
 </head>
 <body>
@@ -77,7 +77,27 @@ Characters given in <code>monospace</code> represent themselves literally.
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on collections, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>(e -> ({Collection (* : ['+ '- '* '/])} + (* : [Collection e]))</code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+<tr><td><code>{Collection '+ Collection}</code></td><td>...</td><td style="text-align:right;"><i>union</i></td></tr>
+<tr><td><code>{Collection '- Collection}</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
+<tr><td><code>{Collection '* Collection}</code></td><td>...</td><td style="text-align:right;"><i>product</i></td></tr>
+<tr><td><code>{Collection '/ Collection}</code></td><td>...</td><td style="text-align:right;"><i>intersection</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on boolean values, and gives the abstract name for each expression.</figcaption>
+<hr>
+<table>
+<tr><td><code>{Boolean ['\/ 'and] Boolean}</code></td><td>...</td><td style="text-align:right;"><i>conjunction</i></td></tr>
+<tr><td><code>{Boolean ['\/ 'or] Boolean}</code></td><td>...</td><td style="text-align:right;"><i>disjunction</i></td></tr>
+<tr><td><code>{['- 'not] Boolean}</code></td><td>...</td><td style="text-align:right;"><i>negation</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on types, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>{Type '+ Type}</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
+<tr><td><code>{Type '- Type}</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
+<tr><td><code></code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
 </table>
 </figure>
 </body>
