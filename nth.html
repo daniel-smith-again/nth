@@ -35,7 +35,6 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 <p><cite id="1"><a href="#1">1</a></cite>This document represents a standard. The descriptions therein represent requirements for an implementation of Nth.</p>
 <p><cite id="1.1"><a href="#1.1">1.1</a></cite>An implementation is said to be "conforming" if it behaves according to all requirements given in this standard.</p>
 <p>There are two discrete components to the Nth system, the language and the computational environment.In this document, "Nth" refers specifically to the language component and the environment is referred to by "environment".</p>
-<p>The "program model" refers to the canonical data structure which represents a program to be computed.</p>
 <p>A written program is formed as a sequence of character values.</p>
 <p>Nth minimally requires the characters provided by the ASCII character encoding scheme. Other encoding schemes which include the characters provided in the ASCII character set may be used.</p>
 <p>Characters are classified into one of three generic groups, Glyphs, Digits, and Blanks.</p>
@@ -65,13 +64,19 @@ Characters given in <code>monospace</code> represent themselves literally.
 </table>
 </figure>
 <p>A special case which is not represented in this grammar is that when a symbol or number immediately follows another symbol or number, a Delimiter must occur between the two.</p>
-<p>Expressions, Sequences, Collections, Types, and Quotes in the grammar correspond to substructures in the program model.</p>
-<p>The grammar of a written program is homoiconic with the structure of a program model.</p>
-<p>Each component of the grammar corresponds to either a construction of some entity, or a substructure of the program model.</p>
-<p>The grammar forms, Expression, Sequence, Collection, and Type correspond to unique substructures in a program model.</p>
-<p>The program model is a structure of nested collections where each collection represents an individual expression.</p>
-<p>Each of the substructural grammar forms corresponds to a collection occurring where that grammatical form occurs in the written program.</p>
-<p></p>
+<p>The "program model" is the cannonical representation of a program.</p>
+<p>The structure of a program model is identical to the grammatical structure of a written program.</p>
+<p>The grammatical forms, Expression, Sequence, Collection, Type, Quote, and Delimiter represent the substructures which form a program model.</p>
+<p>The grammmatical forms, String, Symbol, and Number represent constructions of data and are not a structural component of a program model.</p>
+<p>An Expression is a collection of entities and other nested expressions representing a computational step.</p>
+<p>A Sequence is a collection of entities and nested programs which are computed in sequential order.</p>
+<p>A Collection is a collection of entities and nested programs that constructs a collection of entities.</p>
+<p>A Type is a collection of entities and nested programs which constructs a type.</p>
+<p>A Quote is a nested program which is interpreted as structured data rather than a computable part of the program model.</p>
+<p>A Delimiter unambiguously separates two grammmatical elements in a written program, but is not included in a program model.</p>
+<p>A String is a form of vectored data containing only characters.</p>
+<p>A Symbol is a String interpreted as a single abstract value.</p>
+<p>A Number is a Symbol interpreted as a numerical value.</p>
 <!----------------------------------------------------------------------------->
 
 <figure>
