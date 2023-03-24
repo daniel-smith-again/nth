@@ -8,7 +8,7 @@
 		--fg:rgb(0, 37, 33);
 		--dbg:rgb(212, 203, 191);
 	}
-	body{color:var(--fg);background-color:var(--bg);width:100%;font-size:calc((1vh + 1vw) / 1.3);}
+	body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw) / 1.3);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
 	p, h1, figure, figcaption{width:90%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
 	figure{border:solid 0.2ch var(--fg);}
@@ -102,6 +102,52 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td><code>({Type '- Type} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
 <tr><td><code>({Type '< Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>subtype</i></td></tr>
 <tr><td><code>({Type '> Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>supertype</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on numbers, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>({Number '+ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
+<tr><td><code>({Number '- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
+<tr><td><code>({Number '* Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
+<tr><td><code>({Number '/ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>quotient</i></td></tr>
+<tr><td><code>({Number '// Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>remainder</i></td></tr>
+<tr><td><code>({'- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>negate</i></td></tr>
+<tr><td><code>({Number '< Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>less</i></td></tr>
+<tr><td><code>({Number '> Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>greater</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on data, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>({Data '+ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>add</i></td></tr>
+<tr><td><code>({Data '- Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>sub</i></td></tr>
+<tr><td><code>({Data '* Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mul</i></td></tr>
+<tr><td><code>({Data '/ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>div</i></td></tr>
+<tr><td><code>({Data '// Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mod</i></td></tr>
+<tr><td><code>({Data '| Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>construct</i></td></tr>
+<tr><td><code>({Data '|| Natural} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>vectorize</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for operating on functions, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>({Symbol '-> Expression} -> Function)</code></td><td>...</td><td style="text-align:right;"><i>definition</i></td></tr>
+<tr><td><code>({* '-> *} -> Function}</code></td><td>...</td><td style="text-align:right;"><i>map</i></td></tr>
+</table>
+</figure>
+<figure>
+<figcaption>This figure lists the default expressions provided for reflecting on entities within the language, and gives the abstract name for each expression.</figcaption>
+<table>
+<tr><td><code>({'# Collection} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
+<tr><td><code>({'## *} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>size</i></td></tr>
+<tr><td><code>({'~ *} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>deconstruct</i></td></tr>
+<tr><td><code>({': *} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>derive type</i></td></tr>
+<tr><td><code>({* ': Type} -> *)</code></td><td>...</td><td style="text-align:right;"><i>constrain</i></td></tr>
+<tr><td><code>({'? Boolean Expression Expression} -> *)</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
+<tr><td><code>({'? Boolean Expression} -> [* _])</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
+<tr><td><code>({'@ *} -> Reference)</code></td><td>...</td><td style="text-align:right;"><i>reference</i></td></tr>
+<tr><td><code>({'@ Reference} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dereference</i></td></tr>
 </table>
 </figure>
 </body>

@@ -279,3 +279,8 @@ logic problems
 ((True \/ True) /\ (False \/ True)) 
 vs 
 (True \/ True /\ False \/ True)
+
+
+
+given a type T and a function
+(f : ())
