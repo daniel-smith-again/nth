@@ -70,10 +70,8 @@ Characters given in <code>monospace</code> represent themselves literally.
 <p>Expressions, Sequences, Collections, Types, and Quotes in the grammar correspond to substructures in the program model.</p>
 <p>Each of the substructures is a nominally distinct type of collection.</p>
 
-<p>A collection is a structural type which represents a grouping of entities. Entities which are part of a collection are referred to as "elements".</p>
-<p>A collection constructor will evaluate each of the sub-programs, holding the result as an element.</p>
-<p>The order of elements in a collection is determined by the order in which the sub-programs are oriented in the program model.</p>
-<p>A collection forms a fresh context which closes over the context in which the collection is constructed.</p>
+<!----------------------------------------------------------------------------->
+
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on collections, and gives the abstract name for each expression.</figcaption>
 <table>
@@ -86,6 +84,13 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td><code>({'# Collection} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
 </table>
 </figure>
+<p>A collection is a structural type which represents an association between one or more separate entities.</p>
+<p>Entities which are associated in a collection are referred to as "elements".</p>
+<p>Each element in a collection is counted and can be referred to by a unique number.</p>
+<p>A collection does not constrain the physical location where an element may be stored in the environment.</p>
+<p>A collection forms a fresh context which closes over elements.</p>
+<p>The collection constructor is formed by writing a number of programs inside a closed pair of curly braces.</p>
+<!----------------------------------------------------------------------------->
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on boolean values, and gives the abstract name for each expression.</figcaption>
 <hr>
