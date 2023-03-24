@@ -15,7 +15,6 @@ struct winsize window_size;
 typedef enum {Expression, Sequence, Collection, Type, Symbol, Quote, String, Number} NodeType;
 typedef unsigned long long int Register;
 typedef unsigned char Byte;
-
 int main ()
 {
 	tcgetattr(0, &restore);
