@@ -82,13 +82,13 @@ Characters given in <code>monospace</code> represent themselves literally.
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on collections, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Collection '+ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>union</i></td></tr>
-<tr><td><code>({Collection '- Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
-<tr><td><code>({Collection '* Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>product</i></td></tr>
-<tr><td><code>({Collection '/ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>intersection</i></td></tr>
-<tr><td><code>({Collection '. [Number Symbol]} -&gt; *)</code></td><td>...</td><td style="text-align:right;"><i>subscript</i></td></tr>
+<tr><td><code>({Collection `+ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>union</i></td></tr>
+<tr><td><code>({Collection `- Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
+<tr><td><code>({Collection `* Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>product</i></td></tr>
+<tr><td><code>({Collection `/ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>intersection</i></td></tr>
+<tr><td><code>({Collection `. [Number Symbol]} -&gt; *)</code></td><td>...</td><td style="text-align:right;"><i>subscript</i></td></tr>
 <tr><td><code>({Collection *} -&gt; *)</code></td><td>...</td><td style="text-align:right;"><i>dispatch</i></td></tr>
-<tr><td><code>({'# Collection} -&gt; Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
+<tr><td><code>({`# Collection} -&gt; Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
 </table>
 </figure>
 <p>A collection is a structural type which represents an association between one or more separate entities.</p>
@@ -103,64 +103,64 @@ Characters given in <code>monospace</code> represent themselves literally.
 <figcaption>This figure lists the default expressions provided for operating on boolean values, and gives the abstract name for each expression.</figcaption>
 <hr>
 <table>
-<tr><td><code>({Boolean '\/ Boolean} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>conjunction</i></td></tr>
-<tr><td><code>({Boolean '\/ Boolean} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>disjunction</i></td></tr>
-<tr><td><code>({'- Boolean} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>negation</i></td></tr>
+<tr><td><code>({Boolean `\/ Boolean} -&gt; Boolean)</code></td><td>...</td><td style="text-align:right;"><i>conjunction</i></td></tr>
+<tr><td><code>({Boolean `\/ Boolean} -&gt; Boolean)</code></td><td>...</td><td style="text-align:right;"><i>disjunction</i></td></tr>
+<tr><td><code>({`- Boolean} -&gt; Boolean)</code></td><td>...</td><td style="text-align:right;"><i>negation</i></td></tr>
 </table>
 </figure>
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on types, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Type '+ Type} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
-<tr><td><code>({Type '- Type} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
-<tr><td><code>({Type '< Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>subtype</i></td></tr>
-<tr><td><code>({Type '> Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>supertype</i></td></tr>
+<tr><td><code>({Type `+ Type} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
+<tr><td><code>({Type `- Type} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
+<tr><td><code>({Type `< Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>subtype</i></td></tr>
+<tr><td><code>({Type `> Type} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>supertype</i></td></tr>
 </table>
 </figure>
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on numbers, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Number '+ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
-<tr><td><code>({Number '- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
-<tr><td><code>({Number '* Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
-<tr><td><code>({Number '/ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>quotient</i></td></tr>
-<tr><td><code>({Number '// Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>remainder</i></td></tr>
-<tr><td><code>({'- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>negate</i></td></tr>
-<tr><td><code>({Number '< Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>less</i></td></tr>
-<tr><td><code>({Number '> Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>greater</i></td></tr>
+<tr><td><code>({Number `+ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
+<tr><td><code>({Number `- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
+<tr><td><code>({Number `* Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
+<tr><td><code>({Number `/ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>quotient</i></td></tr>
+<tr><td><code>({Number `// Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>remainder</i></td></tr>
+<tr><td><code>({`- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>negate</i></td></tr>
+<tr><td><code>({Number `< Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>less</i></td></tr>
+<tr><td><code>({Number `> Number} -> Boolean)</code></td><td>...</td><td style="text-align:right;"><i>greater</i></td></tr>
 </table>
 </figure>
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on data, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Data '+ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>add</i></td></tr>
-<tr><td><code>({Data '- Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>sub</i></td></tr>
-<tr><td><code>({Data '* Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mul</i></td></tr>
-<tr><td><code>({Data '/ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>div</i></td></tr>
-<tr><td><code>({Data '// Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mod</i></td></tr>
-<tr><td><code>({Data '| Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>construct</i></td></tr>
-<tr><td><code>({Data '|| Natural} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>vectorize</i></td></tr>
+<tr><td><code>({Data `+ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>add</i></td></tr>
+<tr><td><code>({Data `- Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>sub</i></td></tr>
+<tr><td><code>({Data `* Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mul</i></td></tr>
+<tr><td><code>({Data `/ Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>div</i></td></tr>
+<tr><td><code>({Data `// Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>mod</i></td></tr>
+<tr><td><code>({Data `| Data} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>construct</i></td></tr>
+<tr><td><code>({Data `|| Natural} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>vectorize</i></td></tr>
 </table>
 </figure>
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on functions, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Symbol '-> Expression} -> Function)</code></td><td>...</td><td style="text-align:right;"><i>definition</i></td></tr>
-<tr><td><code>({* '-> *} -> Function}</code></td><td>...</td><td style="text-align:right;"><i>map</i></td></tr>
+<tr><td><code>({Symbol `-> Expression} -> Function)</code></td><td>...</td><td style="text-align:right;"><i>definition</i></td></tr>
+<tr><td><code>({* `-> *} -> Function}</code></td><td>...</td><td style="text-align:right;"><i>map</i></td></tr>
 </table>
 </figure>
 <figure>
 <figcaption>This figure lists the default expressions provided for reflecting on entities within the language, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({'# Collection} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
-<tr><td><code>({'## *} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>size</i></td></tr>
-<tr><td><code>({'~ *} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>deconstruct</i></td></tr>
-<tr><td><code>({': *} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>derive type</i></td></tr>
-<tr><td><code>({* ': Type} -> *)</code></td><td>...</td><td style="text-align:right;"><i>constrain</i></td></tr>
-<tr><td><code>({'? Boolean Expression Expression} -> *)</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
-<tr><td><code>({'? Boolean Expression} -> [* _])</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
-<tr><td><code>({'@ *} -> Reference)</code></td><td>...</td><td style="text-align:right;"><i>reference</i></td></tr>
-<tr><td><code>({'@ Reference} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dereference</i></td></tr>
+<tr><td><code>({`# Collection} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
+<tr><td><code>({`## *} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>size</i></td></tr>
+<tr><td><code>({`~ *} -> Data)</code></td><td>...</td><td style="text-align:right;"><i>deconstruct</i></td></tr>
+<tr><td><code>({`: *} -> Type)</code></td><td>...</td><td style="text-align:right;"><i>derive type</i></td></tr>
+<tr><td><code>({* `: Type} -> *)</code></td><td>...</td><td style="text-align:right;"><i>constrain</i></td></tr>
+<tr><td><code>({`? Boolean Expression Expression} -> *)</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
+<tr><td><code>({`? Boolean Expression} -> [* _])</code></td><td>...</td><td style="text-align:right;"><i>conditional evaluation</i></td></tr>
+<tr><td><code>({`@ *} -> Reference)</code></td><td>...</td><td style="text-align:right;"><i>reference</i></td></tr>
+<tr><td><code>({`@ Reference} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dereference</i></td></tr>
 </table>
 </figure>
 </body>
