@@ -57,7 +57,7 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
 <tr><td>Characters &rarr; Glyph | Digit | Blank | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
-<tr><td>Quote &rarr; <code>'</code> Program</td></tr>
+<tr><td>Quote &rarr; <code>`</code> Program</td></tr>
 <tr><td>Symbol &rarr; Glyph | Digit | Symbol *</td></tr>
 <tr><td>Number &rarr; Digit * | Digit * <code>.</code> Digit *</td></tr>
 <tr><td>Delimiter &rarr; Blank *</td></tr>
@@ -82,13 +82,13 @@ Characters given in <code>monospace</code> represent themselves literally.
 <figure>
 <figcaption>This figure lists the default expressions provided for operating on collections, and gives the abstract name for each expression.</figcaption>
 <table>
-<tr><td><code>({Collection '+ Collection} -> Collection)</code></td><td>...</td><td style="text-align:right;"><i>union</i></td></tr>
-<tr><td><code>({Collection '- Collection} -> Collection)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
-<tr><td><code>({Collection '* Collection} -> Collection)</code></td><td>...</td><td style="text-align:right;"><i>product</i></td></tr>
-<tr><td><code>({Collection '/ Collection} -> Collection)</code></td><td>...</td><td style="text-align:right;"><i>intersection</i></td></tr>
-<tr><td><code>({Collection '. [Number Symbol]} -> *)</code></td><td>...</td><td style="text-align:right;"><i>subscript</i></td></tr>
-<tr><td><code>({Collection *} -> *)</code></td><td>...</td><td style="text-align:right;"><i>dispatch</i></td></tr>
-<tr><td><code>({'# Collection} -> Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
+<tr><td><code>({Collection '+ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>union</i></td></tr>
+<tr><td><code>({Collection '- Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>difference</i></td></tr>
+<tr><td><code>({Collection '* Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>product</i></td></tr>
+<tr><td><code>({Collection '/ Collection} -&gt; Collection)</code></td><td>...</td><td style="text-align:right;"><i>intersection</i></td></tr>
+<tr><td><code>({Collection '. [Number Symbol]} -&gt; *)</code></td><td>...</td><td style="text-align:right;"><i>subscript</i></td></tr>
+<tr><td><code>({Collection *} -&gt; *)</code></td><td>...</td><td style="text-align:right;"><i>dispatch</i></td></tr>
+<tr><td><code>({'# Collection} -&gt; Natural)</code></td><td>...</td><td style="text-align:right;"><i>cardinality</i></td></tr>
 </table>
 </figure>
 <p>A collection is a structural type which represents an association between one or more separate entities.</p>
