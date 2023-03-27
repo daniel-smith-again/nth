@@ -282,5 +282,31 @@ vs
 
 
 
-given a type T and a function
-(f : ())
+How do I talk about arrays?
+I need a language for storage where I talk about how things are arranged spatially in the environment.
+A Data language.
+I can have a adjacent pair, or a vector.
+This is different than a collection which is based on access and types.
+Data has no type.
+There's simple data and compound data.
+Data is how you represent and organize information.
+You have a single unit, a large unit, an a reference unit.
+Call these 
+Unit
+Block
+Reference
+
+A Unit is the smallest single amount of data that can be stored.
+A Block is the amount of data that can be operated on. It implies multiple 
+A Reference is a unique abstract value corresponding to the location of a unit.
+A Pair is to adjacent Data.
+A Vector is a number of adjacent data.
+
+Do I want the rest of the abstractions then? Yes.
+It's nice that I have a language to talk about how things are represented, but
+there's abstract concepts which should not be bound by format and storage requirements.
+Or should they?
+Yes.
+The format of abstractions should be implementation dependent, but they should be extensible.
+Or should I start from nothing with no type system?
+That's dumb. I want a bunch of stuff built in.
