@@ -10,13 +10,14 @@
 	}
 	body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw) / 1.3);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-	p, h1, figure, figcaption, ol, ul{width:90%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
+	p, h1, figure, figcaption, ol, ul, dl{width:90%;max-width:80ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
 	figure{border:solid 0.2ch var(--fg);}
 	figcaption{text-align:center;}
 	hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
 	cite{display:block;width:100%;font-style:normal;text-align:left;}
 	a{text-decoration:none;color:inherit;}
 	table{text-align:left;margin-left:auto;margin-right:auto;}
+	dl{text-align:left;}
 	h2{font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
 </style>
 </head>
@@ -52,18 +53,80 @@ When the system is engaged, it will behave according to these general steps...</
 </ol>
 <figcaption>Where the effects of the computations from each repetition are preserved until the system is totally disengaged.</figcaption>
 </figure>
+
+
+
+<h2><a href="#Syntax" id="Syntax">Syntax</a></h2>
+<p>A program can be represented in two forms, "written" or text form, and the program model.
+Both forms are equivalent, however the written form of a program includes additional notation for constructing data as well as program structure.
+</p>
+<p>A written program is formed as a sequence of character values.</p>
+<p>Characters are grouped into tokens which represent individual syntactic components corresponding to constructions of data or program model structure.</p>
+<figure>
+<figcaption>Characters are grouped using a discrete classification of three catagories...</figcaption>
+<hr>
+<dl>
+<dt>Glyph</dt><dd>A Glyph is any character which is expressed with some visual form.</dd>
+<dt>Digit</dt><dd>A Digit is one of the ten decimal digits, <code>0123456789</code>.</dd>
+<dt>Blank</dt><dd>A Blank is any character which is expressed by a non-visual form, empty space, positioning, or some other formatting information.</dd>
+</dl>
+</figure>
+<figure>
+<figcaption>
+The following grammar describes all valid sequences of characters forming a program.
+The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
+The symbol, |, separates elements in a list.
+The symbol, *, denotes an element which may repeat one or more times where it occurs.
+Characters given in <code>monospace</code> represent themselves literally.
+</figcaption><hr>
+<table>
+<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
+<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
+<tr><td>Sequence &rarr; Program <code>,</code> Program | Program <code>,</code> Sequence</td></tr>
+<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+<tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
+<tr><td>Characters &rarr; Glyph | Digit | Blank | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
+<tr><td>Quote &rarr; <code>`</code> Program</td></tr>
+<tr><td>Symbol &rarr; Glyph | Digit | Symbol *</td></tr>
+<tr><td>Number &rarr; Digit * | Digit * <code>.</code> Digit *</td></tr>
+<tr><td>Delimiter &rarr; Blank *</td></tr>
+</table>
+<figcaption>It is possible to create a program where a Symbol or Number may be directly adjacent to another Symbol or Number. In this case, a Delimiter must occur between the two.</figcaption>
+</figure>
+
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
 <p>The structured data which represents a program is referred to as a "program model".</p>
 <p>The program model unambiguously represents all aspects of a program.</p>
 <p>A program model is comprised of collections representing individual computational steps. The elements of each collection are used to determine how the expression is computed.</p>
+
+
+
 <h2><a href="#Computation" id="Computation">Computation</a></h2>
+
+
+
 <h2><a href="#Environment" id="Environment">Environment</a></h2>
+
+
+
 <h2><a href="#Numbers" id="Numbers">Numbers</a></h2>
+
+
+
 <h2><a href="#Collections" id="Collections">Collections</a></h2>
+
+
+
 <h2><a href="#Functions" id="Functions">Functions</a></h2>
+
+
+
 <h2><a href="#Types" id="Types">Types</a></h2>
-<p>A type is a collection of unique values.</p>
-<p></p>
+<p>A type is a collection of unique elements such that no two elements of a type are equal.</p>
+
+
+
 <h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 
 <p style="color:red;padding-bottom:100vh;">Outdated</p>
