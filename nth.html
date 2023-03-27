@@ -18,7 +18,7 @@
 	a{text-decoration:none;color:inherit;}
 	table{text-align:left;margin-left:auto;margin-right:auto;}
 	dl{text-align:left;}
-	h2{font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
+	h2{padding-top:7ch;font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
 </style>
 </head>
 <body>
@@ -44,7 +44,7 @@ The name <i>n</i><sup>th</sup> specifically refers to the language component and
 When the system is engaged, it will behave according to these general steps...</figcaption>
 <hr>
 <ol>
-	<li>The system awaits for a program to be submitted.</li>
+	<li>The system waits for a program to be submitted.</li>
 	<li>A program is submitted in textual form.</li>
 	<li>The program text is read and converted to a program model.</li>
 	<li>The program model is computed.</li>
@@ -86,14 +86,18 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
 <tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
-<tr><td>Characters &rarr; Glyph | Digit | Blank | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
+<tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
 <tr><td>Quote &rarr; <code>`</code> Program</td></tr>
-<tr><td>Symbol &rarr; Glyph | Digit | Symbol *</td></tr>
-<tr><td>Number &rarr; Digit * | Digit * <code>.</code> Digit *</td></tr>
-<tr><td>Delimiter &rarr; Blank *</td></tr>
+<tr><td>Symbol &rarr; <i>Glyph</i> | <i>Digit</i> | Symbol *</td></tr>
+<tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> *</td></tr>
+<tr><td>Delimiter &rarr; <i>Blank</i> *</td></tr>
 </table>
 <figcaption>It is possible to create a program where a Symbol or Number may be directly adjacent to another Symbol or Number. In this case, a Delimiter must occur between the two.</figcaption>
 </figure>
+<p>Expressions, Sequences, Collections, and Types correspond to program model structure.
+Strings, Quotes, Symbols, and Numbers correspond to data constructors.</p>
+
+
 
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
 <p>The structured data which represents a program is referred to as a "program model".</p>
