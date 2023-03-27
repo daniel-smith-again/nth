@@ -323,3 +323,21 @@ This should be fine though because I have functions to pass between each.
 Also the point is that there is a sub-language to talk about how things are stored which is separate from the semantics of computation.
 Just how there's a sub-language to talk about how numbers are worked.
 This is actually suitable because you can make Unit, Block, and Reference be anything you need.
+
+
+
+weirdness with the program model.
+(1 + 1) ==> {1 '+ 1}
+(({'a 'b} + {'c}) / 'b) ==> {{{'a 'b} '+ {'c}} / 'b}
+Collections are part of the program model, but they're nominally typed as expressions.
+
+
+How do I make undecideable syntax?
+Easily.
+(f : ((A) -> B)),
+(f : ((A) -> C)),
+(g : ((B) -> A)),
+(g : ((C) -> A)),
+(g (f A))
+This is quantification though.
+Do I need quantification? Yes.
