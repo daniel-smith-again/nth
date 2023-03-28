@@ -4,7 +4,7 @@
 <title>Nth Standard</title>
 <style>
 	:root{
-		--bg:rgb(242, 234, 225);
+		--bg:rgb(238, 229, 218);
 		--fg:rgb(0, 37, 33);
 		--dbg:rgb(212, 203, 191);
 	}
@@ -73,11 +73,11 @@ Both forms are equivalent, however the written form of a program includes additi
 </figure>
 <figure>
 <figcaption>
-The following grammar describes all valid sequences of characters forming a program.
-The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
-The symbol, |, separates elements in a list.
-The symbol, *, denotes an element which may repeat one or more times where it occurs.
-Characters given in <code>monospace</code> represent themselves literally.
+The following grammar describes all valid sequences of characters forming a program.<br>
+The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.<br>
+The symbol, |, separates elements in a list.<br>
+The symbol, *, denotes an element which may repeat one or more times where it occurs.<br>
+Characters given in <code>monospace</code> represent themselves literally.<br>
 </figcaption><hr>
 <table>
 <tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
@@ -92,11 +92,25 @@ Characters given in <code>monospace</code> represent themselves literally.
 <tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> *</td></tr>
 <tr><td>Delimiter &rarr; <i>Blank</i> *</td></tr>
 </table>
-<figcaption>It is possible to create a program where a Symbol or Number may be directly adjacent to another Symbol or Number. In this case, a Delimiter must occur between the two.</figcaption>
+<figcaption>In the case where a Symbol or Number directly follows another Symbol or Number, a Delimiter must occur between the two.</figcaption>
 </figure>
 <p>Expressions, Sequences, Collections, and Types correspond to program model structure.
 Strings, Quotes, Symbols, and Numbers correspond to data constructors.</p>
-
+<p>Expressions, Sequences, Collections, and Types are all represented by a collection containing data or nested programs as elements.</p>
+<p>The String notation constructs a vector of characters exactly as long as the number of characters occurring between a pair of double quotes.</p>
+<p>The backslash is used to explicitly include characters in a string.
+If the backslash is followed by another backslash or a double quote, a backslash or double quote is included in the string respectively.
+If the backslash is followed by a sequence of numbers, those numbers are interpreted as the numeric value corresponding to a value in the character encoding scheme used by the implementation.</p>
+<figure>
+<figcaption>This figure shows some examples of String notation and the corresponding string data which is generated.</figcaption>
+<hr>
+<table>
+<tr><td><code>"abcd"</code></td><td>abcd</td></tr>
+<tr><td><code>"\97.\98.\99.\100.</code></td><td>abcd</td></tr>
+<tr><td><code>"\"\\"</code></td><td>"\</td></tr>
+</table>
+<figcaption>Examples using the backslash with a character code assume the ASCII character encoding.</figcaption>
+</figure>
 
 
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
