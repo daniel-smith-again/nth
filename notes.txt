@@ -349,3 +349,67 @@ Yes because one kind of structure is about access an indirection, the other kind
 is about relative position.
 When I talk about data, I have a Unit, a Reference, and a Block.
 A Block is some combination of Units and References.
+Unit, Value, Register, Block.
+A Block is made up of Units, Values, and Registers.
+It is either a pair of adjacent data, or a vector of a single type of data.
+(Unit | 100)
+(Character : (Unit | 4))
+(Character : Value)
+
+
+
+Does a sequence form its own context? 
+In other words, are the effects of the discarded expressions discarded as well as their results?
+No. A sequence only means "this then finally that".
+All of it occurs within the same context.
+If you want to discard a context, then use a function,
+((_ -> A, B, C)) 
+that is a "code block"
+
+
+
+What about effects?
+I have a function, it does (f : (x -> x))
+It doesn't affect anything, it just produces a value.
+What about 
+	(y <- 1), (f : (x -> (y <- x)))
+that has an effect.
+What about (f : (x -> (display x)))
+that has an effect too.
+I can't do effects because my language isn't abstracted from the effectful system.
+
+
+
+Interfaces, Traits, and Typeclasses are ways to reason about the capabilities of a given abstraction.
+"InTraClass" describes the idea of describing the capabilities of a type as the functions over it.
+Take a type T, and an InTraClass M.
+If M exposes the function f : M -> M, then 
+f : T -> T means that T < M.
+Normally InTraClasses are ad-hoc in that the implementations of the exposed 
+capabilities can be defined at any point before the instantiation of the Intraclass is used.
+Normal classes are not ad-hoc and the complete class definition must be given in a single declaration.
+Interfaces and traits do not require this and only differ in classification of sub-type relations and inheritance.
+I do not have interfaces because abstractions are not typed by the functions defined over them.
+
+If I did want to make an Intraclass exposing a capability, I would have to write something like
+Say I make some Intraclass "hash-able" with a capability "hash".
+How would I make that for two types T and t such that both can be sub-types of hashable?
+(T : Collection),
+(t : Number),
+(hash : ((T) -> Number)),
+(hash : ((t) -> Number)),
+(hashable : [(x : *), (? (hash x) x)])
+
+
+
+How to talk about vectors?
+[(m : Collection), (t : Type), (? ((:(m . (* : Number))) = t) m)]
+
+
+
+how to talk about memory layout.
+two things next to each other.
+multiple of the same thing next to each other.
+(Unit Unit)
+(Unit 1000)
+What if the model is a collection and then you instantiate data using the collection

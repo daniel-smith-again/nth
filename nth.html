@@ -86,7 +86,7 @@ Characters given in <code>monospace</code> represent themselves literally.<br>
 <tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
 <tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
-<tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Digit * <code>.</code></td></tr>
+<tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
 <tr><td>Quote &rarr; <code>`</code> Program</td></tr>
 <tr><td>Symbol &rarr; <i>Glyph</i> | <i>Digit</i> | Symbol *</td></tr>
 <tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> *</td></tr>
@@ -101,6 +101,10 @@ Strings, Quotes, Symbols, and Numbers correspond to data constructors.</p>
 <p>The backslash is used to explicitly include characters in a string.
 If the backslash is followed by another backslash or a double quote, a backslash or double quote is included in the string respectively.
 If the backslash is followed by a sequence of numbers, those numbers are interpreted as the numeric value corresponding to a value in the character encoding scheme used by the implementation.</p>
+<p>The backslash prefixes some expression representing a character which will be included in the string at the position where the backslash occurs.</p>
+<p>If a backslash is followed by another backslash, then a backslash is included in the string.</p>
+<p>If a backslash is followed by a double quote, then a double quote is included in the string.</p>
+<p>If a backslash is followed by an expression, then the expression is computed </p>
 <figure>
 <figcaption>This figure shows some examples of String notation and the corresponding string data which is generated.</figcaption>
 <hr>
