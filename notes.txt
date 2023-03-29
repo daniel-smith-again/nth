@@ -341,3 +341,11 @@ Easily.
 (g (f A))
 This is quantification though.
 Do I need quantification? Yes.
+
+
+
+Should I have two different languages for structuring data?
+Yes because one kind of structure is about access an indirection, the other kind
+is about relative position.
+When I talk about data, I have a Unit, a Reference, and a Block.
+A Block is some combination of Units and References.
