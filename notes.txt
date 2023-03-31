@@ -436,3 +436,55 @@ what about simple type-checking for stuff like functions?
 how do i do polymophism if the function doesn't work?
 case matching.
 you call the function on a case.
+I am very stupid. Of course I need types.
+Quantification is supposed to be one of the fundamental mechanics of my language.
+If you can set a type constraint, then of course you can set a constraint without creating a variable binding.
+
+
+
+how do I want to describe memory layout?
+I want to talk about either two adjacent things or a thing that repeats.
+i want to compose the two.
+
+
+================================================================================
+Matching algorithm--------------------------------------------------------------
+================================================================================
+
+let x be a value of type T.
+Let there be a collection, m, with at least one element which is a function.
+Take the collection, n, of all elements of m which are functions, (m / Function)
+1. Search the collection for pre-images of the value x.
+2. Search the collection for pre-images of the type T.
+3. Search the collection for pre-images of a type where the value of x is the value of that type.
+
+
+{1 2 3}
+{Number Number Number}
+(x : {Number Number Number})
+
+
+
+A discrete or continuous type.
+A discrete type is a collection of unique values.
+A continuous type is a collection of conditions which must be true for a type.
+I should be able to create a continuous type directly.
+Here's some things that must be true.
+That's just a refinement type though.
+My type constructor is different. I can take the result of anything.
+
+(m : Collection), (n : Number), (? ((:(m . n)) = K) m)
+
+[[k]] is the same as [k]?
+no because (x : [[k]]) is (x <- [k])
+and (y : x), (y <- k)
+
+so I can say 
+(x <- (m : Collection), (n : Number), (? ((:(m . n)) = k) m))
+
+so in (x <- (y <- 1), y)
+does y persist in the context?
+have I bound those?
+I wish there was a way to make a temporary context.
+
+(x <- ((_ -> (m : Collection), (n : Number), (? ((:(m . n)) = k) m))))
