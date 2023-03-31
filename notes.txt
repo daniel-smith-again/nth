@@ -413,3 +413,26 @@ multiple of the same thing next to each other.
 (Unit Unit)
 (Unit 1000)
 What if the model is a collection and then you instantiate data using the collection
+
+
+
+how do I represent unbounded types?
+should there even be a difference?
+yes.
+a quantified type is an unbounded type.
+each type constructed is unique anyways.
+so a continuous type is represented as a number of conditions which must be true.
+
+(is-t <- (n -> (? (p /\ q /\ r) true false)))
+
+so then do I need types at all?
+is the type assertion even a part of the language or is it a macro?
+It's a macro.
+So is the debugger.
+in fact, everything's a macro except for the basic language.
+what about quantification?
+nope.
+what about simple type-checking for stuff like functions?
+how do i do polymophism if the function doesn't work?
+case matching.
+you call the function on a case.
