@@ -488,3 +488,24 @@ have I bound those?
 I wish there was a way to make a temporary context.
 
 (x <- ((_ -> (m : Collection), (n : Number), (? ((:(m . n)) = k) m))))
+
+
+
+should quantification be effectful?
+can I even make it effectful?
+yes, via pointers.
+(x <- {1}), (y <- (@ x)),
+(n : ['a 'b 'c]), 
+((* -> ((@ y) . 1 (((@ y) . 1) + 1))) n)
+no because x is closed over and copied for each time the quantification is run.
+it's not actually quantification if you can change what's true for each iteration.
+
+
+
+so if dependent types are a program that returns the type, then can't I just submit a program to the type checker?
+something like 
+(type t = (n -> (? (p n) true false)))
+or 
+(assert t (p t))
+well, all these things can be said by 
+(t : *), (? (p t) t)
