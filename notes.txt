@@ -509,3 +509,10 @@ or
 (assert t (p t))
 well, all these things can be said by 
 (t : *), (? (p t) t)
+
+
+HoTT is saying 
+(a = *), 
+(A = [a])
+(b = (f a))
+(B = [f a])
