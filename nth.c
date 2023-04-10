@@ -20,23 +20,25 @@ struct termios ui, restore;
 void init_interface();
 void exit_interface();
 
-void *construct_program_model();
-void *compute_program_model();
+void *construct_program_model(void *n);
+#define construct_failure 0;
+void *compute_program_model(void *n);
 
-void display(void *d);
-void *read();
+void display_nth(void *n);
+void *read_nth();
 
-int main ()
+	int main ()
 {
 	char *c;
 	void *Program_Model;
+	Program_Model = construct_program_model(Program_Model);
 	init_interface();
 	
 EXIT: exit_interface();
 	return 0;
 }
 
-init_interface() {
+void init_interface() {
 	tcgetattr(0, &restore);
 	ui = restore;
 	ui.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
@@ -47,8 +49,24 @@ init_interface() {
 	ioctl(0, TIOCGWINSZ, &window_size);
 }
 
-exit_interface() {
+void exit_interface() {
 	write(1, "\n", 1);
 	tcsetattr(0, TCSANOW, &restore);
 	exit(0);
+}
+
+void *construct_program_model(void *n) {
+
+}
+
+void *compute_program_model(void *n) {
+
+}
+
+void *read_nth() {
+
+}
+
+void display_nth(void *n) {
+
 }

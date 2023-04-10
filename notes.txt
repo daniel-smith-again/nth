@@ -501,20 +501,76 @@ no because x is closed over and copied for each time the quantification is run.
 it's not actually quantification if you can change what's true for each iteration.
 
 
-
-so if dependent types are a program that returns the type, then can't I just submit a program to the type checker?
-something like 
-(type t = (n -> (? (p n) true false)))
-or 
-(assert t (p t))
-well, all these things can be said by 
-(t : *), (? (p t) t)
+What components of the language should not require arbitrary computation?
+None, all facets of the language should allow arbitrary computations.
+The langauge is simple enough where that's easy.
+What about first class expressions?
 
 
-do I want quantification at all?
-yes
+
+A collection is not just a relation, it's also a resource constraint.
+When a collection exists, so do all its elements.
 
 
-what primitive implicit operations are needed?
-a matching algorithm.
-a type checking algorithm
+
+I can't truly have higher order expressions... actually yes I can.
+Expressions in my langauge are just maps between some syntax and some other syntax.
+Unless I use compute, all functions are known because they can't be non-deterministically constructed.
+Behavior may not be known, as in a polymorphic function, but that's okay.
+
+
+
+I like the simplicity of cons pairs, but it's more efficient to use collections.
+It supports vectors beyond a pair and random access.
+Cons is actually implicit in the constructor.
+(cons (cons 'a 'b) 'c) = {'a 'b 'c}
+is an element separate or together with a collection?
+That is to say, if a collection exists, does it imply that its elements exist?
+YES IT DOES DON'T BE STUPID
+
+
+I would love to express every algorithm in finite space and make resource allocation explicit.
+Then I'm just left with C.
+Especially with unrestricted dependent types, every stage of the computation process can require arbitrary space and time.
+
+
+
+How do I make expressions that don't form their own contexts?
+Or does each expression always have its own context?
+Contexts can be discarded if they are never used.
+
+What is {*}?
+A collection containing anything.
+How about [{*}]
+the type of every collection containing anything.
+((x : {*}) {0}) is this sound?
+
+
+
+There's two types of types: discrete and continuous.
+A discrete type can be represented as a listing.
+A continuous type is represented as a program that verifies the type.
+For a user-created continuous type, you have to specify the program which verifies the type.
+What about quantification?
+Saying for-all.
+What if I can't use that?
+Then I can't make refinement types.
+So how do I make the type of numbers greater than 0?
+Without quantification, I would have to make a recursive type like
+(Couting <- []),(n -> (? (n > 0) (t + [n])), (n <- (n + 1)), (& <- &))
+or I can say
+(Counting <- ((_ -> (n : Natural), (? (n > 0) n))))
+this is much more straightforward for a type definition.
+I can get even easier,
+(Counting <- (n : Natural), (? (n > 0) n))
+
+Sequences form their own context.
+
+(step1), (step2), (step3), (& <- &), (step4)
+(n -> 
+(n <- (n + 1))
+(n <- (n + 1)))
+
+What's the behavior when you call read?
+you read in either a symbol, number, or a program which is computed to yield the read result.
+you can also read in a character which reads in a single character of the character type.
