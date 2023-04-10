@@ -511,8 +511,10 @@ well, all these things can be said by
 (t : *), (? (p t) t)
 
 
-HoTT is saying 
-(a = *), 
-(A = [a])
-(b = (f a))
-(B = [f a])
+do I want quantification at all?
+yes
+
+
+what primitive implicit operations are needed?
+a matching algorithm.
+a type checking algorithm
