@@ -89,7 +89,7 @@ Characters given in <code>monospace</code> represent themselves literally.<br>
 <tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
 <tr><td>Quote &rarr; <code>`</code> Program</td></tr>
 <tr><td>Symbol &rarr; <i>Glyph</i> | <i>Digit</i> | Symbol *</td></tr>
-<tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> *</td></tr>
+<tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> * | <i>Digit</i> * <code>/</code> <i>Digit</i> *</td></tr>
 <tr><td>Data &rarr; <code>|</code> Unit *</td></tr>
 <tr><td>Unit &rarr; <code>.</code> | <code>-</code> | <code>^</code> | <i>Digit</i> *</td></tr>
 <tr><td>Delimiter &rarr; <i>Blank</i> *</td></tr>
@@ -152,7 +152,37 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 
 
 <h2><a href="#Numbers" id="Numbers">Numbers</a></h2>
-
+<p>A Number is an entity which represents a quantity corresponding to a value in the set of rational numbers.</p>
+<p><i>n</i><sup>th</sup> provides a grammar for constructing numerical values. A number is expressed as a single sequence of digits, or two sequences of digits with a decimal or fractional separator.</p>
+<p>A number expressed as a single sequence of digits corresponds to the base-ten decimal notation for a whole positive number.</p>
+<p>A number expressed as two sequences separated by a decimal separator (<code>.</code>) corresponds to the base-ten decimal fraction notation for a rational positive number.</p>
+<p>A number expressed as two sequences separated by a fractional separator (<code>/</code>) corresponds to the rational notation of a fraction between two whole positive numbers.</p>
+<p>The decimal and fractional notations of numbers are equivalent up to infinite decimal expansion.</p>
+<p>A rational number with an infinite decimal expansion may only be expressed using fractional notation.</p>
+<figure>
+<figcaption>The figure below gives the types of the default expressions which operate on Numbers.</figcaption>
+<hr>
+<table>
+<tr><td><code>({Number '+ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>addition</i></td></tr>
+<tr><td><code>({Number '- Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>subtraction</i></td></tr>
+<tr><td><code>({Number '* Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
+<tr><td><code>({Number '/ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>division yielding quotient</i></td></tr>
+<tr><td><code>({Number '// Natural} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>division yielding modulus</i></td></tr>
+<tr><td><code>(({'+} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
+<tr><td><code>(({'-} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential subtraction</i></td></tr>
+<tr><td><code>(({'*} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential multiplication</i></td></tr>
+<tr><td><code>(({'/} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential division</i></td></tr>
+</table>
+</figure>
+<p><i>addition</i> will compute to the sum of the two numbers given in the expression.</p>
+<p><i>sum</i> will compute the sum of all numbers given in the expression.</p>
+<p><i>subtraction</i> will compute the difference taking the left number as the minuend and the right number as the subtrahend.</p>
+<p><i>sequential subtraction</i> will compute the difference taking the left-most pair of numbers with the very left as the minuend and the second-left as the subtrahend, and replacing them with their difference until no more pairs are possible.</p>
+<p><i>multiplication</i> will compute the product of the two numbers given in the expression.</p>
+<p><i>sequential multiplication</i> will compute the product taking the left-most pair of numbers and replacing them with their multilicative product until no more pairs are possible.</p>
+<p><i>division yielding quotient</i> will compute the quotient taking the left number as the dividend and the right number as the divisor.</p>
+<p><i>sequential division</i> will compute the quotient taking the left-most pair of numbers with the very left as the dividend and the second-left as the divisor, and replacing them with their quotient until no more pairs are possible.</p>
+<p><i>division yielding modulus</i> will compute the remainder taking the left number as the dividend and the right number as the divisor.</p>
 
 
 <h2><a href="#Collections" id="Collections">Collections</a></h2>
