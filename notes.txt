@@ -574,3 +574,91 @@ Sequences form their own context.
 What's the behavior when you call read?
 you read in either a symbol, number, or a program which is computed to yield the read result.
 you can also read in a character which reads in a single character of the character type.
+
+
+
+how to make the type of an expression non-inferenceable?
+Say an expression results in 1
+what is non-inferenceable without using 'compute?
+any non-recursive function stack is inferenceable.
+
+
+
+what about skipping recursion?
+Can I do that?
+skipping recursion in favor of effects?
+but i still want recursion.
+how do I even do recursion?
+the name inside the function is resolved after the name outside the function is resolved.
+therefore when the function is engaged, it inherits the external binding of f.
+
+
+
+what would a language look like that's not full of parentheses?
+
+f = x in x + 1 .
+f(1) .
+y = 1, z = y  .
+m = {1 2 y = 3 .} .
+m / 1 .
+n = m + {4} .
+n = m .. 4 .
+
+just more keywords that's all.
+so could I define a language that's all keywords?
+
+(f = (x y -> (x + y)))
+f = x y -> x + y .
+
+
+my language is harder than lisp. not everything is a list.
+everything is a collection.
+each collection has a counted number of elements.
+Each element has a type.
+
+
+
+what's my vector syntax?
+(k .. n)
+what's my matrix syntax?
+(k .. n .. n)
+how do I access them?
+(V = ())
+a matrix is just a vector with a length and a dimension.
+it's an abstraction over vectors.
+so I have a set, a vector, and a multiset.
+do I need a vector if I can just have a multiset?
+not really, all i need is a way of constructing a vector.
+That's just 
+(vector = (k n -> )
+
+functions are control flow though so how do I take the context of a function before I enter into a sequence?
+I use a sequence-less function definition.
+
+(f = (k -> (m = &) m))
+
+what's the type of a function then?
+
+(+ (n : Nat), (Symbol .. n) 
+   {'->}
+   (m : Nat), (Expression .. m))
+
+so if I want multiple
+
+how to use | ?
+Does it represent a type?
+I have * _, but what about |
+is that the context? no that's &
+what about Any, Nil, Some?
+no
+what about data?
+is it a block of data? no those are different sizes.
+is it a storage type?
+Unit type?
+yes
+Unit type is |
+so now I can say
+(Character = {| | | |})
+oh that's actually kinda cool.
+|__#_|
+that describes a data

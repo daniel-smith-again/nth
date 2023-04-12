@@ -34,8 +34,8 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
 <h1>Standard Document<br>for<br>Nth</h1>
 <p><cite id="0"><a href="#0">0</a></cite>This document forms a comprehensive specification of the properties of an abstract system for describing and computing programs, "nth" (styleized as <i>n</i><sup>th</sup>).</p>
-<p><cite id="0:1"><a href="#0:1">0:1</a></cite>This document represents a standard of conformance. As such, the descriptions therein represent requirements for an implementation of the <i>n</i><sup>th</sup> system.</p>
-<p><cite id="0:2"><a href="#0:2">0:2</a></cite>An implementation of <i>n</i><sup>th</sup> is said to conform to this standard if it demonstrates all the properties described in this document.</p>
+<p><cite id="0-1"><a href="#0-1">0-1</a></cite>This document represents a standard of conformance. As such, the descriptions therein represent requirements for an implementation of the <i>n</i><sup>th</sup> system.</p>
+<p><cite id="0-2"><a href="#0-2">0-2</a></cite>An implementation of <i>n</i><sup>th</sup> is said to conform to this standard if it demonstrates all the properties described in this document.</p>
 <h2><a href="#Overview" id="Overview">Overview</a></h2>
 <p>The <i>n</i><sup>th</sup> system is comprised of two discrete components, a language to express programs, and an environment which facilitates computation.
 The name <i>n</i><sup>th</sup> specifically refers to the language component and "environment" will refer to the environment.</p>
@@ -80,7 +80,7 @@ The symbol, *, denotes an element which may repeat one or more times where it oc
 Characters given in <code>monospace</code> represent themselves literally.<br>
 </figcaption><hr>
 <table>
-<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
+<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Data | Delimiter</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
 <tr><td>Sequence &rarr; Program <code>,</code> Program | Program <code>,</code> Sequence</td></tr>
 <tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
@@ -90,12 +90,14 @@ Characters given in <code>monospace</code> represent themselves literally.<br>
 <tr><td>Quote &rarr; <code>`</code> Program</td></tr>
 <tr><td>Symbol &rarr; <i>Glyph</i> | <i>Digit</i> | Symbol *</td></tr>
 <tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> *</td></tr>
+<tr><td>Data &rarr; <code>|</code> Unit *</td></tr>
+<tr><td>Unit &rarr; <code>.</code> | <code>-</code> | <code>^</code> | <i>Digit</i> *</td></tr>
 <tr><td>Delimiter &rarr; <i>Blank</i> *</td></tr>
 </table>
 <figcaption>In the case where a Symbol or Number directly follows another Symbol or Number, a Delimiter must occur between the two.</figcaption>
 </figure>
 <p>Expressions, Sequences, Collections, and Types correspond to program model structure.
-Strings, Quotes, Symbols, and Numbers correspond to data constructors.</p>
+Strings, Quotes, Symbols, Data, and Numbers correspond to constructors.</p>
 <p>Expressions, Sequences, Collections, and Types are all represented by a collection containing data or nested programs as elements.</p>
 <p>The String notation constructs a vector of characters exactly as long as the number of characters occurring between a pair of double quotes.</p>
 <p>The backslash is used to explicitly include characters in a string.
@@ -129,6 +131,18 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 
 
 <h2><a href="#Environment" id="Environment">Environment</a></h2>
+<p>The environment manages the resources required for computation</p>
+<p>Resources in the most general sense means storage space for holding data.</p>
+<p>The grammar of <i>n</i><sup>th</sup> provides a notation for describing the stored format of data.</p>
+<figure>
+<figcaption><i>n</i><sup>th</sup> assumes three basic storage types.</figcaption>
+<hr>
+<dl>
+<dt>Unit</dt>
+<td>Int</td>
+<dt>Reference</dt>
+</dl>
+</figure>
 
 
 
@@ -146,6 +160,16 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 
 <h2><a href="#Types" id="Types">Types</a></h2>
 <p>A type is a collection of unique elements such that no two elements of a type are equal.</p>
+
+<figure>
+<figcaption>This figure gives the type of expression which asserts a type constraint.</figcaption>
+<table>
+<tr><td><code>((e : {Expression ': *}) -> (e . 0))</code></td><td>...</td><td style="text-align:right;"><i>program type constraint</i></td></tr>
+<tr><td><code>((e : {Symbol ': *}) -> (e . 0))</code></td><td>...</td><td style="text-align:right"><i>variable type constraint</i></td></tr>
+</table>
+</figure>
+<p>A type constraint may be placed on a variable, or a program.</p>
+<p>A type constraint on some program, <code>e</code>, such that <code>(e : T)</code>, asserts that <code>(T / (compute e))</code>.</p>
 
 
 
