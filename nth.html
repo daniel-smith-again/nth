@@ -133,16 +133,21 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 <h2><a href="#Environment" id="Environment">Environment</a></h2>
 <p>The environment manages the resources required for computation</p>
 <p>Resources in the most general sense means storage space for holding data.</p>
-<p>The grammar of <i>n</i><sup>th</sup> provides a notation for describing the stored format of data.</p>
+<p>The grammar of <i>n</i><sup>th</sup> provides a notation for describing the stored format of data block.</p>
 <figure>
 <figcaption><i>n</i><sup>th</sup> assumes three basic storage types.</figcaption>
 <hr>
 <dl>
 <dt>Unit</dt>
-<td>Int</td>
+<dd>A Unit corresponds to the smallest amount of storage which is uniquely identifiable by a Reference.</dd>
+<dt>Word</dt>
+<dd>A Word is a block of Units which corresponds to a value which can be transformed in a single discrete computational step.</dd>
 <dt>Reference</dt>
+<dd>A Reference is a block of Units which corresponds to a unique value identifying a single Unit.</dd>
 </dl>
 </figure>
+<p>Units, Words, and References all store a value which is a natural number inclusively between zero and the maximum magnitude allowable by the size of each type.</p>
+<p></p>
 
 
 
