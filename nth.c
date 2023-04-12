@@ -9,7 +9,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-unsigned long long int Expression_Count = 0;
 struct winsize window_size;
 typedef unsigned long long int Register;
 typedef unsigned char Byte;
