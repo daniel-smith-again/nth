@@ -147,7 +147,16 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 </dl>
 </figure>
 <p>Units, Words, and References all store a value which is a natural number inclusively between zero and the maximum magnitude allowable by the size of each type.</p>
-<p></p>
+<p>A Block is the name of the type which classifies a sequence of storage types.</p>
+<figure>
+<figcaption>This figure gives the types of the default expressions which operate on storage types.</figcaption>
+<table>
+<tr><td><code>(({'|} + (n : Natural), ([Unit Word Reference] .. n)) -> Block)</code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+<tr><td><code></code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+<tr><td><code></code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+<tr><td><code></code></td><td>...</td><td style="text-align:right;"><i></i></td></tr>
+</table>
+</figure>
 
 
 
@@ -168,13 +177,16 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 <tr><td><code>({Number '* Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>multiplication</i></td></tr>
 <tr><td><code>({Number '/ Number} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>division yielding quotient</i></td></tr>
 <tr><td><code>({Number '// Natural} -> Number)</code></td><td>...</td><td style="text-align:right;"><i>division yielding modulus</i></td></tr>
-<tr><td><code>(({'+} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
-<tr><td><code>(({'-} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential subtraction</i></td></tr>
-<tr><td><code>(({'*} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential multiplication</i></td></tr>
-<tr><td><code>(({'/} + (n : Natural), (Number .. n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential division</i></td></tr>
+<tr><td><code>(({'+} + (n : Natural), (Number ; n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sum</i></td></tr>
+<tr><td><code>(({'-} + (n : Natural), (Number ; n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential subtraction</i></td></tr>
+<tr><td><code>(({'*} + (n : Natural), (Number ; n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential multiplication</i></td></tr>
+<tr><td><code>(({'/} + (n : Natural), (Number ; n)) -> Number)</code></td><td>...</td><td style="text-align:right;"><i>sequential division</i></td></tr>
+<tr><td><code>({'round Number} -> Integer)</code></td><td>...</td><td style="text-align:right;"><i>round</i></td></tr>
+<tr><td><code>({'truncate Number} -> Integer)</code></td><td>...</td><td style="text-align:right;"><i>truncate</i></td></tr>
+<tr><td><code>({'abs Number} -> Integer)</code></td><td>...</td><td style="text-align:right;"><i>absolute value</i></td></tr>
 </table>
 </figure>
-<p><i>addition</i> will compute to the sum of the two numbers given in the expression.</p>
+<p><i>addition</i> will compute the sum of the two numbers given in the expression.</p>
 <p><i>sum</i> will compute the sum of all numbers given in the expression.</p>
 <p><i>subtraction</i> will compute the difference taking the left number as the minuend and the right number as the subtrahend.</p>
 <p><i>sequential subtraction</i> will compute the difference taking the left-most pair of numbers with the very left as the minuend and the second-left as the subtrahend, and replacing them with their difference until no more pairs are possible.</p>
@@ -183,6 +195,9 @@ If the backslash is followed by a sequence of numbers, those numbers are interpr
 <p><i>division yielding quotient</i> will compute the quotient taking the left number as the dividend and the right number as the divisor.</p>
 <p><i>sequential division</i> will compute the quotient taking the left-most pair of numbers with the very left as the dividend and the second-left as the divisor, and replacing them with their quotient until no more pairs are possible.</p>
 <p><i>division yielding modulus</i> will compute the remainder taking the left number as the dividend and the right number as the divisor.</p>
+<p><i>n</i><sup>th</sup> provides additional sub-types of Numbers, "Natural" and "Integer".</p>
+<p>The Natural sub-type of Numbers classifies all whole, positive numbers.</p>
+<p>The Integer sub-type of Numbers classifies all whole numbers, both positive and negative.</p>
 
 
 <h2><a href="#Collections" id="Collections">Collections</a></h2>
