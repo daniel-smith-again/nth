@@ -662,3 +662,44 @@ so now I can say
 oh that's actually kinda cool.
 |__#_|
 that describes a data
+Nope, not doing it.
+
+
+
+syntax?
+
+sum		_ + _
+		+ ...
+difference	_ - _
+		- ...
+multiplication	_ * _
+		* ...
+division	_ / _
+		/ ...
+modulus		_ // _
+disjunction	_ /\ _
+conjunction	_ \/ _
+negation	- _
+constrain	_ : _
+equality	_ = _
+less		_ < _
+greater		_ > _
+less or		_ >= _
+greater or	_ <= _
+inequal		_ /= _
+cardinality	# _
+address		@ _
+supertype	: _
+function	_ -> _
+collection	{ ... }
+vector		_ .. _
+type		[ ... ]
+
+
+
+what if storage types have special semantics.
+what if I do a collection of {Byte Byte Byte}?
+are these pointers to bytes? or actual bytes?
+They're actual bytes.
+storage types don't require indirection because they are stored directly.
+even if I swap types around.

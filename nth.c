@@ -21,14 +21,16 @@ void *construct_program_model(void *n);
 #define construct_failure 0;
 void *compute_program_model(void *n);
 
-void display_nth(void *n);
-void *read_nth();
+void native_display(void *n);
+void native_display_character(void *n);
+void *native_read();
+void *native_read_character();
 
-	int main ()
+int main ()
 {
 	char *c;
 	void *Program_Model;
-	Program_Model = construct_program_model(Program_Model);
+	Program_Model = construct_program_model(0);
 	init_interface();
 	
 EXIT: exit_interface();
@@ -53,17 +55,19 @@ void exit_interface() {
 }
 
 void *construct_program_model(void *n) {
-
+	
 }
 
 void *compute_program_model(void *n) {
 
 }
 
-void *read_nth() {
+void *native_read() {
 
 }
+void *native_read_character() {
 
-void display_nth(void *n) {
+}
+void native_display(void *n) {
 
 }
