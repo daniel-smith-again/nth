@@ -662,6 +662,9 @@ so now I can say
 oh that's actually kinda cool.
 |__#_|
 that describes a data
+
+
+
 Nope, not doing it.
 
 
@@ -712,3 +715,11 @@ What fundamental capabilities do I need for my implementation?
 I need the compute loop.
 I need a matching function.
 I need a constructor for each of the default functions.
+
+
+
+What about qualitative types?
+Say I want the type of a sorted collection.
+It can be completly nominal.
+(sorted = [Collection]),
+(sort = ((M : Collection) -> sorted))
