@@ -694,6 +694,8 @@ function	_ -> _
 collection	{ ... }
 vector		_ .. _
 type		[ ... ]
+access		_ . _
+application	_ _
 
 
 
@@ -703,3 +705,10 @@ are these pointers to bytes? or actual bytes?
 They're actual bytes.
 storage types don't require indirection because they are stored directly.
 even if I swap types around.
+
+
+
+What fundamental capabilities do I need for my implementation?
+I need the compute loop.
+I need a matching function.
+I need a constructor for each of the default functions.
