@@ -723,3 +723,23 @@ Say I want the type of a sorted collection.
 It can be completly nominal.
 (sorted = [Collection]),
 (sort = ((M : Collection) -> sorted))
+
+
+
+All expressions for all possible languages have a common grammar. 
+What does this look like though?
+Is it possible to simply talk?
+No because you don't need multiple forms of each expression.
+It's trivial to start with something more basic.
+Is it possible to just use functions with no punctuation?
+Not as long as there's macros.
+f g h x
+is fine but 
+(f (g (h x))) 
+works much better.
+parens allow you to be extremely terse.
+being terse is nice, but playing "code golf" like you do in the APL family obscures the meaning of the program.
+
+
+
+so what's the philosophy of the language?
