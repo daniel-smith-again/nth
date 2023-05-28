@@ -742,4 +742,11 @@ being terse is nice, but playing "code golf" like you do in the APL family obscu
 
 
 
-so what's the philosophy of the language?
+unbounded types break the type system.
+every primitive in the language should at least halt XD
+Primitive types are always structural.
+Because you can't quantify over a structure when all instantiations of a 
+structure are structurally identical.
+For instance: 
+(T = {a b}),
+(x = {a b}), (y = {a b}), 
