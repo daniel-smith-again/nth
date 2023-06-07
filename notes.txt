@@ -749,4 +749,21 @@ Because you can't quantify over a structure when all instantiations of a
 structure are structurally identical.
 For instance: 
 (T = {a b}),
-(x = {a b}), (y = {a b}), 
+(x = {a b}), (y = {a b})
+
+what about refinement types though?
+[(n : Number), (? (n < 10) n)]
+[(f : Function), (n : Number), (f n)]
+these require quantification and cannot be typed as a number.
+Because a number is a structure.
+Lets say
+(T : [m n]),
+(t = [(p : {T}), (? (p / m) p)])
+
+
+
+Type assertion is different based on if you're constraining a symbol or 
+asserting the type of a result.
+
+(1 : 1)
+(1 : Number)
