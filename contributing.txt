@@ -1,9 +1,11 @@
 How do I contribute?
-	Don't. I understand that's not the answer you want to hear, but this 
-	project is only open source. You can look at the source. you can do 
-	whatever is permissible with the license for the source. You can even
-	fork the project if you want. But I must be expressly clear that I
-	don't care about your opinion. I don't care about having a community,
-	team, or "inner circle". No such prestige exists here. The language
-	specification is complete, fixed, and dead for all eternity. All I do 
-	here is make that standard into a humble executable for you to enjoy.
+	Don't.
+	I understand this is not the answer you want to hear, but this project
+	is only open source, not open everything. You can look at the source. 
+	You can do whatever is permissible with the license for the source. 
+	You can even fork the project if you want. But I must be expressly clear
+	that I don't care about your opinion. I don't care about having a 
+	community, team, or "inner circle". No such prestige exists here. The 
+	language specification is complete, fixed, and dead for all eternity. 
+	All I do here is make that standard into a humble executable for you to
+	enjoy.
