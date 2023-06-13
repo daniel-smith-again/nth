@@ -1,7 +1,7 @@
 How do I contribute?
 	Don't.
 	I understand this is not the answer you want to hear, but this project
-	is only open source, not open everything. You can look at the source. 
+	is only open source, not open everything. You can inspect the source. 
 	You can do whatever is permissible with the license for the source. 
 	You can even fork the project if you want. But I must be expressly clear
 	that I don't care about your opinion. I don't care about having a 
