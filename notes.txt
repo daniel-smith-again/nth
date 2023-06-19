@@ -767,6 +767,7 @@ The constructor takes a symbol and converts it to a number.
 
 
 
+<<<<<<< HEAD
 so how do I specify syntax for arbitrary refinements?
 (x :- (x = 1) (x < 2) (x > 0))
 What operations and forms are NOT quantified?
@@ -1538,5 +1539,28 @@ The constructor takes a symbol and converts it to a number.
 
 
 
-so how do I specify syntax for arbitrary refinements?
+(1 : 1)
+(1 : Number)
 
+quantification is separate from unbounded types.
+normal bounded types are just enumerations. 
+[a b c] as a predicate is 
+(x -> (? ((x = a) \/ (x = b) \/ (x = c)) x))
+
+(x : *), (? (\/ (x = a)(x = b)(x = c)) x)
+
+in the first version, the deciding program is packaged as a lambda.
+in the second version, the deciding program is implied via quantifiation.
+the problem with quantification is that the resulting type may not have any 
+correspondence to the independent variables.
+(n : T), (m : t), {n m}
+vs
+(m -> (? (((# m) = 2) /\ (m / T) /\ (m / t)) m))
+
+
+Macros and type checking are different. Or are they?
+({* ': *} -> )
+
+
+
+so how do I specify syntax for arbitrary refinements?
