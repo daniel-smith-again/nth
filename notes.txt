@@ -760,10 +760,783 @@ Lets say
 (T : [m n]),
 (t = [(p : {T}), (? (p / m) p)])
 
+What is the type of a number?
+The constructor takes a symbol and converts it to a number.
+(new-number : Function)
+(Number : [(s : Symbol), (new-number s)])
 
 
-Type assertion is different based on if you're constraining a symbol or 
-asserting the type of a result.
 
-(1 : 1)
-(1 : Number)
+so how do I specify syntax for arbitrary refinements?
+(x :- (x = 1) (x < 2) (x > 0))
+What operations and forms are NOT quantified?
+Q represents a quantified sub-program,
+(x : T), (x)
+What operations are quantified over the sub-program.
+{(x : T), (x)}
+does this result in a quantification of collections?
+What if I want to specify the quantification of a collection?
+The type of a collection of a bunch of things
+what about a sequence?
+A, B, Q
+Q, A, B
+((x : T), (x)), A, B
+quantify over side effects?
+yes.
+Q, A, B
+(f (g (h ((x : T), x))))
+so in this case the quantification is propagated
+How would I make a sequence by quantified?
+(x : T), ((A, B, x), C)
+
+
+
+how to create operations that do not affect context?
+Macros don't affect context by default.
+or do i need that if i have closures?
+because closures capture everything.
+Also i dont want to capture too small of a tree.
+how would i implement green threads?
+well you'd have to call a function that captures the continuation.
+So there's a list of threads, a scheduler, and a function to capture a point and switch to another thread.
+What does that look like?
+You can turn all of them into a yield function over a list of continuations.
+(threads <- {}),
+(yield <- (c -> ))
+
+
+I'd like to make an in-place insert operation.
+(({1 3} \\ 1 2) = {1 2 3})
+
+
+What if there's an expression which accepts anything?
+Does that allow quantification?
+(<- ((n : {'m *}) -> (f (n \ 2))),
+(m (1 + Nat))
+What about quantification as iteration?
+Loop incrementing an array
+
+how to loop?
+Do I do tail call optimization? yes
+can I also just do continuations? yes
+
+(countdown <- (i -> (? (i > 0) (& <- (countdown (i - 1)) i))))
+(countdown <- (i -> (? (i > 0) (countdown (i - 1)) i)))
+(countdown <- (i -> (& \ 0 '(? (i > 0) (& <- (i <- (i - 1))) i))))
+named let is such a convenient form. 
+what's the equivalent of named let?
+(& <- (loop <- `(a, (& <- loop))))
+is there no equivalent of named let?
+No but you can make it pretty easily.
+((e : {'loop Symbol Expression}) -> ((e \ 1) <- (e \ 2)), (! (e \ 1)))
+
+
+
+lets say I want to take the context so that I can always get a value back.
+Contexts are bound by functions.
+New functions create new contexts.
+So when I use '&, it's referring to the immediate function context.
+But it's not actually, it's referring the rest of the program.
+So then how would I do threads?
+use a FIFO proc list.
+
+threads <- {}
+
+sticking point, if the function boundary is the prompt, then what happens when 
+you take the context at different points?
+(f <- (x -> &, (g x), &, (h x))
+it all equals the lambda with fixed arguments.
+How to loop
+(countdown <- (n -> 
+	(? (n > 0) 
+	   (n ~ (n - 1)), (& <- &)
+	   n)))
+or does it set control to a specific point?
+what about returning, can you exit to a different place?
+In a sequence, the context is the position at the sequence so 
+(a, (x <- &), b, c, (y <- &), d)
+((x \ 0) = (b, c, d))
+((y \ 0) = (d))
+
+
+
+Say I define some function on a collection and i call it 
+(f <- ((n : Collection) -> n + {0})),
+(f (1 2))
+how does it know to treat '(1 2) as an expression not a collection?
+type tags.
+(1 2) is not the same as {1 2} because there's a type tag.
+
+
+
+how to do pointers with one symbol?
+there's two operations: derive the location of some data and refer to a location
+@ is pointer operations.
+trivial ((@ (@ x)) = x)
+that looks nice
+what about taking the address of a location?
+(x <- (@ y)),
+((@ x) = y)
+if it's possible to take the address of an address then i can do it.
+I have to do some type-level wrenching to do it.
+((: y) = Location), (@ (y : *))
+you can't upcast.
+how to get the address of an address?
+there's two types of the expression, 
+[({'@ *} -> Location) ({'@ Location} -> *)]
+what I need is ({'@ Location} -> Location)
+so what kind of type-level wrenching can do this?
+if I expect a location, then thats the operation that's applied
+so now I have 
+(({'@ *} -> Location) : Location)
+(({'@ Location} -> *) : *)
+(({'@ Location} -> Location) : Location)
+
+
+
+where to use period?
+its used as a decimal point in a symbol.
+1.1
+what notation should it be used for?
+composition?
+(f : Function), (g : Function), ((f . g) : Function)
+use it to terminate a bunch of closing braces.
+No that's harder to read.
+Actually should I use it to look up names?
+dot can be used as subscript or name lookup
+it's overloaded based on whether you're handing it a number or a symbol.
+(m <- {(x <- 1) (y <- 2) (z <- 3)}),
+((m . 1) = 1),
+((m . 'x) = 1)
+no this sucks
+
+
+Whats my syntax?
+(math <- ({Number} + ['+ '- '* '/ '//] + [{Number} math]))
+(logic <- ([{Boolean} {'- Boolean}] + ['/\ '\/] + [{Boolean} {'- Boolean} logic])
+(collection-algebra <- ({Collection} + ['+ '- '/] + [{Collection} collection-algebra]))
+(type-algebra <- ({Type} + ['+ '- '/] + [{Type} type-algebra]))
+(access <- {'. [Number Symbol access]}), {Collection} + access
+{Collection '. Symbol}
+{Collection '/ *}
+{Collection *}
+({Symbol} * Collection + {'->} + Expression)
+(Function + Collection)
+{'@ *}
+{'@ Location}
+{Number ['< '>] Number}
+{Type ['< '>] Type}
+{* '= *}
+{'? Boolean Program Program}
+{'? Boolean Program}
+(data <- {'|} + [{*} {* Natural}] + [{'|} data])
+
+
+
+What are my basic types?
+- Number
+  - Integer
+  - Natural
+- Function
+- Collection
+  - Type
+  - Expression
+  - String
+- Program
+  - Expression
+  - Symbol
+- Character
+- Data
+  - Value
+  - Reference
+  - Byte
+
+
+
+Is it possible to statically type code when you don't know the expression?
+Depends.
+I can verify functions just fine and same with lambdas, so it must be the same with contexts.
+Contexts are lexical boundaries with lexical closures so stuff is only bound if it's declared lexically.
+There's even syntax for it, (<- *)
+So let's say I enter a function and I define a lambda and an expression.
+(f : (n -> 
+(<- ((e : {'a *}) -> (e . 2))),
+(a 1)))
+You can statically type if you have prior knowledge of the meaning of the code.
+In a language like mine where the meaning of a phrase is completely contextual, you don't know.
+It's equivalent to introducing a new word used in the next sentence.
+That's fine in English and it's proven comprehensible by AI programs.
+Should be fine here too.
+Should I skip lisp though and just make a different kind?
+I can make more node types than just the few involved in the Lisp AST.
+Multi-typed AST.
+That's the way to go.
+An AST node with different semantics.
+I can make a new constructor for it.
+Can't be at the reader level though because the primitive reader only reads certain things.
+That's okay though, I don't want every possible notation.
+There's a difference between being able to conveniently extend syntax and having to include every possible syntax.
+
+
+
+So it's impossible for a function to accept any expression and apply it.
+This sucks.
+In Lisp, everything is a function.
+Maybe I'm doing it wrong.
+Pattern matching over the structure of a thing without worrying about lookup or anything.
+It's highly expressive, but difficult to interpret.
+A faster interpreter would be a normal Lisp where you can dispatch on the first symbol reliably.
+But I want an actual language, not a functional DSL.
+I want to write variable sized math expressions (1 + 2 / 4 * 5)
+I want to be able to write logic expressions (True /\ - False \/ True)
+There's interleaved lookup though because you can't decide for any given context that a symbol is reserved as an operator.
+This means that I can absolutely do (/\ <- True), (\/ <- False), ((/\ /\ /\) = /\)
+No this isn't possible because symbols are resolved before the expression is evaluated so the previous expression would be {True True True} which isn't interpretable.
+If a symbol isn't bound, then it's syntax.
+That's a nice simple rule.
+
+
+
+I need a data constructor so I can create vectors and segments of data.
+That's (| Value | Value | Value | Reference | Byte 100 |)
+
+
+
+where must a blank separate two things?
+(Symbol Symbol) 
+(Number Number)
+If two Symbols or numbers are adjacent, they must be separated by a blank.
+
+
+
+
+what's a program to read in a program model?
+(-> 
+ (program : _),
+ (symbol : ""),
+ (c : character),
+ (c <- (read)),
+ ({
+   ((n : [Glyph Digit]) -> 
+     (symbol <- (symbol + {c}))
+   ((n : Blank) -> 
+     (? (program = _) 
+        (program <- symbol), (compute program)
+	(? )))
+((n : "(") -> )
+((n : ")") -> )
+((n : "[") -> )
+((n : "]") -> )
+((n : "{") -> )
+((n : "}") -> )
+((n : "\"") -> )
+((n : "'") -> )
+((n : Character) -> (error))
+((n : _) -> (compute program))
+} c)
+)
+
+
+how bad is it if I don't have complicated multiple operation forms?
+
+What would be the type if I can't
+
+(1 + (2 + ((3 - 1) / 1.5)))
+
+Add together three collections
+(Collection + (Collection + Collection))
+
+logic problems
+((True \/ True) /\ (False \/ True)) 
+vs 
+(True \/ True /\ False \/ True)
+
+
+
+How do I talk about arrays?
+I need a language for storage where I talk about how things are arranged spatially in the environment.
+A Data language.
+I can have a adjacent pair, or a vector.
+This is different than a collection which is based on access and types.
+Data has no type.
+There's simple data and compound data.
+Data is how you represent and organize information.
+You have a single unit, a large unit, an a reference unit.
+Call these 
+Unit
+Block
+Reference
+
+A Unit is the smallest single amount of data that can be stored.
+A Block is the amount of data that can be operated on. It implies multiple 
+A Reference is a unique abstract value corresponding to the location of a unit.
+A Pair is to adjacent Data.
+A Vector is a number of adjacent data.
+
+Do I want the rest of the abstractions then? Yes.
+It's nice that I have a language to talk about how things are represented, but
+there's abstract concepts which should not be bound by format and storage requirements.
+Or should they?
+Yes.
+The format of abstractions should be implementation dependent, but they should be extensible.
+Or should I start from nothing with no type system?
+That's dumb. I want a bunch of stuff built in.
+There will always be some concept of digital storage.
+My language is designed to be run on a computer rather than some abstract symbolic machine.
+It's true that the symbolic part isn't even required.
+But then how do you talk to the machine?
+
+
+
+I don't like my language anymore.
+There's a weird uncanny valley between the higher level abstractions and the lower level ones.
+This should be fine though because I have functions to pass between each.
+Also the point is that there is a sub-language to talk about how things are stored which is separate from the semantics of computation.
+Just how there's a sub-language to talk about how numbers are worked.
+This is actually suitable because you can make Unit, Block, and Reference be anything you need.
+
+
+
+weirdness with the program model.
+(1 + 1) ==> {1 '+ 1}
+(({'a 'b} + {'c}) / 'b) ==> {{{'a 'b} '+ {'c}} / 'b}
+Collections are part of the program model, but they're nominally typed as expressions.
+
+
+How do I make undecideable syntax?
+Easily.
+(f : ((A) -> B)),
+(f : ((A) -> C)),
+(g : ((B) -> A)),
+(g : ((C) -> A)),
+(g (f A))
+This is quantification though.
+Do I need quantification? Yes.
+
+
+
+Should I have two different languages for structuring data?
+Yes because one kind of structure is about access an indirection, the other kind
+is about relative position.
+When I talk about data, I have a Unit, a Reference, and a Block.
+A Block is some combination of Units and References.
+Unit, Value, Register, Block.
+A Block is made up of Units, Values, and Registers.
+It is either a pair of adjacent data, or a vector of a single type of data.
+(Unit | 100)
+(Character : (Unit | 4))
+(Character : Value)
+
+
+
+Does a sequence form its own context? 
+In other words, are the effects of the discarded expressions discarded as well as their results?
+No. A sequence only means "this then finally that".
+All of it occurs within the same context.
+If you want to discard a context, then use a function,
+((_ -> A, B, C)) 
+that is a "code block"
+
+
+
+What about effects?
+I have a function, it does (f : (x -> x))
+It doesn't affect anything, it just produces a value.
+What about 
+	(y <- 1), (f : (x -> (y <- x)))
+that has an effect.
+What about (f : (x -> (display x)))
+that has an effect too.
+I can't do effects because my language isn't abstracted from the effectful system.
+
+
+
+Interfaces, Traits, and Typeclasses are ways to reason about the capabilities of a given abstraction.
+"InTraClass" describes the idea of describing the capabilities of a type as the functions over it.
+Take a type T, and an InTraClass M.
+If M exposes the function f : M -> M, then 
+f : T -> T means that T < M.
+Normally InTraClasses are ad-hoc in that the implementations of the exposed 
+capabilities can be defined at any point before the instantiation of the Intraclass is used.
+Normal classes are not ad-hoc and the complete class definition must be given in a single declaration.
+Interfaces and traits do not require this and only differ in classification of sub-type relations and inheritance.
+I do not have interfaces because abstractions are not typed by the functions defined over them.
+
+If I did want to make an Intraclass exposing a capability, I would have to write something like
+Say I make some Intraclass "hash-able" with a capability "hash".
+How would I make that for two types T and t such that both can be sub-types of hashable?
+(T : Collection),
+(t : Number),
+(hash : ((T) -> Number)),
+(hash : ((t) -> Number)),
+(hashable : [(x : *), (? (hash x) x)])
+
+
+
+How to talk about vectors?
+[(m : Collection), (t : Type), (? ((:(m . (* : Number))) = t) m)]
+
+
+
+how to talk about memory layout.
+two things next to each other.
+multiple of the same thing next to each other.
+(Unit Unit)
+(Unit 1000)
+What if the model is a collection and then you instantiate data using the collection
+
+
+
+how do I represent unbounded types?
+should there even be a difference?
+yes.
+a quantified type is an unbounded type.
+each type constructed is unique anyways.
+so a continuous type is represented as a number of conditions which must be true.
+
+(is-t <- (n -> (? (p /\ q /\ r) true false)))
+
+so then do I need types at all?
+is the type assertion even a part of the language or is it a macro?
+It's a macro.
+So is the debugger.
+in fact, everything's a macro except for the basic language.
+what about quantification?
+nope.
+what about simple type-checking for stuff like functions?
+how do i do polymophism if the function doesn't work?
+case matching.
+you call the function on a case.
+I am very stupid. Of course I need types.
+Quantification is supposed to be one of the fundamental mechanics of my language.
+If you can set a type constraint, then of course you can set a constraint without creating a variable binding.
+
+
+
+how do I want to describe memory layout?
+I want to talk about either two adjacent things or a thing that repeats.
+i want to compose the two.
+
+
+================================================================================
+Matching algorithm--------------------------------------------------------------
+================================================================================
+
+let x be a value of type T.
+Let there be a collection, m, with at least one element which is a function.
+Take the collection, n, of all elements of m which are functions, (m / Function)
+1. Search the collection for pre-images of the value x.
+2. Search the collection for pre-images of the type T.
+3. Search the collection for pre-images of a type where the value of x is the value of that type.
+
+
+{1 2 3}
+{Number Number Number}
+(x : {Number Number Number})
+
+
+
+A discrete or continuous type.
+A discrete type is a collection of unique values.
+A continuous type is a collection of conditions which must be true for a type.
+I should be able to create a continuous type directly.
+Here's some things that must be true.
+That's just a refinement type though.
+My type constructor is different. I can take the result of anything.
+
+(m : Collection), (n : Number), (? ((:(m . n)) = K) m)
+
+[[k]] is the same as [k]?
+no because (x : [[k]]) is (x <- [k])
+and (y : x), (y <- k)
+
+so I can say 
+(x <- (m : Collection), (n : Number), (? ((:(m . n)) = k) m))
+
+so in (x <- (y <- 1), y)
+does y persist in the context?
+have I bound those?
+I wish there was a way to make a temporary context.
+
+(x <- ((_ -> (m : Collection), (n : Number), (? ((:(m . n)) = k) m))))
+
+
+
+should quantification be effectful?
+can I even make it effectful?
+yes, via pointers.
+(x <- {1}), (y <- (@ x)),
+(n : ['a 'b 'c]), 
+((* -> ((@ y) . 1 (((@ y) . 1) + 1))) n)
+no because x is closed over and copied for each time the quantification is run.
+it's not actually quantification if you can change what's true for each iteration.
+
+
+What components of the language should not require arbitrary computation?
+None, all facets of the language should allow arbitrary computations.
+The langauge is simple enough where that's easy.
+What about first class expressions?
+
+
+
+A collection is not just a relation, it's also a resource constraint.
+When a collection exists, so do all its elements.
+
+
+
+I can't truly have higher order expressions... actually yes I can.
+Expressions in my langauge are just maps between some syntax and some other syntax.
+Unless I use compute, all functions are known because they can't be non-deterministically constructed.
+Behavior may not be known, as in a polymorphic function, but that's okay.
+
+
+
+I like the simplicity of cons pairs, but it's more efficient to use collections.
+It supports vectors beyond a pair and random access.
+Cons is actually implicit in the constructor.
+(cons (cons 'a 'b) 'c) = {'a 'b 'c}
+is an element separate or together with a collection?
+That is to say, if a collection exists, does it imply that its elements exist?
+YES IT DOES DON'T BE STUPID
+
+
+I would love to express every algorithm in finite space and make resource allocation explicit.
+Then I'm just left with C.
+Especially with unrestricted dependent types, every stage of the computation process can require arbitrary space and time.
+
+
+
+How do I make expressions that don't form their own contexts?
+Or does each expression always have its own context?
+Contexts can be discarded if they are never used.
+
+What is {*}?
+A collection containing anything.
+How about [{*}]
+the type of every collection containing anything.
+((x : {*}) {0}) is this sound?
+
+
+
+There's two types of types: discrete and continuous.
+A discrete type can be represented as a listing.
+A continuous type is represented as a program that verifies the type.
+For a user-created continuous type, you have to specify the program which verifies the type.
+What about quantification?
+Saying for-all.
+What if I can't use that?
+Then I can't make refinement types.
+So how do I make the type of numbers greater than 0?
+Without quantification, I would have to make a recursive type like
+(Couting <- []),(n -> (? (n > 0) (t + [n])), (n <- (n + 1)), (& <- &))
+or I can say
+(Counting <- ((_ -> (n : Natural), (? (n > 0) n))))
+this is much more straightforward for a type definition.
+I can get even easier,
+(Counting <- (n : Natural), (? (n > 0) n))
+
+Sequences form their own context.
+
+(step1), (step2), (step3), (& <- &), (step4)
+(n -> 
+(n <- (n + 1))
+(n <- (n + 1)))
+
+What's the behavior when you call read?
+you read in either a symbol, number, or a program which is computed to yield the read result.
+you can also read in a character which reads in a single character of the character type.
+
+
+
+how to make the type of an expression non-inferenceable?
+Say an expression results in 1
+what is non-inferenceable without using 'compute?
+any non-recursive function stack is inferenceable.
+
+
+
+what about skipping recursion?
+Can I do that?
+skipping recursion in favor of effects?
+but i still want recursion.
+how do I even do recursion?
+the name inside the function is resolved after the name outside the function is resolved.
+therefore when the function is engaged, it inherits the external binding of f.
+
+
+
+what would a language look like that's not full of parentheses?
+
+f = x in x + 1 .
+f(1) .
+y = 1, z = y  .
+m = {1 2 y = 3 .} .
+m / 1 .
+n = m + {4} .
+n = m .. 4 .
+
+just more keywords that's all.
+so could I define a language that's all keywords?
+
+(f = (x y -> (x + y)))
+f = x y -> x + y .
+
+
+my language is harder than lisp. not everything is a list.
+everything is a collection.
+each collection has a counted number of elements.
+Each element has a type.
+
+
+
+what's my vector syntax?
+(k .. n)
+what's my matrix syntax?
+(k .. n .. n)
+how do I access them?
+(V = ())
+a matrix is just a vector with a length and a dimension.
+it's an abstraction over vectors.
+so I have a set, a vector, and a multiset.
+do I need a vector if I can just have a multiset?
+not really, all i need is a way of constructing a vector.
+That's just 
+(vector = (k n -> )
+
+functions are control flow though so how do I take the context of a function before I enter into a sequence?
+I use a sequence-less function definition.
+
+(f = (k -> (m = &) m))
+
+what's the type of a function then?
+
+(+ (n : Nat), (Symbol .. n) 
+   {'->}
+   (m : Nat), (Expression .. m))
+
+so if I want multiple
+
+how to use | ?
+Does it represent a type?
+I have * _, but what about |
+is that the context? no that's &
+what about Any, Nil, Some?
+no
+what about data?
+is it a block of data? no those are different sizes.
+is it a storage type?
+Unit type?
+yes
+Unit type is |
+so now I can say
+(Character = {| | | |})
+oh that's actually kinda cool.
+|__#_|
+that describes a data
+
+
+
+Nope, not doing it.
+
+
+
+syntax?
+
+sum		_ + _
+		+ ...
+difference	_ - _
+		- ...
+multiplication	_ * _
+		* ...
+division	_ / _
+		/ ...
+modulus		_ // _
+disjunction	_ /\ _
+conjunction	_ \/ _
+negation	- _
+constrain	_ : _
+equality	_ = _
+less		_ < _
+greater		_ > _
+less or		_ >= _
+greater or	_ <= _
+inequal		_ /= _
+cardinality	# _
+address		@ _
+supertype	: _
+function	_ -> _
+collection	{ ... }
+vector		_ .. _
+type		[ ... ]
+access		_ . _
+application	_ _
+
+
+
+what if storage types have special semantics.
+what if I do a collection of {Byte Byte Byte}?
+are these pointers to bytes? or actual bytes?
+They're actual bytes.
+storage types don't require indirection because they are stored directly.
+even if I swap types around.
+
+
+
+What fundamental capabilities do I need for my implementation?
+I need the compute loop.
+I need a matching function.
+I need a constructor for each of the default functions.
+
+
+
+What about qualitative types?
+Say I want the type of a sorted collection.
+It can be completly nominal.
+(sorted = [Collection]),
+(sort = ((M : Collection) -> sorted))
+
+
+
+All expressions for all possible languages have a common grammar. 
+What does this look like though?
+Is it possible to simply talk?
+No because you don't need multiple forms of each expression.
+It's trivial to start with something more basic.
+Is it possible to just use functions with no punctuation?
+Not as long as there's macros.
+f g h x
+is fine but 
+(f (g (h x))) 
+works much better.
+parens allow you to be extremely terse.
+being terse is nice, but playing "code golf" like you do in the APL family obscures the meaning of the program.
+
+
+
+unbounded types break the type system.
+every primitive in the language should at least halt XD
+Primitive types are always structural.
+Because you can't quantify over a structure when all instantiations of a 
+structure are structurally identical.
+For instance: 
+(T = {a b}),
+(x = {a b}), (y = {a b})
+
+what about refinement types though?
+[(n : Number), (? (n < 10) n)]
+[(f : Function), (n : Number), (f n)]
+these require quantification and cannot be typed as a number.
+Because a number is a structure.
+Lets say
+(T : [m n]),
+(t = [(p : {T}), (? (p / m) p)])
+
+What is the type of a number?
+The constructor takes a symbol and converts it to a number.
+(new-number : Function)
+(Number : [(s : Symbol), (new-number s)])
+
+
+
+so how do I specify syntax for arbitrary refinements?
+
