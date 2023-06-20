@@ -1,4 +1,0 @@
-({Number '+ Number} -> Number)
-({Collection '+ Collection} -> Collection)
-(({'+} + (Number .. Number)) -> Number)
-({'+ Symbol Expression Function} -> *)
