@@ -1572,4 +1572,10 @@ I have a property P. It specifies one of...
 -	the image of a function
 -	the pre-image of a function
 -	a subtype
--	a supertype=
+-	a supertype
+
+
+so arbitrary refinements are built up as a predicate on a type, forming a new subtype.
+the syntax uses a semicolon
+(T ; (x -> (? (P x) x)))
+this creates a subtype of T
