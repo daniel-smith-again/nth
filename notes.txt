@@ -1564,3 +1564,12 @@ Macros and type checking are different. Or are they?
 
 
 so how do I specify syntax for arbitrary refinements?
+Not sure.
+What algorithm do I need for enforcing properties?
+I have a property P. It specifies one of...
+-	the result of an expression
+-	the type of an element
+-	the image of a function
+-	the pre-image of a function
+-	a subtype
+-	a supertype=
