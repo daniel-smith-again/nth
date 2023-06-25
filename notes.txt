@@ -1579,3 +1579,41 @@ so arbitrary refinements are built up as a predicate on a type, forming a new su
 the syntax uses a semicolon
 (T ; (x -> (? (P x) x)))
 this creates a subtype of T
+
+
+how to use whitespace with structures.
+either nest or indent.
+
+{A B {C D {E} F} G}
+
+A B 
+ C D
+  E
+ F
+G
+
+
+So how would this typed function be presented?
+
+((x : T) -> ((y = (l n)), (k x y) : (T | (x -> (P x)))))
+
+
+ x : T
+->
+  y = 
+   l n
+  ,
+   k x y
+  :
+   T | 
+    x -> 
+     P x
+
+So then structure is nested by how many spaces to the right the line begins.
+There's still the issue of stuff being on the same line though. 
+With each new sub-expression on its own line, stuff looks terrible.
+
+X : T -> 
+ y = l n,
+ k x y : 
+ T | x -> P x
