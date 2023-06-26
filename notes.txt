@@ -1685,3 +1685,8 @@ I kind of already have xpath since everythin is a dictionary.
 lisp, but with no parens.
 how do I do that?
 with xml
+
+xml is a good data format but it's verbose.
+plus i don't need different types of expressions....
+or do I?
+expressions are a way of writing something, but they aren't necessarily related to a program's semantics.
