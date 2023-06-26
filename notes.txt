@@ -1617,3 +1617,71 @@ X : T ->
  y = l n,
  k x y : 
  T | x -> P x
+
+but this isn't clear so add parens back in
+
+(x : T) ->
+ y = (l n), k x y 
+ : 
+  T | 
+   x -> (P x)
+
+so what are my actual rules?
+a new line denotes a new expression in every case.
+leading blank space denotes a sub expression.
+successive sub-expressions can be nested by adding at least one more blank 
+space leading the next line.
+
+Delimiting braces imply a leading space which can be omitted from the following
+lines contained in the brace pair. Therefore 
+
+{
+ a b c
+ x y z
+}
+becomes
+
+{ a b c
+x y z }
+
+
+two line breaks with no tokens in between signify the top level end of an 
+expression
+
+"Bubble Sort",
+(bs = (list -> 
+	(p = 0),
+	(? 
+	((list / p) > (list / (p + 1)))
+		(tmp = (list / p)),
+		(list / p (list / (p + 1))),
+		(list / (p + 1) tmp), 
+		(p <- (p + 1)),
+		(bs list)
+	list)))
+
+"Bubble Sort" , bs = (list -> 
+p = 0,
+? 
+ (list / p) + (list / (p + 1))
+ tmp = (list / p),
+ list / p
+          list / (p + 1)
+ list / (p + 1) tmp,
+ p <- (p + 1),
+ bs list
+ list
+ 
+  
+actually, this is a terrible idea, indentation doesn't make lisp any more 
+readable. It just makes it harder to format and harder to extend.
+Case in point, most languages do not associate line breaks with grammar.
+line breaks and indentation just serves as a higher abstract comprehension aid,
+same as choice of variable names.
+
+so what I want is lisp but with xpath and xpointer API's.
+I kind of already have xpath since everythin is a dictionary.
+
+lisp, but with no parens.
+how do I do that?
+with xml
