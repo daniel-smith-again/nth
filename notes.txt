@@ -1580,7 +1580,6 @@ the syntax uses a semicolon
 (T ; (x -> (? (P x) x)))
 this creates a subtype of T
 
-
 how to use whitespace with structures.
 either nest or indent.
 
