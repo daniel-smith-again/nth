@@ -1701,3 +1701,33 @@ That means no parens
 i give up syntax for a fast language.
 trade extensibility for speed.
 but I do want speed.
+at the same time, it would be really cool to have everything dynamic.
+syntax, types, expressions, everything.
+
+
+I want whitespace delimiters.
+this requires three things.
+Each token must now be prefixed with some whitespace annotation of nesting.
+double nesting and allowance for formatting must be dealt with.
+nested single-line expressions must be dealt with.
+
+for visual aid, backtic represents a newline and underscore represents leading space
+take a nested structure.
+
+((a) b c (d e (f) g) h)
+
+`_a `b `c `_d `_e `__f `_g `h
+
+ a
+b c
+ d e
+  f
+ g
+h
+
+kind of ugly and takes up too much vertical space
+
+how to make it not ugly?
+i guess the point is that delimiters for each expression are necessary unless 
+you arrange for a grammar.
+there has to be an in-between though.
