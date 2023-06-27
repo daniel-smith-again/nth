@@ -11,3 +11,5 @@
 "Disjunction",		({Boolean '\/ Boolean} -> Boolean)
 "Negation",		({'- Boolean} -> Boolean)
 "Assignment",		({Symbol '<- *} -> *)
+"Function",		(Symbol '-> *)
+"Image",		(Expression '-> *)
