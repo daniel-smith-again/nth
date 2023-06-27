@@ -1688,4 +1688,16 @@ with xml
 xml is a good data format but it's verbose.
 plus i don't need different types of expressions....
 or do I?
-expressions are a way of writing something, but they aren't necessarily related to a program's semantics.
+expressions are a way of writing something, but they aren't necessarily related to a program's semantics
+xml is heavier weight.
+expressions are heavyweight.
+each tag is more of a dsl fragment.
+hard to read and write.
+plus attributes are kind of useless, especially if I want interactivity.
+the whole thing needs to be expression based, with no forward declaration, 
+and terse so its easy to type.
+
+That means no parens
+i give up syntax for a fast language.
+trade extensibility for speed.
+but I do want speed.
