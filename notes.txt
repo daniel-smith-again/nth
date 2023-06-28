@@ -1731,3 +1731,20 @@ how to make it not ugly?
 i guess the point is that delimiters for each expression are necessary unless 
 you arrange for a grammar.
 there has to be an in-between though.
+how about regular expressions?
+no.
+everyone complains about parentheses but it's not actually that bad.
+or just deal with juxtaposition.
+except then you can only do prefix notation.
+delimiters and pattern matching seems the best way.
+no prefix notation.
+add parsers to the deault expressions so that you don't need so many parens.
+What's my basic language.
+You can construct booleans, numbers, functions, collections, and types.
+You can perform arithmetic with numbers.
+You can apply and compose functions.
+You can perform set operations on collections.
+You can destructure collections.
+You can perform first order logic algebra on logic operators.
+You can enforce predicates on types.
+

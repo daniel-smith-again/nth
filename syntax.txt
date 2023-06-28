@@ -13,3 +13,4 @@
 "Assignment",		({Symbol '<- *} -> *)
 "Function",		(Symbol '-> *)
 "Image",		(Expression '-> *)
+
