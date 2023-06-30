@@ -1748,3 +1748,12 @@ You can destructure collections.
 You can perform first order logic algebra on logic operators.
 You can enforce predicates on types.
 
+
+should I have effects?
+Typed effects or effect systems?
+No.
+I already have everything I need wth first class contexts.
+Hiw would I do effect handlers?
+Set up a context to call the function in.
+But how do you do it without passing the context to the function as a parameter?
+
