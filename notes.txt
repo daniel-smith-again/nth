@@ -1746,7 +1746,8 @@ You can apply and compose functions.
 You can perform set operations on collections.
 You can destructure collections.
 You can perform first order logic algebra on logic operators.
-You can enforce predicates on types.
+You can construct a type from a predicate.
+You can construct a supertype from two types.
 
 
 should I have effects?
@@ -1756,4 +1757,9 @@ I already have everything I need wth first class contexts.
 Hiw would I do effect handlers?
 Set up a context to call the function in.
 But how do you do it without passing the context to the function as a parameter?
+easy, you bind the handlers in the context where the function is defined.
+then you don't have to do stack unwinding.
 
+Finite types just satisfy some kind of equality.
+Saying [A B C] is the same as 
+(* | (n -> ((n = A) \/ (n = B) \/ (n = C))))
