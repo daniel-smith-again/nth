@@ -1757,9 +1757,27 @@ I already have everything I need wth first class contexts.
 Hiw would I do effect handlers?
 Set up a context to call the function in.
 But how do you do it without passing the context to the function as a parameter?
+<<<<<<< HEAD
 easy, you bind the handlers in the context where the function is defined.
 then you don't have to do stack unwinding.
 
 Finite types just satisfy some kind of equality.
 Saying [A B C] is the same as 
 (* | (n -> ((n = A) \/ (n = B) \/ (n = C))))
+
+macros.
+set the handler in the context outside the function call.
+or say that the handler is bound where the function is defined.
+
+here's an interesting problem with my expressions: how do you know what is a 
+variable and what is punctuation.
+simple, if it's punctuation, then it's not used as a variable by the rewrite 
+step.
+
+how does a return work when functions don't return?
+
+(f = (x -> 
+ x))
+
+isn't that the same as 
+(f = (x -> (& <- x)))
