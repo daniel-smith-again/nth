@@ -742,6 +742,7 @@ being terse is nice, but playing "code golf" like you do in the APL family obscu
 
 
 
+<<<<<<< HEAD
 unbounded types break the type system.
 every primitive in the language should at least halt XD
 Primitive types are always structural.
@@ -1757,7 +1758,6 @@ I already have everything I need wth first class contexts.
 Hiw would I do effect handlers?
 Set up a context to call the function in.
 But how do you do it without passing the context to the function as a parameter?
-<<<<<<< HEAD
 easy, you bind the handlers in the context where the function is defined.
 then you don't have to do stack unwinding.
 
