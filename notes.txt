@@ -1781,3 +1781,17 @@ how does a return work when functions don't return?
 
 isn't that the same as 
 (f = (x -> (& <- x)))
+
+This is kinda dumb though.
+
+
+So what if I define 
+(IsEven = (Number | (n -> (0 = (n mod 2)))))
+and then I have a function 
+(f : ([IsEven] [IsEven] -> IsEven))
+(f = (n m -> n + m))
+There's no way for the compiler to know that it can get an IsEven out of 
+addition. So I would have to specify those properties.
+
+(EvenResult = [IsEven ((n : IsEven) + (m : IsEven))])
+
