@@ -1795,3 +1795,5 @@ addition. So I would have to specify those properties.
 
 (EvenResult = [IsEven ((n : IsEven) + (m : IsEven))])
 
+what would be my syntax without that?
+literally the same as I have it, just with pesky precedence rules.
