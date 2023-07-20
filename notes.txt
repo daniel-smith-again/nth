@@ -1797,5 +1797,32 @@ addition. So I would have to specify those properties.
 
 what would be my syntax without that?
 literally the same as I have it, just with pesky precedence rules.
+I don't want precedence rules.
+It's just a scripting language.
+You can add parentheses, it's fine.
+Here's the shortcut though, the comma doesn't require parens.
+
+(x : t), (f x)
+becomes
+(x : t, f x)
+and at the top level becomes
+x : t, f x
 
 
+what about linear types?
+I need a way to figure out when to copy and when to overwrite.
+That's the difficult part.
+There should be a semantic for it so behavior is predictable.
+
+
+Rule 1: New objects can only be added to the active function.
+Rule 2: Objects cannot change size.
+Rule 3: Objects are not discarded until their function scope exits.
+
+So how do I blow this up?
+Simple, just append to a list.
+
+Node : {* Collection},
+Tail : {*},
+List : [Node Tail],
+Append = 
