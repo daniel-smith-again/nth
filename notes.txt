@@ -1819,10 +1819,25 @@ Rule 1: New objects can only be added to the active function.
 Rule 2: Objects cannot change size.
 Rule 3: Objects are not discarded until their function scope exits.
 
-So how do I blow this up?
-Simple, just append to a list.
+So how do I do data structures?
+Put everything in the same context.
+Use object abstraction.
 
-Node : {* Collection},
-Tail : {*},
-List : [Node Tail],
-Append = 
+I have three functions, f, g, and h that are monadic.
+How do I do monad composition?
+
+(do f g h with M)
+
+monads are just higher order functions with data structures.
+what about effects?
+effects are just the same as monads but the focus is on control rather than
+sequencing lazy computations.
+it should be possible to create a typed effect system from scratch as long as I can specify a first class resume.
+a resume is definitely just a lambda. 
+the problem is changing the continuation.
+how do I do that with first class contexts?
+
+simple example.
+i want to set a context which will be jumped to on a failure.
+it should be dynamic.
+actually if it's lexical, it's typeable since all structure is known during compilation.
