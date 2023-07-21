@@ -10,11 +10,11 @@
 	}
 	body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw) / 1.3);}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-	p, h1, figure, figcaption, ol, ul, dl{width:90%;max-width:90ch;min-width:40ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;padding:1ch;}
-	figure{border:solid 0.2ch var(--fg);}
+	p, h1, figure, figcaption, ol, ul, dl{width:calc(100% - 14ch);max-width:90ch;min-width:40ch;margin:auto;text-align:center;border-radius:1ch;padding:1ch;margin-bottom:1ch;}
+	figure{border:solid 0.2ch var(--fg);display:block;}
 	figcaption{text-align:center;}
 	hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
-	cite{display:inline;font-style:normal;text-align:center;padding:1ch;height:100%;border-right: var(--fg) solid 0.2ch;float:left;width:7ch;}
+	cite{display:inline;font-style:normal;text-align:left;padding:1ch;height:auto;width:7ch;position:absolute;left:0;}
 	a{text-decoration:none;color:inherit;padding:0.2ch;}
 	cite a:hover{padding:0;border: 0.2ch solid var(--fg);}
 	table{text-align:left;margin-left:auto;margin-right:auto;}
@@ -23,7 +23,7 @@
 </style>
 </head>
 <body>
-<svg viewBox="0 0 100 100" version="1.1" style="height:20ch;margin-left:auto;margin-right:auto;width:auto;display:block;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 100 100" version="1.1" style="height:25vh;margin:auto;margin-top:25vh;margin-bottom:25vh;width:auto;display:block;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 <defs id="defs54" />
 <ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
 ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
@@ -33,15 +33,16 @@ id="path47" />
 <path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
 d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
-<h1>Standard Documentation for the<br><i>n</i><sup>th</sup> Programming Language</h1>
+<h1 style="height:25vh;">Standard Documentation for the<br><i>n</i><sup>th</sup> Programming Language</h1>
 <p><cite id="0"><a href="#0">0</a></cite>This document forms a comprehensive specification of the properties of an abstract system for describing and computing programs, "nth" (read as <i>n</i><sup>th</sup>).</p>
 <p><cite id="0.1"><a href="#0.1">0.1</a></cite>This document represents a standard of conformance. As such, the descriptions therein represent requirements for an implementation of the <i>n</i><sup>th</sup> system.</p>
 <p><cite id="0.2"><a href="#0.2">0.2</a></cite>An implementation of <i>n</i><sup>th</sup> is said to conform to this standard if it demonstrates all the properties described in this document.</p>
 <h2><a href="#Overview" id="Overview">Overview</a></h2>
-<p>The <i>n</i><sup>th</sup> system is comprised of two discrete components, a language to express programs, and an environment which facilitates computation.
+<p><cite id="1.0"><a href="#1.0">1.0</a></cite>The <i>n</i><sup>th</sup> system is comprised of two discrete components, a language to express programs, and an environment which facilitates computation.
 The name <i>n</i><sup>th</sup> specifically refers to the language component and "environment" will refer to the environment.</p>
 <figure><cite id="fig-1"><a href="#fig-1">fig. 1</a></cite>
-<figcaption>The <i>n</i><sup>th</sup> system is dynamic and interactive.
+<figcaption>
+The <i>n</i><sup>th</sup> system is dynamic and interactive.
 When the system is engaged, it will behave according to these general steps...</figcaption>
 <hr>
 <ol>
@@ -54,9 +55,6 @@ When the system is engaged, it will behave according to these general steps...</
 </ol>
 <figcaption>Where the effects of the computations from each repetition are preserved until the system is totally disengaged.</figcaption>
 </figure>
-
-
-
 <h2><a href="#Syntax" id="Syntax">Syntax</a></h2>
 <p>A program can be represented in two forms, "written" or text form, and the program model.
 Both forms are equivalent, however the written form of a program includes additional notation for constructing data as well as program structure.

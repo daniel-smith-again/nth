@@ -1841,3 +1841,8 @@ simple example.
 i want to set a context which will be jumped to on a failure.
 it should be dynamic.
 actually if it's lexical, it's typeable since all structure is known during compilation.
+
+how do I implement throw?
+The problem is it's dynamic. 
+If I don't have dynamic prompts, then I don't have actual continuations.
+It's fine to do it dynamically though, you just have to thread the context through everything.
