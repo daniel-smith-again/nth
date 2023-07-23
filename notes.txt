@@ -1846,3 +1846,25 @@ how do I implement throw?
 The problem is it's dynamic. 
 If I don't have dynamic prompts, then I don't have actual continuations.
 It's fine to do it dynamically though, you just have to thread the context through everything.
+
+Can I do green threads statically?
+
+(choose (p : Collection))
+
+how can I do sytax without mutation.
+That's such an important part.
+Or I can set arbitrary stuff using equalities.
+How would I do addition then?
+It's structurally typed so,
+
+a : Number, b : Number, '(a '+ b) = (sum a b)
+'(f )
+
+pattern matching using independent variables.
+interesting.
+
+a : T, b : t, 
+? (c : {a b}) true false
+
+
+What does my evaluation model look like?
