@@ -1866,5 +1866,9 @@ interesting.
 a : T, b : t, 
 ? (c : {a b}) true false
 
+So I can't mutate bindings.
+You set it once, then it's done after the context exits.
 
-What does my evaluation model look like?
+how do I set up syntax then?
+The whole entire evaluation model was about composing contexts.
+Maybe that's the mechanism, but mutating it is not allowed.
