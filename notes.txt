@@ -1872,3 +1872,43 @@ You set it once, then it's done after the context exits.
 how do I set up syntax then?
 The whole entire evaluation model was about composing contexts.
 Maybe that's the mechanism, but mutating it is not allowed.
+
+
+If a function can replace its context, is that all I need?
+
+Lets say you want to throw.
+
+try {
+	throw 1
+}
+catch(x) {
+	x + 1
+}
+
+In my langauge I would have
+
+catch = (x -> x + 1)
+f = (_ -> (! (catch 1)))
+
+
+A handler can resume multiple times, and run code after the try body.
+
+try {
+	return 1 + perform e
+}
+with e (x) {
+	x = resume(1) + resume(1)
+	m = resume(x)
+	return m
+}
+where each (resume 1) yields n = 1 + 1
+1 + 1 + 1 + 1 + 1 + 1
+
+e = (k -> (
+	x = ((k 1) + (k 1),
+	m = (k x),
+	m
+))
+f = (_ -> (
+	e (x -> (x + 1)))
+))
