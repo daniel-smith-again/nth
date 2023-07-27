@@ -1912,3 +1912,41 @@ e = (k -> (
 f = (_ -> (
 	e (x -> (x + 1)))
 ))
+
+deciding a type can take any amount of time.
+I want syntax to be constant time.
+Well that would be lisp where everything's a lookup.
+What about functions that take and return expressions?
+If all functions happen at runtime then you can't do macros.
+Do you need macros if everything's a function?
+Yes, you still do so you can write easier stuff.
+
+
+
+Do I want context to have mutable state?
+No. rather than mutable state, I want to express something else.
+What if I want to add two numbers, how would that work?
+
+n : Number, m : Number, 
+(Expression : {n '+ m}) = (sum n m)
+
+so you use unbound variables to express a rewrite transform.
+how would this work with other stuff?
+
+f : Function, x = 'k,
+(Expression : {f x}) = 'l
+
+which is saying (f : ('k -> 'l))
+
+this is different than expressions as objects.
+it's more expressive though.
+
+I want to say something like 
+x : t, y : T,
+<- ({x '~ y} -> (op x y))
+what are the semantics for this?
+
+An unbound variable represents a place and everywhere that it's used 
+corresponds to that place.
+It's up to the compiler to figure out how to get to that place.
+
