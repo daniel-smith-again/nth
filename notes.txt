@@ -1905,7 +1905,7 @@ where each (resume 1) yields n = 1 + 1
 1 + 1 + 1 + 1 + 1 + 1
 
 e = (k -> (
-	x = ((k 1) + (k 1),
+	x = ((k 1) + (k 1)),
 	m = (k x),
 	m
 ))
@@ -1950,3 +1950,30 @@ An unbound variable represents a place and everywhere that it's used
 corresponds to that place.
 It's up to the compiler to figure out how to get to that place.
 
+if I do 
+(<- ('k -> 'l))
+can i then do
+
+<- ('k -> 'l),
+f = (x -> (& 'k))
+
+
+
+=======================================================================================
+All about functions
+=======================================================================================
+functions are declared as some parameter names followed by an arrow, followed by
+some expressions using the parameter names.
+(x y -> (x + y))
+you can call a function by putting the arguments after the function
+((x y -> (x + y)) 1 1)
+the number of parameters passed must match the number of variables declared
+each parameter has a type constraint which the objects passed in must follow.
+
+
+=======================================================================================
+all about collections
+=======================================================================================
+collections behave as indexed multisets.
+it allows O(1) complexity access to any member of the collection.
+you make a collecction by listing objects in curly brackets.
