@@ -1977,3 +1977,13 @@ all about collections
 collections behave as indexed multisets.
 it allows O(1) complexity access to any member of the collection.
 you make a collecction by listing objects in curly brackets.
+
+You can add, subtract, multiply, and divide collections.
+you can also access elements by index, or by type.
+
+
+=======================================================================================
+how do I do my macros?
+
+There should be a simple syntax which macros will reduce to.
+functions and collections.
