@@ -1987,3 +1987,25 @@ how do I do my macros?
 
 There should be a simple syntax which macros will reduce to.
 functions and collections.
+
+so you define some pattern, and a function that gets applied to it.
+if the function returns null, then compilation failed.
+the function has access to everything so error messages can be part of it.
+so just like a type refinement, (T | (x -> x))
+I do a syntax transform 
+({'expression OperandType} => Function)
+
+yeah this works.
+What does it return?
+Nothing. It isn't an actual expression, it lifts code instead.
+What would I even do with macro objects?
+I would put them in different contexts.
+I can declare a macro and then put it somewhere.
+This lets me create importable syntax.
+What does it mean to put a macro in a context though?
+Now there needs to be another operator to establish a macro in a lexical context.
+
+which means I would just declare a macro as a normal function.
+what would a macro symbol look like?
+(<= )
+and that means that a function is exposed as a macro.
