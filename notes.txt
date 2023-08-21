@@ -742,7 +742,6 @@ being terse is nice, but playing "code golf" like you do in the APL family obscu
 
 
 
-<<<<<<< HEAD
 unbounded types break the type system.
 every primitive in the language should at least halt XD
 Primitive types are always structural.
@@ -768,7 +767,6 @@ The constructor takes a symbol and converts it to a number.
 
 
 
-<<<<<<< HEAD
 so how do I specify syntax for arbitrary refinements?
 (x :- (x = 1) (x < 2) (x > 0))
 What operations and forms are NOT quantified?
@@ -2009,4 +2007,7 @@ which means I would just declare a macro as a normal function.
 what would a macro symbol look like?
 (<= )
 and that means that a function is exposed as a macro.
-but the problem is that I want
+
+what are first class macros?
+You bind them in a context. 
+But what a context is may depend on a macro being bound.
