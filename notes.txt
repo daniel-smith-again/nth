@@ -2009,3 +2009,4 @@ which means I would just declare a macro as a normal function.
 what would a macro symbol look like?
 (<= )
 and that means that a function is exposed as a macro.
+but the problem is that I want
