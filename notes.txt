@@ -84,3 +84,8 @@ I can also import the M-Notation image and the N-Impl image and they combine to 
 How does that even work though? 
 It doesn't. 
 I'm expressing something else.
+
+
+
+The "unit" is an image. It has a uniform interface whether it's compiled or not.
+You combine images and use them using linker commands.
