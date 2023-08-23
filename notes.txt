@@ -89,3 +89,48 @@ I'm expressing something else.
 
 The "unit" is an image. It has a uniform interface whether it's compiled or not.
 You combine images and use them using linker commands.
+You can get symbols, import objects, and other stuff.
+
+
+
+So what do I do with macros then. 
+Macros are contextual, You establish a macro in a form which has limited context.
+The macro form is a double arrow from a collection to a function.
+({a b c} => (x -> x))
+
+
+
+What are my typing rules for a Collection?
+Constructor...			{ ... }
+	A collection has a zero or more elements.
+	A collection with zero elements has a cardinality of zero.
+	All collections with cardinalities of zero are equal.
+	Each element has an index corresponding to the cardinality of the collection without the element plus one.
+	The cardinality of a collection is equal to the index of the last element.
+	The type of a collection is equal to the collection of types such that the element at the same index is a member of that type.
+
+Union...			{} + {}
+	Union constructs a new collection by adding the elements of the right to the left.
+	The indicies of the elements being added must be at least one greater than the cardinality of the left Collection.
+	The cardinality of the resulting collection is equivalent to the sum of the cardinalities of the left and right collections.
+	The resulting collection must exhibit all the properties of a collection having resulted from a collection constructor.
+
+Difference...			{} - {}
+	Difference constructs a collection by removing elements from the left collection which are also elements of the right collection.
+	The indicies of elements in the resulting collection must be sequential by one, and no greater than the cardinality.
+	Given any pair of elements in the left collection, if both elements are in the resulting collection, the element with the greater index in the left collection must have a greater index in the resulting collection.
+	The cardinality of the resulting collection must be equivalent to the cardinality of the right collection subtracted from the left.
+
+Membership...			{} / Any
+	Membership will yield an element of the left collection which is equivalent to the value on the right.
+	If the value on the right is a type, then Membership will yield a collection of all elements which are also elements of that type.
+	If the collection on the left has no elements which are equal or members of the value on the right, then Nil is returned.
+
+Subscript...			{} _ Natural
+	Subscript will yield an element with an index equivalent to the natural number given on the right.
+	If the number given on the right is greater than the cardinality of the collection, Nil is returned.
+	If the number given on the right is zero, the outer collection is given, or else the left collection is given.
+
+Product...			{} * [Natural Collection]
+	Product will yield a collection with the elements of the collection on the left repeating as many times as the value on the right.
+	The number of repetitions is taken either as the natural number or the cardinality of the collection on the right.
