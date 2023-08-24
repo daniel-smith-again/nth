@@ -134,3 +134,4 @@ Subscript...			{} _ Natural
 Product...			{} * [Natural Collection]
 	Product will yield a collection with the elements of the collection on the left repeating as many times as the value on the right.
 	The number of repetitions is taken either as the natural number or the cardinality of the collection on the right.
+	The resulting collection must exhibit all properties of a collection resulting from a constructor.
