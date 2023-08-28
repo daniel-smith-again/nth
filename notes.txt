@@ -84,6 +84,7 @@ In fact, Macros are functions that just accept and return syntax.
 This is why I'm stuck. 
 Macros aren't bindings, they're transforms.
 My syntax is not a macro system, it's a binding system.
+But, I also want my lexical syntax to be first class so I can "use" a syntax somewhere...
 
 
 
