@@ -65,20 +65,6 @@ Rule 2: Objects cannot change size.
 Rule 3: Objects are not discarded until their function scope exits.
 
 
-How do I do macros?
-Macros are just functions.
-So if functions are macro objects, how do you use them?
-You establish a function as a macro in the context.
-Should there be an operation for that?
-Yes. Macros are higher order binding.
-Variables result in value substitution.
-Macros result in program substitution.
-
-
-What's my macro use-case?
-I import the Calculus image.
-It defines macros for integration and derivation as syntax transforms.
-I can then use those macros in the scope where I imported the image.
 
 I can also import the M-Notation image and the N-Impl image and they combine to form macros with M-style syntax and N-style rewrites.
 How does that even work though? 
@@ -93,10 +79,11 @@ You can get symbols, import objects, and other stuff.
 
 
 
-So what do I do with macros then. 
-Macros are contextual, You establish a macro in a form which has limited context.
-The macro form is a double arrow from a collection to a function.
-({a b c} => (x -> x))
+I want my macros to be first class objects, just like functions.
+In fact, Macros are functions that just accept and return syntax.
+This is why I'm stuck. 
+Macros aren't bindings, they're transforms.
+My syntax is not a macro system, it's a binding system.
 
 
 
