@@ -79,14 +79,6 @@ You can get symbols, import objects, and other stuff.
 
 
 
-I want my macros to be first class objects, just like functions.
-In fact, Macros are functions that just accept and return syntax.
-This is why I'm stuck. 
-Macros aren't bindings, they're transforms.
-My syntax is not a macro system, it's a binding system.
-But, I also want my lexical syntax to be first class so I can "use" a syntax somewhere...
-
-
 
 What are my typing rules for a Collection?
 Constructor...			{ ... }
@@ -123,3 +115,12 @@ Product...			{} * [Natural Collection]
 	Product will yield a collection with the elements of the collection on the left repeating as many times as the value on the right.
 	The number of repetitions is taken either as the natural number or the cardinality of the collection on the right.
 	The resulting collection must exhibit all properties of a collection resulting from a constructor.
+
+
+
+A context is a Collection which holds all bindings which are established in the definition of a function.
+There are two types of bindings for which the context may be queried, symbolic bindings and expression bindings.
+Symbolic bindings are defined as a function (Symbolic-Bind : ((Symbol) -> *))
+Expression bindings are defined as a function (Expression-Bind : ((Quote) -> *))
+Evaluation of an expression begins by querying the context with an expression.
+Within the definition of an expression binding, it may query symbols.
