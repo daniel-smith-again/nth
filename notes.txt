@@ -124,3 +124,7 @@ Symbolic bindings are defined as a function (Symbolic-Bind : ((Symbol) -> *))
 Expression bindings are defined as a function (Expression-Bind : ((Quote) -> *))
 Evaluation of an expression begins by querying the context with an expression.
 Within the definition of an expression binding, it may query symbols.
+
+A context extends Collections with operations specific to the semantics of bindings.
+The most significant one is the bind operation which appends a member to the context.
+
