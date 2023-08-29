@@ -118,13 +118,22 @@ Product...			{} * [Natural Collection]
 
 
 
-A context is a Collection which holds all bindings which are established in the definition of a function.
-There are two types of bindings for which the context may be queried, symbolic bindings and expression bindings.
-Symbolic bindings are defined as a function (Symbolic-Bind : ((Symbol) -> *))
-Expression bindings are defined as a function (Expression-Bind : ((Quote) -> *))
-Evaluation of an expression begins by querying the context with an expression.
-Within the definition of an expression binding, it may query symbols.
-
-A context extends Collections with operations specific to the semantics of bindings.
-The most significant one is the bind operation which appends a member to the context.
-
+There are no first class contexts. 
+You have a let form with explicit lexical extent.
+Which is the same as a set form with sequencing.
+What does my set form look like?
+(Symbol <- Function)
+(Expression <- Function)
+(Expression <- ((Expression) -> Expression))
+('x <- (1 + 1)),
+(x = 2)
+What about macros being applied first?
+({'f x} <- (n -> ))
+now I have two arrows going opposite directions.
+That sucks.
+Just do something else for binding.
+(= ('x -> 1 + 1))
+so {'= Function} is a let binding.
+Or I can just use the let keyword.
+(let ('x -> 1 + 1))
+(let ((n : {'f x}) -> '(f) + {(n _ 2)})
