@@ -115,3 +115,28 @@ Product...			{} * [Natural Collection]
 	Product will yield a collection with the elements of the collection on the left repeating as many times as the value on the right.
 	The number of repetitions is taken either as the natural number or the cardinality of the collection on the right.
 	The resulting collection must exhibit all properties of a collection resulting from a constructor.
+
+
+
+How do I do quotes?
+Single apostrophe is quote which treats an expression as data.
+It's also the expression constructor.
+Within a single apostrophe, if a double apostrophe occurs (''), that means to evaluate the sub-form and insert the result.
+Within a single apostrophy, if a triple apostrophe occurs ('''), that means to evaluate the sub-form and expand the result so each atom appears in sequence in the quoted form.
+'(1 2 3) == {1 2 3}
+(let (x 1) in '(''x 2 3)) == {1 2 3}
+(let (x {2 3}) in '(1 '''x)) == {1 2 3}
+Stacking quotations still works, just separate them with whitespace.
+
+
+
+What is the special binding '&?
+It is a collection which represents all data in a function.
+It contains a circular reference to the function, so you can call it with fresh parameters.
+Recursion is then (x -> (& x))
+What index is the function?
+The first or the last?
+The last.
+The first index is the first parameter, so you can do
+(x -> (& _ 1)) which is equivalent to (x -> x)
+

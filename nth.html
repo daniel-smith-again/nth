@@ -4,11 +4,11 @@
 <title>Nth Standard</title>
 <style>
 	:root{
-		--bg:rgb(238, 229, 218);
+		--bg:rgb(243, 221, 202);
 		--fg:rgb(0, 37, 33);
 		--dbg:rgb(212, 203, 191);
 	}
-	body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw) / 1.3);}
+	body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw));}
 	code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
 	p, h1, figure, figcaption, ol, ul, dl{width:calc(100% - 14ch);max-width:90ch;min-width:40ch;margin:auto;text-align:center;border-radius:1ch;padding:1ch;margin-bottom:1ch;}
 	figure{border:solid 0.2ch var(--fg);display:block;}
@@ -33,7 +33,7 @@ id="path47" />
 <path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
 d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
-<h1 style="height:25vh;">Standard Documentation for the<br><i>n</i><sup>th</sup> Programming Language</h1>
+<h1 style="height:25vh;width:90%;min-width:unset;">Standard Documentation for the<br><i>n</i><sup>th</sup> Programming Language</h1>
 <p><cite id="0"><a href="#0">0</a></cite>This document forms a comprehensive specification of the properties of an abstract system for describing and computing programs, "nth" (read as <i>n</i><sup>th</sup>).</p>
 <p><cite id="0.1"><a href="#0.1">0.1</a></cite>This document represents a standard of conformance. As such, the descriptions therein represent requirements for an implementation of the <i>n</i><sup>th</sup> system.</p>
 <p><cite id="0.2"><a href="#0.2">0.2</a></cite>An implementation of <i>n</i><sup>th</sup> is said to conform to this standard if it demonstrates all the properties described in this document.</p>
@@ -47,13 +47,13 @@ When the system is engaged, it will behave according to these general steps...</
 <hr>
 <ol>
 	<li>The system waits for a program to be submitted.</li>
-	<li>A program is submitted in textual form.</li>
+	<li>A written program is submitted.</li>
 	<li>The program text is read and converted to a program model.</li>
 	<li>The program model is computed.</li>
 	<li>The result of the program is displayed.</li>
 	<li>The system repeats this process from the first step.</li>
 </ol>
-<figcaption>Where the effects of the computations from each repetition are preserved until the system is totally disengaged.</figcaption>
+<figcaption>Where the sequence of programs submitted are implicitly treated as a sequence of expressions in a <code>do</code> form.</figcaption>
 </figure>
 <h2><a href="#Syntax" id="Syntax">Syntax</a></h2>
 <p>A program can be represented in two forms, "written" or text form, and the program model.
@@ -79,47 +79,37 @@ The symbol, *, denotes an element which may repeat one or more times where it oc
 Characters given in <code>monospace</code> represent themselves literally.<br>
 </figcaption><hr>
 <table>
-<tr><td>Program &rarr; Expression | Sequence | Collection | Type | String | Quote | Symbol | Number | Delimiter</td></tr>
-<tr><td>Expression &rarr; <code>(</code> Program * <code>)</code></td></tr>
-<tr><td>Sequence &rarr; Program <code>,</code> Program | Program <code>,</code> Sequence</td></tr>
+<tr><td>Program &rarr; Expression | Collection | Type</td></tr>
+<tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
 <tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
 <tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
-<tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
-<tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
-<tr><td>Quote &rarr; <code>`</code> Program</td></tr>
+<tr><td>Atom &rarr; Program | Symbol | Number | String | Quote</td></tr>
 <tr><td>Symbol &rarr; <i>Glyph</i> | <i>Digit</i> | Symbol *</td></tr>
-<tr><td>Number &rarr; <i>Digit</i> * | <i>Digit</i> * <code>.</code> <i>Digit</i> * | <i>Digit</i> * <code>/</code> <i>Digit</i> *</td></tr>
-<tr><td>Delimiter &rarr; <i>Blank</i> *</td></tr>
+<tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
+<tr><td>Contents &rarr; <i>Glyph</i> | <i>Digit</i></td></tr>
+<tr><td>Delimiter &rarr; <i>Blank</i> * | Program</td></tr>
+<tr><td>Number &rarr; <i>Digit</i> * | Sign <i>Digit</i> * </td></tr>
+<tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
+<tr><td>String &rarr; <code>"</code> Characters <code>"</code></td></tr>
+<tr><td>Characters &rarr; <i>Glyph</i> | <i>Digit</i> | <i>Blank</i> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
+<tr><td>Quote &rarr; <code>'</code> Form</td></tr>
+<tr><td>Form &rarr; Program | <code>''</code> Program | <code>'''</code> Program</td></tr>
 </table>
-<figcaption>In the case where a Symbol or Number directly follows another Symbol or Number, a Delimiter must occur between the two.</figcaption>
-</figure>
-<p>Expressions, Sequences, Collections, and Types correspond to program model structure.
-Strings, Quotes, Symbols, Data, and Numbers correspond to constructors.</p>
-<p>Expressions, Sequences, Collections, and Types are all represented by a collection containing data or nested programs as elements.</p>
-<p>The String notation constructs a vector of characters exactly as long as the number of characters occurring between a pair of double quotes.</p>
-<p>The backslash is used to explicitly include characters in a string.
-If the backslash is followed by another backslash or a double quote, a backslash or double quote is included in the string respectively.
-If the backslash is followed by a sequence of numbers, those numbers are interpreted as the numeric value corresponding to a value in the character encoding scheme used by the implementation.</p>
-<p>The backslash prefixes some expression representing a character which will be included in the string at the position where the backslash occurs.</p>
-<p>If a backslash is followed by another backslash, then a backslash is included in the string.</p>
-<p>If a backslash is followed by a double quote, then a double quote is included in the string.</p>
-<p>If a backslash is followed by an expression, then the expression is computed </p>
-<figure>
-<figcaption>This figure shows some examples of String notation and the corresponding string data which is generated.</figcaption>
-<hr>
-<table>
-<tr><td><code>"abcd"</code></td><td>abcd</td></tr>
-<tr><td><code>"\97.\98.\99.\100.</code></td><td>abcd</td></tr>
-<tr><td><code>"\"\\"</code></td><td>"\</td></tr>
-</table>
-<figcaption>Examples using the backslash with a character code assume the ASCII character encoding.</figcaption>
+<figcaption>Character sequences formed according to <i>Number</i> are a subset of sequences formed according to <i>Symbol</i>.
+Therefore, every <i>Symbol</i> sequence must be checked to determine it is not actually a <i>Number</i> sequence.</figcaption>
 </figure>
 
+<p>A subset of names in the grammar correspond to constructors which can be interpreted to generate data or components in a Program Model.
+The subset is Expression, Collection, Type, Symbol, Number, String, and Quote.
+The names which correspond to Program Model components are Expression, Collection, and Type.
+The names which correspond to data are Symbol, Number, String, and Quote.
+</p>
 
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
-<p>The structured data which represents a program is referred to as a "program model".</p>
-<p>The program model unambiguously represents all aspects of a program.</p>
-<p>A program model is comprised of collections representing individual computational steps. The elements of each collection are used to determine how the expression is computed.</p>
+<p>The Program Model is a data structure which represents a computable program.</p>
+<p>The Program Model is formed using Collections.</p>
+<p>Each individual component of the Program Model must exhibit the properties of the Collection type.</p>
+
 
 
 
