@@ -7,6 +7,7 @@ The bar is a higher order function that constructs a type as a relation between 
 
 I do not have coroutines or anything like that. 
 I have CPS and macros that perform CPS transforms.
+If you want actual parallelism, you need to communicate with the operating system.
 
 
 Pointers are done with only one operator.
