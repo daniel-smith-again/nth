@@ -1,6 +1,8 @@
 There is no quantification through types since types are infinite.
 Instead you have refinements via 
 (T | (x -> f x))
+The bar is a higher order function that constructs a type as a relation between an existing type and a predicate as a function.
+
 
 
 I do not have coroutines or anything like that. 
