@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<a href="forward.html" style="position:fixed;right:1ch;top:1ch;">&#x23f5;</a>
+<a href="contents.html" style="position:fixed;right:1ch;top:1ch;">&#x23f5;</a>
 <a href="glossary.html" style="position:fixed;left:1ch;top:1ch;">&#x23f4;</a>
 
-<svg viewBox="0 0 100 100" version="1.1" style="height:25vh;margin:auto;margin-top:10vh;margin-bottom:10vh;width:auto;display:block;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 100 100" version="1.1" style="height:50vh;margin:auto;margin-top:7ch;width:auto;display:block;" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
 <defs id="defs54" />
 <ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
 ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
@@ -18,13 +18,13 @@ id="path47" />
 <path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
 d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </svg>
-<h1 style="height:10vh;width:90%;min-width:unset;">The <i>n</i><sup>th</sup> Programming Language<br>⏷</h1>
+<h1 style="height:50vh;">The<br><i>n</i><sup>th</sup> Programming Language<br>HyperDoc<br>&#x23f7;</h1>
 <style>
 	input{background-color:var(--bg);color:var(--fg);padding:1ch;margin:0;font-size:inherit;border:solid 0.2ch var(--fg);border-radius:1ch;width:24ch;overflow-x:hidden;margin:auto;display:inline-block;}
 	button{background-color:var(--bg);color:var(--fg);padding:0.2ch;margin:0;font-size:inherit;border:none;border-radius:1ch;margin:auto;display:inline-block;cursor:pointer;}
 	button:hover{background-color:var(--dbg);}
 	form{text-align:center;}
-	ol{width:50%;margin:auto;height:fit-content;max-height:7ch;background-color:var(--bg);}
+	ol{width:50%;margin:auto;height:80vh;background-color:var(--bg);}
 	ol::before{content:none;}
 	li::before{content:none;}
 </style>
@@ -34,17 +34,13 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 </form>
 <ol id="results" style="overflow-y:auto;"></ol>
 <script>
-	const SearchTable = {
-		"Forward":"forward.html",
-		"Glossary":"glossary.html",
-		"Terms":"terms.html",
-	};
 	function Search() {
 		const results = document.getElementById("results");
 		while (results.hasChildNodes()) {
 			results.removeChild(results.lastChild);
 		}
-		const search = document.getElementById("searchbar").value.split(" ")[0];
+		const search = document.getElementById("searchbar").value;
+		if (search == "") {return false;}
 		const pattern = new RegExp(search.split("").reduce((a,b) => {return a+'.*'+b}), "i");
 		console.log("Searching for " + search + " using " + pattern + ".");
 		const dict = Object.keys(SearchTable);
@@ -53,14 +49,32 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 				var l = document.createElement("li");
 				l.style.listStyle = "none";
 				var a = document.createElement("a");
-				a.href = SearchTable[dict[i]];
-				a.appendChild(document.createTextNode(dict[i]));
+				a.href = SearchTable[dict[i]][1];
+				a.appendChild(document.createTextNode(SearchTable[dict[i]][0]));
 				l.appendChild(a);
 				results.appendChild(l);
 
 			}
 		}
 		return false;
+	};
+	window.addEventListener("keyup", function(){
+		if (document.activeElement == document.getElementById("searchbar")) {
+			Search();
+		}
+	});
+	const SearchTable = {
+		"Table of Contents":["Table of Contents","contents.html"],
+		"Foreword":["Foreword","foreword.html#Foreword"],
+		"Glossary":["Glossary","glossary.html"],
+		"Terms":["Terms","terms.html"],
+		"Terms of Use":["Foreword: Terms of Use","foreword.html#Terms-of-Use"],
+		"forms a comprehensive specification":["Foreword: 1","foreword.html#1"],
+		"represents a standard of conformance represent requirements":["Foreword: 2","foreword.html#2"],
+		"implementation of nth conform to this standard conformance":["Foreword: 3","foreword.html#3"],
+		"Copyright":["Foreword: Copyright", "foreword.html#Copyright"],
+		"Disclaimer":["Foreword: Disclaimer", "foreword.html#Disclaimer"],
+		"Warranty provided as is damages":["Foreword: Warranty", "foreword.html#Warranty"],
 	};
 </script>
 </body>

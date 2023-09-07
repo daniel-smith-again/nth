@@ -5,13 +5,15 @@
 }
 body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw));}
 code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-p, h1, figure, figcaption, ol, ul, dl{width:calc(100% - 14ch);max-width:90ch;min-width:40ch;margin:auto;text-align:center;border-radius:1ch;padding:1ch;margin-bottom:1ch;}
+p, h1, figure, figcaption, ol, ul, dl{width:calc(100% - 14ch);max-width:90ch;min-width:40ch;margin:auto;text-align:center;border-radius:1ch;padding:none;margin-bottom:1ch;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;}
 hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
 cite{display:inline;font-style:normal;text-align:left;padding:1ch;height:auto;width:7ch;position:absolute;left:0;}
-a{text-decoration:none;color:inherit;padding:0.2ch;}
-cite a:hover{padding:0;border: 0.2ch solid var(--fg);}
+a{text-decoration:none;color:inherit;padding:none;}
+a p{padding:none;width:100%}
 table{text-align:left;margin-left:auto;margin-right:auto;}
 dl{text-align:left;}
 h2{padding-top:7ch;font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
+a:active, a:hover, a:link, a:visited {border:none;}
+:target{all:none;}
