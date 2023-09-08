@@ -11,7 +11,64 @@
 
 	<h1><a href="#Rationale" id="Rationale">Rationale</a></h1>
 	<h2><a href="#Introduction" id="Introduction">Introduction</a></h2>
+	<p>The burning question that follows the advent of any new programming language is always "Why?".
+	As in, "Why must I use this inferior tool when the one I already use is perfectly sufficient?", or "Why must I learn this language when the one I already know is difficult enough?".
+	The answer in this case is that it is <i>necessary</i>.
+	Not because project management decided to use it.
+	Neither is it for the good of mankind.
+	It is necessary because programming languages, as they currently exist, are a terrible case of unrealized potential.
+	Indeed the field of computer science has not yet begun to write programs.</p>
+
+	<p>Does this mean that one may begin to program by utilizing Nth?
+	Yes.
+	While it's true that modern languages are sufficient, they are only sufficient towards the capabilities they were designed for.
+	It is also true that learning and using programming languages, and then engineering correct software with them is difficult.
+	But, it is not true that this difficulty is a natural matter of course, rather it's simply the current (unacceptable) state of things.</p>
+
+	<p>Modern programming languages do not achieve their intended purpose.
+	When using a programming language, it is not natural to express the systems which our infrastructure relies on, nor is it natural to verify that what is being modeled by the programming language agrees with the system in question.
+	This is partly due to the fundamental limitation of semantics and their correspondence to the object they describe.
+	This is largely due to the fact that modern languages are not designed in a way that facilitates this.
+	Abstractions aren't intended to build correspondence with the subject, they're provided for simple abbreviation.
+	Methods of extension do not expand the domain of a language, they fold the existing domains in on themselves.
+	Essentially, more priority is given to "how" than "what".
+	Anyone using a language is immediately bogged down by "how" they will achieve any system in the first place rather than "what" that system will be.
+	As a result, nothing of importance is accomplished.</p>
+
+	<p>Modern programming languages are hard, but not because of some quantifiable property.
+	They are not "too large", "too static", "too dynamic", or lacking some convenience feature.
+	They are hard because they are complex in ways that the human brain is not designed to reason about.
+	Mankind is not adapted to reason about implicit things since that phenomenon is quite rare in the physical world.
+	Action at a distance appears "spooky" and most programming languages are full of spooky things.
+	There are things that hide, things that you can't "touch", things that disappear and reappear in a different form, and even things that "talk" to each other without the user knowing.
+	These programming languages are downright adversarial to the user.
+	In response, the computer industry has developed "language lawyers" and "language gurus" who's job it is to interpret all the spooky things that may occur.
+	They build this understanding over the course of years and are hailed as a rank above the rest, similar to high priests in primitive cultures.
+	Meanwhile the common, unenlightened engineers approach languages with an appropriate mixture of fear and awe.
+	They perform "rites", avoid "taboos", and participate in "cargo cults" to appease the fearsome and fickle language implementations.
+	This is simply ridiculous.
+	It is a problem when an inanimate entity exibits enough complexity to be accidentally personified.</p>
+
+	<p>So, again, "Why" Nth? 
+	Because what language, out of these which were described, is "sufficient"? None.
+	What language could possibly be harder that those that already exist? None.
+	They collectively represent a global minimum in terms of fitness for a given purose.
+	Nth represents a global (or at least local) maxima in that it is mostly fit for something.
+	Nth is simple, sufficient, capable of appropriate abstraction, and capable of verification.</p>
+
+	<p></p>
+	
 	<h2><a href="#Changes" id="Changes">Changes</a></h2>
+	<p>It is not immediately clear what changes could have been made to a programming language that hasn't existed yet, but there are plenty.</p>
+	<p>Nth was originally designed with a static, context free grammar which could be read in a single pass by a compiler.
+	It turned out that this was a poor choice when one of the design goals was simplicity.
+	When a language has grammar, users must shoulder the burden of knowing that grammar.
+	Instead of writing a program in the language, a program must be conjugated using prepositions, statements, modifiers, and other complexities better left to spoken languages.
+	Worst of all, grammar is not composeable.
+	If you compose two gramatically correct sentences, the result is an erronious run-on sentence.
+	I cannot observe the "result" of a gramatically correct statement, let alone use it in further statements.
+	These contrived limitations do not accord with the most natural purpose of programming languages, to provide a model the interconnected components of a dynamic system.
+	</p>
 	<h2><a href="#Design" id="Design">Design</a></h2>
 	<h2><a href="#Epilogue" id="Epilogue">Epilogue</a></h2>
 	
