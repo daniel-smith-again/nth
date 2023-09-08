@@ -7,7 +7,6 @@
 body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font-size:var(--scale);padding-bottom:10ch;}
 svg{display:block;height:20ch;margin:auto;}
 p, h1, figure, figcaption, ol, ul, dl, details{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
-body > p{width:69%;}
 p{text-align:justify;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;}
