@@ -28,7 +28,7 @@
 	<p>Modern programming languages do not achieve their intended purpose.
 	When using a programming language, it is not natural to express the systems which our infrastructure relies on, nor is it natural to verify that what is being modeled by the programming language agrees with the system in question.
 	This is partly due to the fundamental limitation of semantics and their correspondence to the object they describe.
-	This is largely due to the fact that modern languages are not designed in a way that facilitates this.
+	It is, most significantly, due to the fact that modern languages are not designed in a way that facilitates this.
 	Abstractions aren't intended to build correspondence with the subject, they're provided for simple abbreviation.
 	Methods of extension do not expand the domain of a language, they fold the existing domains in on themselves.
 	Essentially, more priority is given to "how" than "what".
@@ -54,22 +54,63 @@
 	What language could possibly be harder that those that already exist? None.
 	They collectively represent a global minimum in terms of fitness for a given purose.
 	Nth represents a global (or at least local) maxima in that it is mostly fit for something.
-	Nth is simple, sufficient, capable of appropriate abstraction, and capable of verification.</p>
+	Nth is simple, sufficient, capable of appropriate abstraction, and capable of correctness.</p>
 
-	<p></p>
+
+	<h2><a href="#Design" id="Design">Design</a></h2>
+	<p>Nth has three goals, simplicity, correctness, and portability.
+	These are goals which are either uncommon, or improperly met by other programming languages.
+	If Nth is to be useful in any capacity, it should meet and exceed these goals and their implied properties.</p>
+
+	<p>The requirement of simplicity can be though of in terms of how Nth might describe a domain or model a system.
+	The significance is twofold. 
+	Firstly, a model should never require components which do not correspond to some aspect of the model.
+	In other words, the user should never have to address the properties of the language itself in order to reach a complete model.
+	Secondly, the simplest way of describing a domain is always in the terms of the domain itself.
+	This is not the same as a "domain-specific language", as that implies the user must reason about the properties of Nth rather than the domain.
+	In other words, if Nth does not already provide an appropriate correspondence to the domain, it must accept new terms and semantics which are appropriate.</p>
+
+	<p>Nth programs are required to be correct according to a domain-specific notion of correctness.
+	Furthermore, programs which cannot be found correct are rejected.
+	This requirement of correctness is different than what is usually implied by a language being "correct".
+	Normally it involves some level of external mathematical verification.
+	This does not meet the standard of correctness which is applied to Nth.
+	Mathematical correctness is proven with respect to the properties of the language, which ultimately implies nothing about the correctness of the model or its agreement with a domain.
+	Additionally, mathematical correctness relies on established properties of mathematics, which will never be current with all domains that Nth may be applied to.
+	Thus the notion of correctness must be carried over from what is correct within the domain, and then embedded in the model.
+	</p>
+
+	<p>Nth programs must be portable in such a way that an artifact may be generated targetting a specific environment.
+	This is different than portability which requires a specific environment configuration prior to execution.
+	Nth must be capable of producing self-reliant (stand-alone) artifacts which can be executed in an unmodified environment.
+	To this end, all resources required for executing an artifact must be included in the artifact and must be present when the artifact is generated.
+	Nth accomplishes this by providing a dynamic virtual environment for drafting programs which will preserve all resources which may be necessary for the creation of an artifact.
+	This is sometimes called "image-based compilation" or "dynamic compilation".
+	Those terms are not used here because they imply that a single <em>simulated environment</em> must be portable to all real environments prior to executing a program.
+	Additionally, the program is assumed to be inextricable from the simulated environment.
+	Nth meets stricter standard of portability and cannot be limited to the traditional environment for "image-based" or "dynamic" compilation.
+	</p>
+
 	
 	<h2><a href="#Changes" id="Changes">Changes</a></h2>
-	<p>It is not immediately clear what changes could have been made to a programming language that hasn't existed yet, but there are plenty.</p>
+	<p>It is not immediately clear what changes could have been made to a programming language that hasn't existed yet, but there are plenty.
+	The most change a significant project will experience is always during drafting.
+	Nothing is commited, and everything is fluid.
+	In the case of Nth, there were a seriescreated objects of large semantic iterations which were performed before the initial version of the language was presented here.</p>
 	<p>Nth was originally designed with a static, context free grammar which could be read in a single pass by a compiler.
 	It turned out that this was a poor choice when one of the design goals was simplicity.
 	When a language has grammar, users must shoulder the burden of knowing that grammar.
 	Instead of writing a program in the language, a program must be conjugated using prepositions, statements, modifiers, and other complexities better left to spoken languages.
 	Worst of all, grammar is not composeable.
 	If you compose two gramatically correct sentences, the result is an erronious run-on sentence.
-	I cannot observe the "result" of a gramatically correct statement, let alone use it in further statements.
-	These contrived limitations do not accord with the most natural purpose of programming languages, to provide a model the interconnected components of a dynamic system.
-	</p>
-	<h2><a href="#Design" id="Design">Design</a></h2>
+	One cannot observe the "result" of a gramatically correct statement, let alone use it in further statements.
+	These contrived limitations do not accord with the most natural purpose of programming languages, to model the interconnected components of a dynamic system.
+	Instead of a grammar, Nth was changed to be expression-based.
+	Each operational step is now represented by a single expression, recognized by a unique pattern of data types and keywords.
+	A grammar still exists, but it only serves to punctuate and nest expressions.</p>
+	<p>Another previous revision provided Nth with a form of Algebraic Data Type, where the form of data was described by the implicit operations which construct and deconstruct it.
+	This was eventually dropped in favor of indexed sequences (referred to as "Collections")</p>
+	
 	<h2><a href="#Epilogue" id="Epilogue">Epilogue</a></h2>
 	
 </body>
