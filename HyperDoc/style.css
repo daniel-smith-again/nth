@@ -4,7 +4,7 @@
 	--dbg:rgb(212, 203, 191);
 	--scale:calc(1vh + 1vw);
 }
-body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font-size:var(--scale);padding-top:10ch;}
+body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font-size:var(--scale);padding-bottom:10ch;}
 svg{display:block;height:20ch;margin:auto;}
 p, h1, figure, figcaption, ol, ul, dl{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
 figure{border:solid 0.2ch var(--fg);display:block;}
@@ -20,8 +20,7 @@ a:active, a:hover, a:link, a:visited {border:none;}
 #searchbar{background-color:inherit;color:inherit;font-size:inherit;border:solid calc(0.2 * var(--scale)) var(--fg);border-radius:1ch;display:block;margin:auto;}
 #searchbutton{background-color:inherit;color:inherit;font-size:inherit;border:none;cursor:pointer;display:block;margin:auto;}
 #searchbutton:hover{background-color:var(--dbg);}
-#next, #prev, #up{position:fixed;top:-1ch;font-size:calc(3 * var(--scale));background-color:var(--bg);border: solid var(--fg) 0.2ch;border-radius:1ch;display:block;padding:none;width:3ch;height:3ch;line-height:3ch;text-align:center;}
-#next{right:-1ch;}
-#prev{left:-1ch;}
-#up{left:15.5%;width:69%;opacity:0;transition-duration:0.5s;}
-#up:hover{opacity:1;}
+#next, #prev, #up{position:fixed;bottom:0;font-size:calc(3 * var(--scale));background-color:var(--bg);border: solid var(--fg) 0.2ch;border-radius:1ch;display:block;padding:none;width:2ch;height:2ch;line-height:2ch;text-align:center;}
+#next{right:0;}
+#prev{left:0ch;}
+#up{left:15.5%;width:69%;}
