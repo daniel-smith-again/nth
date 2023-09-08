@@ -6,13 +6,18 @@
 }
 body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font-size:var(--scale);padding-bottom:10ch;}
 svg{display:block;height:20ch;margin:auto;}
-p, h1, figure, figcaption, ol, ul, dl{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
+p, h1, figure, figcaption, ol, ul, dl, details{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
+* > p{width:100%;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;}
 hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:69%;}
 a{text-decoration:none;color:inherit;padding:none;}
 table{text-align:left;margin-left:auto;margin-right:auto;}
-dl{text-align:left;}
+dl, details{text-align:left;}
+details{border:0.2ch solid var(--fg);width:fit-content;}
+details > summary{list-style-type:none;cursor:pointer;text-align:center;padding:1ch;}
+details[open] > summary{border-bottom:0.2ch solid var(--fg);text-align:left;padding:0;padding-bottom:1ch;}
+details[open] {padding:1ch;}
 h2{padding-top:7ch;font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
 a:active, a:hover, a:link, a:visited {border:none;}
 :target{all:none;}
