@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset='utf-8'>
-<title>Nth Standard</title>
+<title>Nth HyperDoc</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
 	It is necessary because programming languages, as they currently exist, are a terrible case of unrealized potential.
 	Indeed the field of computer science has not yet begun to write programs.</p>
 
-	<p>Does this mean that one may begin to program by utilizing Nth?
+	<p>Does this mean that one may begin to program by utilizing <i>n</i><sup>th</sup>?
 	Yes.
 	While it's true that modern languages are sufficient, they are only sufficient towards the capabilities they were designed for.
 	It is also true that learning and using programming languages, and then engineering correct software with them is difficult.
@@ -49,64 +49,64 @@
 	This is simply ridiculous.
 	It is a problem when an inanimate entity exibits enough complexity to be accidentally personified.</p>
 
-	<p>So, again, "Why" Nth? 
+	<p>So, again, "Why" <i>n</i><sup>th</sup>? 
 	Because what language, out of these which were described, is "sufficient"? None.
 	What language could possibly be harder that those that already exist? None.
 	They collectively represent a global minimum in terms of fitness for a given purose.
-	Nth represents a global (or at least local) maxima in that it is mostly fit for something.
-	Nth is simple, sufficient, capable of appropriate abstraction, and capable of correctness.</p>
+	<i>n</i><sup>th</sup> represents a global (or at least local) maxima in that it is mostly fit for something.
+	<i>n</i><sup>th</sup> is simple, sufficient, capable of appropriate abstraction, and capable of correctness.</p>
 
 
 	<h2><a href="#Design" id="Design">Design</a></h2>
-	<p>Nth has three goals, simplicity, correctness, and portability.
+	<p><i>n</i><sup>th</sup> has three goals, simplicity, correctness, and portability.
 	These are goals which are either uncommon, or improperly met by other programming languages.
-	If Nth is to be useful in any capacity, it should meet and exceed these goals and their implied properties.</p>
+	If <i>n</i><sup>th</sup> is to be useful in any capacity, it should meet and exceed these goals and their implied properties.</p>
 
-	<p>The requirement of simplicity can be though of in terms of how Nth might describe a domain or model a system.
+	<p>The requirement of simplicity can be though of in terms of how <i>n</i><sup>th</sup> might describe a domain or model a system.
 	The significance is twofold. 
 	Firstly, a model should never require components which do not correspond to some aspect of the model.
 	In other words, the user should never have to address the properties of the language itself in order to reach a complete model.
 	Secondly, the simplest way of describing a domain is always in the terms of the domain itself.
-	This is not the same as a "domain-specific language", as that implies the user must reason about the properties of Nth rather than the domain.
-	In other words, if Nth does not already provide an appropriate correspondence to the domain, it must accept new terms and semantics which are appropriate.</p>
+	This is not the same as a "domain-specific language", as that implies the user must reason about the properties of <i>n</i><sup>th</sup> rather than the domain.
+	In other words, if <i>n</i><sup>th</sup> does not already provide an appropriate correspondence to the domain, it must accept new terms and semantics which are appropriate.</p>
 
-	<p>Nth programs are required to be correct according to a domain-specific notion of correctness.
+	<p><i>n</i><sup>th</sup> programs are required to be correct according to a domain-specific notion of correctness.
 	Furthermore, programs which cannot be found correct are rejected.
 	This requirement of correctness is different than what is usually implied by a language being "correct".
 	Normally it involves some level of external mathematical verification.
-	This does not meet the standard of correctness which is applied to Nth.
+	This does not meet the standard of correctness which is applied to <i>n</i><sup>th</sup>.
 	Mathematical correctness is proven with respect to the properties of the language, which ultimately implies nothing about the correctness of the model or its agreement with a domain.
-	Additionally, mathematical correctness relies on established properties of mathematics, which will never be current with all domains that Nth may be applied to.
+	Additionally, mathematical correctness relies on established properties of mathematics, which will never be current with all domains that <i>n</i><sup>th</sup> may be applied to.
 	Thus the notion of correctness must be carried over from what is correct within the domain, and then embedded in the model.
 	</p>
 
-	<p>Nth programs must be portable in such a way that an artifact may be generated targetting a specific environment.
+	<p><i>n</i><sup>th</sup> programs must be portable in such a way that an artifact may be generated targetting a specific environment.
 	This is different than portability which requires a specific environment configuration prior to execution.
-	Nth must be capable of producing self-reliant (stand-alone) artifacts which can be executed in an unmodified environment.
+	<i>n</i><sup>th</sup> must be capable of producing self-reliant (stand-alone) artifacts which can be executed in an unmodified environment.
 	To this end, all resources required for executing an artifact must be included in the artifact and must be present when the artifact is generated.
-	Nth accomplishes this by providing a dynamic virtual environment for drafting programs which will preserve all resources which may be necessary for the creation of an artifact.
+	<i>n</i><sup>th</sup> accomplishes this by providing a dynamic virtual environment for drafting programs which will preserve all resources which may be necessary for the creation of an artifact.
 	This is sometimes called "image-based compilation" or "dynamic compilation".
 	Those terms are not used here because they imply that a single <em>simulated environment</em> must be portable to all real environments prior to executing a program.
 	Additionally, the program is assumed to be inextricable from the simulated environment.
-	Nth meets stricter standard of portability and cannot be limited to the traditional environment for "image-based" or "dynamic" compilation.</p>
+	<i>n</i><sup>th</sup> meets stricter standard of portability and cannot be limited to the traditional environment for "image-based" or "dynamic" compilation.</p>
 
-	<p>An additional point of portability which merits its own passage is the amount of time it takes to get from reading this document to creating a complete implementation of Nth.
-	Nth's definition of portability does not allow for a single implementation to be used to generate artifacts for all other incompatible environments.
+	<p>An additional point of portability which merits its own passage is the amount of time it takes to get from reading this document to creating a complete implementation of <i>n</i><sup>th</sup>.
+	<i>n</i><sup>th</sup>'s definition of portability does not allow for a single implementation to be used to generate artifacts for all other incompatible environments.
 	The artifacts will be compatible regardless, but it is equally imperative that the resources used for generating those artifacts be portable.
 	Several large projects exist for languages where environments and platforms may be targetted which are not themselves have no support for that language.
-	Under this documents notion of portability, those projects are considered a half-measure and would not fulfill the portability requirement for Nth.
-	In order for Nth to be truly portable, an implementation cannot demand too high a level of resources or complexity.
-	Computing environments from at least 50 years prior should be capable of executing an implementation of Nth.
-	Even if these environments are not adequate for executing an Nth <em>program</em>, the Nth <em>implementation</em> should never be too great a burden.</p>
+	Under this documents notion of portability, those projects are considered a half-measure and would not fulfill the portability requirement for <i>n</i><sup>th</sup>.
+	In order for <i>n</i><sup>th</sup> to be truly portable, an implementation cannot demand too high a level of resources or complexity.
+	Computing environments from at least 50 years prior should be capable of executing an implementation of <i>n</i><sup>th</sup>.
+	Even if these environments are not adequate for executing an <i>n</i><sup>th</sup> <em>program</em>, the <i>n</i><sup>th</sup> <em>implementation</em> should never be too great a burden.</p>
 
 	
 	<h2><a href="#Changes" id="Changes">Changes</a></h2>
 	<p>It is not immediately clear what changes could have been made to a programming language that hasn't existed yet, but there are plenty.
 	The most change a significant project will experience is always during drafting.
 	Nothing is commited, and everything is fluid.
-	In the case of Nth, there were a seriescreated objects of large semantic iterations which were performed before the initial version of the language was presented here.</p>
+	In the case of <i>n</i><sup>th</sup>, there were a series of large semantic iterations which were performed before the initial version of the language was presented here.</p>
 	
-	<p>Nth was originally designed with a static, context free grammar which could be read in a single pass by a compiler.
+	<p><i>n</i><sup>th</sup> was originally designed with a static, context free grammar which could be read in a single pass by a compiler.
 	It turned out that this was a poor choice when one of the design goals was simplicity.
 	When a language has grammar, users must shoulder the burden of knowing that grammar.
 	Instead of writing a program in the language, a program must be conjugated using prepositions, statements, modifiers, and other complexities better left to spoken languages.
@@ -114,26 +114,26 @@
 	If you compose two gramatically correct sentences, the result is an erronious run-on sentence.
 	One cannot observe the "result" of a gramatically correct statement, let alone use it in further statements.
 	These contrived limitations do not accord with the most natural purpose of programming languages, to model the interconnected components of a dynamic system.
-	Instead of a grammar, Nth was changed to be expression-based.
+	Instead of a grammar, <i>n</i><sup>th</sup> was changed to be expression-based.
 	Each operational step is now represented by a single expression, recognized by a unique pattern of data types and keywords.
 	A grammar still exists, but it only serves to punctuate and nest expressions.</p>
 
-	<p>Another previous revision provided Nth with a form of Algebraic Data Type, where the form of data was described by the implicit operations which construct and deconstruct it.
+	<p>Another previous revision provided <i>n</i><sup>th</sup> with a form of Algebraic Data Type, where the form of data was described by the implicit operations which construct and deconstruct it.
 	This was eventually dropped in favor of indexed sequences, referred to as "Collections".
 	Algebraic Data Types violate the requirement of simplicity as they force the involvement of language-specific abstractions and prevent the domain (in this case, data format) from being described in its own terms.
 	Collections meet the simplicity requirement as they can describe any sequence of data and support references to external data or other collections in the case of structured data.</p>
 
-	<p>A rather big decision was whether or not to include reference types (a.k.a. pointers) in Nth at all.
+	<p>A rather big decision was whether or not to include reference types (a.k.a. pointers) in <i>n</i><sup>th</sup> at all.
 	Pointers are classically troublemakers in any language that provides them.
 	Ultimately it was decided that an abstract form of references would be acceptable as long as they weren't interpretable as integer values.
 	It's sound to reference an object that exists since a reference corresponds to the "place" that the object resides in.
-	The point where Nth draws the line is constructing a reference for an object that doesn't exist yet.
+	The point where <i>n</i><sup>th</sup> draws the line is constructing a reference for an object that doesn't exist yet.
 	This prevents a subset of null pointer errors common in other languages.
-	Unfortunately, the dreaded null reference still exists in Nth.
+	Unfortunately, the dreaded null reference still exists in <i>n</i><sup>th</sup>.
 	It is sound that an object may be discarded while the reference to its location is preserved.
 	A reference to a physical location is still a distinct thing from the object which may reside there.
 	This is considered a necessary evil due to the fact that many, many concepts and abstractions also separate the notion of objects and references to them.
-	Additionally, the requirement of correctness means that Nth will not just accept null, or"expired", references but also enforce that they are handled properly.</p>
+	Additionally, the requirement of correctness means that <i>n</i><sup>th</sup> will not just accept null, or"expired", references but also enforce that they are handled properly.</p>
 	
 	<p>Polymorphism in functions was another divisive issue.
 	Depending on the interpretation of what polymorphism entails, it breaks the requirement of simplicity.
@@ -151,15 +151,24 @@
 	This is traditionally the sort of language implementation provided by operating system vendors.
 	This was not deemed appropriate either due to the fact that it still violated simplicity and correctness.
 	Batch compilation does not preserve information between successive runs.
-	In Nth, it should possible for the result of executing one program to be used in verifying the correctness of another program.
-	This allows Nth to guarantee a degree of correctness which is both inexpressible and inefficient for batch compilers to achieve.
+	In <i>n</i><sup>th</sup>, it should possible for the result of executing one program to be used in verifying the correctness of another program.
+	This allows <i>n</i><sup>th</sup> to guarantee a degree of correctness which is both inexpressible and inefficient for batch compilers to achieve.
 	The question of a portable implementation architecture ended with an image-based interpreter.
 	Interpretation is efficient enough to perform the computation required to verify a program.
 	If the user wishes to generate an artifact, they can use default libraries which inspect a program definition and translate it to the appropriate artifact.
-	All primitive operations are interpreted and carried out using routines native to the environment executing that implementation of Nth.
+	All primitive operations are interpreted and carried out using routines native to the environment executing that implementation of <i>n</i><sup>th</sup>.
 	If the user wishes to add additional routines to the implementation, the image allows the user to load additional native artifacts into the image describing operations as they are carried out natively in the environment.
-	This solution conforms to all the properties of the portability requirement and allows an implementation of Nth to be created in a timely fashion.</p>
+	This solution conforms to all the properties of the portability requirement and allows an implementation of <i>n</i><sup>th</sup> to be created in a timely fashion.</p>
 
 	<h2><a href="#Epilogue" id="Epilogue">Epilogue</a></h2>
-	
+	<p><i>n</i><sup>th</sup> represents a modern and informed attempt to create a useful tool.
+	One which can be applied in many disciplines.
+	A tool which elevates the user's ability to solve problems.
+	This section has endeavoured to present to the reader, at the very least, why <i>n</i><sup>th</sup> exists at all.
+	Hopefully, some deeper understanding has been imparted as to the needs in computer science which gave rise to <i>n</i><sup>th</sup>, and to the years of work leading up to this document.
+	Whether it should be used or not is up to fate.</p>
+	<p>In summary, welcome to The <i>n</i><sup>th</sup> Programming Language HyperDoc.
+	It describes the properties and interpretation of a simple, correct, and portable programming language.
+	With any luck, it will prove sufficient for at least one person, somewhere in the world.</p>
+	<p>- D.S.</p>
 </body>

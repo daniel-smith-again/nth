@@ -134,6 +134,7 @@ Stacking quotations still works, just separate them with whitespace.
 
 
 What is the special binding '&?
+It is a virtual structure which refers to the active function and its context.
 It is a collection which represents all data in a function.
 It contains a circular reference to the function, so you can call it with fresh parameters.
 Recursion is then (x -> (& x))
@@ -143,3 +144,9 @@ The last.
 The first index is the first parameter, so you can do
 (x -> (& _ 1)) which is equivalent to (x -> x)
 
+So how are bindings and expressions resolved?
+A binding is simply evaluating a thing by itself.
+(x) queries 'x in the environment.
+expression bindings are resolved before symbolic bindings.
+Most importantly, everything should be resolveable statically.
+You should never be recognizing and replacing an expression during runtime.
