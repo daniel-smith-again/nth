@@ -8,6 +8,7 @@ body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font
 svg{display:block;height:20ch;margin:auto;}
 p, h1, figure, figcaption, ol, ul, dl, details{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
 * > p{width:100%;}
+body > p{width:69%;}
 p{text-align:justify;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;}
@@ -30,3 +31,11 @@ a:active, a:hover, a:link, a:visited {border:none;}
 #next{right:0;}
 #prev{left:0ch;}
 #up{left:15.5%;width:69%;}
+
+@media print {
+	#searchbar, #searchbutton, #next, #prev, #up{display: none;}
+	p, li, dd, figure, details, table {break-inside:avoid;break-before:avoid;}
+	h1, h2, h3, h4, dt, summary {break-after:avoid;break-before:auto;}
+	h2, h3, h4 {break-before:always;}
+	h1 + h2 {break-before:avoid;}
+}
