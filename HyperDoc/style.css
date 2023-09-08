@@ -2,18 +2,26 @@
 	--bg:rgb(240, 227, 213);
 	--fg:rgb(0, 37, 33);
 	--dbg:rgb(212, 203, 191);
+	--scale:calc(1vh + 1vw);
 }
-body{color:var(--fg);background-color:var(--bg);width:99vw;font-size:calc((1vh + 1vw));}
-code{font-family:monospace;background-color:var(--dbg);border-radius:0.7ch;display:inline-block;}
-p, h1, figure, figcaption, ol, ul, dl{width:calc(100% - 14ch);max-width:90ch;min-width:40ch;margin:auto;text-align:center;border-radius:1ch;padding:none;margin-bottom:1ch;}
+body{color:var(--fg);background-color:var(--bg);font-size:calc((1vh + 1vw));font-size:var(--scale);padding-top:10ch;}
+svg{display:block;height:20ch;margin:auto;}
+p, h1, figure, figcaption, ol, ul, dl{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;}
-hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:66%;}
-cite{display:inline;font-style:normal;text-align:left;padding:1ch;height:auto;width:7ch;position:absolute;left:0;}
+hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:69%;}
 a{text-decoration:none;color:inherit;padding:none;}
-a p{padding:none;width:100%}
 table{text-align:left;margin-left:auto;margin-right:auto;}
 dl{text-align:left;}
 h2{padding-top:7ch;font-size:inherit;width:50%;margin-left:auto;margin-right:auto;text-align:center;}
 a:active, a:hover, a:link, a:visited {border:none;}
 :target{all:none;}
+
+#searchbar{background-color:inherit;color:inherit;font-size:inherit;border:solid calc(0.2 * var(--scale)) var(--fg);border-radius:1ch;display:block;margin:auto;}
+#searchbutton{background-color:inherit;color:inherit;font-size:inherit;border:none;cursor:pointer;display:block;margin:auto;}
+#searchbutton:hover{background-color:var(--dbg);}
+#next, #prev, #up{position:fixed;top:-1ch;font-size:calc(3 * var(--scale));background-color:var(--bg);border: solid var(--fg) 0.2ch;border-radius:1ch;display:block;padding:none;width:3ch;height:3ch;line-height:3ch;text-align:center;}
+#next{right:-1ch;}
+#prev{left:-1ch;}
+#up{left:15.5%;width:69%;opacity:0;transition-duration:0.5s;}
+#up:hover{opacity:1;}
