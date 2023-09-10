@@ -144,9 +144,17 @@ The last.
 The first index is the first parameter, so you can do
 (x -> (& _ 1)) which is equivalent to (x -> x)
 
-So how are bindings and expressions resolved?
-A binding is simply evaluating a thing by itself.
-(x) queries 'x in the environment.
-expression bindings are resolved before symbolic bindings.
-Most importantly, everything should be resolveable statically.
-You should never be recognizing and replacing an expression during runtime.
+
+What are bindings?
+They're functions of (Symbol -> *)
+Bindings are resolved during application.
+Application will either thunk expression parameters or lookup symbol parameters.
+
+
+What can I expression from independent constraint variables?
+I can say that a function must yeild the same object.
+
+(n : T, f : ((n) -> n))
+What else can it do?
+it can yield a type as in, (n : T, (g n)) where the type of the result of (g n) 
+is yielded.
