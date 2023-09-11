@@ -26,8 +26,8 @@ a:active, a:hover, a:link, a:visited {border:none;}
 #searchbutton{background-color:inherit;color:inherit;font-size:inherit;border:none;cursor:pointer;display:block;margin:auto;}
 #searchbutton:hover{background-color:var(--dbg);}
 #next, #prev, #up{position:fixed;bottom:0;font-size:calc(2 * var(--scale));background-color:var(--bg);border: solid var(--fg) 0.2ch;border-radius:1ch;display:block;padding:none;width:3ch;height:3ch;line-height:3ch;text-align:center;box-shadow: 0px 0px 10px 0px var(--fg);}
-#next{right:0;bottom:31vh;}
-#prev{left:0ch;bottom:31vh;}
+#next{right:0;}
+#prev{left:0ch;}
 #up{left:calc(50vw - 1.5ch);}
 
 @media print {
