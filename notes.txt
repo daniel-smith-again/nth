@@ -158,3 +158,28 @@ I can say that a function must yeild the same object.
 What else can it do?
 it can yield a type as in, (n : T, (g n)) where the type of the result of (g n) 
 is yielded.
+
+
+
+native support for computed goto?
+
+(do (switch :: {(_ -> 'a) (_ -> 'b) (_ -> 'c)})
+(switch (f x))
+
+
+finally figured out macros.
+You bind a macro to a symbol.
+(m :: ((Expression) -> *))
+Then you can put the symbol anywhere in a form.
+(1 + m - 3)
+When it appears in a form, the macro definition is applied to the form.
+Multiple macros can be used in a single form.
+They're dispatched in order of occurrence.
+What about arbitrary overloading?
+That works the same way as normal binding.
+You can overload any binding by constraining an orthogonal type.
+('+ : ('(A + B) -> (& _ 1)))
+
+if I have a constraint, (x : T), I can refine the constraint (x : (t : T)), 
+or I can add an orthogonal constraint, (x : K), which is the same as,
+(x : [T K]).
