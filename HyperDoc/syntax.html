@@ -10,4 +10,39 @@
 	<a id="up" href="index.html">&centerdot;</a>
 
 	<h1><a href="#Syntax" id="Syntax">Syntax</a></h1>
+	<h2><a href="#Minimal-Required-Character-Set" id="#Minimal-Required-Character-Set">Minimal Required Character Set</a></h2>
+	<a href="#1-1" id="1-1">1-1</a><p>A conforming implementation must support the Unicode&reg; character encoding as described in <i>3.2 Conformance Requirements</i> of the Unicode&reg; Standard<a href="overview.html#Normative-References">&bull;</a>.</p>
+	<a href="#1-2" id="1-2">1-2</a><p>A conforming implementation will not implement or accept multidirectional text as described in <i>3.2 Conformance Requirements, Bidirectional Text</i> of the Unicode&reg; Standard<a href="overview.html#Normative-References">&bull;</a>.
+	Source text must be accepted as left-to-right order.</p>
+	<a href="#1-3" id="1-3">1-3</a><p>A conforming implementation must not implement nor apply transformations to the source text according to <i>3.2 Conformance Requirements, Unicode Algorithms</i> and <i>3.2 Conformance Requirements, Default Casing Algorithms</i> of the Unicode&reg; Standard<a href="overview#Normative-References">&bull;</a>.</p>
+	<details><summary id="Glyph">Glyph</summary><p>A character under one of the General Category Major Classes L, M, P, S, or C in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard<a href="overview.html#Normative-References">&bull;</a></p></details>
+	<details><summary id="Digit">Digit</summary><p>A character under the General Category Major Class N in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard<a href="overview.html#Normative-References">&bull;</a></p></details>
+	<details><summary id="Blank">Blank</summary><p>A character under the General Category Major Class Z in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard<a href="overview.html#Normative-References">&bull;</a></p></details>
+
+	<h2><a href="#Grammar" id="Grammar">Grammar</a></h2>
+	<a href="#2-1" id="2-1">2-1</a><p>The following figure shows a grammar describing how valid <i>n</i><sup>th</sup> syntax shall be constructed.</p>
+	<figure>
+	<figcaption><a href="#fig-1" id="fig-1">The following grammar describes all valid sequences of characters forming a program.</a></figcaption>
+	
+	<table>
+		<tr><td>Program &rarr; Expression | Collection | Type</td></tr>
+		<tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
+		<tr><td>Collection &rarr; <code>{</code> Program * <code>}</code></td></tr>
+		<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
+		<tr><td>Atom &rarr; Program | Symbol | Number | String | Quote</td></tr>
+		<tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
+		<tr><td>Number &rarr; <a href="#Digit"><b>Digit</b></a> * | Sign <a href="#Digit"><b>Digit</b></a> *</td></tr>
+		<tr><td>String &rarr; <code>"</code> Characters <code>"</code></td></tr>
+		<tr><td>Quote &rarr; <code>'</code> Form</td></tr>
+		<tr><td>Contents &rarr; <a href="#Glyph"><b>Glyph</b></a> | <a href="#Digit"><b>Digit</b></a></td></tr>
+		<tr><td>Delimiter &rarr; <a href="#Blank"><b>Blank</b></a> * | Program | String</td></tr>
+		<tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
+		<tr><td>Characters &rarr; <a href="#Glyph"><b>Glyph</b></a> | <a href="#Digit"><b>Digit</b></a> | <a href="#Blank"><b>Blank</b></a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
+		<tr><td>Form &rarr; Program | <code>'</code> <code>'</code> Program | <code>'</code> <code>'</code> <code>'</code> Program</td></tr>
+	</table>
+		<p>The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
+		The symbol, |, separates elements in a list.
+		The symbol, *, denotes an element which may repeat one or more times where it occurs.
+		Characters given in <code>monospace</code> represent themselves literally.</p>
+	</figure>
 </body>

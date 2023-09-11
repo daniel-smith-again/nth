@@ -11,8 +11,8 @@
 
 	<h1><a href="#Overview" id="Overview">Overview</a></h1>
 	<h2><a href="#Scope" id="Scope">Scope</a></h2>
-	<a href="#1-1" id="1-1"><p>This document concerns a programming language, <i>n</i><sup>th</sup>, and its meaning, in order to support the portability of <i>n</i><sup>th</sup> programs across a variety of systems.</p></a>
-	<a href="#1-2" id="1-2"><p>This document specifies:</p>
+	<a href="#1-1" id="1-1">1-1</a><p>This document concerns a programming language, <i>n</i><sup>th</sup>, and its meaning, in order to support the portability of <i>n</i><sup>th</sup> programs across a variety of systems.</p>
+	<a href="#1-2" id="1-2">1-2</a><p>This document specifies:</p>
 	<ul>
 		<li>The form of an <i>n</i><sup>th</sup> program.</li>
 		<li>The format of an <i>n</i><sup>th</sup> program.</li>
@@ -20,33 +20,46 @@
 		<li>The process by which an <i>n</i><sup>th</sup> program is judged correct.</li>
 		<li>The notion of a compliant implementation.</li>
 		<li>The resources which are provided by an implementation.</li>
-	</ul></a>
-	<a href="#1-3" id="1-3"><p>This document does not specify:</p>
+	</ul>
+	<a href="#1-3" id="1-3">1-3</a><p>This document does not specify:</p>
 	<ul>
 		<li>The method of interpretation of an <i>n</i><sup>th</sup> program.</li>
 		<li>The means by which an <i>n</i><sup>th</sup> program is invoked.</li>
 		<li>The effect of unspecified meanings.</li>
 		<li>The significance or correspondence of a correct program to its execution environment.</li>
-	</ul></a>
-	<a href="#1-4" id="1-4"><p>For the purposes of this standard, the <i>n</i><sup>th</sup> programs which are provided assume an implementation executed on a computing system posessing infinite speed and resources.
-	Equivalent programs with alternative resource requirements may be determined, at least to correctness, by a conforming implementation.</p></a>
+	</ul>
+	<a href="#1-4" id="1-4">1-4</a><p>For the purposes of this standard, the <i>n</i><sup>th</sup> programs which are provided assume an implementation executed on a computing system posessing infinite speed and resources.
+	Equivalent programs with alternative resource requirements may be determined, at least to correctness, by a conforming implementation.</p>
 	<h2><a href="#Normative-References" id="Normative-References">Normative References</a></h2>
-	<a href="#2-1" id="2-1"><p>The contents of the following documents constitute requirements for this standard. Requirements are limited to the contents which are referenced from this standard.</p></a>
-	<p><a href="https://www.unicode.org/versions/latest/">The Unicode&reg; Standard</a></p>
+	<a href="#2-1" id="2-1">2-1</a><p>The contents of the following documents constitute requirements for this standard. Requirements are limited to the contents which are referenced from this standard.</p>
+	<p><a href="https://www.unicode.org/versions/latest/"><p>The Unicode&reg; Standard</a></p>
 	<p><a href="https://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">ISO/IEC 11404, <i>Information Technology - Vocabulary</i></a></p>
 	<p><a href="https://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">ISO/IEC 2382, <i>Information Technology - General Purpose Datatypes (GPD)</i></a></p>
 	<h2><a href="#Conventions" id="Conventions">Conventions</a></h2>
 	<h3><a href="#Format" id="Format">Format</a></h3>
-	<a href="#3-1-1" id="3-1-1"><p>The <i>n</i><sup>th</sup> Programming Language HyperDoc is formatted using a hypertext medium.
+	<a href="#3-1-1" id="3-1-1">3-1-1</a><p>The <i>n</i><sup>th</sup> Programming Language HyperDoc is formatted using a hypertext medium.
 	Each passage is given a unique hyperlink and may contain hyperlinks to other passages and content.
-	Sections are presented as separate pages.</p></a>
-	<a href="#3-1-2" id="3-1-2"><p>The three buttons at the bottom of each page allow navigation between each page.
+	Sections are presented as separate pages.</p>
+	
+	<h3><a href="#Navigation" id="Navigation">Navigation</a></h3>
+	<a href="#3-2-1" id="3-1-2">3-2-1</a><p>The three buttons at the bottom of each page allow navigation between each page.
 	The bottom-left button (&#x261a;) will navigate to the previous section.
 	The bottom-right button (&#x261b;) will navigate to the next section.
-	The bottom-center button (&centerdot;) will navigate to the cover page.</p></a>
-	<a href="#3-1-3" id="3-1-3"><p>The cover page includes a search navigation feature. 
+	The bottom-center button (&centerdot;) will navigate to the cover page.</p>
+	<a href="#3-2-2" id="3-1-3">3-1-3</a><p>The cover page includes a search navigation feature. 
 	Section names, terms, and passages which have links are all indexed and searchable.</p>
 	<p>When a term is entered, a list of search results is given below the search entry.
 	Items in this list are links and can be clicked.
-	Additionally, pressing the enter key, or clicking the "Go" button will automatically navigate to the first result.</p></a>
+	Additionally, pressing the enter key, or clicking the "Go" button will automatically navigate to the first result.</p>
+	<h3><a href="#Notation" id="Notation">Notation</a></h3>
+	<a href="#3-3-1" id="3-3-1">3-3-1</a><p>Passages which express requirements are given in plain-text prose.</p>
+	<a href="#3-3-2" id="3-3-2">3-3-2</a><p>Examples of <i>n</i><sup>th</sup> programs and syntax are given in <code>(monospace text)</code> bounded by closed round braces.</p>
+	<a href="#3-3-3" id="3-3-3">3-3-3</a><p>Figures appear as</p>
+	<figure>
+	<figcaption>A figure caption</figcaption>
+	<p>Some figure content</p>
+	</figure>
+	<a href="#3-3-4" id="3-3-4">3-3-4</a><p>A term definition appears as</p><details><summary>term</summary>definition</details><p>where clicking on the term reveals the definition.</p>
+	<a href="#3-3-5" id="3-3-5">3-3-5</a><p>When a term appears in a passage, it will always contain a hyperlink to its definition if that definition is part of this document.</p>
+	<a href="#3-3-6" id="3-3-6">3-3-6</a><p>Inter-document hyperlink references appear as bold <a href=""><b>text</b></a> for single terms or a dot following a phrase<a href="">&bull;</a></p>
 </body>
