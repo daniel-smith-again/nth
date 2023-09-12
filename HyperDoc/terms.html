@@ -3,11 +3,42 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <link rel="stylesheet" href="style.css">
+<style>
+	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:center;}
+	#grid-container *{transition:all 0.5s;}
+	details:target{border-color:var(--lfg);}
+</style>
 </head>
 <body>
 	<a id="next" href="overview.html">&#x261b;</a>
 	<a id="prev" href="rationale.html">&#x261a;</a>
 	<a id="up" href="index.html">&centerdot;</a>
 	<h1><a href="#Terms" id="Terms">Terms</a></h1>
-	<a id="nth" href="#nth"><details><summary>nth</summary><p>A programming language; also written as <i>n</i><sup>th</sup>.</p></details></a>
+	<div id="grid-container">
+	<details id="nth"><summary>nth</summary><p>A programming language; also written as <i>n</i><sup>th</sup>.</p></details>
+	<details id="Computer"><summary>Computer</summary><p>The device or mechanism which is responsible for <a href="#Execute"><b>executing</b></a> a <a href="#Program"><b>program</b></a>.</p></details>
+	<details id="Glyph"><summary>Glyph</summary><p>A <a href="#Character"><b>character</b></a> under one of the General Category Major Classes L, M, P, S, or C in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
+	<details id="Digit"><summary>Digit</summary><p>A <a href="#Character"><b>character</b></a> under the General Category Major Class N in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
+	<details id="Blank"><summary>Blank</summary><p>A <a href="#Character"><b>character</b></a> under the General Category Major Class Z in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
+	<details id="Program-Model"><summary>Program Model</summary><p>The <a href="#Data"><b>data</b></a> structure which forms the cannonical representation of an <i>n</i><sup>th</sup> <a href="#Program"><b>program</b></a>.</p></details>
+	<details id="Data"><summary>Data</summary><p>A static information constant of some size occupying <a href="#Storage"><b>storage</b></a> <a href="#Resource"><b>resources</b></a>.</p></details>
+	<details id="Storage"><summary>Storage</summary><p>The <a href="terms.html#Environment"><b>environment</b></a> <a href="#Resource"><b>resource</b></a> which is consumed when generating or holding information during <a href="#Execute"><b>execution</b></a> of a <a href="#Program"><b>program</b></a>.</p></details>
+	<details id="Resource"><summary>Resource</summary><p>A facility of the <a href="#Environment"><b>environment</b></a> that is consumed by the process of <a href="#Execute"><b>executing</b></a> a <a href="#Program"><b>program</b></a>.</p></details>
+	<details id="Program"><summary>Program</summary><p>The instructions which <a href="#Execute"><b>execution</b></a> uses to carry out effects in the <a href="#Environment"><b>environment</b></a>.</p></details>
+	<details id="Environment"><summary>Environment</summary><p>That which is provided by the <a href="#Computer"><b>computer</b></a> to facilitate <a href="#Execute"><b>execution</b></a>.</p></details>
+	<details id="Execute"><summary>Execute</summary><p>The process of carrying out effects in the <a href="#Environment"><b>environment</b></a> according to a <a href="#Program"><b>program</b></a>.</p></details>
+	<details id="Symbol"><summary>Symbol</summary><p>An abstract, unique <a href="#Data"><b>data</b></a> value represented by a textual entity.</p></details>
+	<details id="Source"><summary>Source</summary><p>A <a href="#Program"><b>program</b></a> format representing a <a href="#Program-Model"><b>Program Model</b></a> as a <a href="#String"><b>string</b></a>.</p></details>
+	<details id="String"><summary>String</summary>A <a href="#Collection"><b>collection</b></a> of <a href="#Character"><b>character</b></a> values.</details>
+	<details id="Character"><summary>Character</summary>An encoded numerical value according to the <a href="overview.html#Normative-Refernces"><i>Unicode&reg; Standard</i></a> or the ASCII Standard corresponding to written text.</details>
+</div>
+<script>
+	function Open() {
+		var id = window.location.href.split('#')[1];
+		var n = document.getElementById(id);
+		n.open = true;
+	}
+	window.onpageshow = Open;
+	window.onhashchange = Open;
+</script>
 </body>
