@@ -183,3 +183,24 @@ You can overload any binding by constraining an orthogonal type.
 if I have a constraint, (x : T), I can refine the constraint (x : (t : T)), 
 or I can add an orthogonal constraint, (x : K), which is the same as,
 (x : [T K]).
+
+
+
+how do you make a collection? {a b c}
+Is it an expression type? no, it's different.
+It's not though. The collection constructor is simply a convenient text macro.
+Do I even need it though?
+(collection a b c) vs. {a b c}
+one is very clear, the other is clear, but verbose.
+So if I (do (n = '{a b c}) (: (n _ 1)))
+what do I get?
+An unevaluated collection.
+What's the name of an unevaluated collection?
+It's the name of the function that handles collections.
+So what's falling apart here is that in lisp, you can apply a macro to a macro,
+but in nth, you don't necessarily know what the structure is.
+That's the problem with more expressive notation.
+So how do you tell if an expression gives a collection and which type of 
+expression 
+So if you do {a b c} it's equivalent to (Collect a b c)
+if you do [a b c] it's equivalent to (Choice a b c)
