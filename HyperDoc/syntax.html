@@ -28,7 +28,7 @@
 		<tr><td>Type &rarr; <code>[</code> Program * <code>]</code></td></tr>
 		<tr><td>Atom &rarr; Program | Symbol | Number | String | Quote</td></tr>
 		<tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
-		<tr><td>Number &rarr; <a href="terms.html#Digit"><b>Digit</b></a> * | Sign <a href="terms.html#Digit"><b>Digit</b></a> *</td></tr>
+		<tr><td>Number &rarr; <a href="terms.html#Digit"><b>Digit</b></a> * Delimiter | Sign <a href="terms.html#Digit"><b>Digit</b></a> * Delimiter</td></tr>
 		<tr><td>String &rarr; <code>"</code> Characters <code>"</code></td></tr>
 		<tr><td>Quote &rarr; <code>'</code> Form</td></tr>
 		<tr><td>Contents &rarr; <a href="terms.html#Glyph"><b>Glyph</b></a> | <a href="terms.html#Digit"><b>Digit</b></a></td></tr>
@@ -63,8 +63,8 @@
 	<a href="#3-3" id="3-3">3-3</a><p>Symbols, Numbers, Strings, and Quotes imply a constant <a href="terms.html#Data"><b>data</b></a> instance at the position where they occur in a source text.</p>
 	<h3><a href="#Constructing-Expressions" id="Constructing-Expressions">Constructing Expressions</a></h3>
 	<a href="#4-1" id="4-1">4-1</a><p>Expressions are <a href="collections.html"><b>collections</b></a> with members which are either <a href="terms.html#Data"><b>data</b></a> or further nested <a href="terms.html#Program-Model"><b>Program Models</b></a>.</p>
-	<a href="#4-2" id="4-2">4-2</a><p>Each member of an expression resides at the index corresponding to the order in which it occurred in the <a href="terms.html#Source"><b>source</b></a>.</p>
-	<figure>
-	<figcaption><a href="#fig-2" id="fig-2">This figure diagrams the construction of an expression from source syntax.</a></figcaption>
-	</figure>
+	<a href="#4-2" id="4-2">4-2</a><p>Each <a href="terms.html#Member"><b>member</b></a> of an expression resides at the index corresponding to the order in which it occurred in the <a href="terms.html#Source"><b>source</b></a>.</p>
+	<a href="#4-3" id="4-3">4-3</a><p>The round braces in the expression <a href="terms.html#Syntax"><b>syntax</b></a> serve as identifying punctuation for expressions. Thus an expression will always begin with an opening round brace and end with a closing round brace.</p>
+	<h3><a href="#Constructing-Collections" id="Constructing-Collections">Constructing Collections</a></h3>
+	<a href="#5-1" id="5-1">5-1</a><p><a href="collections.html"><b>Collections</b></a></p>
 </body>
