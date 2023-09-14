@@ -186,28 +186,19 @@ or I can add an orthogonal constraint, (x : K), which is the same as,
 
 
 
-how do you make a collection? {a b c}
-Is it an expression type? no, it's different.
-It's not though. The collection constructor is simply a convenient text macro.
-Do I even need it though?
-(collection a b c) vs. {a b c}
-one is very clear, the other is clear, but verbose.
-So if I (do (n = '{a b c}) (: (n _ 1)))
-what do I get?
-An unevaluated collection.
-What's the name of an unevaluated collection?
-It's the name of the function that handles collections.
-So what's falling apart here is that in lisp, you can apply a macro to a macro,
-but in nth, you don't necessarily know what the structure is.
-That's the problem with more expressive notation.
-So how do you tell if an expression gives a collection and which type of 
-expression 
-So if you do {a b c} it's equivalent to (Collect a b c)
-if you do [a b c] it's equivalent to (Choice a b c)
+What is the name for the function that constructs a collection?
+Construct
+What is the name for the function that constructs a type?
+Take
+What is the name for the function that constructs a function?
+Abstract
+What is the name for the function that constructs a binding?
+Let
 
-((: {}) = Collection)
-((: (Elements)) = Collection)
-((: []) = Type)
-((: (Members)))
-So the function which creates a collection is called 'Elements.
-And the function that creates a Type is called 'Members.
+verbs as in "Construct a Collection", "Take a Type", "Abstract a Function", and "Let a Binding".
+
+(Let x (Elements A B (Members T t)))
+
+Can you actually do variadic functions during runtime?
+No, use a collection instead.
+The reason the primitives work is because they're primitives with special behavior.

@@ -4,9 +4,9 @@
 <title>Nth HyperDoc</title>
 <link rel="stylesheet" href="style.css">
 <style>
-	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:center;}
+	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;}
 	#grid-container *{transition:all 0.5s;}
-	details{display:inline-block;}
+	details{display:inline;}
 	details:target{border-color:var(--lfg);}
 </style>
 </head>
@@ -16,26 +16,32 @@
 	<a id="up" href="index.html">&centerdot;</a>
 	<h1><a href="#Terms" id="Terms">Terms</a></h1>
 	<div id="grid-container">
+		<details id="Application"><summary>Application</summary><p>The <a href="#Operation">operation</a> which invokes a <a href="#Function">function</a> (Refer to the section on <a href="functions.html">Functions</a>).</p></details>
+		<details id="Blank"><summary>Blank</summary><p>A <a href="#Character">character</a> under the General Category Major Class Z in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
 		<details id="Character"><summary>Character</summary><p>An encoded numerical value according to the <a href="overview.html#Normative-Refernces"><i>Unicode&reg; Standard</i></a> or the ASCII Standard corresponding to written text.</p></details>
-		<details id="Blank"><summary>Blank</summary><p>A <a href="#Character"><b>character</b></a> under the General Category Major Class Z in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
-		<details id="Collection"><summary>Collection</summary><p>The construct provided by <i>n</i><sup>th</sup> for creating structured <a href="#Data"><b>data</b></a> (Refer to the section on <a href="collections.html"><b>Collections</b></a>).</p></details>
-		<details id="Computer"><summary>Computer</summary><p>The device or mechanism which is responsible for <a href="#Execute"><b>executing</b></a> a <a href="#Program"><b>program</b></a>.</p></details>
-		<details id="Data"><summary>Data</summary><p>A static information constant of some size occupying <a href="#Storage"><b>storage</b></a> <a href="#Resource"><b>resources</b></a>.</p></details>
+		<details id="Collection"><summary>Collection</summary><p>The construct provided by <i>n</i><sup>th</sup> for creating structured <a href="#Data">data</a> (Refer to the section on <a href="collections.html">Collections</a>).</p></details>
+		<details id="Computer"><summary>Computer</summary><p>The device or mechanism which is responsible for <a href="#Execute">executing</a> a <a href="#Program">program</a>.</p></details>
+		<details id="Data"><summary>Data</summary><p>A static information constant of some size occupying <a href="#Storage">storage</a> <a href="#Resource">resources</a>.</p></details>
 		<details id="Default"><summary>Default</summary><p><a href="#Data">Data</a> or another <a href="#Resource">resource</a> which must be present as auxillary to the <a href="#Implementation">implementation</a>.</p></details>
-		<details id="Digit"><summary>Digit</summary><p>A <a href="#Character"><b>character</b></a> under the General Category Major Class N in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
-		<details id="Element"><summary>Element</summary><p>A single component of a <a href="#Collection"><b>collection</b></a>.</p></details>
-		<details id="Environment"><summary>Environment</summary><p>That which is provided by the <a href="#Computer"><b>computer</b></a> to facilitate <a href="#Execute"><b>execution</b></a>.</p></details>
-		<details id="Execute"><summary>Execute</summary><p>The process of carrying out effects in the <a href="#Environment"><b>environment</b></a> according to a <a href="#Program"><b>program</b></a>.</p></details>
-		<details id="Glyph"><summary>Glyph</summary><p>A <a href="#Character"><b>character</b></a> under one of the General Category Major Classes L, M, P, S, or C in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
+		<details id="Digit"><summary>Digit</summary><p>A <a href="#Character">character</a> under the General Category Major Class N in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
+		<details id="Element"><summary>Element</summary><p>A single component of a <a href="#Collection">collection</a>.</p></details>
+		<details id="Environment"><summary>Environment</summary><p>That which is provided by the <a href="#Computer">computer</a> to facilitate <a href="#Execute">execution</a>.</p></details>
+		<details id="Execute"><summary>Execute</summary><p>The process of carrying out effects in the <a href="#Environment">environment</a> according to a <a href="#Program">program</a>.</p></details>
+		<details id="Expression"><summary>Expression</summary><p>A <a href="#Syntax">syntax</a> which denotes an <a href="#Operation">operational</a> step.</p></details>
+		<details id="Function"><summary>Function</summary><p>The construct provided by <i>n</i><sup>th</sup> for creating re-useable <a href="#Program">programs</a> (Refer to the section on <a href="functions.html">Functions</a>).</p></details>
+		<details id="Glyph"><summary>Glyph</summary><p>A <a href="#Character">character</a> under one of the General Category Major Classes L, M, P, S, or C in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>
 		<details id="Implementation"><summary>Implementation</summary><p>A <a>program</a> which acts according to the requirements given in this document (refer to the section on <a href="overview.html#Conformance">Conformance</a>).</p></details>
-		<details id="Program"><summary>Program</summary><p>The instructions which <a href="#Execute"><b>execution</b></a> uses to carry out effects in the <a href="#Environment"><b>environment</b></a>.</p></details>
-		<details id="Program-Model"><summary>Program Model</summary><p>The <a href="#Data"><b>data</b></a> structure which forms the cannonical representation of an <i>n</i><sup>th</sup> <a href="#Program"><b>program</b></a>.</p></details>
-		<details id="Resource"><summary>Resource</summary><p>A facility of the <a href="#Environment"><b>environment</b></a> that is consumed by the process of <a href="#Execute"><b>executing</b></a> a <a href="#Program"><b>program</b></a>.</p></details>
-		<details id="Source"><summary>Source</summary><p>A <a href="#Program"><b>program</b></a> format representing a <a href="#Program-Model"><b>Program Model</b></a> as a <a href="#String"><b>string</b></a>.</p></details>
-		<details id="Storage"><summary>Storage</summary><p>The <a href="terms.html#Environment"><b>environment</b></a> <a href="#Resource"><b>resource</b></a> which is consumed when generating or holding information during <a href="#Execute"><b>execution</b></a> of a <a href="#Program"><b>program</b></a>.</p></details>
-		<details id="String"><summary>String</summary>A <a href="#Collection"><b>collection</b></a> of <a href="#Character"><b>character</b></a> values.</details>
-		<details id="Symbol"><summary>Symbol</summary><p>An abstract, unique <a href="#Data"><b>data</b></a> value represented by a textual entity.</p></details>
-		<details id="Syntax"><summary>Syntax</summary><p>The correspondence between a <a href="#Source"><b>source</b></a> and a <a href="#Program-Model"><b>Program Model</b></a> (Refer to the section on <a href="syntax.html"><b>Syntax</b></a>).</p></details>
+		<details id="Member"><summary>Member</summary><p>A single component of a <a href="#Type">type</a>.</p></details>
+		<details id="Operation"><summary>Operation</summary><p>A single <a href="#Execute">executional</a> step, denoted by an <a href="#Expression">expression</a>.</p></details>
+		<details id="Program"><summary>Program</summary><p>The instructions which <a href="#Execute">execution</a> uses to carry out effects in the <a href="#Environment">environment</a>.</p></details>
+		<details id="Program-Model"><summary>Program Model</summary><p>The <a href="#Data">data</a> structure which forms the cannonical representation of an <i>n</i><sup>th</sup> <a href="#Program">program</a>.</p></details>
+		<details id="Resource"><summary>Resource</summary><p>A facility of the <a href="#Environment">environment</a> that is consumed by the process of <a href="#Execute">executing</a> a <a href="#Program">program</a>.</p></details>
+		<details id="Source"><summary>Source</summary><p>A <a href="#Program">program</a> format representing a <a href="#Program-Model">Program Model</a> as a <a href="#String">string</a>.</p></details>
+		<details id="Storage"><summary>Storage</summary><p>The <a href="terms.html#Environment">environment</a> <a href="#Resource">resource</a> which is consumed when generating or holding information during <a href="#Execute">execution</a> of a <a href="#Program">program</a>.</p></details>
+		<details id="String"><summary>String</summary>A <a href="#Collection">collection</a> of <a href="#Character">character</a> values.</details>
+		<details id="Symbol"><summary>Symbol</summary><p>An abstract, unique <a href="#Data">data</a> value represented by a textual entity.</p></details>
+		<details id="Syntax"><summary>Syntax</summary><p>The correspondence between a <a href="#Source">source</a> and a <a href="#Program-Model">Program Model</a> (Refer to the section on <a href="syntax.html">Syntax</a>).</p></details>
+		<details id="Type"><summary>Type</summary><p>The construct provided by <i>n</i><sup>th</sup> for reasoning and constraining the possible instantiations of <a href="#Data">data</a> in a <a href="#Program">program</a> (Refer to the section on <a href="types.html">Types</a></p></details>
 </div>	
 <script>
 	function Open() {
