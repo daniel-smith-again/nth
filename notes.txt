@@ -204,3 +204,10 @@ So how do you tell if an expression gives a collection and which type of
 expression 
 So if you do {a b c} it's equivalent to (Collect a b c)
 if you do [a b c] it's equivalent to (Choice a b c)
+
+((: {}) = Collection)
+((: (Elements)) = Collection)
+((: []) = Type)
+((: (Members)))
+So the function which creates a collection is called 'Elements.
+And the function that creates a Type is called 'Members.
