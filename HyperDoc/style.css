@@ -40,7 +40,7 @@ a:active, a:hover, a:link, a:visited {border:none;}
 #next, #prev, #up{position:fixed;bottom:0;font-size:calc(2 * var(--scale));background-color:var(--bg);border: solid var(--fg) 0.2ch;border-radius:1ch;display:block;padding:none;width:3ch;height:3ch;line-height:3ch;text-align:center;box-shadow: 0px 0px 10px 0px var(--fg);}
 #next{right:0;}
 #prev{left:0ch;}
-#up{left:calc(50vw - 1.5ch);}
+#up{left:calc(50vw - 2ch);}
 
 @media print {
 	#searchbar, #searchbutton, #next, #prev, #up{display: none;}
