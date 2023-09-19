@@ -202,3 +202,16 @@ verbs as in "Construct a Collection", "Take a Type", "Abstract a Function", and 
 Can you actually do variadic functions during runtime?
 No, use a collection instead.
 The reason the primitives work is because they're primitives with special behavior.
+
+
+
+prove leftpad...
+leftpad is a function that takes a character, a number, and a string, and 
+prepends the character, as many times as the number, to the beginning of the string.
+
+(leftpad = ((c : Character) (n : Natural) (s : String) -> 
+           ((({c} * n) + s) : (String | (k -> ((# k) = ((# s) + n)))))
+Or prove it this way
+
+(leftpad : (do (c : Character) (n : Natural) (s : String) (c n s -> (({c} * n) + s)))
+(leftpad = ((c : Character) (n : Natural) (s : String) -> ((({c} * n) + s) : String)))
