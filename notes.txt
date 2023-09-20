@@ -215,3 +215,50 @@ Or prove it this way
 
 (leftpad : (do (c : Character) (n : Natural) (s : String) (c n s -> (({c} * n) + s)))
 (leftpad = ((c : Character) (n : Natural) (s : String) -> ((({c} * n) + s) : String)))
+
+
+
+I really want to use equality for stuff, but it makes macros hard since you 
+can't tell what exactly the equality expression is gonna do.
+There's a special case where a single symbol is unbound on the lhs, rhs, or both
+(x = 1) (1 = x) (x = y)
+It does not support expressions like ((x + 1) = 2) because this requires an 
+inverse.
+If an unbound symbol appears on either side, it's the same as (let _ ...) 
+for that symbol.
+
+
+
+How are macros different than other functions?
+They accept a program type which is only available before a program is run.
+How do you do something like that?
+You use (let x)
+where x is a macro function.
+stuff : [
+	((e : {'a *}) -> (e _ 2))
+	((e : {'b *}) -> (e _ 2))
+]
+(let stuff)
+This is enough.
+If you want a package, do 
+(let ((import k) . stuff))
+everything is a macrolet.
+(k = (import "k"))
+(let (k . syntax))
+So the mechanism is that you (let f) where f is a function that's used to 
+transform expressions.
+
+
+
+how do I do refinements?
+My notation right now is to associate a function with some type.
+(T | (x -> (? (P x) True False)))
+This is the same as 
+(do (x : T) (? (P x) x))
+(P (x : T)) 
+these all produce type refinements.
+So what would a vector constructor look like?
+(vec : (d m -> ))
+
+Instead of (x : y) where x is one of y, 
+(x :: y) where x satisfies y.
