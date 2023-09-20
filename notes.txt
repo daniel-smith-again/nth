@@ -262,3 +262,10 @@ So what would a vector constructor look like?
 
 Instead of (x : y) where x is one of y, 
 (x :: y) where x satisfies y.
+
+
+
+
+So when I want to talk about the dependent result of a function, I do
+((c : Character) (n : Natural) (s : String) -> (({c} * n) + s))
+
