@@ -269,3 +269,11 @@ Instead of (x : y) where x is one of y,
 So when I want to talk about the dependent result of a function, I do
 ((c : Character) (n : Natural) (s : String) -> (({c} * n) + s))
 
+
+
+what's my rules for Rewrite, Resolve, and Reduce?
+
+
+(do 
+(let ({'a *} -> (& _ 1 _ 2)))
+(a 1))
