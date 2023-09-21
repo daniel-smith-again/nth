@@ -13,3 +13,65 @@
 "Assignment",		({Symbol '<- *} -> *)
 "Function",		(Symbol '-> *)
 "Image",		(Expression '-> *)
+
+
+
+Function Constructor:
+
+Function Application:
+
+Collection Constructor:
+
+Collection Subscript:
+
+Collection Field:
+
+Collection Cardinality:
+
+Collection Union:
+
+Collection Difference:
+
+Collection Sequence:
+
+Collection Membership:
+
+Type Constructor:
+
+Type Assertion:
+
+Type Constraint:
+
+Type Union:
+
+Type Difference:
+
+Type Membership:
+
+Addition:
+
+Subtraction:
+
+Multiplication:
+
+Quotient:
+
+Remainder:
+
+Equality:
+
+Inequality:
+
+Less:
+
+Less or Equal:
+
+Greater:
+
+Greater or Equal:
+
+Let Binding:
+
+Sequential Evaluation:
+
+Conditional Evaluation:

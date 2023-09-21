@@ -277,3 +277,15 @@ what's my rules for Rewrite, Resolve, and Reduce?
 (do 
 (let ({'a *} -> (& _ 1 _ 2)))
 (a 1))
+
+Rewrite, Resolve, and Reduce are three states of a Program Model.
+At each stage, data is moved from the program model to the context.
+The context is a store of bindings and information which is necessary to complete execution.
+
+So how do I resolve macros?
+They have to be bound before you do anything.
+(do (let ({'a T} -> (& _ 1 _ 2))))
+The context can be accessed by the ampersand.
+The ampersand accepts function application in which it will apply the active function.
+The ampersand can be subscripted to access parameters and data bound in a context.
+The ampersand supports field lookup.
