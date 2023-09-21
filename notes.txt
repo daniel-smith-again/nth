@@ -289,3 +289,46 @@ The context can be accessed by the ampersand.
 The ampersand accepts function application in which it will apply the active function.
 The ampersand can be subscripted to access parameters and data bound in a context.
 The ampersand supports field lookup.
+
+Function context needs 
+	- the function object
+	- the function parameters
+	- the bindings
+
+
+
+How do I talk about collections?
+I can say a collection has 
+	"cardinality of n"
+	"includes x"
+	"excludes x"
+	"repeats x"
+	"x at index y"
+Additionally, I want to talk about vectors which are collections where each index has the same type.
+A vector has 
+	"cardinality of n"
+	"repeats x"
+
+(x .. n)
+(x ..)
+(.. n)
+Sequence
+(x ..)
+(.. n)
+(x .. n)
+
+Collection > Sequence > (* ..) > (.. *) > (* .. *)
+
+What's a vector, a collection where every index is the same type.
+They are a form of collection, but with a strict distinction.
+{* '..} 
+{'.. Natural}
+{* '.. Natural}
+What is a collection of a length?
+(* : Collection)
+
+
+
+Do I want quantification? Yes. For what? Quantification over functions?
+(f = (x -> (g x)))
+(t : (f (n : T)))
