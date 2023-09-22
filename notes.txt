@@ -332,3 +332,7 @@ What is a collection of a length?
 Do I want quantification? Yes. For what? Quantification over functions?
 (f = (x -> (g x)))
 (t : (f (n : T)))
+
+
+
+What's a good example of syntax? McCarthy 91 Function.
