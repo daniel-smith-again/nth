@@ -309,6 +309,12 @@ A vector has
 	"cardinality of n"
 	"repeats x"
 
+How do I do symbol macros?
+Talk about a symbol as a string.
+A symbol is a string.
+If I quote a symbol I get 
+'symbol
+
 (x .. n)
 (x ..)
 (.. n)
@@ -335,3 +341,33 @@ What is a collection of a length?
 
 What's a good example of syntax? McCarthy 91 Function.
 What about Quicksort?
+Shorthand for pointers subscripts and array accesses.
+
+(quicksort = ((list : Array) -> 
+	? (#list > 1)
+	(rec = (pivot i j ->
+	?? 
+		(((list _ i) < (list _ pivot)) /\ (i < pivot))
+			(rec pivot (i + 1) j)
+		(((list _ j) > (list _ pivot)) /\ (j > pivot))
+			(rec pivot i (j - 1))
+		(((list _ j) < (list _ pivot)) /\ ((list _ i) < (list _ pivot)))
+			(tmp = (list _ i),
+			 (list _ i) = (list _ j),
+			 (list _ j) = tmp,
+			 rec pivot i j),
+	(quicksort ((@(@(list _ 1))) : (Array ((# list) - pivot))),
+	(quicksort ((@(@(list _ (pivot + 1)))) : (Array ((# list) - pivot)))))))))
+
+
+(quicksort = ((list : Array) -> 
+	? ((# list) > 1) 
+	(rec = (pivot high low ->
+		?? 
+			((( list _ low ) < ( list _ pivot )) /\ ( low < pivot ))
+				(rec pivot high (low + 1))
+			(((list _ high) > (list _ pivot)) /\ (high > pivot))
+				(rec pivot (high - 1) low)
+			(((list _ )))
+	))
+))
