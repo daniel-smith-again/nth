@@ -363,36 +363,10 @@ cool, this isn't many more lines than C/C++
 
 
 
-Are macros based off symbols or patterns?
-Patterns. Those are powerful.
-What about macros that both match?
-The order shouldn't matter since macros aren't contextual.
-Of course order may matter in operators that have order of operations.
-It's up to macros to work together.
-
-(let a b)
-or (let c)
-establishes a binding in an expression.
-so if I have 
-(let c, a = b, c b a)
-how is this resolved?
-
-(c = ({'c a} -> '(f ''(& _ 1 _ 2)))), let c, a = b, c a)
-(do (c = M) (let c) (a = b) (c a))
-
-
-
-So you have an expression. 
-You check it against macros.
-Then you resolve any bindings.
-Then you evaluate.
-
-(constexpr = ((e : Expression) -> '(''e)))
-
-that's how you evaluate something at compile-time.
-
-What gets reduced ahead of time?
-
-(f (g (h (i 1))))
-that gets run ahead of time. 
-The answer will never change so it's considered constant data.
+How do I talk about structure?
+You have a sequence of some things. 
+{a b c}
+You can be abstract and say you have a sequence of a number of things.
+(... 3)
+You can say you have things in a collection.
+([a b c] ...)
