@@ -344,18 +344,17 @@ What about Quicksort?
 
 (quicksort = ((list : Vector) -> 
  ? ((# list) > 1) 
-   then 
    (swap = (pv i j ->
     ??
       (((list _ i) < (list _ pv)) and (i < pv))
-      then (swap pv (i + 1) j)
+      (swap pv (i + 1) j)
       (((list _ j) > (list _ pv)) and (j > pv))
-      then (swap pv i (j - 1))
+      (swap pv i (j - 1))
       (((list _ j) < (list _ pv)) and ((list _ i) < (list _ pv)))
-      then (tmp = (list _ i),
-	    list _ i (list _ j),
-	    list _ j tmp,
-	    swap pv i j),
+      (tmp = (list _ i),
+       list _ i (list _ j),
+       list _ j tmp,
+       swap pv i j),
       (quicksort ((@ (@ (list _ 1))) : (Collection | 
                  (c -> (? ((# c) = ((# list) - pv)) True))))),
       (quicksort ((@ (@ (list _ (pivot _ 1)))) : (Collection | 
