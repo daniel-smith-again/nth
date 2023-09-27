@@ -37,11 +37,11 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 		while (results.hasChildNodes()) {
 			results.removeChild(results.lastChild);
 		}
-		const search = document.getElementById("searchbar").value;
+		const search = (document.getElementById("searchbar").value).toLowerCase();
 		if (search == "") {return false;}
-		const pattern = new RegExp(search.split("").reduce((a,b) => {return a+'.*'+b}), "i");
-		console.log("Searching for " + search + " using " + pattern + ".");
+		const pattern = new RegExp(search.split("").reduce((a,b) => {return a + b}), "i");
 		const dict = Object.keys(SearchTable);
+		var topcount = 0;
 		for (var i in dict) {
 			if (pattern.test(dict[i])) {
 				var l = document.createElement("li");
@@ -54,11 +54,15 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 				a.href = SearchTable[dict[i]][1];
 				a.appendChild(document.createTextNode(SearchTable[dict[i]][0]));
 				l.appendChild(a);
-				results.appendChild(l);
-
+				if (dict[i].startsWith(search)) {
+					results.insertBefore(l, results.childNodes[topcount]);
+					topcount = topcount + 1;
+				} 
+				else {
+					results.appendChild(l);
+				}
 			}
 		}
-		return false;
 	};
 	window.addEventListener("keyup", function(){
 		if (document.activeElement == document.getElementById("searchbar")) {
@@ -66,52 +70,52 @@ d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
 		}
 	});
 	const SearchTable = {
-		"Table of Contents":["Table of Contents","contents.html"],
-		"Foreword":["Foreword","foreword.html"],
-		"Rationale":["Rationale","rationale.html"],
-		"Terms":["Terms","terms.html"],
-		"Overview":["Overview","overview.html"],
-		"Syntax":["Syntax","syntax.html"],
-		"Evaluation":["Evaluation","evaluation.html"],
-		"Data":["Data","data.html"],
-		"Types":["Types","types.html"],
-		"Functions":["Functions","functions.html"],
-		"Collections":["Collections","collections.html"],
-		"Arithmetic":["Arithmetic","arithmetic.html"],
-		"Images":["Images","images.html"],
-		"Defaults":["Defaults","defaults.html"],
-		"Glossary":["Glossary","glossary.html"],
-		"Application":['"Application"', "terms.html#Application"],
-		"Binding":['"Binding"',"terms.html#Binding"],
-		"Blank":['"Blank"', "terms.html#Blank"],
-		"Character":['"Character"', "terms.html#Character"],
-		"Collection":['"Collection"', "terms.html#Collection"],
-		"Computer":['"Computer"', "terms.html#Computer"],
-		"Default":['"Default"',"terms.html#Default"],
-		"Digit":['"Digit"',"terms.html#Digit"],
-		"Environment":['"Environment"',"terms.html#Environment"],
-		"Error":['"Error"',"terms.html#Error"],
-		"Escape Sequence":['"Escape Sequence"',"terms.html#Escape-Sequence"],
-		"Execute":['"Execute"',"terms.html#Execute"],
-		"Evaluate":['"Evaluate"',"terms.html#Evaluate"],
-		"Expression":['"Expression"',"terms.html#Expression"],
-		"Field":['"Field"',"terms.html#Field"],
-		"Function":['"Function"',"terms.html#Function"],
-		"Glyph":['"Glyph"',"terms.html#Glyph"],
-		"Higher Order Binding":['"Higher Order Binding"',"terms.html#Higher-Order-Binding"],
-		"Implementation":['"Implementation"',"terms.html#Implementation"],
-		"Member":['"Member"',"terms.html#Member"],
-		"Operation":['"Operation"',"terms.html#Operation"],
-		"Program":['"Program"',"terms.html#Program"],
-		"Program Model":['"Program Model"',"terms.html#Program-Model"],
-		"Quote":['"Quote"',"terms.html#Quote"],
-		"Resource":['"Resource"',"terms.html#Resource"],
-		"Semantics":['"Semantics"',"terms.html#Semantics"],
-		"Source":['"Source"',"terms.html#Source"],
-		"Storage":['"Storage"',"terms.html#Storage"],
-		"String":['"String"',"terms.html#String"],
-		"Symbol":['"Symbol"',"terms.html#Symbol"],
-		"Type":['"Type"',"terms.html#Type"]
+		"application":['"Application"', "terms.html#Application"],
+		"arithmetic":["Arithmetic","arithmetic.html"],
+		"binding":['"Binding"',"terms.html#Binding"],
+		"blank":['"Blank"', "terms.html#Blank"],
+		"character":['"Character"', "terms.html#Character"],
+		"collection":['"Collection"', "terms.html#Collection"],
+		"collections":["Collections","collections.html"],
+		"computer":['"Computer"', "terms.html#Computer"],
+		"data":["Data","data.html"],
+		"default":['"Default"',"terms.html#Default"],
+		"defaults":["Defaults","defaults.html"],
+		"digit":['"Digit"',"terms.html#Digit"],
+		"foreword":["Foreword","foreword.html"],
+		"environment":['"Environment"',"terms.html#Environment"],
+		"error":['"Error"',"terms.html#Error"],
+		"escape Sequence":['"Escape Sequence"',"terms.html#Escape-Sequence"],
+		"execute":['"Execute"',"terms.html#Execute"],
+		"evaluate":['"Evaluate"',"terms.html#Evaluate"],
+		"evaluation":["Evaluation","evaluation.html"],
+		"expression":['"Expression"',"terms.html#Expression"],
+		"field":['"Field"',"terms.html#Field"],
+		"function":['"Function"',"terms.html#Function"],
+		"functions":["Functions","functions.html"],
+		"glossary":["Glossary","glossary.html"],
+		"glyph":['"Glyph"',"terms.html#Glyph"],
+		"higher order binding":['"Higher Order Binding"',"terms.html#Higher-Order-Binding"],
+		"images":["Images","images.html"],
+		"implementation":['"Implementation"',"terms.html#Implementation"],
+		"member":['"Member"',"terms.html#Member"],
+		"operation":['"Operation"',"terms.html#Operation"],
+		"overview":["Overview","overview.html"],
+		"program":['"Program"',"terms.html#Program"],
+		"program model":['"Program Model"',"terms.html#Program-Model"],
+		"quote":['"Quote"',"terms.html#Quote"],
+		"rationale":["Rationale","rationale.html"],
+		"resource":['"Resource"',"terms.html#Resource"],
+		"semantics":['"Semantics"',"terms.html#Semantics"],
+		"source":['"Source"',"terms.html#Source"],
+		"storage":['"Storage"',"terms.html#Storage"],
+		"string":['"String"',"terms.html#String"],
+		"symbol":['"Symbol"',"terms.html#Symbol"],
+		"syntax":["Syntax","syntax.html"],
+		"table of contents":["Table of Contents","contents.html"],
+		"terms":["Terms","terms.html"],
+		"type":['"Type"',"terms.html#Type"],
+		"types":["Types","types.html"],
 	};
 </script>
 </body>

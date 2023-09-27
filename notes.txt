@@ -363,10 +363,17 @@ cool, this isn't many more lines than C/C++
 
 
 
-How do I talk about structure?
-You have a sequence of some things. 
-{a b c}
-You can be abstract and say you have a sequence of a number of things.
-(... 3)
-You can say you have things in a collection.
-([a b c] ...)
+How do I talk about collections?
+A collection can 
+- Contain a thing
+- Have a length
+- Be a vector
+The deal is you can't actually create a collection with incomplete information.
+Which means if you want to create a vector you do.
+({A} * 100)
+What if you want to talk about abstract length?
+({*} * 100)
+What if you want to talk about contains?
+That one's tricky.
+((* : Collection) + {x})
+Any collection that contains x
