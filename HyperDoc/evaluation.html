@@ -14,4 +14,21 @@
 	The first phase resolves all <a href="terms.html#Higher-Order-Binding"><i>higher order bindings</i></a>. 
 	The second phase resolves all <a href="terms.html#Binding">bindings</a>. 
 	The third phase reduces each <a href="terms.html#Expression"></a>.</p>
+	<a href="#1-2" id="1-2">1-2</a><p><a href="terms.html#Evaluate">Evaluation</a> takes place within a <a href="terms.html#Context">context</a> maintained by the <a href="terms.html#Environment">environment</a>.</p>
+	<a href="#1-3" id="1-3">1-3</a><p><a href="terms.html#Evaluate">Evaluation</a> of an <a href="terms.html#Expression">expression</a> within a <a href="terms.html#Context">context</a> will result in <a href="terms.html#Data">data</a> which replaces that <a href="terms.html#Expression">expression</a>.</p>
+	<a href="#1-4" id="1-4">1-4</a><p><a href="terms.html#Evaluate">Evaluation</a> of a <a>program</a> is performed by locating <a>expressions</a> which contain only <a>data</a>. 
+	In other words, they are are non-nested <a>Program Model</a> components.
+	Once an <a>expression</a> of this form is found, it is <a>evaluated</a> and replaced in the <a>Program Model</a> by its <a>data</a> result.
+	This process is repeated until the <a>Program Model</a> is comprised of only a single <a>data</a> result.</p>
+	<a href="#Fig-1" id="Fig-1">Figure 1</a>
+	<figure>
+	<figcaption>This figure shows the <a href="terms.html#Type">type</a> of an <a href="terms.html#Expression">expression</a>, as a <a href="terms.html#Program-Model">Program Model</a> component, which contains only <a>data</a>.</figcaption>
+	<p style="text-align:left;"><code>(Expression |<br>
+	&nbsp;(x -> <br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(? ((x / Expression) = Nil)<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x))))</code></p>
+	</figure>
+	<a href="#1-5" id="1-5">1-5</a><p>Successful <a>evaluation</a> of a program must always yield a <a>data</a> result.</p>
+	<h2><a href="#Contexts">Contexts</a></h2>
+	<h2><a href="#Quantification">Quantification</a></h2>
 </body>

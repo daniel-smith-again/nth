@@ -377,3 +377,40 @@ What if you want to talk about contains?
 That one's tricky.
 ((* : Collection) + {x})
 Any collection that contains x
+
+Can you use types as blanks?
+Yes.
+If a hole accepts a member of a type, then providing the type quantifies that 
+expression.
+This is pathological as the result of quantified nested expression will force
+quantification of the outer expression.
+
+
+
+
+
+Default functions...
+Quote : ((Expression) -> Program)
+Evaluate : ((Program) -> Data)
+Create : ((fields : Collection) -> Collection)
+Take : ((members : Collection) -> Type)
+Abstract : ((parameters : ({Symbol} * Number)) Expression -> Function)
+Let : ((x : Symbol) y -> y)
+Let : (Function -> Nil)
+Sum : (({Number} *) -> Number)
+Sum : ((Collection ...) -> Collection)
+Dif : (({Number} *) -> Number)
+Dif : (({Collection} *) -> Collection)
+Dif : ((Collection) Any -> Collection)
+Mul : (({Number} * Number) -> )
+
+? : (({Boolean Program} *) -> [Any Nil]) 
+? : ((({Boolean Program} *) + {Program}) -> Any)
+
+
+Can I do boolean case matching?
+
+(? cond succ)
+(? cond succ fail)
+(? cond succ cond succ)
+(? cond succ cond succ fail)
