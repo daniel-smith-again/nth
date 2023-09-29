@@ -384,6 +384,8 @@ If a hole accepts a member of a type, then providing the type quantifies that
 expression.
 This is pathological as the result of quantified nested expression will force
 quantification of the outer expression.
+When does a quantified expression stop?
+When the outer expression accepts anything.
 
 
 
@@ -409,7 +411,6 @@ Mul : (({Number} * Number) -> )
 
 
 Can I do boolean case matching?
-
 (? cond succ)
 (? cond succ fail)
 (? cond succ cond succ)
