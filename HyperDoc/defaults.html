@@ -12,56 +12,164 @@
 	<h1><a href="#Defaults" id="Defaults">Defaults</a></h1>
 	<h2><a href="#Default-Functions" id="Default-Functions">Default Functions</a></h2>
 	<dl>
-		<dt id="Quote"><code>Quote</code></dt>
-			<dd>Makes a quoted expression.</dd>
+		<dt id="Quote"><code>(Quote : ((Expression) -> Program))</code></dt>
+		<dd><i>Quote</i></dd>
+		<dt id="Eval"><code>(Eval : ((Program) -> Any))</code></dt>
+		<dd>The <i>Eval</i> <a href="terms.html#Function">function</a> accepts a single </dd>
 		<dt id="Create"><code>Create</code></dt>
-			<dd>Makes a collection.</dd>
+		<dt id="Vector"><code>Vector</code></dt>
+		<dt id="In"><code>In</code></dt>
+		<dt id="At"><code>At</code></dt>
 		<dt id="Take"><code>Take</code></dt>
-			<dd>Makes a type.</dd>
-		<dt id="Sum"><code>Sum</code></dt>
-			<dd>Adds things.</dd>
-		<dt id="Dif"><code>Dif</code></dt>
-			<dd>Subtracts things.</dd>
-		<dt id="Mul"><code>Mul</code></dt>
-			<dd>Multiplies things.</dd>
-		<dt id="Div"><code>Div</code></dt>
-			<dd>Division quotient.</dd>
-		<dt id="Mod"><code>Mod</code></dt>
-			<dd>Division remainder.</dd>
-		<dt id="Exe"><code>Evaluate</code></dt>
-			<dd>Executes a quote.</dd>
-		<dt id="Abs"><code>Abstract</code></dt>
-			<dd>Makes a function.</dd>
-		<dt id="Let"><code>Let</code></dt>
-			<dd>Makes a binding.</dd>
+		<dt id="Constrain"><code>Constrain</code></dt>
+		<dt id="Assert"><code>Assert</code></dt>
+		<dt id="Abstract"><code>Abstract</code></dt>
 		<dt id="Do"><code>Do</code></dt>
-			<dd>Sequences execution.</dd>
-		<dt id="Reference"><code>@</code></dt>
-			<dd>Makes a reference (pointer) or gets a reference.</dd>
+		<dt id="With"><code>With</code></dt>
+		<dt id="Let"><code>Let</code></dt>
+		<dt id="Sum"><code>Sum</code></dt>
+		<dt id="Dif"><code>Dif</code></dt>
+		<dt id="Mul"><code>Mul</code></dt>
+		<dt id="Div"><code>Div</code></dt>
+		<dt id="Rem"><code>Rem</code></dt>
 		<dt id="Conditional"><code>?</code></dt>
-			<dd>Conditional evaluation.</dd>
-		<dt id="Case"><code>??</code></dt>
-			<dd>Case matching.</dd>
-		<dt id="Cardinality"><code>#</code></dt>
-			<dd>Cardinality.</dd>
-		<dt id="Refine"><code>Refine</code></dt>
-			<dd>Refines a type.</dd>
-		<dt id="Assert"><code>The</code></dt>
-			<dd>Type assertion.</dd>
-		<dt id="Access"><code>In</code></dt>
-			<dd>Access an element.</dd>
-		<dt id="Equal"><code>Eq</code></dt>
-			<dd>Equality</dd>
-		<dt id="Less"><code>EqL</code></dt>
-			<dd>Equal or Less</dd>
-		<dt id="Greater"><code>EqG</code></dt>
-			<dd>Equal or Greater</dd>
-		<dt id="And"><code>And</code></dt>
-			<dd>Logical Conjunction</dd>
-		<dt id="Or"><code>Or</code></dt>
-			<dd>Logical Disjunction</dd>
-		<dt id="Not"><code>Not</code></dt>
-			<dd>Logical Negation</dd>
+		<dt id="Reference"><code>@</code></dt>
+		<dt id="Conjunction"><code>And</code></dt>
+		<dt id="Disjunction"><code>Or</code></dt>
+		<dt id="Negation"><code>Not</code></dt>
+		<dt id="Less"><code>Less</code></dt>
+		<dt id="Greater"><code>Greater</code></dt>
+		<dt id="Equal"><code>Equal</code></dt>
 	</dl>
-	<h2><a href="#Default-Expressions" id="Default-Expressions">Default Expressions</a></h2>
+	<h2><a href="#Default-Bindings">Default Bindings</a></h2>
+	<figure>
+		<p><code>
+			((e : (({Number ['+ '- '* '/ '//]} *) + {Number})) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : (({Collection ['+ '- '/]} *) + {Collection})) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Collection '*}))
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Collection '* Number}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : (({Type ['+ '-]} *) + {Type})) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : (Collection + {'->} + Collection)) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : ({'do} + Collection + {'with} + Collection)) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : ({'with} + Collection + {'do} + Collection)) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : ((([{Boolean} {'- Boolean}] + {['/\ '\/]}) *) + {Boolean})) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Number '&lt; Number}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Number '&gt; Number}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Any '= Any}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Symbol '= Expression}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Expression '= Symbol}))
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Symbol '= Symbol}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Type '&lt; Type}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Type '&gt Type}) -> 
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Any ': Any}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Any '| Function}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Collection '_ Number}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Collection '_ Number Any}) ->
+			)
+		</code></p>
+	</figure>
+	<figure>
+		<p><code>
+			((e : {Collection Symbol}) -> 
+			)
+		</code></p>
+	</figure>
 </body>

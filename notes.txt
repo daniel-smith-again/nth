@@ -415,3 +415,18 @@ Can I do boolean case matching?
 (? cond succ fail)
 (? cond succ cond succ)
 (? cond succ cond succ fail)
+
+
+
+I have effect handlers using the higher order function, (with ... _)
+(with) takes a number of symbol function pairs.
+(with 
+f (x -> x) 
+g (x -> x) 
+(f g 1)
+)
+with will either return the result of the last expression, or the result of
+one of the handlers.
+The handler will either resume back to the last expression, or return a value
+out of the with.
+The first parameter is the resumption.
