@@ -10,12 +10,29 @@
 	<a id="up" href="index.html">&centerdot;</a>
 
 	<h1><a href="#Defaults" id="Defaults">Defaults</a></h1>
+	<h2><a href="#Default-Expressions" id="Default-Expressions">Default Expressions</a>Default Expressions</h2>
+	<a href="#1-1" id="1-1">1-1</a><p><a href="terms.html#Default">Default</a> <a href="terms.html#Expression">expressions</a> are <a href="terms.htmlHigher-Order-Binding"><i>higher order bindings</i></a> provided by <i>n</i><sup>th</sup> and are present in all <a href="terms.html#Context">contexts</a>.
+	The figures below define these <a href="terms.html#Binding">bindings</a> circularly, as they would be defined in a <a href="terms.html#Context">context</a> containing all <a href="terms.html#Default">defaults</a> described in this section.</p>
+	<a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a>
+	<a href="#Arithmetic" id="Arithmetic">Arithmetic</a>
+	<a href="#Collection-Algebra" id="Collection-Algebra">Collection Algebra</a>
+	<a href="#Vector-Type-Shorthand" id="Vector-Type-Shorthand">Vector Type Shorthand</a>
+	<a href="#Boolean-Arithmetic" id="Boolean-Arithmetic">Boolean Arithmetic</a>
+	<a href="#Function-Constructor" id="Function-Constructor">Function Constructor</a>
+	<a href="#Constraint-Constructor" id="Constraint-Constructor">Constraint Constructor</a>
+	<a href="#Type-Assertion" id="Type-Assertion">Type Assertion</a>
+	<a href="#Type-Algebra" id="Type-Algebra">Type Algebra</a>
+	<a href="#Destructuring-Operations" id="Destructuring-Operations">Destructuring Operations</a>
+	<a href="#Comparison-Operations" id="Comparison-Operations">Comparison Operations</a>
+	<a href="#Equality-Assignment" id="Equality-Assignment">Equality Assignment</a>
+
+
 	<h2><a href="#Default-Functions" id="Default-Functions">Default Functions</a></h2>
 	<dl>
 		<dt id="Quote"><code>(Quote : ((Expression) -> Program))</code></dt>
 		<dd><i>Quote</i></dd>
 		<dt id="Eval"><code>(Eval : ((Program) -> Any))</code></dt>
-		<dd>The <i>Eval</i> <a href="terms.html#Function">function</a> accepts a single </dd>
+		<dd>The <i>Eval</i> <a href="terms.html#Function">function</a> accepts a single <a href="terms.html#Program">program</a> which it will evaluate.</dd>
 		<dt id="Create"><code>Create</code></dt>
 		<dt id="Vector"><code>Vector</code></dt>
 		<dt id="In"><code>In</code></dt>
@@ -26,7 +43,6 @@
 		<dt id="Abstract"><code>Abstract</code></dt>
 		<dt id="Do"><code>Do</code></dt>
 		<dt id="With"><code>With</code></dt>
-		<dt id="Let"><code>Let</code></dt>
 		<dt id="Sum"><code>Sum</code></dt>
 		<dt id="Dif"><code>Dif</code></dt>
 		<dt id="Mul"><code>Mul</code></dt>
@@ -41,118 +57,4 @@
 		<dt id="Greater"><code>Greater</code></dt>
 		<dt id="Equal"><code>Equal</code></dt>
 	</dl>
-	<h2><a href="#Default-Bindings">Default Bindings</a></h2>
-	<figure>
-		<p><code>
-			((e : (({Number ['+ '- '* '/ '//]} *) + {Number})) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : (({Collection ['+ '- '/]} *) + {Collection})) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Collection '*}))
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Collection '* Number}) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : (({Type ['+ '-]} *) + {Type})) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : (Collection + {'->} + Collection)) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : ({'do} + Collection + {'with} + Collection)) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : ({'with} + Collection + {'do} + Collection)) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : ((([{Boolean} {'- Boolean}] + {['/\ '\/]}) *) + {Boolean})) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Number '&lt; Number}) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Number '&gt; Number}) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Any '= Any}) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Type '&lt; Type}) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Type '&gt Type}) -> 
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Any ': Any}) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Any '| Function}) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Collection '_ Number}) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Collection '_ Number Any}) ->
-			)
-		</code></p>
-	</figure>
-	<figure>
-		<p><code>
-			((e : {Collection Symbol}) -> 
-			)
-		</code></p>
-	</figure>
 </body>

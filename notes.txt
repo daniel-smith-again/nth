@@ -418,6 +418,9 @@ Can I do boolean case matching?
 
 
 
+How do I express a collection that contains?
+	(Collection | (c -> (? (C / T) C)))
+
 I have effect handlers using the higher order function, (with ... _)
 (with) takes a number of symbol function pairs.
 (with 
@@ -431,13 +434,38 @@ The handler will either resume back to the last expression, or return a value
 out of the with.
 The first parameter is the resumption.
 
+(with ... _)
+binds effect handlers to symbols which may be used within the last expression.
 
-Let
-Syntax
-Do
-With
+lexical shit is not portable.
+The more I tie stuff to a lexical domain, the more I can't reuse any of it.
+the (with ... _) form does not allow for re-useable effects right now.
+I can change this by letting (with x) propagate the binding.
+so if I supply (with (x)), then it simply passes the function through as `x`.
 
-(Let x 1 y 2 (x + 1))
-(Use )
-(Do )
-(With )
+how do i do a higher order binding?
+you assign an expression to a thing.
+so naming a binding exposes it in scope?
+
+(do 
+   (x = 1)
+   (= ({'a 'b} -> '(x + 1)))
+   (a b))
+
+(do 
+   (g : Function)
+   (f = (x -> g x))
+   (g = (x -> f x))
+   (f x))
+
+Comparisons are part of conditional expressions.
+There aren't comparisons outside of conditional expressions since their use is so rare.
+
+there is no let. I don't need let if I have binding.
+
+(Success = [* True])
+(Failure = [_ False])
+(Judgement = [Success Failure])
+(({'? Judgement} + ({Expression} *)) -> *)
+({Symbol '= *} -> (& _ 1 _ 3))
+({* '= *} -> Judgement)
