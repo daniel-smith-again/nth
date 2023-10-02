@@ -430,3 +430,14 @@ one of the handlers.
 The handler will either resume back to the last expression, or return a value
 out of the with.
 The first parameter is the resumption.
+
+
+Let
+Syntax
+Do
+With
+
+(Let x 1 y 2 (x + 1))
+(Use )
+(Do )
+(With )
