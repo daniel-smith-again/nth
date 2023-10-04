@@ -470,21 +470,20 @@ there is no let. I don't need let if I have binding.
 ({Symbol '= *} -> (& _ 1 _ 3))
 ({* '= *} -> Judgement)
 
+I want images to be a first class data type.
+An image is an object which enforces encapsulation.
+Multiple images can be live within a program.
+An image has its own internal state.
+Because of encapsulation, you have to be standing in the image to change it.
+Images are built up sequentially.
+An image of types is a supertype of an image of inhabitants.
 
-What about no parentheses?
 
-quicksort = list : Vector -> 
- ? # list > 1 
-   swap = pv i j ->
-    ??
-      list _ i < list _ pv and i < pv
-      swap pv i + 1 j
-      list _ j > list _ pv and j > pv
-      swap pv i j - 1
-      list _ j < list _ pv and list _ i < list _ pv
-      tmp = list _ i,
-       list _ i list _ j,
-       list _ j tmp,
-       swap pv i j,
-      quicksort @ @ list _ 1 : Collection | c -> ? # c = # list - pv True,
-      quicksort @ @ list _ pivot _ 1 : Collection | c -> ? # c = # list - pv True
+so what about macros?
+There should be specific spots where macros are permitted.
+using let.
+actually that sucks, just provide syntax to the image.
+so how does that work?
+(syntax ({'a 'b} -> 'c))
+
+(use 'image)
