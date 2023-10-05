@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="style.css">
 <style>
 	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;}
-	#grid-container *{transition:all 0.5s;}
 	details{display:inline;}
 	details:target{border-color:var(--lfg);}
 </style>
@@ -22,7 +21,7 @@
 		<details id="Character"><summary>Character</summary><p>An encoded numerical value according to the <a href="overview.html#Normative-Refernces"><i>Unicode&reg; Standard</i></a> or the ASCII Standard corresponding to written text.</p></details>
 		<details id="Collection"><summary>Collection</summary><p>The construct provided by <i>n</i><sup>th</sup> for creating structured <a href="#Data">data</a> (Refer to the section on <a href="collections.html">Collections</a>).</p></details>
 		<details id="Computer"><summary>Computer</summary><p>The device or mechanism which is responsible for <a href="#Execute">executing</a> a <a href="#Program">program</a>.</p></details>
-		<details id="Context"><summary>Context</summary><p>The abstract construct which exposes the <a href="#Environment">environment</a> to the <a href="#Evaluate">evaluation</a> process through <a href="#Binding">bindings</a> and <a href="#Higher-Order-Binding"><i>higher order bindings</i></a> (Refer to the section on <a href="evaluation.html#Contexts">Contexts</a>.).</p></details>
+		<details id="Context"><summary>Context</summary><p>A <a href="#Collection">collection</a> of <a href="#Function">functions</a> representing the <a href="#Binding">bindings</a> which are available in the <a href="#Environment">environment</a> (Refer to the section on <a href="evaluation.html#Contexts">Contexts</a>).</p></details>
 		<details id="Data"><summary>Data</summary><p>A static information constant of some size occupying <a href="#Storage">storage</a> <a href="#Resource">resources</a>.</p></details>
 		<details id="Default"><summary>Default</summary><p><a href="#Data">Data</a> or another <a href="#Resource">resource</a> which must be present as auxillary to the <a href="#Implementation">implementation</a> (Refer to the section on <a href="defaults.html">Defaults</a>).</p></details>
 		<details id="Digit"><summary>Digit</summary><p>A <a href="#Character">character</a> under the General Category Major Class N in <i>4.5 General Category, Table 4-4</i> of the Unicode&reg; Standard</p></details>

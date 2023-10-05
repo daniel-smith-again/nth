@@ -9,45 +9,14 @@
 	<a id="prev" href="syntax.html">&#x261a;</a>
 	<a id="up" href="index.html">&centerdot;</a>
 
+
 	<h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
-	<a href="#1-1" id="1-1">1-1</a><p><a href="terms.html#Evaluate">Evaluation</a> of an <a href="terms.html#Expression">expression</a> occurs in three phases. 
-	The first phase resolves all <a href="terms.html#Higher-Order-Binding"><i>higher order bindings</i></a>. 
-	The second phase resolves all <a href="terms.html#Binding">bindings</a>. 
-	The third phase reduces each <a href="terms.html#Expression"></a>.</p>
-	<a href="#1-2" id="1-2">1-2</a><p><a href="terms.html#Evaluate">Evaluation</a> takes place within a <a href="terms.html#Context">context</a> maintained by the <a href="terms.html#Environment">environment</a>.</p>
-	<a href="#1-3" id="1-3">1-3</a><p><a href="terms.html#Evaluate">Evaluation</a> of an <a href="terms.html#Expression">expression</a> within a <a href="terms.html#Context">context</a> will result in <a href="terms.html#Data">data</a> which replaces that <a href="terms.html#Expression">expression</a>.</p>
-	<a href="#1-4" id="1-4">1-4</a><p><a href="terms.html#Evaluate">Evaluation</a> of a <a>program</a> is performed by locating <a>expressions</a> which contain only <a>data</a>. 
-	In other words, they are are non-nested <a>Program Model</a> components.
-	Once an <a>expression</a> of this form is found, it is <a>evaluated</a> and replaced in the <a>Program Model</a> by its <a>data</a> result.
-	This process is repeated until the <a>Program Model</a> is comprised of only a single <a>data</a> result.</p>
-	<a href="#Fig-1" id="Fig-1">Figure 1</a>
-	<figure>
-	<figcaption>This figure shows the <a href="terms.html#Type">type</a> of an <a href="terms.html#Expression">expression</a>, as a <a href="terms.html#Program-Model">Program Model</a> component, which contains only <a>data</a>.</figcaption>
-	<p style="text-align:left;"><code>(Expression |<br>
-	&nbsp;(x -> <br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(? ((x / Expression) = Nil)<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x))))</code></p>
-	</figure>
-	<a href="#1-5" id="1-5">1-5</a><p>Successful <a>evaluation</a> of a program must always yield a <a>data</a> result.</p>
-	<h2><a href="#Contexts">Contexts</a></h2>
-	<a href="#2-1" id="2-1">2-1</a><p>A <a>context</a> contains the <a href="terms.html#Binding">bindings</a> which have been established by the <a href="terms.html#Default">default</a> <a href="terms.html#Function">function</a> <a href="defaults.html#Let"><i>Let</i></a> or by <a href="terms.html#Function">function</a> <a href="terms.html#Application">application</a>.</p>
-	<a href="Fig-2" id="Fig-2">Figure 2</a>
-	<figure>
-	<figcaption>This figure gives the most general <a href="terms.html#Type">type</a> of a <a href="terms.html#Context">context</a>.</figcaption>
-	<p style="text-align:left;"><code>
-		(Context : [[<br>
-		((Symbol) -> Any)<br> 
-		((Expression) -> Expression)<br> 
-		((Expression) -> Any)]])
-	</code></p>
-	<p>Where a <a href="terms.html#Context">context</a> is literally a <a href="terms.html#Type">type</a> of one or more <a href="terms.html#Function">functions</a> corresponding to individual <a href="terms.html#Binding">bindings</a>.</p>
-	</figure>
-	<a href="#2-2" id="2-2">2-2</a><p>The process which resolves a <a href="terms.html#Binding">binding</a> is <a href="terms.html#Execute">executed</a> by <a href="terms.html#Application">applying</a> the <a href="terms.html#Context">context</a> to the <a href="terms.html#Symbol">symbol</a> or <a href="terms.html#Expression">expression</a> and replacing that <a href="terms.html#Symbol">symbol</a> or <a href="terms.html#Expression">expression</a> with the result of the <a href="terms.html#Application">application</a>.</p>
-	<a href="#2-3" id="2-3">2-3</a><p>The <a href="terms.html#Data">data</a> form of a <a href="terms.html#Context">context</a> is dependent on the <a href="terms.html#Implementation">implementation</a>.</p>
-	<a href="#2-4" id="2-4">2-4</a><p>The <a href="terms.html#Operation">operation</a> which resolves a <a href="terms.html#Binding">binding</a> is dependent on the <a href="terms.html#Implementation">implementation</a></p>
-	<a href="#2-5" id="2-5">2-5</a><p>The <a href="terms.html#Operation">operation</a> which resolves a <a href="terms.html#Higher-Order-Binding"><i>higher-order binding</i></a> is dependent on the <a href="terms.html#Implementation">implementation</a>, but it must <a href="terms.html#Application">apply</a> the <a href="terms.html#Function">function</a> associated with that <a href="terms.html#Binding">binding</a> to the <a href="terms.html#Expression">expression</a>.</p>
-	<h2><a href="#Quantification">Quantification</a></h2>
-	<h2><a href="#Control">Control</a></h2>
-	<p><i>n</i><sup>th</sup> provides <a href="terms.html#Default">default</a> <a href="terms.html#Function">functions</a> which affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>.
-	These functions are <a href="defaults.html#Do"><i>Do</i></a>, <a href="defaults.html#With"><i>With</i></a>, and <a href="defaults.html#Assignment"><i>Assignment</i></a>.</p>
+	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
+	<h2><a href="#Bindings" id="Bindings">Bindings</a></h2>
+	<h2><a href="#Control" id="Control">Control</a></h2>
+	<h3>Sequences</h3>
+	<h3>Conditions</h3>
+	<h3>Assignment</h3>
+	<h3>Application</h3>
+	<h3>Inflection</h3>
 </body>

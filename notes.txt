@@ -470,20 +470,75 @@ there is no let. I don't need let if I have binding.
 ({Symbol '= *} -> (& _ 1 _ 3))
 ({* '= *} -> Judgement)
 
-I want images to be a first class data type.
-An image is an object which enforces encapsulation.
-Multiple images can be live within a program.
-An image has its own internal state.
-Because of encapsulation, you have to be standing in the image to change it.
-Images are built up sequentially.
-An image of types is a supertype of an image of inhabitants.
+Images provide encapsulation.
+They have private and "public" bindings.
+Images are typed as dictionaries rather than sequences.
+Images manage higher order bindings.
+Images are first class objects and they can be manipulated as such.
+Images can be nested.
+Images can be combined.
+Images can be stored as files.
 
 
-so what about macros?
-There should be specific spots where macros are permitted.
-using let.
-actually that sucks, just provide syntax to the image.
-so how does that work?
-(syntax ({'a 'b} -> 'c))
+What are the image commands?
+(load)		- adds a stored image file to the runtime.
+(store)		- writes an image in the runtime to a file.
+(import)	- adds an external binding from an image to a context.
+(use)		- makes an image the top level context
+(define)	- adds an external binding to an image
+(items)		- 
 
-(use 'image)
+Image as a data structure.
+It's just bindings.
+That's the same as a collection of functions.
+The data isn't accessible unless it's through the function.
+The image has it's own implicit context where self reference is resolved.
+Images form a comprehensive context for evaluation to take place.
+Images provide bindings.
+Internal, Higher Order, and External bindings.
+
+I have two images, A and B. 
+
+I can combine A and B.
+I can take an external binding from A and include it in B.
+I can open A within B to compute something.
+So images are three functions which accept bindings or syntax.
+Is it pairs?
+Or the only way you can interact with an image is through functions and the 
+image is abstract?
+The image is abstract. It's an object, but you can't deconstruct it.
+
+So you can open an image which lets you perform computations in the image.
+You can close an image which moves you into the outer image.
+You can close from the default image which just closes the repl.
+You can create a new image with a list of stuff.
+You can import from an image.
+You can create external bindings.
+You can create higher order bindings.
+You can create internal bindings.
+
+Internal bindings are (_ = _)
+External bindings are (define _ _)
+Higher order bindings are (define _)
+
+
+So the functions are 
+(Define _ _)
+(Define _)
+(Import _ _)
+(Import _)
+(Open)
+(Close)
+(Load)
+(Store)
+(Bindings)
+
+This is too hard. Just make images collections.
+All you need is open, close, and define.
+Collection application lets you use a collection as an image.
+You can add to a collection externally, or you can define a collection internally.
+
+How do you define an implicit dependency?
+
+what do I call "with" because it's not true algebraic effects. 
+A function that calls an effect may also be calling a normal function.
