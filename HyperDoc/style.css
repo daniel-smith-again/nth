@@ -28,7 +28,7 @@ details[open] > summary{border-bottom:0.2ch solid var(--fg);text-align:left;padd
 details[open] {padding:1ch;width:fit-content;}
 h2{padding-top:1ch;font-size:calc(var(--scale) * 2);width:69%;margin-left:auto;margin-right:auto;text-align:center;border-bottom:0.2ch none var(--fg);}
 h3{padding-top:3ch;font-size:calc(var(--scale) * 1.5);width:69%;margin-left:auto;margin-right:auto;text-align:center;}
-p > a, details > a, figcaption > a, td > a{color:var(--link);}
+p > a, details > a, figcaption > a, td > a, li > a{color:var(--link);}
 a:active, a:hover, a:link, a:visited {border:none;}
 :target{all:none;}
 

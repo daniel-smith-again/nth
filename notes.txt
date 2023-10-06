@@ -443,20 +443,8 @@ the (with ... _) form does not allow for re-useable effects right now.
 I can change this by letting (with x) propagate the binding.
 so if I supply (with (x)), then it simply passes the function through as `x`.
 
-how do i do a higher order binding?
-you assign an expression to a thing.
-so naming a binding exposes it in scope?
-
-(do 
-   (x = 1)
-   (= ({'a 'b} -> '(x + 1)))
-   (a b))
-
-(do 
-   (g : Function)
-   (f = (x -> g x))
-   (g = (x -> f x))
-   (f x))
+Higher order bindings are provided at the image level. 
+You can't make a binding
 
 Comparisons are part of conditional expressions.
 There aren't comparisons outside of conditional expressions since their use is so rare.
@@ -470,75 +458,9 @@ there is no let. I don't need let if I have binding.
 ({Symbol '= *} -> (& _ 1 _ 3))
 ({* '= *} -> Judgement)
 
-Images provide encapsulation.
-They have private and "public" bindings.
-Images are typed as dictionaries rather than sequences.
-Images manage higher order bindings.
-Images are first class objects and they can be manipulated as such.
-Images can be nested.
-Images can be combined.
-Images can be stored as files.
-
-
-What are the image commands?
-(load)		- adds a stored image file to the runtime.
-(store)		- writes an image in the runtime to a file.
-(import)	- adds an external binding from an image to a context.
-(use)		- makes an image the top level context
-(define)	- adds an external binding to an image
-(items)		- 
-
-Image as a data structure.
-It's just bindings.
-That's the same as a collection of functions.
-The data isn't accessible unless it's through the function.
-The image has it's own implicit context where self reference is resolved.
-Images form a comprehensive context for evaluation to take place.
-Images provide bindings.
-Internal, Higher Order, and External bindings.
-
-I have two images, A and B. 
-
-I can combine A and B.
-I can take an external binding from A and include it in B.
-I can open A within B to compute something.
-So images are three functions which accept bindings or syntax.
-Is it pairs?
-Or the only way you can interact with an image is through functions and the 
-image is abstract?
-The image is abstract. It's an object, but you can't deconstruct it.
-
-So you can open an image which lets you perform computations in the image.
-You can close an image which moves you into the outer image.
-You can close from the default image which just closes the repl.
-You can create a new image with a list of stuff.
-You can import from an image.
-You can create external bindings.
-You can create higher order bindings.
-You can create internal bindings.
-
-Internal bindings are (_ = _)
-External bindings are (define _ _)
-Higher order bindings are (define _)
-
-
-So the functions are 
-(Define _ _)
-(Define _)
-(Import _ _)
-(Import _)
-(Open)
-(Close)
-(Load)
-(Store)
-(Bindings)
-
-This is too hard. Just make images collections.
-All you need is open, close, and define.
-Collection application lets you use a collection as an image.
-You can add to a collection externally, or you can define a collection internally.
-
 How do you define an implicit dependency?
+You don't. There is no implicit dependency. Rather, you write a function that 
+imports everything properly.
 
 what do I call "with" because it's not true algebraic effects. 
 A function that calls an effect may also be calling a normal function.

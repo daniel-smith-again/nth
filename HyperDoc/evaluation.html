@@ -11,7 +11,20 @@
 
 
 	<h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
+	<p><a href="terms.html#Evaluate">Evaluation</a> determines the result of a <a href="terms.html#Program">program</a> through repeated reductive steps where <a href="terms.html#Program-Model">Program Model</a> components that imply <a href="terms.html#Operation">operations</a> are executed and replaced with their <a href="terms.html#Data">data</a> result.</p>
+	<p><a href="terms.html#Evaluate">Evaluation</a> is performed according to discrete steps which transform the structure of a <a href="terms.html#Program-Model">Program Model</a>. 
+	For any given <a href="terms.html#Program">program</a> which is being <a href="terms.html#Evaluate">evaluated</a>, the steps are...</p>
+	<ol>
+		<li>Locate the first <a href="terms.html#Expression">expression</a> within the <a href="terms.html#Program">program</a> which contains only <a href="terms.html#Data">data</a>.
+		In other words, the first <a href="terms.html#Expression">expression</a> which does not contain another <a href="terms.html#Expression">expression</a> as a <a href="terms.html#Field">field</a>.</li>
+		<li>Repeatedly query the <a href="terms.html#Context">context</a> for <a href="terms.html#Binding">bindings</a> of that <a href="terms.html#Expression">expression</a>, replacing the <a href="terms.html#Expression">expression</a> with the bound <a href="terms.html#Data">data</a> for each successful query until there are no successful queries.</li>
+		<li>For each <a href="terms.html#Symbol">symbol</a> in the <a href="terms.html#Expression">expression</a>, query the <a href="terms.html#Context">context</a> for <a href="terms.html#Binding">bindings</a> of that <a href="terms.html#Symbol">symbol</a> and replace it with the bound <a href="terms.html#Data">data</a>.</li>
+		<li><a href="terms.html#Execute">Execute</a> the <a href="terms.html#Operation">operation</a> associated with that <a href="terms.html#Expression">expression</a> and replace the <a href="terms.html#Expression">expression</a> with the result in the <a href="terms.html#Field">field</a> that contains it.</li>
+	</ol>
 	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
+	<p>A <a href="terms.html#Context">context</a> is formed according to the extent of an <a href="terms.html#Image">image</a> or <a href="terms.html#Function">function</a>. 
+	Each <a href="terms.html#Function">function</a> and <a href="terms.html#Image">image</a> will form a unique context containing the <a href="terms.html#Binding">bindings</a> established by their construction.</p>
+	<p><a>Evaluation</a> interacts with a <a>context</a> through <a>application</a> whereby the <a>bindings</a> in that <a>context</a> are <a>queried</a></p>
 	<h2><a href="#Bindings" id="Bindings">Bindings</a></h2>
 	<h2><a href="#Control" id="Control">Control</a></h2>
 	<h3>Sequences</h3>
