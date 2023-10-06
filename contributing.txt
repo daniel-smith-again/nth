@@ -8,4 +8,4 @@ How do I contribute?
 	community, team, or "inner circle". No such prestige exists here. The 
 	language specification is complete, fixed, and dead for all eternity. 
 	All I do here is make that standard into a humble executable for you to
-	enjoy.
+	enjoy or hate and I don't care which.

@@ -542,3 +542,8 @@ How do you define an implicit dependency?
 
 what do I call "with" because it's not true algebraic effects. 
 A function that calls an effect may also be calling a normal function.
+It's called an inflection because control can take a non-linear path.
+
+
+
+You should only ever be five lines away from http, gui, and gpu.
