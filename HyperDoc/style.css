@@ -8,7 +8,7 @@
 }
 body{color:var(--fg);background-color:var(--bg);font-size:var(--scale);padding-bottom:10ch;transition:all 0.5s;}
 #cover-icon{display:block;height:34vh;margin:auto;}
-p, h1, figure, figcaption, ol, ul, dl, details{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
+p, h1, figure, figcaption, li, dl, details{width:69%;max-width:80ch;margin-left:auto;margin-right:auto;text-align:center;border-radius:1ch;}
 ol, ul, dl{width:fit-content;margin-left:auto;margin-right:auto;}
 h1{font-size:calc(var(--scale) * 3);border-bottom:solid 0.2ch var(--fg);border-radius:0;}
 #title-page{height:34vh;border:none;}
