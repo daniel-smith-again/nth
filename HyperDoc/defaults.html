@@ -10,51 +10,89 @@
 	<a id="up" href="index.html">&centerdot;</a>
 
 	<h1><a href="#Defaults" id="Defaults">Defaults</a></h1>
-	<h2><a href="#Default-Expressions" id="Default-Expressions">Default Expressions</a>Default Expressions</h2>
-	<a href="#1-1" id="1-1">1-1</a><p><a href="terms.html#Default">Default</a> <a href="terms.html#Expression">expressions</a> are <a href="terms.htmlHigher-Order-Binding"><i>higher order bindings</i></a> provided by <i>n</i><sup>th</sup> and are present in all <a href="terms.html#Context">contexts</a>.
-	The figures below define these <a href="terms.html#Binding">bindings</a> circularly, as they would be defined in a <a href="terms.html#Context">context</a> containing all <a href="terms.html#Default">defaults</a> described in this section.</p>
-	<a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a>
-	<a href="#Arithmetic" id="Arithmetic">Arithmetic</a>
-	<a href="#Collection-Algebra" id="Collection-Algebra">Collection Algebra</a>
-	<a href="#Vector-Type-Shorthand" id="Vector-Type-Shorthand">Vector Type Shorthand</a>
-	<a href="#Boolean-Arithmetic" id="Boolean-Arithmetic">Boolean Arithmetic</a>
-	<a href="#Function-Constructor" id="Function-Constructor">Function Constructor</a>
-	<a href="#Constraint-Constructor" id="Constraint-Constructor">Constraint Constructor</a>
-	<a href="#Type-Assertion" id="Type-Assertion">Type Assertion</a>
-	<a href="#Type-Algebra" id="Type-Algebra">Type Algebra</a>
-	<a href="#Destructuring-Operations" id="Destructuring-Operations">Destructuring Operations</a>
-	<a href="#Comparison-Operations" id="Comparison-Operations">Comparison Operations</a>
-	<a href="#Equality-Assignment" id="Equality-Assignment">Equality Assignment</a>
+	<h2><a href="#Expressions" id="Expressions">Expressions</a></h2>
+	<p>The <a>expressions</a> given below are provided by the <a>default</a> <a>image</a>.</p>
+	
+	<figure id="Assignment">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Comparison">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Boolean-Algebra">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Collection-Algebra">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Type-Algebra">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Arithmetic">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Function-Definition">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Constraint-Definition">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Type-Assertion">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Destructuring">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Conditional">
+	<figcaption></figcaption>
+	</figure>
+
+	<figure id="Inflection">
+	<figcaption></figcaption>
+	</figure>
 
 
-	<h2><a href="#Default-Functions" id="Default-Functions">Default Functions</a></h2>
+
+	<h2><a href="#Functions" id="Functions">Functions</a></h2>
 	<dl>
-		<dt id="Quote"><code>(Quote : ((Expression) -> Program))</code></dt>
-		<dd><i>Quote</i></dd>
-		<dt id="Eval"><code>(Eval : ((Program) -> Any))</code></dt>
-		<dd>The <i>Eval</i> <a href="terms.html#Function">function</a> accepts a single <a href="terms.html#Program">program</a> which it will evaluate.</dd>
-		<dt id="Create"><code>Create</code></dt>
-		<dt id="Vector"><code>Vector</code></dt>
-		<dt id="In"><code>In</code></dt>
-		<dt id="At"><code>At</code></dt>
-		<dt id="Take"><code>Take</code></dt>
-		<dt id="Constrain"><code>Constrain</code></dt>
-		<dt id="Assert"><code>Assert</code></dt>
-		<dt id="Abstract"><code>Abstract</code></dt>
-		<dt id="Do"><code>Do</code></dt>
-		<dt id="With"><code>With</code></dt>
-		<dt id="Sum"><code>Sum</code></dt>
-		<dt id="Dif"><code>Dif</code></dt>
-		<dt id="Mul"><code>Mul</code></dt>
-		<dt id="Div"><code>Div</code></dt>
-		<dt id="Rem"><code>Rem</code></dt>
-		<dt id="Conditional"><code>?</code></dt>
-		<dt id="Reference"><code>@</code></dt>
-		<dt id="Conjunction"><code>And</code></dt>
-		<dt id="Disjunction"><code>Or</code></dt>
-		<dt id="Negation"><code>Not</code></dt>
-		<dt id="Less"><code>Less</code></dt>
-		<dt id="Greater"><code>Greater</code></dt>
-		<dt id="Equal"><code>Equal</code></dt>
+		<dt id="Add">Add</dt>
+		<dt id="Sub">Sub</dt>
+		<dt id="Mul">Mul</dt>
+		<dt id="Quo">Quo</dt>
+		<dt id="Rem">Rem</dt>
+		<dt id="Exp">Exp</dt>
+		<dt id="Rt">Rt</dt>
+		<dt id="And">And</dt>
+		<dt id="Or">Or</dt>
+		<dt id="Not">Not</dt>
+		<dt id="Less">&lt;</dt>
+		<dt id="Less-Or-Equal">&lt;=</dt>
+		<dt id="Greater">&gt;</dt>
+		<dt id="Greater-Or-Equal">&gt;=</dt>
+		<dt id="Not-Equal">~=</dt>
+		<dt id="Equal">=</dt>
+		<dt id="Define">Define</dt>
+		<dt id="Do">Do</dt>
+		<dt id="Quote">Quote</dt>
+		<dt id="Eval">Eval</dt>
+		<dt id="Create">Create</dt>
+		<dt id="Take">Take</dt>
+		<dt id="At">At</dt>
+		<dt id="In">In</dt>
+		<dt id="Reference">@</dt>
 	</dl>
+	<h2 href="#Types" id="Types">Types</h2>
+	<figure>
+		<p style="text-align:left;"><code>(Number = [&#x1d569;])<br>(Integer = [Number (&#x1d56a; | (n -> n &lt; 0))])<br>(Scalar = [Natural Integer])</code></p>
+	</figure>
 </body>

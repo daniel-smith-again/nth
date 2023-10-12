@@ -469,3 +469,10 @@ It's called an inflection because control can take a non-linear path.
 
 
 You should only ever be five lines away from http, gui, and gpu.
+
+What's my operation for primitive stuff?
+Emit some code and provide a reference to it.
+There is no operation. You have a data sequence.
+How do you do that though? What's the primitive data type?
+The Byte?
+Sure.

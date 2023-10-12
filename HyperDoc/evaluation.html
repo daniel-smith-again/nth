@@ -26,11 +26,15 @@
 	Each <a href="terms.html#Function">function</a> and <a href="terms.html#Image">image</a> will form a unique context containing the <a href="terms.html#Binding">bindings</a> established by their construction.</p>
 	<p><a>Evaluation</a> interacts with a <a>context</a> through <a>application</a> whereby the <a>bindings</a> in that <a>context</a> are <a>queried</a></p>
 	<h2><a href="#Bindings" id="Bindings">Bindings</a></h2>
-	<p>A <a href="terms.html#Binding">binding</a> is represented as a function from an <a>identifier</a> to </p>
-	<p>A <a href="terms.html#Binding">binding</a> is treated in the <a href="terms.html#Environment">environment</a> </p>
+	<p><a>Bindings</a> are formed either by the <a href="defaults.html#Expressions"><i>Default Expression</i></a> <a href="defaults.html#Assignment"><i>Assignment</i></a> or by the <a href="defaults.html#Functions"><i>Default Function</i></a> <a href="defaults.html#Define"><i>Define</i></a>.</p>
+	<p><a>Bindings</a> are formed in an <a>environment</a> through the <a href="defaults.html#Expressions"><i>Default Expression</i></a> <a href="defaults.html#Assignment"><i>Assignment</i></a>.</p>
+
 	<h2><a href="#Control" id="Control">Control</a></h2>
-	<h3>Sequences</h3>
+	<p>Some <a href="terms.html#Expression">expressions</a> do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how <a href="terms.html#Program">programs</a> are <a href="terms.html#Evaluate">evaluated</a> and consequently the order in which <a href="terms.html#Operation">operations</a> are <a href="terms.html#Execute">executed</a>.</p>
+	<h3>Sequencing</h3>
+	<p>The <a href="defaults.html#Functions"><i>Default Function</i></a> <a href="defaults.html#Do"><i>Do</i></a> <a href="terms.html#Evaluate">evaluates</a> <a href="terms.html#Expression">expressions</a> in the order in which the are provided as <a href="terms.html#Parameter">parameters</a>.</p>
 	<h3>Conditions</h3>
+	<p></p>
 	<h3>Assignment</h3>
 	<h3>Application</h3>
 	<h3>Inflection</h3>
