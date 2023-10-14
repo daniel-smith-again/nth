@@ -15,6 +15,7 @@
 	
 	<figure id="Assignment">
 	<figcaption></figcaption>
+	<p><code></code></p>
 	</figure>
 
 	<figure id="Comparison">
@@ -92,7 +93,24 @@
 		<dt id="Reference">@</dt>
 	</dl>
 	<h2 href="#Types" id="Types">Types</h2>
-	<figure>
-		<p style="text-align:left;"><code>(Number = [&#x1d569;])<br>(Integer = [Number (&#x1d56a; | (n -> n &lt; 0))])<br>(Scalar = [Natural Integer])</code></p>
+	<figure id="Numerical">
+		<figcaption>This figure shows the relationship between the <a href="terms.html#Default">default</a> <a href="terms.html#Number">number</a> <a href="terms.html#Type">types</a>.</figcaption>
+		<p style="text-align:left;"><code>
+			(Number = [&#x1d569;])<br>
+			(Integer = [Number (&#x1d56a; | (n -> n &lt; 0))])<br>
+			(Word = [&#x1d55e;])<br>
+			(Byte = [&#x1d55f;])<br>
+			(Scalar = [Number Integer Word Byte])</code></p>
+	</figure>
+	<figure id="Logical">
+	<figcaption>This figure shows the relationship between the <a href="terms.html#Default">default</a> logic <a href="terms.html#Type">types</a>.</figcaption>
+	<p style="text-align:left;"><code>
+		(True = [&#x1d569;])<br>
+		(False = [&#x1d56a;])<br>
+		(Boolean = [True False])<br>
+		(Success = [* True])<br>
+		(Failure = [_ False])<br>
+		(Judgement = [Success Failure])
+	</code></p>
 	</figure>
 </body>
