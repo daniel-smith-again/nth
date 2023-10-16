@@ -478,4 +478,5 @@ The Byte?
 Sure.
 
 
-(hypot = (a b -> (a ^ 2 + b ^ 2 ^/ 2)))
+(hypot = (a b -> (2 ^/ (a ^ 2 + b ^ 2))))
+
