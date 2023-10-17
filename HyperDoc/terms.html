@@ -4,7 +4,7 @@
 <title>Nth HyperDoc</title>
 <link rel="stylesheet" href="style.css">
 <style>
-	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;}
+	#grid-container{display:flex;flex-wrap:wrap;flex-direction:row;transition:all 0.5s;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;width:69%;}
 	details{display:inline;}
 	details:target{border-color:var(--lfg);}
 </style>
@@ -48,7 +48,10 @@
 		<details id="Program-Model"><summary>Program Model</summary><p>The <a href="#Data">data</a> structure which forms the cannonical representation of an <i>n</i><sup>th</sup> <a href="#Program">program</a>.</p></details>
 		<details id="Query"><summary>Query</summary><p>The <a href="#Operation">operation</a> which searches a <a href="#Collection">collection</a> for a <a href="#Function">function</a> which can be <a href="#Correct">correctly</a> <a href="#Application">applied</a> to the <a href="#Data">data</a> provided to the <a href="#Operation">operation</a>.</p></details>
 		<details id="Qutoe"><summary>Quote</summary><p>A Quote is a <a rhef="#Program-Model">Program Model</a> represented as <a href="#Data">data</a> which a <a href="#Program">program</a> can <a href="#Operation">operate</a> on.</p></details>
+		<details id="Reduce"><summary>Reduce</summary><p>An <a href="#Operation">operation</a> performed during <a href="#Evaluation">evaluation</a> which replaces a <a href="#Default">default</a> <a href="#Expression">expression</a> with the <a href="#Data">data</a> resulting from <a href="#Execute">executing</a> the corresponding <a href="#Operation">operations</a> for that <a href="#Expression">expression</a>.</p></details>
+		<details id="Resolution"><summary>Resolution</summary><p>The <a href="#Operation">operation</a> which, given an <a href="#Identifier">identifier</a>, searches the <a href="#Context">context</a> for a <a href="#Binding">binding</a> which can provide a <a href="#Value">value</a> for that <a href="#Identifier">identifier</a>.</p></details>
 		<details id="Resource"><summary>Resource</summary><p>A facility of the <a href="#Environment">environment</a> that is consumed by the process of <a href="#Execute">executing</a> a <a href="#Program">program</a>.</p></details>
+		<details id="Rewrite"><summary>Rewrite</summary><p>An <a href="#Operation">operation</a> performed during <a href="#Evaluate">evaluation</a> which applies a <a href="#Transform">transform</a> to an <a href="#Expression">expression</a>.</p></details>
 		<details id="Semantics"><summary>Semantics</summary><p>The properties which constrain the <a href="#Evaluate">evaluation</a> of an <a href="#Expression">expression</a> corresponding to the <a href="#Operation">operations</a> required to <a href="#Execute">execute</a> a <a href="#Program">program</a>.</p></details>
 		<details id="Source"><summary>Source</summary><p>A <a href="#Program">program</a> format representing a <a href="#Program-Model">Program Model</a> as a <a href="#String">string</a>.</p></details>
 		<details id="Storage"><summary>Storage</summary><p>The <a href="terms.html#Environment">environment</a> <a href="#Resource">resource</a> which is consumed when generating or holding information during <a href="#Execute">execution</a> of a <a href="#Program">program</a>.</p></details>

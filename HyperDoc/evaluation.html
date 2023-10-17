@@ -11,6 +11,24 @@
 
 
 	<h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
+	<p><a href="terms.html#Evaluate">Evaluation</a> determines the result of a <a href="terms.html#Program">program</a> through a process of repeated intermediary steps which approach a final <a href="terms.html#Data">data</a> result.</p>
+	<p>Given an <a href="terms.html#Expression">expression</a>, there are two steps which are performed to determine the result, <a href="terms.html#Rewrite">Rewriting</a> and <a href="terms.html#Reduce">Reduction</a>.</p>
+	<h2>Rewriting</h2>
+	<p>An <a href="terms.html#Expression">expression</a> may either correspond to a <a href="defaults.html#Expressions">default expression</a>, or an <a href="terms.html#Expression">expression</a> which can be <a href="terms.html#Transform">transformed</a>.</p>
+	<p>If an <a href="terms.html#Expression">expression</a> is not a <a href="defaults.html#Expressions">default expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> step will be performed.</p>
+	<p>If a <a href="terms.html#Rewrite">rewrite</a> step is performed, it will check the <a href="terms.html#Image">image</a> for a <a href="terms.html#Transform">transform</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.</p>
+	<p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+	<p>If an <a href="terms.html#Expression">expression</a> with one or more nested <a href="terms.html#Expression">expressions</a> is <a href="terms.html#Rewrite">rewritten</a>, each inner <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Rewrite">rewritten</a> before the outer <a href="terms.html#Expression">expression</a>.</p>
+	<h2>Reduction</h2>
+	<p>A <a href="terms.html#Program">program</a> can be <a href="terms.html#Reduce">reduced</a> only when all <a href="terms.html#Expression">expressions</a> in the <a href="terms.html#Program">program</a> are <a href="defaults.html#Expressions">default expressions</a>.</p>
+	<p><a href="terms.html#Reduce">Reduction</a> begins by attempting to <a href="terms.html#Execute">execute</a> the top, outermost <a href="terms.html#Expression">expression</a> in the <a href="terms.html#Program">program</a>.</p>
+
+	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
+	<p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Data">data</a> for one or more <a href="terms.html#Operation">operations</a>.</p>
+	<p><a>Contexts</a> are provided by <a href="terms.html#Image">images</a>, <a href="terms.html#Application">application</a>, and the <a href="defaults.html#Functions">default function</a>, <a href="#Do"><code>do</code></a>.</p>
+
+<!--
+
 	<p><a href="terms.html#Evaluate">Evaluation</a> determines the result of a <a href="terms.html#Program">program</a> through repeated reductive steps where <a href="terms.html#Program-Model">Program Model</a> components that imply <a href="terms.html#Operation">operations</a> are executed and replaced with their <a href="terms.html#Data">data</a> result.</p>
 	<p><a href="terms.html#Evaluate">Evaluation</a> is performed according to discrete steps which transform the structure of a <a href="terms.html#Program-Model">Program Model</a>. 
 	For any given <a href="terms.html#Program">program</a> which is being <a href="terms.html#Evaluate">evaluated</a>, the steps are...</p>
@@ -37,4 +55,5 @@
 	<h3>Assignment</h3>
 	<h3>Application</h3>
 	<h3>Inflection</h3>
+	-->
 </body>
