@@ -480,3 +480,14 @@ Sure.
 
 (hypot = (a b -> (2 ^/ (a ^ 2 + b ^ 2))))
 
+One of the really handy things about effect handlers is that you can provide
+your own handlers. The problem is that I can't ever define a function which 
+expexts handlers external to its own definition. 
+This is a problem with how inflection works with closures.
+What happens when I close over an inflection? 
+Does the closure capture the entire handler, or just the control point?
+What I want is for a function to call up out of its context arbitrarily.
+
+(with (x) )
+
+if I have a function
