@@ -15,6 +15,7 @@
 	<p>Given an <a href="terms.html#Expression">expression</a>, there are two steps which are performed to determine the result, <a href="terms.html#Rewrite">Rewriting</a> and <a href="terms.html#Reduce">Reduction</a>.</p>
 	<h2>Rewriting</h2>
 	<p>An <a href="terms.html#Expression">expression</a> may either correspond to a <a href="defaults.html#Expressions">default expression</a>, or an <a href="terms.html#Expression">expression</a> which can be <a href="terms.html#Transform">transformed</a>.</p>
+	<p>An <a href="terms.html#Expression">expression</a> can be <a href="terms.html#Transform">transformed</a> if it is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Function">function</a> which <a href="terms.html#Binding">binds</a> that <a href="terms.html#Expression">expression</a> as a <a href="terms.html#Value">value</a>.</p>
 	<p>If an <a href="terms.html#Expression">expression</a> is not a <a href="defaults.html#Expressions">default expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> step will be performed.</p>
 	<p>If a <a href="terms.html#Rewrite">rewrite</a> step is performed, it will check the <a href="terms.html#Image">image</a> for a <a href="terms.html#Transform">transform</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.</p>
 	<p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
@@ -25,39 +26,43 @@
 	<p><a>Reduction</a> of a <a>program</a> is performed according to the definition of the <a href="defaults.html#Expressions">default expressions</a> and <a href="defaults.html#Functions">default functions</a>.</p>
 	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 	<p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Data">data</a> for one or more <a href="terms.html#Operation">operations</a>.</p>
+	<p><a href="terms.html#Context">Contexts</a> may be arbitrarily nested where the the inner <a href="terms.html#Context">context</a> <a href="terms.html#Closure">closes</a> over the outer <a href="terms.html#Context">context</a>.</p>
+	<p>If a new <a href="terms.html#Context">context</a> is created, it must always <a href="terms.html#Closure">close</a> over the active <a href="terms.html#Context">context</a>.</p>
+	<p>A <a href="terms.html#Context">context</a> may be "active" in which case the <a href="terms.html#Binding">bindings</a> it contains are available to the process of <a href="terms.html#Evalaute">evaluation</a>.</p>
+	<p>Only one <a>context</a> may be active at a time.
+	<a href="terms.html#Execute">Executing</a> some <a href="defaults.html#Functions">default functions</a> may change which <a href="terms.html#Context">context</a> is active.</p>
+	<p>When a <a>context</a> is discarded, the <a>bindings</a> and the <a>data</a> forming <a>identifiers</a> and <a>values</a> are also discarded.</p>
+	<p>If a <a href="terms.html#Binding">binding</a> is present in a <a href="terms.html#Context">context</a> through a <a href="terms.html#Closure">closure</a>, it cannot be discarded when the <a href="terms.html#Closure">closing</a> context is discarded.</p>
 	<h2><a href="#Control" id="Control">Control</a></h2>
-	<p>There are a number of <a href="terms.html#Default">defaults</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>.</p>
-	<h3>Sequencing</h3>
-	<h3>Application</h3>
-	<h3>Inflection</h3>
-	<h3></h3>
-<!--
-
-	<p><a href="terms.html#Evaluate">Evaluation</a> determines the result of a <a href="terms.html#Program">program</a> through repeated reductive steps where <a href="terms.html#Program-Model">Program Model</a> components that imply <a href="terms.html#Operation">operations</a> are executed and replaced with their <a href="terms.html#Data">data</a> result.</p>
-	<p><a href="terms.html#Evaluate">Evaluation</a> is performed according to discrete steps which transform the structure of a <a href="terms.html#Program-Model">Program Model</a>. 
-	For any given <a href="terms.html#Program">program</a> which is being <a href="terms.html#Evaluate">evaluated</a>, the steps are...</p>
-	<ol>
-		<li>Locate the first <a href="terms.html#Expression">expression</a> within the <a href="terms.html#Program">program</a> which contains only <a href="terms.html#Data">data</a>.
-		In other words, the first <a href="terms.html#Expression">expression</a> which does not contain another <a href="terms.html#Expression">expression</a> as a <a href="terms.html#Field">field</a>.</li>
-		<li>Repeatedly query the <a href="terms.html#Context">context</a> for <a href="terms.html#Binding">bindings</a> of that <a href="terms.html#Expression">expression</a>, replacing the <a href="terms.html#Expression">expression</a> with the bound <a href="terms.html#Data">data</a> for each successful query until there are no successful queries.</li>
-		<li>For each <a href="terms.html#Symbol">symbol</a> in the <a href="terms.html#Expression">expression</a>, query the <a href="terms.html#Context">context</a> for <a href="terms.html#Binding">bindings</a> of that <a href="terms.html#Symbol">symbol</a> and replace it with the bound <a href="terms.html#Data">data</a>.</li>
-		<li><a href="terms.html#Execute">Execute</a> the <a href="terms.html#Operation">operation</a> associated with that <a href="terms.html#Expression">expression</a> and replace the <a href="terms.html#Expression">expression</a> with the result in the <a href="terms.html#Field">field</a> that contains it.</li>
-	</ol>
-	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
-	<p>A <a href="terms.html#Context">context</a> is formed according to the extent of an <a href="terms.html#Image">image</a> or <a href="terms.html#Function">function</a>. 
-	Each <a href="terms.html#Function">function</a> and <a href="terms.html#Image">image</a> will form a unique context containing the <a href="terms.html#Binding">bindings</a> established by their construction.</p>
-	<p><a>Evaluation</a> interacts with a <a>context</a> through <a>application</a> whereby the <a>bindings</a> in that <a>context</a> are <a>queried</a></p>
-	<h2><a href="#Bindings" id="Bindings">Bindings</a></h2>
-	<p><a>Bindings</a> are formed either by the <a href="defaults.html#Expressions"><i>Default Expression</i></a> <a href="defaults.html#Assignment"><i>Assignment</i></a> or by the <a href="defaults.html#Functions"><i>Default Function</i></a> <a href="defaults.html#Define"><i>Define</i></a>.</p>
-
-	<h2><a href="#Control" id="Control">Control</a></h2>
-	<p>Some <a href="terms.html#Expression">expressions</a> do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how <a href="terms.html#Program">programs</a> are <a href="terms.html#Evaluate">evaluated</a> and consequently the order in which <a href="terms.html#Operation">operations</a> are <a href="terms.html#Execute">executed</a>.</p>
-	<h3>Sequencing</h3>
-	<p>The <a href="defaults.html#Functions"><i>Default Function</i></a> <a href="defaults.html#Do"><i>Do</i></a> <a href="terms.html#Evaluate">evaluates</a> <a href="terms.html#Expression">expressions</a> in the order in which the are provided as <a href="terms.html#Parameter">parameters</a>.</p>
-	<h3>Conditions</h3>
-	<p></p>
-	<h3>Assignment</h3>
-	<h3>Application</h3>
-	<h3>Inflection</h3>
-	-->
+	<p>There are a number of <a href="defaults.html#Functions">default functions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, the flow of control.</p>
+	<h3><a href="#Sequential-Flow" id="Sequential-Flow">Sequential Flow</a></h3>
+	<p>The <a href="defaults.html#Functions">default function</a>, <code>do</code>, forces its <a href="terms.html#Parameter">parameters</a> to be <a href="terms.html#Evalaute">evaluated</a> in order from first to last.</p>
+	<figure>
+	<figcaption>The definition of the <a href="defaults.html#Functions">default function</a> <code>do</code>.</figcaption>
+	<p style="text-align:left;"><code>
+	(define 'do<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-> (: (& _ (# &)))))
+	</code></p>
+	</figure>
+	<p><a href="terms.html#Parameter">Parameters</a> are implicitly passed to the <a href="defaults.html#Functions">default function</a> <code>quote</code> before <code>Do</code> is <a href="terms.html#Application">applied</a> such that no <a href="terms.html#Parameter">parameter</a> is <a href="terms.html#Evaluate">evaluated</a> before <code>do</code> <a href="terms.html#Evaluate">evaluates</a> it.</p>
+	<p><code>do</code> will form a single new <a href="terms.html#Context">context</a> which will be the active <a href="terms.html#Context">context</a> for every <a href="terms.html#Parameter">parameter</a> which is <a href="terms.html#Evaluate">evaluated</a>.
+	If a <a>parameter</a> affects the <a>context</a> when it is <a>evaluated</a>, those changes will be preserved when the following <a>parameter</a> is <a>evaluated</a>.</p>
+	<p><code>do</code> will discard the <a href="terms.html#Context">context</a> which the <a href="terms.html#Parameter">parameters</a> were <a href="terms.html#Evaluate">evaluated</a> in once all <a href="terms.html#Parameter">parameters</a> have been <a href="terms.html#Evaluate">evaluated</a>.</p>
+	<p>The result of <code>Do</code> will always be the result of the last <a href="terms.html#Parameter">parameter</a> which was evaluated.
+	<code>do</code> makes no affect on the result and will transparently yield it to the outer <a href="terms.html#Expression">expression</a></p>
+	<h3><a href="#Non-Local-Flow" id="Non-Local-Flow">Non-Local Flow</a></h3>
+	<p>The <a href="defaults.html#Functions">default function</a>, <code>with</code>, establishes a control point from which a result may be yielded from any of a number of <a>expressions</a> in an out-of-order fashion.</p>
+	<figure>
+	<figcaption>The definition of the <a href="defaults.html#Functions">default function</a> <code>with</code></figcaption>
+	<p><code>
+	(define 'with<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-> (& :<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(({Symbol<br>(-> (& : ({Function} + ({*} ...)))} ...) + Program)))
+	</code></p>
+	</figure>
+	<p><a href="terms.html#Parameter">Parameters</a> are implicitly passed to the <a href="defaults.html#Functions">default function</a> <code>quote</code> before <code>wo</code> is <a href="terms.html#Application">applied</a> such that no <a href="terms.html#Parameter">parameter</a> is <a href="terms.html#Evaluate">evaluated</a> before <code>wo</code> <a href="terms.html#Evaluate">evaluates</a> it.</p>
+	<p><code>with</code> will form a <a href="terms.html#Context">context</a>, which <a href="terms.html#Closure">closes</a> over the <a href="terms.html#Context">context</a> where <code>with</code> was invoked, which the last <a href="terms.html#Parameter">parameter</a> will be <a href="terms.html#Evaluate">evaluated</a> in.
+	This <a href="terms.html#Context">context</a> additionally contains <a href="terms.html#Binding">bindings</a> of each <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> <a href="terms.html#Parameter">parameter</a> pair such that each <a href="terms.html#Symbol">symbol</a> is the <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> the <a href="terms.html#Function">function</a> that follows it as the <a href="terms.html#Value">value</a>.
+	<a href="terms.html#Function">Functions</a> which are <a href="terms.html#Binding">bound</a> by <code>with</code> in this manner are referred to as <a href="terms.html#Handler">handlers</a>.</p>
+	<p><a href="terms.html#Function">Functions</a> which are provided as <a>handle</p>
 </body>

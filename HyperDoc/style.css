@@ -13,7 +13,7 @@ ol, ul, dl{width:fit-content;margin-left:auto;margin-right:auto;}
 h1{font-size:calc(var(--scale) * 3);border-bottom:solid 0.2ch var(--fg);border-radius:0;}
 #title-page{height:34vh;border:none;}
 p{text-align:justify-all;}
-code{color:var(--lfg);}
+code{color:var(--lfg);font-family:monospace;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;border-bottom:solid 0.2ch var(--fg);border-radius:0;}
 figcaption + p {text-align:left;}
