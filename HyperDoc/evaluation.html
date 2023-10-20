@@ -33,7 +33,13 @@
 	<a href="terms.html#Execute">Executing</a> some <a href="defaults.html#Functions">default functions</a> may change which <a href="terms.html#Context">context</a> is active.</p>
 	<p>When a <a>context</a> is discarded, the <a>bindings</a> and the <a>data</a> forming <a>identifiers</a> and <a>values</a> are also discarded.</p>
 	<p>If a <a href="terms.html#Binding">binding</a> is present in a <a href="terms.html#Context">context</a> through a <a href="terms.html#Closure">closure</a>, it cannot be discarded when the <a href="terms.html#Closure">closing</a> context is discarded.</p>
-	<h2><a href="#Control" id="Control">Control</a></h2>
+	<ul>
+		<li>definition</li>
+		<li>equality assignment</li>
+	</ul>
+	<h3>Definition</h3>
+	<h3>Equality Assignment</h3>
+	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
 	<p>There are a number of <a href="defaults.html#Expressions">default expressions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, they control the "flow" of evaluation. They are...</p>
 	<ul>
 	<li>sequential evaluation</li>
@@ -41,8 +47,29 @@
 	<li>conditional evaluation</li>
 	</ul>
 	<h3><a href="#Sequential-Evaluation" id="Sequential-Evaluation">Sequential Evaluation</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements sequential <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
+	<p><code>
+	[(({'do} + ({*} ...)) -> (: (& _ (# &)))]
+	</code></p>
+	</figure>
 	<h3><a href="#Modulated-Evaluation" id="Modulated-Evaluation">Modulated Evaluation</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements modulated <a href="terms.html#Evaluate">evaluation</a></figcaption>
+	<p><code>
+	[(({'with} + ({Symbol Function} ...) + {Expression}) -> (: (& _ (# &))))]
+	</code></p>
+	</figure>
 	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements conditional <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
+	<p><code>
+	[(({'?} + ({Judgement Expression} ...) + {Expression} -><br>
+	&nbsp;? (& / Success)<br>
+	&nbsp;&nbsp;&nbsp;(: (& // (& / Success))<br>
+	&nbsp;&nbsp;&nbsp;(: (& _ (# &))))]
+	</code></p>
+	</figure>
 	<!--
 	<h3><a href="#Sequential-Flow" id="Sequential-Flow">Sequential Flow</a></h3>
 	<p>The <a href="defaults.html#Functions">default function</a>, <code>do</code>, forces its <a href="terms.html#Parameter">parameters</a> to be <a href="terms.html#Evalaute">evaluated</a> in order from first to last.</p>
