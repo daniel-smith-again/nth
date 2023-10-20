@@ -34,7 +34,16 @@
 	<p>When a <a>context</a> is discarded, the <a>bindings</a> and the <a>data</a> forming <a>identifiers</a> and <a>values</a> are also discarded.</p>
 	<p>If a <a href="terms.html#Binding">binding</a> is present in a <a href="terms.html#Context">context</a> through a <a href="terms.html#Closure">closure</a>, it cannot be discarded when the <a href="terms.html#Closure">closing</a> context is discarded.</p>
 	<h2><a href="#Control" id="Control">Control</a></h2>
-	<p>There are a number of <a href="defaults.html#Functions">default functions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, the flow of control.</p>
+	<p>There are a number of <a href="defaults.html#Expressions">default expressions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, they control the "flow" of evaluation. They are...</p>
+	<ul>
+	<li>sequential evaluation</li>
+	<li>modulated evaluation</li>
+	<li>conditional evaluation</li>
+	</ul>
+	<h3><a href="#Sequential-Evaluation" id="Sequential-Evaluation">Sequential Evaluation</a></h3>
+	<h3><a href="#Modulated-Evaluation" id="Modulated-Evaluation">Modulated Evaluation</a></h3>
+	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
+	<!--
 	<h3><a href="#Sequential-Flow" id="Sequential-Flow">Sequential Flow</a></h3>
 	<p>The <a href="defaults.html#Functions">default function</a>, <code>do</code>, forces its <a href="terms.html#Parameter">parameters</a> to be <a href="terms.html#Evalaute">evaluated</a> in order from first to last.</p>
 	<figure>
@@ -64,5 +73,6 @@
 	<p><code>with</code> will form a <a href="terms.html#Context">context</a>, which <a href="terms.html#Closure">closes</a> over the <a href="terms.html#Context">context</a> where <code>with</code> was invoked, which the last <a href="terms.html#Parameter">parameter</a> will be <a href="terms.html#Evaluate">evaluated</a> in.
 	This <a href="terms.html#Context">context</a> additionally contains <a href="terms.html#Binding">bindings</a> of each <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> <a href="terms.html#Parameter">parameter</a> pair such that each <a href="terms.html#Symbol">symbol</a> is the <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> the <a href="terms.html#Function">function</a> that follows it as the <a href="terms.html#Value">value</a>.
 	<a href="terms.html#Function">Functions</a> which are <a href="terms.html#Binding">bound</a> by <code>with</code> in this manner are referred to as <a href="terms.html#Handler">handlers</a>.</p>
-	<p><a href="terms.html#Function">Functions</a> which are provided as <a>handle</p>
+	<p><a>Handlers</a></p>
+	-->
 </body>
