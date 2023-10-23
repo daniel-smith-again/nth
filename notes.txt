@@ -489,5 +489,3 @@ Does the closure capture the entire handler, or just the control point?
 What I want is for a function to call up out of its context arbitrarily.
 
 (with (x) )
-
-if I have a function

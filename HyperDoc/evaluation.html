@@ -15,7 +15,7 @@
 	<p>Given an <a href="terms.html#Expression">expression</a>, there are two steps which are performed to determine the result, <a href="terms.html#Rewrite">Rewriting</a> and <a href="terms.html#Reduce">Reduction</a>.</p>
 	<h2>Rewriting</h2>
 	<p>An <a href="terms.html#Expression">expression</a> may either correspond to a <a href="defaults.html#Expressions">default expression</a>, or an <a href="terms.html#Expression">expression</a> which can be <a href="terms.html#Transform">transformed</a>.</p>
-	<p>An <a href="terms.html#Expression">expression</a> can be <a href="terms.html#Transform">transformed</a> if it is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Function">function</a> which <a href="terms.html#Binding">binds</a> that <a href="terms.html#Expression">expression</a> as a <a href="terms.html#Value">value</a>.</p>
+	<p>An <a href="terms.html#Expression">expression</a> can be <a href="terms.html#Transform">transformed</a> if it is a <a href="terms.html#Subtype">subtype</a> of at least one <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a> which is available in the <a href="terms.html#Scope">scope</a>.</p>
 	<p>If an <a href="terms.html#Expression">expression</a> is not a <a href="defaults.html#Expressions">default expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> step will be performed.</p>
 	<p>If a <a href="terms.html#Rewrite">rewrite</a> step is performed, it will check the <a href="terms.html#Image">image</a> for a <a href="terms.html#Transform">transform</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.</p>
 	<p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
@@ -27,16 +27,12 @@
 	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 	<p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Data">data</a> for one or more <a href="terms.html#Operation">operations</a>.</p>
 	<p><a href="terms.html#Context">Contexts</a> may be arbitrarily nested where the the inner <a href="terms.html#Context">context</a> <a href="terms.html#Closure">closes</a> over the outer <a href="terms.html#Context">context</a>.</p>
-	<p>If a new <a href="terms.html#Context">context</a> is created, it must always <a href="terms.html#Closure">close</a> over the active <a href="terms.html#Context">context</a>.</p>
+	<p>If a new <a href="terms.html#Context">context</a> is created, it must always <a href="terms.html#Closure">close</a> over the <a href="terms.html#Scope">scope</a>.</p>
 	<p>A <a href="terms.html#Context">context</a> may be "active" in which case the <a href="terms.html#Binding">bindings</a> it contains are available to the process of <a href="terms.html#Evalaute">evaluation</a>.</p>
 	<p>Only one <a>context</a> may be active at a time.
 	<a href="terms.html#Execute">Executing</a> some <a href="defaults.html#Functions">default functions</a> may change which <a href="terms.html#Context">context</a> is active.</p>
-	<p>When a <a>context</a> is discarded, the <a>bindings</a> and the <a>data</a> forming <a>identifiers</a> and <a>values</a> are also discarded.</p>
-	<p>If a <a href="terms.html#Binding">binding</a> is present in a <a href="terms.html#Context">context</a> through a <a href="terms.html#Closure">closure</a>, it cannot be discarded when the <a href="terms.html#Closure">closing</a> context is discarded.</p>
-	<ul>
-		<li>definition</li>
-		<li>equality assignment</li>
-	</ul>
+	<p>When a <a href="terms.html#Context">context</a> is <a href="terms.html#Discard">discarded</a>, the <a href="terms.html#Binding">bindings</a> and the <a href="terms.html#Data">data</a> forming <a href="terms.html#Identifier">identifiers</a> and <a href="terms.html#Value">values</a> are also <a href="terms.html#Discard">discarded</a>.</p>
+	<p>If a <a href="terms.html#Binding">binding</a> is present in a <a href="terms.html#Context">context</a> through a <a href="terms.html#Closure">closure</a>, it cannot be <a href="terms.html#Discard">discarded</a> when the <a href="terms.html#Closure">closing</a> context is <a href="terms.html#Discard">discarded</a>.</p>
 	<h3>Definition</h3>
 	<h3>Equality Assignment</h3>
 	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
@@ -45,21 +41,31 @@
 	<li>sequential evaluation</li>
 	<li>modulated evaluation</li>
 	<li>conditional evaluation</li>
+	<li>deferred evaluation</li>
+	<li>explicit evaluation</li>
 	</ul>
 	<h3><a href="#Sequential-Evaluation" id="Sequential-Evaluation">Sequential Evaluation</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements sequential <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
 	<p><code>
-	[(({'do} + ({*} ...)) -> (: (& _ (# &)))]
+	[(({'do} + ({Expression} ...)) -> *)]
 	</code></p>
 	</figure>
+	<p>Sequential Evaluation will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>
+	<p>Each <a href="terms.html#Step">step</a> will be <a href="terms.html#Evaluate">evaluated</a> in the order in which it occurred in the Sequential Evaluation <a href="terms.html#Expression">expression</a>.</p>
+	<p>Sequential Evaluation will establish a <a href="terms.html#Context">context</a> which will be the <a href="terms.html#Scope">scope</a> used to <a href="terms.html#Evaluate">evaluate</a> each <a href="terms.html#Step">step</a>.</p>
+	<p>When <a href="terms.html#Evaluate">evaluation</a> of a Sequential Evaluation <a href="terms.html#Expression">expression</a> is completed, the <a href="terms.html to be#Scope">scope</a> which was used to <a href="terms.html#Evaluate">evaluate</a> its <a href="terms.html#Step">steps</a> will be <a href="terms.html#Discard">discarded</a>.</p>
+	<p>If <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Step">step</a> <a href="terms.html#Execute">executes</a> an <a href="terms.html#Operation">operation</a> which changes the <a href="terms.html#Scope">scope</a>, those changes will persist until the <a href="terms.html#Scope">scope</a> is <a href="terms.html#Discard">discarded</a>.</p>
 	<h3><a href="#Modulated-Evaluation" id="Modulated-Evaluation">Modulated Evaluation</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements modulated <a href="terms.html#Evaluate">evaluation</a></figcaption>
 	<p><code>
-	[(({'with} + ({Symbol Function} ...) + {Expression}) -> (: (& _ (# &))))]
+	[(({'with} + ({Symbol (Function * -> *)} ...) + {Expression}) -> *)]
 	</code></p>
 	</figure>
+	<p>Modulated Evaluation accepts a number of <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs which will be used to create <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">sub-expression</a> in the Modulated Evaluation <a href="terms.html#Expression">expression</a>.</p>
+	<p><a href="terms.html#Binding">Bindings</a> are created from the <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs by treating each <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identiier">identifier</a> and each <a href="terms.html#Function">function</a> immediately following that <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Value">value</a> in a <a href="terms.html#Binding">binding</a>.</p>
+	<p>Each <a href="terms.html#Symbol">symbol</a> used in a Modulated Evaluation <a href="terms.html#Expression">expression</a> as an <a href="terms.html#Identifier">identifier</a> must not be equal to any other <a href="terms.html#Symbol">symbol</a> used as an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Expression">expression</a>.</p>
 	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements conditional <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
@@ -70,36 +76,4 @@
 	&nbsp;&nbsp;&nbsp;(: (& _ (# &))))]
 	</code></p>
 	</figure>
-	<!--
-	<h3><a href="#Sequential-Flow" id="Sequential-Flow">Sequential Flow</a></h3>
-	<p>The <a href="defaults.html#Functions">default function</a>, <code>do</code>, forces its <a href="terms.html#Parameter">parameters</a> to be <a href="terms.html#Evalaute">evaluated</a> in order from first to last.</p>
-	<figure>
-	<figcaption>The definition of the <a href="defaults.html#Functions">default function</a> <code>do</code>.</figcaption>
-	<p style="text-align:left;"><code>
-	(define 'do<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-> (: (& _ (# &)))))
-	</code></p>
-	</figure>
-	<p><a href="terms.html#Parameter">Parameters</a> are implicitly passed to the <a href="defaults.html#Functions">default function</a> <code>quote</code> before <code>Do</code> is <a href="terms.html#Application">applied</a> such that no <a href="terms.html#Parameter">parameter</a> is <a href="terms.html#Evaluate">evaluated</a> before <code>do</code> <a href="terms.html#Evaluate">evaluates</a> it.</p>
-	<p><code>do</code> will form a single new <a href="terms.html#Context">context</a> which will be the active <a href="terms.html#Context">context</a> for every <a href="terms.html#Parameter">parameter</a> which is <a href="terms.html#Evaluate">evaluated</a>.
-	If a <a>parameter</a> affects the <a>context</a> when it is <a>evaluated</a>, those changes will be preserved when the following <a>parameter</a> is <a>evaluated</a>.</p>
-	<p><code>do</code> will discard the <a href="terms.html#Context">context</a> which the <a href="terms.html#Parameter">parameters</a> were <a href="terms.html#Evaluate">evaluated</a> in once all <a href="terms.html#Parameter">parameters</a> have been <a href="terms.html#Evaluate">evaluated</a>.</p>
-	<p>The result of <code>Do</code> will always be the result of the last <a href="terms.html#Parameter">parameter</a> which was evaluated.
-	<code>do</code> makes no affect on the result and will transparently yield it to the outer <a href="terms.html#Expression">expression</a></p>
-	<h3><a href="#Non-Local-Flow" id="Non-Local-Flow">Non-Local Flow</a></h3>
-	<p>The <a href="defaults.html#Functions">default function</a>, <code>with</code>, establishes a control point from which a result may be yielded from any of a number of <a>expressions</a> in an out-of-order fashion.</p>
-	<figure>
-	<figcaption>The definition of the <a href="defaults.html#Functions">default function</a> <code>with</code></figcaption>
-	<p><code>
-	(define 'with<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-> (& :<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(({Symbol<br>(-> (& : ({Function} + ({*} ...)))} ...) + Program)))
-	</code></p>
-	</figure>
-	<p><a href="terms.html#Parameter">Parameters</a> are implicitly passed to the <a href="defaults.html#Functions">default function</a> <code>quote</code> before <code>wo</code> is <a href="terms.html#Application">applied</a> such that no <a href="terms.html#Parameter">parameter</a> is <a href="terms.html#Evaluate">evaluated</a> before <code>wo</code> <a href="terms.html#Evaluate">evaluates</a> it.</p>
-	<p><code>with</code> will form a <a href="terms.html#Context">context</a>, which <a href="terms.html#Closure">closes</a> over the <a href="terms.html#Context">context</a> where <code>with</code> was invoked, which the last <a href="terms.html#Parameter">parameter</a> will be <a href="terms.html#Evaluate">evaluated</a> in.
-	This <a href="terms.html#Context">context</a> additionally contains <a href="terms.html#Binding">bindings</a> of each <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> <a href="terms.html#Parameter">parameter</a> pair such that each <a href="terms.html#Symbol">symbol</a> is the <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> the <a href="terms.html#Function">function</a> that follows it as the <a href="terms.html#Value">value</a>.
-	<a href="terms.html#Function">Functions</a> which are <a href="terms.html#Binding">bound</a> by <code>with</code> in this manner are referred to as <a href="terms.html#Handler">handlers</a>.</p>
-	<p><a>Handlers</a></p>
-	-->
 </body>
