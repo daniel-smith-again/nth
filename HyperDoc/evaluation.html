@@ -46,7 +46,7 @@
 	</ul>
 	<h3><a href="#Sequential-Evaluation" id="Sequential-Evaluation">Sequential Evaluation</a></h3>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements sequential <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequential Evaluation.</figcaption>
 	<p><code>
 	[(({'do} + ({Expression} ...)) -> *)]
 	</code></p>
@@ -58,7 +58,7 @@
 	<p>If <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Step">step</a> <a href="terms.html#Execute">executes</a> an <a href="terms.html#Operation">operation</a> which changes the <a href="terms.html#Scope">scope</a>, those changes will persist until the <a href="terms.html#Scope">scope</a> is <a href="terms.html#Discard">discarded</a>.</p>
 	<h3><a href="#Modulated-Evaluation" id="Modulated-Evaluation">Modulated Evaluation</a></h3>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements modulated <a href="terms.html#Evaluate">evaluation</a></figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Modulated Evaluation</figcaption>
 	<p><code>
 	[(({'with} + ({Symbol (Function * -> *)} ...) + {Expression}) -> *)]
 	</code></p>
@@ -68,7 +68,7 @@
 	<p>Each <a href="terms.html#Symbol">symbol</a> used in a Modulated Evaluation <a href="terms.html#Expression">expression</a> as an <a href="terms.html#Identifier">identifier</a> must not be equal to any other <a href="terms.html#Symbol">symbol</a> used as an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Expression">expression</a>.</p>
 	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements conditional <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
 	<p><code>
 	[(({'?} + ({Judgement Expression} ...) + {Expression} -><br>
 	&nbsp;? (& / Success)<br>

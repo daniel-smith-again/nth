@@ -489,3 +489,60 @@ Does the closure capture the entire handler, or just the control point?
 What I want is for a function to call up out of its context arbitrarily.
 
 (with (x) )
+
+
+
+(M : Collection)
+What function makes a collection?
+(Collect )
+
+(T : Type)
+
+(M // n) finds the index of the member, n, in M.
+
+
+This doesn't work because selecting by type can select multiple.
+You reduce it to a set.
+
+(M = {(x = 1) 2 3 (a = 4)})
+
+I have to decide how a collection keeps its context.
+in C, the names are erased so unless something has access to the definition of 
+the object, it doesn't know what the object is.
+in my language, you can always cast-by-dereference to some object.
+the definition has to be passed around then.
+or do I split into arrays and records? naw. unecessary.
+
+(M = {(1 + (n = 2))})
+is 'n a field in this context?
+no, because n is not the identifier for a field.
+
+do I do unification?
+
+((x + y) = (2 + 2))
+
+no, unecessary, not readable.
+I want assignment, not clever games and logic puzzles.
+No unification, just comparison or variable binding.
+
+
+what can I do with images?
+I can open them.
+I can copy a binding from one to another.
+I can combine the bindings of two images into one image.
+I can close an image.
+I can load an oject.
+I can store an object.
+
+
+What's my collection operations?
+
+({} + {})
+({} - {})
+({} * {})
+({} * Number)
+({} *)
+({} / *)
+({} // *)
+({} . Symbol)
+({} _ Number)
