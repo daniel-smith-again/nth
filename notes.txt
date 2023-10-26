@@ -546,3 +546,15 @@ What's my collection operations?
 ({} // *)
 ({} . Symbol)
 ({} _ Number)
+
+none of these are helpful though.
+I never, ever, want to take two sets and combine them.
+Yes I do, that's arrays.
+
+How do I say, "a collection with only one thing"?
+{*}
+How do I say, "a collection that's this long"?
+({*} * n)
+How do I say, "an array"?
+({*} *)
+
