@@ -105,10 +105,7 @@
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
 	<p><code>
-	[(({'?} + ({Judgement Expression} ...) + {Expression} -><br>
-	&nbsp;? (& / Success)<br>
-	&nbsp;&nbsp;&nbsp;(: (& // (& / Success))<br>
-	&nbsp;&nbsp;&nbsp;(: (& _ (# &))))]
+	[(({'if} + <br>&nbsp;&nbsp;&nbsp;({Judgement 'then Expression} *) + <br>&nbsp;&nbsp;&nbsp;[{'else Expression} {}] -> *)
 	</code></p>
 	</figure>
 </body>
