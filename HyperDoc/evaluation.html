@@ -18,16 +18,21 @@
 	<p>An <a href="terms.html#Expression">expression</a> can be <a href="terms.html#Transform">transformed</a> if it is a <a href="terms.html#Subtype">subtype</a> of at least one <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a> which is available in the <a href="terms.html#Scope">scope</a>.</p>
 	<p>If an <a href="terms.html#Expression">expression</a> is not a <a href="defaults.html#Expressions">default expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> step will be performed.</p>
 	<p>If a <a href="terms.html#Rewrite">rewrite</a> step is performed, it will check the <a href="terms.html#Image">image</a> for a <a href="terms.html#Transform">transform</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.</p>
-	<p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+	<p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, and it is not a <a href="defaults.html#Expressions">default expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 	<p>If an <a href="terms.html#Expression">expression</a> with one or more nested <a href="terms.html#Expression">expressions</a> is <a href="terms.html#Rewrite">rewritten</a>, each inner <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Rewrite">rewritten</a> before the outer <a href="terms.html#Expression">expression</a>.</p>
+	<p><a>Rewriting</a> must not <a href="terms.html#Resolve">resolve</a> a <a href="terms.html#Binding">binding</a> if that <a href="terms.html#Binding">binding</a> is not a <a href="terms.html#Transform">transform</a>.</p>
 	<h2>Reduction</h2>
 	<p>A <a href="terms.html#Program">program</a> can be <a href="terms.html#Reduce">reduced</a> only when all <a href="terms.html#Expression">expressions</a> in the <a href="terms.html#Program">program</a> are <a href="defaults.html#Expressions">default expressions</a>.</p>
-	<p><a href="terms.html#Reduce">Reduction</a> begins by attempting to <a href="terms.html#Execute">execute</a> the top, outermost <a href="terms.html#Expression">expression</a> in the <a href="terms.html#Program">program</a>.</p>
-	<p><a>Reduction</a> of a <a>program</a> is performed according to the definition of the <a href="defaults.html#Expressions">default expressions</a> and <a href="defaults.html#Functions">default functions</a>.</p>
+	<p><a href="terms.html#Reduce">Reduction</a> begins by attempting to <a href="terms.html#Resolve">resolve</a> the <a href="terms.html#Identifier">identifiers</a> in the <a href="terms.html#Expression">expression</a> being <a href="terms.html#Reduce">reduced</a>.</p>
+	<p><a href="terms.html#Reduce">Reduction</a> will substitute all <a href="terms.html#Identifier">identifiers</a> with their <a href="terms.html#Value">values</a> in-place according to the <a href="terms.html#Binding">bindings</a> held in the <a href="terms.html#Scope">scope</a> used for that <a href="terms.html#Evaluate">evaluation</a>.</p>
+	<p><a href="terms.html#Reduce">Reduction</a> will ignore any and all <a href="terms.html#Transform">transforms</a> in the <a href="terms.html#Scope">scope</a> and must not <a href="terms.html#Application">apply</a> them.</p>
+	<p>If all <a href="terms.html#Identifier">identifiers</a> in the <a href="terms.html#Expression">expression</a> are <a href="terms.html#Resolve">resolved</a>, then <a href="terms.html#Reduce">reduction</a> may begin <a href="terms.html#Execute">executing</a> the <a href="terms.html#Operation">operations</a> corresponding to that <a href="terms.html#Expression">expression</a>, otherwise, if all <a href="terms.html#Identifier">identifiers</a> cannot be <a href="terms.html#Resolve">resolved</a>, it is an <a href="terms.html#Error">error</a>.</p>
+	<p><a href="terms.html#Reduce">Reduction</a> of a <a href="terms.html#Program">program</a> is performed according to the definitions of <a href="defaults.html#Expressions">default expressions</a> and <a href="defaults.html#Functions">default functions</a> such that some <a href="foreword.html#Conformance">implementation defined</a> <a href="terms.html#Operation">operations</a> are <a href="terms.html#Execute">executed</a> in an <a href="foreword.html#Conformance">implementation dependent</a> order in a manner which produces a <a href="terms.html#Correct">correct</a> result according to those definitions provided in this document.</p>
 	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
-	<p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Data">data</a> for one or more <a href="terms.html#Operation">operations</a>.</p>
+	<p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Resource">resources</a> in the <a href="terms.html#Environment">environment</a> for the <a href="terms.html#Execute">execution</a> one or more <a href="terms.html#Operation">operations</a>.</p>
 	<p><a href="terms.html#Context">Contexts</a> may be arbitrarily nested where the the inner <a href="terms.html#Context">context</a> <a href="terms.html#Closure">closes</a> over the outer <a href="terms.html#Context">context</a>.</p>
 	<p>If a new <a href="terms.html#Context">context</a> is created, it must always <a href="terms.html#Closure">close</a> over the <a href="terms.html#Scope">scope</a>.</p>
+	<p>A new <a href="terms.html#Context">context</a> is not required to include <a href="terms.html#Binding">bindings</a> from the <a href="terms.html#Scope">scope</a> that it <a href="terms.html#Closure">closes</a> if it can be proven that those <a href="terms.html#Binding">bindings</a> are not used when the <a href="terms.html#Closure">closing</a> <a href="terms.html#Context">context</a> becomes the <a href="terms.html#Scope">scope</a>.</p>
 	<p>A <a href="terms.html#Context">context</a> may be "active" in which case the <a href="terms.html#Binding">bindings</a> it contains are available to the process of <a href="terms.html#Evalaute">evaluation</a>.</p>
 	<p>Only one <a>context</a> may be active at a time.
 	<a href="terms.html#Execute">Executing</a> some <a href="defaults.html#Functions">default functions</a> may change which <a href="terms.html#Context">context</a> is active.</p>
@@ -101,6 +106,28 @@
 	</ol>
 	<p>If an inversion <a href="terms.html#Body">body</a> does not contain any <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applications</a>, the result of the inversion is the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Body">body</a>.</p>
 	<p>If an inversion <a href="terms.html#Body">body</a> contains multiple <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applications</a>, only the last <a href="terms.html#Application">application</a> will determine the result of the inversion.</p>
+	<figure>
+	<figcaption>The following four <a href="terms.html#Program">programs</a> demonstrate the four possible control paths which may occur when <a href="terms.html#Evaluate">evaluating</a> an inversion.</figcaption>
+	<div></div>
+	<p><code>
+		(with k as (r x -> x) in<br>1)
+	</code></p>
+	<p>This example does not <a href="terms.html#Application">apply</a> a <a href="terms.html#Modulator">modulator</a> and results in <code>1</code>.</p>
+	<p><code>
+		(with k as (r x -> x) in<br> do (k 2) 1)
+	</code></p>
+	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which does not <a href="terms.html#Application">apply</a> its <a href="terms.html#Continuation">continuation</a> so the inversion results in <code>2</code>.</p>
+	<p><code>
+		(with k as (r x -> r x) in<br> (k 2) + 1)
+	</code></p>
+	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which does <a href="terms.html#Application">apply</a> its <a href="terms.html#Continuation">continuation</a> as a <a href="terms.html#Tail">tail</a> so the inversion results in <code>3</code>.</p>
+	<p><code>
+		(with k as (r x -> (r x) + 5) in<br> (k 1) + 1)
+	</code></p>
+	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which then <a href="terms.html#Application">applies</a> its <a href="terms.html#Continuation">continuation</a>, but not as a <a href="terms.html#Tail">tail</a>, so the inversion results in <code>7</code> not <code>2</code>.</p>
+	</figure>
+	<p>The <a href="terms.html#Scope">scope</a> used to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Body">body</a> of a <a href="terms.html#Continuation">continuation</a> <a href="terms.html#Closure">closes</a> the <a href="terms.html#Scope">scope</a> used by the inversion when <a href="terms.html#Evaluate">evaluating</a> its <a href="terms.html#Body">body</a>. 
+	This <a href="terms.html#Closure">closure</a> includes any changes made to the inversion <a href="terms.html#Scope">scope</a> by <a href="terms.html#Operation">operations</a> which were <a href="terms.html#Execute">executed</a> before the <a href="terms.html#Continuation">continuation</a> is provided to a <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">application</a>.</p>
 	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
