@@ -106,14 +106,14 @@
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Inversion</figcaption>
 	<p><code>
-	[(({'with} + <br>&nbsp;&nbsp;&nbsp;({Symbol 'as (-> *)} *) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} *)) -> *)]
+	[(({'with Symbol 'as (-> *)} + <br>&nbsp;&nbsp;&nbsp;({'and Symbol 'as (-> *)} *) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} *)) -> *)]
 	</code></p>
 	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <code>'in</code>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
-	<p style="text-align:left;"><code>
+	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
 		(with x as y in a (b c) d)
 	</code></p>
 	<p>will be <a href="terms.html#Evaluate">evaluated</a> as</p>
-	<p style="text-align:left;"><code>
+	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
 		(with x as y in (a (b c) d))
 	</code></p>
 	</figure>
@@ -132,24 +132,23 @@
 	<p>If an inversion <a href="terms.html#Body">body</a> contains multiple <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applications</a>, only the last <a href="terms.html#Application">application</a> will determine the result of the inversion.</p>
 	<figure>
 	<figcaption>The following four <a href="terms.html#Program">programs</a> demonstrate the four possible control paths which may occur when <a href="terms.html#Evaluate">evaluating</a> an inversion.</figcaption>
-	<div></div>
 	<p><code>
-		(with k as (r x -> x) in<br>1)
+		(with k as (r x -> x) in 1)
 	</code></p>
 	<p>This example does not <a href="terms.html#Application">apply</a> a <a href="terms.html#Modulator">modulator</a> and results in <code>1</code>, the result of the <a href="terms.html#Body">body</a>.</p>
 	<br>
-	<p><code>
-		(with k as (r x -> x) in<br> do (k 2) 1)
+	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
+		(with k as (r x -> x) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do (k 2) 1)
 	</code></p>
 	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which does not <a href="terms.html#Application">apply</a> its <a href="terms.html#Continuation">continuation</a> so the inversion results in <code>2</code>, the result of the <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">application</a>.</p>
 	<br>
-	<p><code>
-		(with k as (r x -> r x) in<br> (k 2) + 1)
+	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
+		(with k as (r x -> r x) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(k 2) + 1)
 	</code></p>
 	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which <a href="terms.html#Application">applies</a> its <a href="terms.html#Continuation">continuation</a> as a <a href="terms.html#Tail">tail</a> so the inversion results in <code>3</code>, the result of the <a href="terms.html#Continuation">continuation</a>.</p>
 	<br>
-	<p><code>
-		(with k as (r x -> (r x) + 5) in<br> (k 1) + 1)
+	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
+		(with k as (r x -> (r x) + 5) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(k 1) + 1)
 	</code></p>
 	<p>This example <a href="terms.html#Application">applies</a> a <a href="terms.html#Modulator">modulator</a> which then <a href="terms.html#Application">applies</a> its <a href="terms.html#Continuation">continuation</a>, but not as a <a href="terms.html#Tail">tail</a>, so the inversion results in <code>7</code>, the result of the <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Body">body</a>.</p>
 	</figure>
@@ -159,7 +158,7 @@
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
 	<p><code>
-	[(({'?} + <br>&nbsp;&nbsp;&nbsp;({Judgement Expression} *) + <br>&nbsp;&nbsp;&nbsp;[{Expression} {}] -> *)
+	[(({'if Judgement 'then Expression} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Expression} *) +<br>&nbsp;&nbsp;&nbsp;[{'else Expression} {}]) -> *)]
 	</code></p>
 	</figure>
 </body>
