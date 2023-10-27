@@ -38,33 +38,69 @@
 	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
 	<p>There are a number of <a href="defaults.html#Expressions">default expressions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, they control the "flow" of evaluation. They are...</p>
 	<ul>
-	<li>sequential evaluation</li>
-	<li>modulated evaluation</li>
-	<li>conditional evaluation</li>
-	<li>deferred evaluation</li>
-	<li>explicit evaluation</li>
+	<li>sequences</li>
+	<li>inversion</li>
+	<li>branching</li>
+	<li>quotation</li>
+	<li>computation</li>
 	</ul>
-	<h3><a href="#Sequential-Evaluation" id="Sequential-Evaluation">Sequential Evaluation</a></h3>
+	<h3><a href="#Sequences" id="Sequences">Sequences</a></h3>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequential Evaluation.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequencing.</figcaption>
 	<p><code>
 	[(({'do} + ({Expression} ...)) -> *)]
 	</code></p>
 	</figure>
-	<p>Sequential Evaluation will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>
-	<p>Each <a href="terms.html#Step">step</a> will be <a href="terms.html#Evaluate">evaluated</a> in the order in which it occurred in the Sequential Evaluation <a href="terms.html#Expression">expression</a>.</p>
-	<p>Sequential Evaluation will establish a <a href="terms.html#Context">context</a> which will be the <a href="terms.html#Scope">scope</a> used to <a href="terms.html#Evaluate">evaluate</a> each <a href="terms.html#Step">step</a>.</p>
-	<p>When <a href="terms.html#Evaluate">evaluation</a> of a Sequential Evaluation <a href="terms.html#Expression">expression</a> is completed, the <a href="terms.html to be#Scope">scope</a> which was used to <a href="terms.html#Evaluate">evaluate</a> its <a href="terms.html#Step">steps</a> will be <a href="terms.html#Discard">discarded</a>.</p>
+	<p>Sequencing will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>
+	<p>Each <a href="terms.html#Step">step</a> will be <a href="terms.html#Evaluate">evaluated</a> in the order in which it occurred in the Sequence <a href="terms.html#Expression">expression</a>.</p>
+	<p>Sequencing will establish a <a href="terms.html#Context">context</a> which will be the <a href="terms.html#Scope">scope</a> used to <a href="terms.html#Evaluate">evaluate</a> each <a href="terms.html#Step">step</a>.</p>
+	<p>When <a href="terms.html#Evaluate">evaluation</a> of a Sequencing <a href="terms.html#Expression">expression</a> is completed, the <a href="terms.html to be#Scope">scope</a> which was used to <a href="terms.html#Evaluate">evaluate</a> its <a href="terms.html#Step">steps</a> will be <a href="terms.html#Discard">discarded</a>.</p>
 	<p>If <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Step">step</a> <a href="terms.html#Execute">executes</a> an <a href="terms.html#Operation">operation</a> which changes the <a href="terms.html#Scope">scope</a>, those changes will persist until the <a href="terms.html#Scope">scope</a> is <a href="terms.html#Discard">discarded</a>.</p>
-	<h3><a href="#Modulated-Evaluation" id="Modulated-Evaluation">Modulated Evaluation</a></h3>
+	<p>If <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Step">step</a> adds a <a href="terms.html#Binding">binding</a> to the <a href="terms.html#Scope">scope</a>, that <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> any <a href="terms.html#Binding">bindings</a> which the <a href="terms.html#Scope">scope</a> may have <a href="terms.html#Closure">closed</a> when it was constructed.</p>
+	<p>A <a>step</a> may not create a <a>binding</a> which <a>shadows</a> a <a>binding</a> created by a previous <a>step</a>. This will result in an <a>error</a>.</p>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Modulated Evaluation</figcaption>
+	<figcaption>An example of how a sequence is <a href="terms.html#Evaluate">evaluated</a>.</figcaption>
 	<p><code>
-	[(({'with} + ({Symbol (Function * -> *)} ...) + {Expression}) -> *)]
+		(x = 1,<br>&nbsp;print x,<br>&nbsp;print (x + 1),<br>
+		&nbsp;(x = 3,<br>&nbsp;&nbsp;print x),<br>&nbsp;print x)
+	</code></p>
+	<p>The output of this example will appear as...</p>
+	<p><code>
+		1<br>
+		2<br>
+		3<br>
+		1
+	</code></p>
+	<p>Note that the nested sequence appearing as a <a href="terms.html#Step">step</a> in the outer sequence uses its own <a href="terms.html#Scope">scope</a> which <a href="terms.html#Shadow">shadows</a> the existing <a href="terms.html#Binding">binding</a> of <code>x</code>.</p>
+	</figure>
+	<h3><a href="#Inversion" id="Inversion">Inversion</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Inversion</figcaption>
+	<p><code>
+	[(({'with} + <br>&nbsp;&nbsp;&nbsp;({Symbol 'as (-> *)} *) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} *)) -> *)]
+	</code></p>
+	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <code>'in</code>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
+	<p style="text-align:left;"><code>
+		(with x as y in a (b c) d)
+	</code></p>
+	<p>will be <a href="terms.html#Evaluate">evaluated</a> as</p>
+	<p style="text-align:left;"><code>
+		(with x as y in (a (b c) d))
 	</code></p>
 	</figure>
-	<p>Modulated Evaluation accepts a number of <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs which will be used to create <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">sub-expression</a> in the Modulated Evaluation <a href="terms.html#Expression">expression</a>.</p>
-	<p><a href="terms.html#Binding">Bindings</a> are created from the <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs by treating each <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identiier">identifier</a> and each <a href="terms.html#Function">function</a> immediately following that <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Value">value</a> in a <a href="terms.html#Binding">binding</a>.</p>
+	<p>Inversion accepts a number of <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs which will be used to create <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">sub-expression</a> following the <code>in</code> <a href="terms.html#Symbol">symbol</a>, referred to as the <a href="terms.html#Body">body</a>, in the Inversion <a href="terms.html#Expression">expression</a>.</p>
+	<p><a href="terms.html#Binding">Bindings</a> are created from the <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs by treating each <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identiier">identifier</a> and each <a href="terms.html#Function">function</a> immediately following that <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Value">value</a> in a <a href="terms.html#Binding">binding</a>.
+	<a href="terms.html#Function">Functions</a> which are <a href="terms.html#Binding">bound</a> by Inversion in this manner are referred to as <a href="terms.html#Modulator">modulators</a>.</p>
+	<p>If a <a href="terms.html#Modulator">modulator</a> is called in the <a href="terms.html#Body">body</a>, it will be <a href="terms.html#Application">applied</a> with an additional <a href="terms.html#Parameter">parameter</a> which is a <a href="terms.html#Function">function</a> corresponding to the remaining portion of the <a href="terms.html#Body">body</a> to be <a href="terms.html#Evaluate">evaluated</a>, referred to as the <a href="terms.html#Continuation">continuation</a>.
+	That <a href="terms.html#Function">function</a> will accept one <a href="terms.html#Parameter">parameter</a> which will be used as the result of the <a href="terms.html#Application">application</a> in the <a href="terms.html#Body">body</a>.</p>
+	<p>If a <a href="terms.html#Modulator">modulator</a> is <a href="terms.html#Application">applied</a> in the <a href="terms.html#Body">body</a> of an inversion, the result of that inversion is determined according to the <a href="terms.html#Body">body</a> of each <a href="terms.html#Modulator">modulator</a>...</p>
+	<ol>
+		<li>If a <a href="terms.html#Modulator">modulator</a> does not <a href="terms.html#Application">apply</a> its <a href="terms.html#Continuation">continuation</a>, the result of the inversion will be the result of the <a href="terms.html#Application">application</a> of that <a href="terms.html#Modulator">modulator</a>.</li>
+		<li>If a <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applies</a> its <a href="terms.html#Continuation">continuation</a> in its <a href="terms.html#Body">body</a>, but not as the <a href="terms.html#Tail">tail</a>, then the <a href="terms.html#Continuation">continuation</a> will be <a href="terms.html#Evaluate">evaluated</a> and its result used as the result of the <a href="terms.html#Continuation">continuation</a> <a href="terms.html#Application">application</a> in the <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Body">body</a>, and the result of the inversion will be the result of the <a href="terms.html#Tail">tail</a> of the <a href="terms.html#Modulator">modulator</a>.</li>
+		<li>If a <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applies</a> its <a href="terms.html#Continuation">continuation</a> in its <a href="terms.html#Body">body</a> as the <a href="terms.html#Tail">tail</a>, the then the result of the inversion will be the result of the <a href="terms.html#Application">application</a> of the <a href="terms.html#Continuation">continuation</a>.</li>
+	</ol>
+	<p>If an inversion <a href="terms.html#Body">body</a> does not contain any <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applications</a>, the result of the inversion is the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Body">body</a>.</p>
+	<p>If an inversion <a href="terms.html#Body">body</a> contains multiple <a href="terms.html#Modulator">modulator</a> <a href="terms.html#Application">applications</a>, only the last <a href="terms.html#Application">application</a> will determine the result of the inversion.</p>
 	<h3><a href="#Conditional-Evaluation" id="Conditional-Evaluation">Conditional Evaluation</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>

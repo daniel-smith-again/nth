@@ -558,3 +558,61 @@ How do I say, "a collection that's this long"?
 How do I say, "an array"?
 ({*} *)
 
+So adding effects to a function is one thing, 
+(x -> with t
+      t x)
+but what happens when a function closes over an effect?
+What about effectful expressions?
+What it really means is that effects are just control flow mechanisms.
+so how do I separate the control flow from the function, since they're different?
+I want delimited continuations.
+
+What I want is a function which has an interface that you provide stuff to 
+lexically where it is called rather than using what it closed over at definition.
+This is the lexical symbolic with that I use where you override closure bindings.
+
+
+What about weirdness though like 
+
+(k : Function,
+ f = (x -> k x),
+ g = (x -> f x),
+ h = (x -> g x),
+ with k (r x -> r x) (h 1))
+how do I know that the h is overridden.
+I still need to add an interface to functions.
+That would probably be taking the handler as a type.
+Wouldn't the function just close over the handler objects though?
+Yes.
+
+(with g (r -> r 1) 
+      (x -> (r)))
+
+this breaks encapsulation because I can see which functions the compiled function calls.
+
+(f = (with e (r x -> x + 1))
+      (x -> e x))
+the modulated evaluation expression here ends by binding its result to f, but 
+if I call f later, where does the result end up?
+(f 1)
+it ends up bound to f which is not the intended effect.
+So what I actually need to do is preserve the requirement of a with for a function
+that closed over one.
+
+so i have 
+
+what if I made my syntax pretty?
+
+Do notation
+(a, b, c)
+(do a b c)
+
+With
+(with f as (->) in )
+
+(let x be 1 and y be 9 in x + y)
+
+(let x be 1 and y be 9 in
+ do )
+
+
