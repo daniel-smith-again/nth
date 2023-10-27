@@ -639,3 +639,12 @@ else y = 7)
  or (x = 3) then (y = 2)
  or (x = 1) then (y = 3)
  else   (y = 7))
+
+What makes 
+(x = 1) 
+different than 
+(let x be 1 in x)
+
+(let x be 1 in (
+	
+))

@@ -54,11 +54,14 @@
 		[({Symbol '= *} -> (& _ 3))]
 	</code></p>
 	</figure>
+	<p>Assignment will create a <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a> where it is <a href="terms.html#Evaluate">evaluated</a> which will <a href="terms.html#Shadow">shadow</a> any conflicting <a href="terms.html">bindings</a> from <a href="terms.html#Closure">closed</a> <a href="terms.html#Context">contexts</a>.</p>
+	<p>The <a href="terms.html#Binding">binding</a> created by the Assignment will use the <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following the keyword <a href="terms.html#Symbol">symbol</a>, <code>=</code>, as the <a href="terms.html#Value">value</a>.</p>
+	<p>If the <a href="terms.html#Symbol">symbol</a> provided to the Assignment is already used as the <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a> which is not from a <a href="terms.html#Closure">closed</a> <a href="terms.html#Context">context</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 	<h3>Variables</h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Variables.</figcaption>
 	<p><code>
-		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} *))&nbsp;&nbsp;-> *)]
+		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} *) + 'in)&nbsp;&nbsp;-> *)]
 	</code></p>
 	</figure>
 	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
