@@ -645,6 +645,18 @@ What makes
 different than 
 (let x be 1 in x)
 
-(let x be 1 in (
-	
-))
+
+what's my syntax???
+
+
+Inversion:	(with x as f and y as g in (x , y))
+Let:		(let x be a and y be c in z)
+Sequence:	(do x y z)
+Definition:	(define x f)
+Collection:	(create x y z)
+Type:		(of x y z)
+Assertion:	(x : y), (a b as y)
+Constraint:	(x where y), (x y where m)
+
+
+How do I talk about relating two things in scope?
