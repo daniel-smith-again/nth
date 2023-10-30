@@ -686,3 +686,5 @@ declare iterative effects
 
 
 ...this is too complex and as a result is inextensible.
+What's the simplest loop facility?
+I need variable introduction, initial assignment, incremental step, and step condition.
