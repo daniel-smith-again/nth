@@ -660,3 +660,29 @@ Constraint:	(x where y), (x y where m)
 
 
 How do I talk about relating two things in scope?
+
+
+
+(compose f g h x)
+(h (g (f x)))
+so you start from second to last, apply the first to the following
+
+
+loop macro
+
+introduce variables and arrange resources first
+'using	-	introduce variables
+
+declare ranges with clauses
+'for	-	a stepped range
+'while	-	a continuous range over success
+'until	-	a continuous range over failure
+'over	-	a range derived from structure
+multiple ranges can be used and the loop will repeat only if every clause is active
+
+declare iterative effects
+'leave	-	a result visible to following iterations
+'collect-	each index is an independent loop result
+
+
+...this is too complex and as a result is inextensible.

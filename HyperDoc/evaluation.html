@@ -22,15 +22,23 @@
 	<p>If an <a href="terms.html#Expression">expression</a> with one or more nested <a href="terms.html#Expression">expressions</a> is <a href="terms.html#Rewrite">rewritten</a>, each inner <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Rewrite">rewritten</a> before the outer <a href="terms.html#Expression">expression</a>.</p>
 	<p><a>Rewriting</a> must not <a href="terms.html#Resolve">resolve</a> a <a href="terms.html#Binding">binding</a> if that <a href="terms.html#Binding">binding</a> is not a <a href="terms.html#Transform">transform</a>.</p>
 	<h3><a href="#Transforms" id="Transforms">Transforms</a></h3>
-	<p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Functions">function</a>,<br><code>(Collection -> Program)</code><br>
-	such that a <a href="terms.html#Transform">transform</a> <a href="terms.html#Binds">binds</a> one or more <a href="terms.html#Program-Model">Program Model</a> components as <a href="terms.html#Identifier">identifiers</a> to a <a href="terms.html#Program">program</a> <a href="terms.html#Value">value</a>.</p>
+	<p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Functions">function</a>,<br><code>(Collection -> *)</code><br>
+	such that a <a href="terms.html#Transform">transform</a> <a href="terms.html#Binds">binds</a> one or more <a href="terms.html#Expression">expressions</a> as <a href="terms.html#Identifier">identifiers</a>, according to a <a href="terms.html#Program-Model">Program Model</a> structure specified by the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a>.
 	<p>The <a href="terms.html#Collection">Collection</a> used as the <a href="terms.html#Identifier">identifier</a> for a <a href="terms.html#Transform">transform</a> corresponds directly to <a href="terms.html#Program-Model">Program Model</a> structure of a <a href="terms.html#Rewrite">rewriteable</a> <a href="terms.html#Expression">expression</a>.</p>
 	<p>The <a href="terms.html#Collection">Collection</a> used as the <a href="terms.html#Identifier">identifier</a> for a <a href="terms.html#Transform">transform</a> may contain <a href="terms.html#Field">fields</a> which are the types <a>Program</a>, <a>Expression</a>, and <a>Symbol</a> which correspond to specific formations of <a href="terms.html#Program-Model">Program Model</a> components at the syntactic level.
 	<br>The <a>type</a>, <code>Program</code> as used in a <a>transform</a> corresponds to a <a>program</a> which may result in anything, or even nothing, (as <code>_</code>).
 	<br>The <a>type</a>, <code>Expression</code> as used in a <a>transform</a> corresponds to a <a>Program Model</a> structure and not an instance of <a>data</a> (refer to the section on <a href="syntax.html#3-3">Syntax</a>)</p>
 	<p>In order to <a href="terms.html#Resolve">resolve</a> a <a href="terms.html#Binding">binding</a> that is a <a href="terms.html#Transform">transform</a>, it must be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Program-Model">Program Model</a> component which was recognized as an <a href="terms.html#Identifier">identifier</a> by the <a href="terms.html#Rewrite">rewriting</a> step.
 	The <a>Program Model</a> component which was used as the <a>parameter</a> will be replaced in-place in the <a>program</a> with the result of the <a href="terms.html#Transform">transform</a> <a href="terms.html#Application">application</a>.</p>
-
+	<figure>
+	<figcaption>The following are examples of <a href="terms.html#Transform">transforms</a></figcaption>
+	<p><code>
+		(define (({'compose} + ({Function} *) + {*}) -> <br>
+		(loop for n from ((# &) - 1) to 2 where (n - 1))
+		      leave '(''(& _ n) ''previous)))
+		))
+	</code></p>
+	</figure>
 	<h2>Reduction</h2>
 	<p>A <a href="terms.html#Program">program</a> can be <a href="terms.html#Reduce">reduced</a> only when all <a href="terms.html#Expression">expressions</a> in the <a href="terms.html#Program">program</a> are <a href="defaults.html#Expressions">default expressions</a>.</p>
 	<p><a href="terms.html#Reduce">Reduction</a> begins by attempting to <a href="terms.html#Resolve">resolve</a> the <a href="terms.html#Identifier">identifiers</a> in the <a href="terms.html#Expression">expression</a> being <a href="terms.html#Reduce">reduced</a>.</p>
