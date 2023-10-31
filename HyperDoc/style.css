@@ -15,10 +15,10 @@ h1{font-size:calc(var(--scale) * 3);border-bottom:solid 0.2ch var(--fg);border-r
 #title-page{height:34vh;border:none;}
 p{text-align:justify-all;}
 code{color:var(--lfg);font-family:monospace;font-size:calc(var(--scale) * 0.5);}
-pre{font-family:monospace;text-align:left;display:inline;margin:0;padding:0;}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;border-bottom:solid 0.2ch var(--fg);border-radius:0;margin-bottom:1ch;}
-figcaption + p {text-align:left;width:fit-content;margin-left:auto;margin-right:auto;}
+figure > p code {text-align:left;width:fit-content;margin-left:auto;margin-right:auto;display:block;}
+figure > p span code {display:inline;}
 hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:69%;}
 a{text-decoration:none;color:inherit;padding:none;display:inline;}
 li{text-align:left;}

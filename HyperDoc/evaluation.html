@@ -23,7 +23,7 @@
 	<p><a>Rewriting</a> must not <a href="terms.html#Resolve">resolve</a> a <a href="terms.html#Binding">binding</a> if that <a href="terms.html#Binding">binding</a> is not a <a href="terms.html#Transform">transform</a>.</p>
 	<h3><a href="#Transforms" id="Transforms">Transforms</a></h3>
 	<p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Functions">function</a>,<br><code>(Collection -> *)</code><br>
-	such that a <a href="terms.html#Transform">transform</a> <a href="terms.html#Binds">binds</a> one or more <a href="terms.html#Expression">expressions</a> as <a href="terms.html#Identifier">identifiers</a>, according to a <a href="terms.html#Program-Model">Program Model</a> structure specified by the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a>.
+	such that a <a href="terms.html#Transform">transform</a> <a href="terms.html#Binds">binds</a> one or more <a href="terms.html#Expression">expressions</a> as <a href="terms.html#Identifier">identifiers</a>, according to a <a href="terms.html#Program-Model">Program Model</a> structure specified by the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a>.</p>
 	<p>The <a href="terms.html#Collection">Collection</a> used as the <a href="terms.html#Identifier">identifier</a> for a <a href="terms.html#Transform">transform</a> corresponds directly to <a href="terms.html#Program-Model">Program Model</a> structure of a <a href="terms.html#Rewrite">rewriteable</a> <a href="terms.html#Expression">expression</a>.</p>
 	<p>The <a href="terms.html#Collection">Collection</a> used as the <a href="terms.html#Identifier">identifier</a> for a <a href="terms.html#Transform">transform</a> may contain <a href="terms.html#Field">fields</a> which are the types <a>Program</a>, <a>Expression</a>, and <a>Symbol</a> which correspond to specific formations of <a href="terms.html#Program-Model">Program Model</a> components at the syntactic level.
 	<br>The <a>type</a>, <code>Program</code> as used in a <a>transform</a> corresponds to a <a>program</a> which may result in anything, or even nothing, (as <code>_</code>).
@@ -40,14 +40,19 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n > 0)<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then (& (n - 1) ({(& _ n) m}))<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else m),<br>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loop ((# M) - 1) (M _ (# M)))))<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop ((# M) - 1) (M _ (# M)) : Program))))<br>
 	</code></p>
-	<p>such that <code>(compose f g h x)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>(f (g (h x)))</code></p>
+	<p>such that <span><code>(compose f g h x)</code></span> is <a href="terms.html#Rewrite">rewritten</a> as <span><code>(f (g (h x)))</code></span>.</p>
 	<br>
 	<p>This is a <a>transform</a> which will <a>evaluate</a> an <a>expression</a> such that the <a>transform</a> <a>expression</a> is <a>rewritten</a> as the <a>data</a> result.</p>
 	<p><code>
 		(define ({'constexpr Program} -><br>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(compute (& _ 2) in This)))
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(compute (& _ 2) in This)))
+	</code></p>
+	<br>
+	<p>This <a href="terms.html#Transform">transform</a> <a href="terms.html#Resolve">resolves</a> to a <a href="terms.html#Collection">collection</a> which is not used as a <a href="terms.html#Program">program</a> but in-place as <a href="terms.html#Data">data</a>.</p>
+	<p><code>
+		(define ({'Create-Collection} -> {'a 'b 'c}))
 	</code></p>
 	</figure>
 	<h2>Reduction</h2>
