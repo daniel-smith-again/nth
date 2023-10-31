@@ -34,9 +34,10 @@
 	<figcaption>The following are examples of <a href="terms.html#Transform">transforms</a></figcaption>
 	<p><code>
 		(define (({'compose} + ({Function} *) + {*}) -> <br>
-		(loop for n from ((# &) - 1) to 2 where (n - 1))
-		      leave '(''(& _ n) ''previous)))
-		))
+		let M be (& - {'compose}) in<br>
+		    ((n -> <br>
+
+		      ) ((# M) - 1))
 	</code></p>
 	</figure>
 	<h2>Reduction</h2>
@@ -76,6 +77,14 @@
 	<p>Assignment will create a <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a> where it is <a href="terms.html#Evaluate">evaluated</a> which will <a href="terms.html#Shadow">shadow</a> any conflicting <a href="terms.html">bindings</a> from <a href="terms.html#Closure">closed</a> <a href="terms.html#Context">contexts</a>.</p>
 	<p>The <a href="terms.html#Binding">binding</a> created by the Assignment will use the <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following the keyword <a href="terms.html#Symbol">symbol</a>, <code>=</code>, as the <a href="terms.html#Value">value</a>.</p>
 	<p>If the <a href="terms.html#Symbol">symbol</a> provided to the Assignment is already used as the <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a> which is not from a <a href="terms.html#Closure">closed</a> <a href="terms.html#Context">context</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+	<p>Assignment will make the <a href="terms.html#Binding">binding</a> <a href="terms.html#Identifier">identifier</a> available in the <a href="terms.html#Scope">scope</a> <i>before</i> the <a href="terms.html#Value">value</a> on the right is <a href="terms.html#Evaluate">evaluated</a> such that <a href="terms.html#Recursion">recursive</a> <a href="terms.html#Binding">bindings</a> may be created if the <a href="terms.html#Identifier">identifier</a> is used once or more in the <a href="terms.html#Value">value</a>.</p>
+	<figure>
+	<figcaption>An example of a recursive <a>binding</a>.</figcaption>
+	<p><code>
+		(List = [{* List} {*}])
+	</code></p>
+	<p>Where a List is the <a href="terms.html#Type">type</a> of a <a href="terms.html#Collection">collection</a> of <a href="terms.html#Data">data</a> and a List or just <a href="terms.html#Data">data</a>.</p>
+	</figure>
 	<h3><a href="#Let" id="Let">Let</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Let.</figcaption>
