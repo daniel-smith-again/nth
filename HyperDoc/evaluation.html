@@ -43,6 +43,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop ((# M) - 1) (M _ (# M)) : Program))))<br>
 	</code></p>
 	<p>such that <span><code>(compose f g h x)</code></span> is <a href="terms.html#Rewrite">rewritten</a> as <span><code>(f (g (h x)))</code></span>.</p>
+	<p>Note that the <a href="terms.html#Value">value</a> of the <a href="terms.html#Transform">transform</a> must be annotated as a <a href="terms.html#Program">Program</a> in the last line since it is not the result of a <a href="#Quoting">Quote</a> but still must be <a href="terms.html#Evaluate">evaluated</a>.</p>
 	<br>
 	<p>This is a <a>transform</a> which will <a>evaluate</a> an <a>expression</a> such that the <a>transform</a> <a>expression</a> is <a>rewritten</a> as the <a>data</a> result.</p>
 	<p><code>
