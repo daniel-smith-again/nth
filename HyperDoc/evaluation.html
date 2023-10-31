@@ -32,12 +32,22 @@
 	The <a>Program Model</a> component which was used as the <a>parameter</a> will be replaced in-place in the <a>program</a> with the result of the <a href="terms.html#Transform">transform</a> <a href="terms.html#Application">application</a>.</p>
 	<figure>
 	<figcaption>The following are examples of <a href="terms.html#Transform">transforms</a></figcaption>
+	<p>This is a <a href="terms.html#Transform">transform</a> which composes multiple <a href="terms.html#Functions">function</a> <a href="terms.html#Application">applications</a>, </p>
 	<p><code>
-		(define (({'compose} + ({Function} *) + {*}) -> <br>
-		let M be (& - {'compose}) in<br>
-		    ((n -> <br>
-
-		      ) ((# M) - 1))
+		(define (({'compose} + ({Function} *) + {*}) -><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let M be (& - {'compose}) in<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop = (n m -><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n > 0)<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then (& (n - 1) ({(& _ n) m}))<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else m),<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loop ((# M) - 1) (M _ (# M)))))<br>
+	</code></p>
+	<p>such that <code>(compose f g h x)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>(f (g (h x)))</code></p>
+	<br>
+	<p>This is a <a>transform</a> which will <a>evaluate</a> an <a>expression</a> such that the <a>transform</a> <a>expression</a> is <a>rewritten</a> as the <a>data</a> result.</p>
+	<p><code>
+		(define ({'constexpr Program} -><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(compute (& _ 2) in This)))
 	</code></p>
 	</figure>
 	<h2>Reduction</h2>
@@ -84,6 +94,7 @@
 		(List = [{* List} {*}])
 	</code></p>
 	<p>Where a List is the <a href="terms.html#Type">type</a> of a <a href="terms.html#Collection">collection</a> of <a href="terms.html#Data">data</a> and a List or just <a href="terms.html#Data">data</a>.</p>
+	<p>Note that <a href="terms.html#Evaluate">evaluating</a> this <a href="terms.html#Expression">expression</a> does not result in infinite <a href="terms.html#Data">data</a>. The <a href="terms.html#Identifier">identifier</a>, <code>List</code>, is <a href="terms.html#Binding">bound</a> when the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a>, but <code>List</code> as it appears in the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> does not yet <a href="terms.html#Bind">bind</a> any <a href="terms.html#Data">data</a></p>
 	</figure>
 	<h3><a href="#Let" id="Let">Let</a></h3>
 	<figure>
@@ -215,15 +226,15 @@
 	<figcaption>The following three <a>programs</a> demonstrate the three possible control paths which may occur when <a>evaluating</a> a branch.</figcaption>
 	<p><code>
 		(if (Failure) then 'A<br>
-		or &nbsp;(Success) then 'B<br>
-		or &nbsp;(Success) then 'C)
+		&nbsp;or&nbsp;(Success) then 'B<br>
+		&nbsp;or&nbsp;(Success) then 'C)
 	</code></p>
 	<p>The result of this branch is <code>'B</code>.</p>
 	<br>
 	<p><code>
 		(if (Failure) then 'A<br>
-		or &nbsp;(Failure) then 'B<br>
-		else 'C)
+		&nbsp;or&nbsp;(Failure) then 'B<br>
+		&nbsp;else 'C)
 	</code></p>
 	<p>The result of this branch is <code>'C</code>.</p>
 	<br>
@@ -232,4 +243,18 @@
 	</code></p>
 	<p>The result of this branch is <code>_</code>.</p>
 	</figure>
+	<h3><a href="#Quoting" id="Quoting">Quoting</a></h3>
+	<figure>
+	<figcaption>The <a>type</a> of <a>transform</a> which implements Quoting.</figcaption>
+	<p><code>({'quote Program} -> Program)</code></p>
+	</figure>
+	<p>Quoting will capture the <a href="terms.html#Program">program</a> given after the keyword <a href="terms.html#Symbol">symbol</a>, <code>quote</code>, and will result in the <a href="terms.html#Program-Model">Program Model</a> corresponding that <a href="terms.html#Program">program</a>.</p>
+	<p>The <a href="terms.html#Program-Model">Program Model</a> is formed using <a href="terms.html#Collection">collections</a> and can be used as a <a href="terms.html#Collection">collection</a> in further <a href="terms.html#Program">programs</a>.</p>
+	<h3><a href="#Computing" id="Computing">Computing</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements Computing</figcaption>
+	<p><code>[({'compute Program 'in Context} -> *)]</code></p>
+	</figure>
+	<p>Computing will <a href="terms.html#Evaluate">evaluate</a> a <a href="terms.html#Program">program</a> in a <a href="terms.html#Context">context</a>.</p>
+	<p>The <a href="terms.html#Program">program</a> supplied to the Computing <a href="terms.html#Expression">expression</a> may be an <a href="terms.html#Expression">expression</a> or a <a href="terms.html#Program">program</a> as captured by a Quote <a href="terms.html#Expression">expression</a>.</p>
 </body>

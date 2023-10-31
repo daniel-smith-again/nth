@@ -694,3 +694,18 @@ standard library should provide looping functions for stuff.
 how do you normally loop though?
 
 (List = [{* List} {*}])
+
+
+What do I mean when I say that 
+(T t | (a b -> P a b))?
+
+
+How do I return an in-place collection from a transform such that it's not 
+treated as a program?
+
+(compute {1 '+ 1} in This) ==> 2
+(compute (collect 1 '+ 1) in This) ==> 2
+(compute {collect 1 '+ 1} in This) ==> {1 '+ 1}
+(compute ' ''{1 '+ 1} in This) ==> {1 '+ 1}
+
+how do I compute a list without computing it?
