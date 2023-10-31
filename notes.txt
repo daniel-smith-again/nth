@@ -688,3 +688,5 @@ declare iterative effects
 ...this is too complex and as a result is inextensible.
 What's the simplest loop facility?
 I need variable introduction, initial assignment, incremental step, and step condition.
+or... OR... I don't provide a loop mechanism at all.
+Just don't do it because it's always wrong for every use case.
