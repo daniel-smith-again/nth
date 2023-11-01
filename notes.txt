@@ -709,3 +709,5 @@ treated as a program?
 (compute ' ''{1 '+ 1} in This) ==> {1 '+ 1}
 
 how do I compute a list without computing it?
+Easy, say that it's not a program.
+Just return the list.
