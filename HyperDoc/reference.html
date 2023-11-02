@@ -3,11 +3,12 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <style>
-	body{font-size:x-large;overflow-x:auto;}
+	body{font-size:calc((1vw + 1vh) * 0.5);}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
-	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:absolute;}
-	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:absolute;}
+	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:fixed;}
+	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:fixed;}
+	nth-view{display:block;margin:auto;font-family:monospace;padding-top:13ch;padding-bottom:28ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;}
 	nth-view{display:block;width:fit-content;margin:auto;font-size:x-large;font-family:monospace;padding-top:13ch;}
 	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
 	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote, nth-insert, nth-spread, nth-string
@@ -338,7 +339,7 @@ function InsertSymbol () {
 			}
 		}
 		else {
-			expression.insertBefore(document.createElement('nth-symbol'), expression.childNodes[expression.cursor - 1])
+			expression.insertBefore(document.createElement('nth-symbol'), expression.childNodes[expression.cursor])
 		}
 	}
 	else {
