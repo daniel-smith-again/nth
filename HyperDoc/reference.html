@@ -3,15 +3,16 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <style>
-	body{font-size:calc((1vw + 1vh) * 0.5);}
+	body{font-size:calc((1vw + 1vh) * 0.7);font-family:serif;}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
-	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:fixed;}
-	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:fixed;}
-	nth-view{display:block;margin:auto;font-family:monospace;padding-top:13ch;padding-bottom:28ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;}
+	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:fixed;transition:all 0.2s;}
+	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:fixed;transition:all 0.2s;}
+	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;}
 	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
+	nth-expression, nth-symbol, nth-string{font-family:monospace;}
 	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote, nth-insert, nth-spread, nth-string
-	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:1ch;border:medium solid lightgray;border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
+	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid lightgray;border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
 	nth-symbol{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
 	nth-symbol br{display:block;}
 	nth-symbol + nth-symbol{margin-left:1ch;}
@@ -24,15 +25,21 @@
 	nth-quote::before{content:"'";}
 	nth-insert::before{content:"''";}
 	nth-spread::before{content:"'''";}
+	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
+	h-cursor p{position:relative;left:1ch;top:-4ch;border-radius:1ch;display:block;}
+	#Result {left:1ch;top:-4ch;} #Result *{font-family:monospace;}
 </style>
 </head>
 <body>
-<p>The <i>n</i><sup>th</sup> Reference Implementation</p>
-<h-cursor><p id="info" style="position:relative;left:1ch;border-radius:1ch;">This is info about the editor state.</p></h-cursor>
-<v-cursor><p id="state" style="position:relative;top:3ch;left:1ch;border-radius:1ch;background-color:white;width:fit-content;min-width:80ch;"><span id="EditorMode">&#x25cb;</span><br>This is info about the stuff your typing.<br>Here's more info...</p></v-cursor>
-<nth-view><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
+<p style="width:25%;border-bottom:medium solid black;position:fixed;top:0;right:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
+<h-cursor>
+	<p id="Result">Result:<span></span></p>
+	<p id="info">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
+</h-cursor>
+<v-cursor><p id="state" style="position:relative;top:3ch;left:1ch;border-radius:1ch;background-color:white;width:fit-content;min-width:80ch;"><span id="EditorMode">&#x25ce;</span><br>This is info about the stuff your typing.<br>Here's more info...</p></v-cursor>
+<nth-view contenteditable="true" autofocus="true" spellcheck="false"><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
 </body>
 <!--
 	Editor operations
@@ -79,17 +86,21 @@
 	"nth-exp-type"		-	type constructor
 	"nth-exp-quote"	-	quote constructor
 	"nth-symbol"		-	symbol (including numbers)
+	"nth-string"		-	string data
 -->
 <script>
 var editor = document.getElementsByTagName('nth-view')[0];
-editor.tabIndex = true;
+editor.autocapitalize = 'off';
 editor.focus();
 var expression = editor.firstChild;
 expression.cursor = 1;
 editor.onkeyup = StructureEditorInput;
 editor.onclick = MouseClick;
+editor.onpaste = (e) => {e.preventDefault();}
 document.onclick = MouseClick;
 var Mode = true;
+var CharacterEscape = false;
+var StringInput = false;
 editor.onkeydown = KeyHold;
 var Ignore = null;
 var hcursor = document.getElementsByTagName('h-cursor')[0];
@@ -101,6 +112,34 @@ function StructureEditorInput(key) {
 	key.preventDefault();
 	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
 	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
+	else if (CharacterEscape) {
+		if (key.key.length == 1) {
+			AppendToSymbol(key.key);
+			CharacterEscape = false;
+		}
+	}
+	else if (StringInput) {
+		
+		switch(key.key) {
+			case 'ArrowLeft':
+				PrevSymbol();
+				break;
+			case 'ArrowRight':
+				NextSymbol();
+				break;
+			case 'Backspace':
+				if (!key.repeat) {DeleteSymbol();}
+				break;
+			case '"':
+				StringInput = false;
+				CursorForward();
+				break;
+			default:
+				if (key.key.length == 1)
+					AppendToSymbol(key.key);
+				break;
+		}
+	}
 	else {
 		if (Mode) switch (key.key) {
 			case 'Enter':
@@ -111,6 +150,9 @@ function StructureEditorInput(key) {
 				if (!key.repeat) {NextExpression();}
 				else {InnerExpression();}
 				break;
+			case 'Escape':
+				OuterExpression();
+				break;
 			case 'Backspace':
 				if (!key.repeat) {PrevExpression();}
 				else {DeleteNode();}
@@ -119,16 +161,9 @@ function StructureEditorInput(key) {
 				if (!key.repeat) {InsertExpression();}
 				break;
 			case '{':
-				if (!key.repeat) {InsertCollection();}
-				break;
 			case '[':
-				if (!key.repeat) {InsertType();}
-				break;
 			case '\'':
-				if (!key.repeat) {InsertQuote();}
 				break;
-			case '"':
-				if (!key.repeat) {InsertString();}
 			case 'ArrowLeft':
 				PrevExpression();
 				break;
@@ -145,8 +180,14 @@ function StructureEditorInput(key) {
 		}
 		else switch (key.key) {
 			case ' ':
-				if (!key.repeat) {InsertSymbol();}
-				else {NextSymbol();}
+				if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING') {
+					StringInput = true;
+					AppendToSymbol(key.key);
+				}
+				else {
+					if (!key.repeat) {InsertSymbol();}
+					else {NextSymbol();}
+				}
 				break;
 			case 'Backspace':
 				if (!key.repeat) {DeleteSymbol();}
@@ -172,24 +213,28 @@ function StructureEditorInput(key) {
 				if (!key.repeat) {InsertExpression();}
 				break;
 			case '{':
-				if (!key.repeat) {InsertCollection();}
-				break;
 			case '[':
-				if (!key.repeat) {InsertType();}
-				break;
 			case '}':
 			case ']':
+				break;
 			case ')':
 				if (!key.repeat) {CloseExpression();}
 				break;
 			case '\'':
-				if (!key.repeat) {InsertQuote();}
 				break;
 			case ',':
-				if (!key.repeat) {AppendToSequence();}
 				break;
+			case '"':
+				if (!key.repeat) {InsertString(); StringInput = true;}
+				break;
+			case '\\':
+				if (!key.repeat) {AppendToSymbol(key.key); CharacterEscape = true;}
 			default: 
-				if (key.key.length == 1) {AppendToSymbol(key.key);}
+				if (key.key.length == 1) {
+					if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING')
+						StringInput = true;
+					AppendToSymbol(key.key);
+				}
 				break;
 		}
 	}
@@ -208,6 +253,8 @@ function StructureEditorInput(key) {
 		case 'ArrowRight':
 		case 'ArrowUp':
 		case 'ArrowDown':
+		case 'Backspace':
+		case ' ':
 			break;
 		default:
 			Ignore = key.key;
@@ -220,6 +267,7 @@ function MouseClick (e) {
 	editor.focus();
 }
 function KeyHold(key) {
+	key.preventDefault();
 	if (key.isComposing || key.keyCode === 229) {return;}
 	if (key.repeat) {
 		editor.onkeyup(key);
@@ -230,29 +278,29 @@ function DisplayCursor () {
 	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
-		vcursor.style.left = pos.x - 7 + 'px';
+		vcursor.style.left = pos.x - 13 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
+		hcursor.style.top = pos.y + pos.height + 7 + 'px';
 	}
 	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.lastChild.getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
-		vcursor.style.left = pos.x - 7 + 'px';
+		vcursor.style.left = pos.x - 13 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
+		hcursor.style.top = pos.y + pos.height + 7 + 'px';
 	}
 	else {
 		pos = expression.getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
 		vcursor.style.left = pos.x + 'px';
-		vcursor.style.top = pos.y - 7 + 'px';
+		vcursor.style.top = pos.y - 13 + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
+		hcursor.style.top = pos.y + pos.height + 7 + 'px';
 	}
 	var bottom = editor.getBoundingClientRect();
-	document.getElementById('state').style.top = bottom.bottom - pos.y + 27 + 'px';
+	document.getElementById('state').style.top = (vcursor.style.top - bottom.bottom) + 'px';
 }
 function CursorForward () {
 	if (expression.cursor < expression.childNodes.length) {
@@ -274,8 +322,11 @@ function AppendToSymbol (c) {
 		InsertSymbol();
 	}
 	var sym = expression.childNodes[expression.cursor - 1];
-	if (sym.tagName.startsWith('NTH-SYMBOL')) {
-		sym.textContent += c;
+	if (sym.tagName.startsWith('NTH-S')) {
+		if (c == ' ')
+			sym.textContent += '\xa0';
+		else
+			sym.textContent += c;
 	}
 	DisplayCursor();
 }
@@ -316,6 +367,9 @@ function InsertExpression () {
 	document.getElementById('EditorMode').textContent = '\u25c9';
 }
 function AppendToSequence () {
+	if (expression.parentElement && expression.parentElement.tagName != 'NTH-VIEW') {
+		temp = document.createElement
+	}
 
 }
 function InsertCollection () {
@@ -324,7 +378,28 @@ function InsertType () {
 
 }
 function InsertQuote () {
-
+	AppendToSymbol("'");
+}
+function InsertString () {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor == 0) {
+			expression.insertBefore(document.createElement('nth-string'), expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			if (expression.lastChild.tagName.startsWith('NTH-S') && expression.lastChild.textContent.length == 0) {
+				return;
+			} else {
+				expression.appendChild(document.createElement('nth-string'));
+			}
+		}
+		else {
+			expression.insertBefore(document.createElement('nth-string'), expression.childNodes[expression.cursor])
+		}
+	}
+	else {
+		expression.appendChild(document.createElement('nth-string'));
+	}
+	CursorForward();
 }
 function InsertSymbol () {
 	if (expression.childNodes.length > 0) {
@@ -332,7 +407,7 @@ function InsertSymbol () {
 			expression.insertBefore(document.createElement('nth-symbol'), expression.firstChild);
 		}
 		else if (expression.cursor == expression.childNodes.length) {
-			if (expression.lastChild.tagName == 'NTH-SYMBOL' && expression.lastChild.textContent.length == 0) {
+			if (expression.lastChild.tagName.startsWith('NTH-S') && expression.lastChild.textContent.length == 0) {
 				return;
 			} else {
 				expression.appendChild(document.createElement('nth-symbol'));
@@ -369,7 +444,7 @@ function DeleteSymbol () {
 	if (expression.childNodes.length > 0) {
 		if (expression.cursor > 0) {
 			var sym = expression.childNodes[expression.cursor - 1];
-			if (sym.tagName == 'NTH-SYMBOL') {
+			if (sym.tagName.startsWith('NTH-S')) {
 				if (sym.textContent.length > 0) {
 					sym.textContent = '';
 					DisplayCursor();
@@ -398,9 +473,11 @@ function DeleteNode () {
 
 }
 function NextSymbol () {
+	StringInput = false;
 	CursorForward();
 }
 function PrevSymbol () {
+	StringInput = false;
 	CursorBack();
 }
 function PrevExpression () {
@@ -458,6 +535,10 @@ function OuterExpression () {
 		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
 		expression.cursor = Number(n) + 1;
 	}
+	else {
+		expression.cursor = 0;
+		expression.style.boxShadow = 'none';
+	}
 	DisplayCursor();
 }
 function InnerExpression () {
@@ -483,23 +564,44 @@ function InnerExpression () {
 			expression = temp;
 			expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
 		}
+		else {
+			while(!temp.tagName.startsWith('NTH-EXP')) {
+				if (temp.previousSibling) {
+					temp = temp.previousSibling;
+					cursorinc --;
+				}
+				else {
+					break;
+				}
+			}
+			if (temp.tagName.startsWith('NTH-EXP')) {
+				expression.cursor += cursorinc;
+				expression.style.boxShadow = 'none';
+				expression = temp;
+				expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+			}
+		}
 	}
 	DisplayCursor();
 }
 function CloseExpression () {
 	Mode = true;
-	document.getElementById('EditorMode').textContent = '\u25cb';
+	document.getElementById('EditorMode').textContent = '\u25ce';
 	if (expression.parentElement.tagName != 'NTH-VIEW') {
 		expression.style.boxShadow = 'none';
 		expression = expression.parentElement;
 		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
 	}
 	DisplayCursor();
+	Evaluate();
 }
 function EditExpression () {
 	expression.style.boxShadow ='0ch 0ch 3ch -0.5ch black';
 	Mode = false;
 	document.getElementById('EditorMode').textContent = '\u25c9';
 	DisplayCursor();
+}
+function Evaluate () {
+	document.getElementById('Result').lastChild.textContent = Math.random().toString();
 }
 </script>
