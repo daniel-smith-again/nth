@@ -3,17 +3,35 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <style>
+	body{font-size:x-large;overflow-x:auto;}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
-	nth-view{display:block;min-width:80ch;width:69%;margin:auto;font-size:larger;font-family:monospace;}
-	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote {display:inline-block;width:fit-content;padding:1ch;margin:0;border-radius:7ch;border:thin solid black;}
-	nth-symbol{display:inline-block;}
+	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:absolute;}
+	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:absolute;}
+	nth-view{display:block;width:fit-content;margin:auto;font-size:x-large;font-family:monospace;padding-top:13ch;}
+	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
+	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote, nth-insert, nth-spread, nth-string
+	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:1ch;border:medium solid lightgray;border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
+	nth-symbol{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
 	nth-symbol br{display:block;}
 	nth-symbol + nth-symbol{margin-left:1ch;}
+	nth-collection::before{content:"{";}
+	nth-collection::after{content:"}";}
+	nth-sequence *::after{content:",";}
+	nth-sequence:last-child::after{content:"";}
+	nth-type::before{content:"[";}
+	nth-type::after{content:"]";}
+	nth-quote::before{content:"'";}
+	nth-insert::before{content:"''";}
+	nth-spread::before{content:"'''";}
+	nth-string::before{content:'"';}
+	nth-string::after{content:'"';}
 </style>
 </head>
 <body>
-<nth-view></nth-view>
+<h-cursor><p id="info" style="position:relative;left:1ch;border-radius:1ch;">This is info about the editor state.</p></h-cursor>
+<v-cursor><p id="state" style="position:relative;top:3ch;left:1ch;border-radius:1ch;background-color:white;width:fit-content;min-width:80ch;"><span id="EditorMode">&#x25cb;</span><br>This is info about the stuff your typing.<br>Here's more info...</p></v-cursor>
+<nth-view><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
 </body>
 <!--
 	Editor operations
@@ -55,42 +73,46 @@
 	html elements
 	"nth-view"		-	code view container
 	"nth-expression"	-	expression
-	"nth-sequence"		-	sequence expression
-	"nth-collection"	-	collection constructor
-	"nth-type"		-	type constructor
-	"nth-quote"		-	quote constructor
+	"nth-exp-sequence"	-	sequence expression
+	"nth-exp-collection"	-	collection constructor
+	"nth-exp-type"		-	type constructor
+	"nth-exp-quote"	-	quote constructor
 	"nth-symbol"		-	symbol (including numbers)
 -->
 <script>
 var editor = document.getElementsByTagName('nth-view')[0];
-var node = editor;
 editor.tabIndex = true;
 editor.focus();
+var expression = editor.firstChild;
+expression.cursor = 1;
 editor.onkeyup = StructureEditorInput;
 editor.onclick = MouseClick;
 document.onclick = MouseClick;
 var Mode = true;
 editor.onkeydown = KeyHold;
 var Ignore = null;
+var hcursor = document.getElementsByTagName('h-cursor')[0];
+var vcursor = document.getElementsByTagName('v-cursor')[0];
+DisplayCursor();
 
 function StructureEditorInput(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
-	if (!(key.location == 0 || key.location == 3)) {return;}
+	key.preventDefault();
 	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
 	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
 	else {
 		if (Mode) switch (key.key) {
-			case 'Enter': 
-				if (!key.repeat) {InsertExpression();}
-				else {EditExpression ();}
+			case 'Enter':
+				if (!key.repeat) {EditExpression();}
+				else {InsertExpression();}
 				break;
 			case ' ':
-				if (!key.repeat) {NextSymbol();}
-				else {NextExpression();}
+				if (!key.repeat) {NextExpression();}
+				else {InnerExpression();}
 				break;
 			case 'Backspace':
-				if (!key.repeat) {PrevSymbol();}
-				else {PrevExpression();}
+				if (!key.repeat) {PrevExpression();}
+				else {DeleteNode();}
 				break;
 			case '(':
 				if (!key.repeat) {InsertExpression();}
@@ -104,20 +126,30 @@ function StructureEditorInput(key) {
 			case '\'':
 				if (!key.repeat) {InsertQuote();}
 				break;
+			case '"':
+				if (!key.repeat) {InsertString();}
 			case 'ArrowLeft':
-				PrevSymbol();
+				PrevExpression();
 				break;
 			case 'ArrowRight':
-				NextSymbol();
+				NextExpression();
+				break;
+			case 'ArrowUp':
+				OuterExpression();
+				break;
+			case 'ArrowDown':
+				InnerExpression();
 				break;
 			default: {return;}
 		}
 		else switch (key.key) {
 			case ' ':
 				if (!key.repeat) {InsertSymbol();}
+				else {NextSymbol();}
 				break;
 			case 'Backspace':
 				if (!key.repeat) {DeleteSymbol();}
+				else{PrevSymbol();}
 				break;
 			case 'Enter':
 				if (!key.repeat) {InsertLineBreak();}
@@ -170,34 +202,21 @@ function StructureEditorInput(key) {
 			Ignore = key.key;
 			break;
 	}
-	key.preventDefault();
-}
-function SetNode(n) {
-	if (n) {
-		if (n.tagName != 'NTH-VIEW') {
-			node.style.boxShadow = 'none';
-			node.style.textDecoration = 'none';
-			node = n;
-			if (n.tagName == 'NTH-SYMBOL') {
-				node.style.textDecoration = 'underline';
-			}
-			else {
-				node.style.boxShadow = '1ch 0px 1ch black';
-			}
-		}
+	else if (key.repeat && !Mode) switch(key.key) {
+		case 'ArrowLeft':
+		case 'ArrowRight':
+		case 'ArrowUp':
+		case 'ArrowDown':
+			break;
+		default:
+			Ignore = key.key;
+			break;
 	}
+	
 }
 function MouseClick (e) {
 	e.preventDefault();
 	editor.focus();
-	//if (e.target.tagName.beginsWith('NTH')) 
-	//switch(e.target.tagName) {
-	//	case 'NTH-SYMBOL':
-	//		Mode = false;
-	//		break;
-	//	default:	
-	//		Mode = true;
-	//}
 }
 function KeyHold(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
@@ -205,26 +224,100 @@ function KeyHold(key) {
 		editor.onkeyup(key);
 	}
 }
-
+function DisplayCursor () {
+	var pos = null;
+	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
+		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y + 'px';
+		vcursor.style.left = pos.x - 7 + 'px';
+		vcursor.style.top = pos.y + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
+		pos = expression.lastChild.getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y + 'px';
+		vcursor.style.left = pos.x - 7 + 'px';
+		vcursor.style.top = pos.y + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	else {
+		pos = expression.getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y + 'px';
+		vcursor.style.left = pos.x + 'px';
+		vcursor.style.top = pos.y - 7 + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	var bottom = editor.getBoundingClientRect();
+	document.getElementById('state').style.top = bottom.bottom - pos.y + 27 + 'px';
+}
+function CursorForward () {
+	if (expression.cursor < expression.childNodes.length) {
+		expression.cursor ++;
+	}
+	DisplayCursor();
+}
+function CursorBack () {
+	if (expression.cursor > 0) {
+		expression.cursor --;
+	}
+	DisplayCursor();
+}
 function AppendToSymbol (c) {
-	console.log(node.tagName);
-	if (node.tagName != 'NTH-SYMBOL') {
+	if (! (expression.childNodes.length > 0)) {
 		InsertSymbol();
 	}
-	node.textContent += c;
+	if (expression.cursor == 0) {
+		InsertSymbol();
+	}
+	var sym = expression.childNodes[expression.cursor - 1];
+	if (sym.tagName.startsWith('NTH-SYMBOL')) {
+		sym.textContent += c;
+	}
+	DisplayCursor();
 }
 function InsertExpression () {
-	if (node.tagName != 'NTH-SYMBOL') {
-		node.appendChild(document.createElement('nth-expression'));
-		SetNode(node.lastChild);
+	console.log("insert expression");
+	if (expression) {
+		var temp = document.createElement('nth-expression');
+		temp.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		temp.cursor = 0;
+		switch (expression.tagName) {
+			case 'NTH-EXPRESSION' : {
+				if (expression.childNodes.length == 0 || expression.cursor == expression.childNodes.length) {
+					expression.appendChild(temp);
+				}
+				else if (expression.cursor == 0) {
+					var next = expression.firstChild;
+					expression.insertBefore(temp, next);
+				}
+				else {
+					var next = expression.childNodes[expression.cursor];
+					expression.insertBefore(temp, next);
+				}
+				CursorForward();
+			} break;
+			default: break;
+		}
+		expression.style.boxShadow = 'none';
+		expression = temp;
+	}
+	else {
+		expression = document.createElement('nth-expression');
+		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		expression.cursor = 0;
+		editor.appendChild(expression);
+		CursorBack();
 	}
 	Mode = false;
+	document.getElementById('EditorMode').textContent = '\u25c9';
 }
 function AppendToSequence () {
 
 }
 function InsertCollection () {
-
 }
 function InsertType () {
 
@@ -233,134 +326,179 @@ function InsertQuote () {
 
 }
 function InsertSymbol () {
-	if (node.tagName == 'NTH-EXPRESSION' || 
-	    node.tagName == 'NTH-COLLECTION' || 
-	    node.tagName == 'NTH-TYPE' || 
-	    node.tagName == 'NTH-SEQUENCE' || 
-	    node.tagName == 'NTH-QUOTE') 
-	{
-		node.appendChild(document.createElement('nth-symbol'));
-		SetNode(node.lastChild);
-	}
-	else if (node.textContent.length == 0) {
-
-	}
-	else if (node == node.parentNode.lastChild) {
-		node.parentElement.appendChild(document.createElement('nth-symbol'));
-		SetNode(node.parentElement.lastChild);
-	}
-	else {
-		node.parentElement.insertBefore(document.createElement('nth-symbol'), node.nextSibling)
-		SetNode(node.nextSibling);
-	}
-	Mode = false;
-
-}
-function InsertLineBreak () {
-	if (node.nextSibling) {
-		if (node.nextSibling.tagName != 'BR') {
-			node.parentElement.inser
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor == 0) {
+			expression.insertBefore(document.createElement('nth-symbol'), expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			if (expression.lastChild.tagName == 'NTH-SYMBOL' && expression.lastChild.textContent.length == 0) {
+				return;
+			} else {
+				expression.appendChild(document.createElement('nth-symbol'));
+			}
+		}
+		else {
+			expression.insertBefore(document.createElement('nth-symbol'), expression.childNodes[expression.cursor - 1])
 		}
 	}
-	temp = document.createElement('nth-symbol');
-	temp.appendChild(document.createElement('br'));
-	if (node == node.parentElement.lastChild) {
-		node.parentElement.appendChild(temp);
-	}
 	else {
-		node.parentElement.insertBefore(temp, node.nextSibling)
+		expression.appendChild(document.createElement('nth-symbol'));
 	}
-	SetNode(temp);
+	CursorForward();
+}
+function InsertLineBreak () {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			if (expression.childNodes[expression.cursor - 1].tagName != 'BR') {
+				if (expression.cursor == expression.childNodes.length) {
+					expression.appendChild(document.createElement('br'));
+				}
+				else {
+					expression.insertBefore(document.createElement('br'), expression.childNodes[expression.cursor - 1]);
+				}
+				CursorForward();
+			}
+		}
+	}
 }
 function AlignNode () {
 
 }
-function DeleteChar () {
-
-}
 function DeleteSymbol () {
-	if (node.tagName == 'NTH-SYMBOL') {
-		if (node.textContent.length > 0 || (!node.textContent == '<br>')) {
-			node.textContent = '';
-		}
-		else {
-			var temp = node.previousSibling;
-			if (temp == null) {
-				temp = node.parentElement;
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			var sym = expression.childNodes[expression.cursor - 1];
+			if (sym.tagName == 'NTH-SYMBOL') {
+				if (sym.textContent.length > 0) {
+					sym.textContent = '';
+					DisplayCursor();
+				}
+				else {
+					sym.remove();
+					CursorBack();
+				}
 			}
-			node.remove();
-			SetNode(temp);
+			else if (sym.tagName == 'BR') {
+				sym.remove();
+				CursorBack();
+			}
 		}
-	}
-	else {
-		Mode = true;
-		DeleteNode();
 	}
 
 }
 function DeleteNode () {
-	if (node.tagName == 'NTH-VIEW') {return;}
-	var temp = node.previousSibling;
-	if (temp == null) {
-		temp = node.parentElement;
+	if (expression.parentNode.tagName != 'NTH-VIEW') {
+		var temp = expression;
+		expression = expression.parentNode;
+		temp.remove();
+		CursorBack();
+		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
 	}
-	node.remove();
-	SetNode(temp)
+
 }
 function NextSymbol () {
-	console.log("Next");
-	var temp = node;
-	if (temp.tagName == 'NTH-SYMBOL') {
-		if (temp.nextSibling) {
-
-			while (node.tagName != 'NTH-SYMBOL') {
-				if (node.nextSibling) {
-					SetNode(node.nextSibling);
-				}
-				else {
-					break;
-				}
-			}
-		}
-	}
-
+	CursorForward();
 }
 function PrevSymbol () {
-	console.log("Previous");
-	if (node.tagName == 'NTH-SYMBOL') {
-		if (node.previousSibling) {
-			SetNode(node.previousSibling);
-			while (node.tagName != 'NTH-SYMBOL') {
-				SetNode(node.previousSibling);
-			}
-		}
-	}
-
-}
-function NextExpression () {
-	if (node.tagName != 'NTH-SYMBOL') {
-		if (node.nextSibling) {
-			SetNode(node.nextSibling);
-			while (node == 'NTH-SYMBOL') {
-				if (node.nextSibling) {
-					SetNode(node.nextSibling);
-				}
-				else {
-					SetNode(node.parentElement);
-					break;
-				}
-			}
-		}
-	}
-
+	CursorBack();
 }
 function PrevExpression () {
-
+	var p = null;
+	if (expression.previousSibling) {
+		p = expression.previousSibling;
+		while (!(p.tagName.startsWith('NTH-EXP'))) {
+			if (p.previousSibling) {
+				p = p.previousSibling;
+			}
+			else {
+				break;
+			}
+		}
+		if (p.tagName.startsWith('NTH-EXP')) {
+			expression.style.boxShadow = 'none';
+			expression = p;
+			expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		}
+	}
+	DisplayCursor();
+}
+function NextExpression () {
+	var p = null;
+	if (expression.nextSibling) {
+		p = expression.nextSibling;
+		while (!(p.tagName.startsWith('NTH-EXP'))) {
+			if (p.nextSibling) {
+				p = p.nextSibling;
+			}
+			else {
+				break;
+			}
+		}
+		if (p.tagName.startsWith('NTH-EXP')) {
+			expression.style.boxShadow = 'none';
+			expression = p;
+			expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		}
+	}
+	DisplayCursor()
+}
+function OuterExpression () {
+	if (expression.parentNode.tagName != 'NTH-VIEW') {
+		var n = 0;
+		for (x in expression.parentNode.childNodes) {
+			if (expression.parentNode.childNodes[x] == expression) {
+				console.log(x);
+				n = x;
+				break;
+			}
+		}
+		expression.style.boxShadow = 'none';
+		expression = expression.parentNode;
+		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		expression.cursor = Number(n) + 1;
+	}
+	DisplayCursor();
+}
+function InnerExpression () {
+	if (expression.childNodes.length > 0) {
+		var temp = null;
+		if (expression.cursor > 0) 
+			temp = expression.childNodes[expression.cursor - 1];
+		else
+			temp = expression.firstChild;
+		var cursorinc = 0;
+		while (!temp.tagName.startsWith('NTH-EXP')) {
+			if (temp.nextSibling) {
+				temp = temp.nextSibling;
+				cursorinc ++;
+			}
+			else {
+				break;
+			}
+		}
+		if (temp.tagName.startsWith('NTH-EXP')) {
+			expression.cursor += cursorinc;
+			expression.style.boxShadow = 'none';
+			expression = temp;
+			expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+		}
+	}
+	DisplayCursor();
 }
 function CloseExpression () {
-
+	Mode = true;
+	document.getElementById('EditorMode').textContent = '\u25cb';
+	if (expression.parentElement.tagName != 'NTH-VIEW') {
+		expression.style.boxShadow = 'none';
+		expression = expression.parentElement;
+		expression.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
+	}
+	DisplayCursor();
 }
 function EditExpression () {
-
+	expression.style.boxShadow ='0ch 0ch 3ch -0.5ch black';
+	Mode = false;
+	document.getElementById('EditorMode').textContent = '\u25c9';
+	DisplayCursor();
 }
 </script>
