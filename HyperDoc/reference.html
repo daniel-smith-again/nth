@@ -3,12 +3,12 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <style>
-	body{font-size:x-large;overflow-x:auto;}
+	body{font-size:calc((1vh + 1vw) * 0.5);}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
-	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:absolute;}
-	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:absolute;}
-	nth-view{display:block;width:fit-content;margin:auto;font-size:x-large;font-family:monospace;padding-top:13ch;}
+	h-cursor{height:0px;width:5ch;border-bottom:medium solid black;display:block;position:fixed;}
+	v-cursor{height:5ch;width:0px;border-left:medium solid black;display:block;position:fixed;}
+	nth-view{display:block;margin:auto;font-family:monospace;padding-top:13ch;margin-bottom:28ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;}
 	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
 	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote, nth-insert, nth-spread, nth-string
 	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:1ch;border:medium solid lightgray;border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
@@ -29,6 +29,7 @@
 </style>
 </head>
 <body>
+<h1>The <i>n</i><sup>th</sup> Reference Implementation</h1>
 <h-cursor><p id="info" style="position:relative;left:1ch;border-radius:1ch;">This is info about the editor state.</p></h-cursor>
 <v-cursor><p id="state" style="position:relative;top:3ch;left:1ch;border-radius:1ch;background-color:white;width:fit-content;min-width:80ch;"><span id="EditorMode">&#x25cb;</span><br>This is info about the stuff your typing.<br>Here's more info...</p></v-cursor>
 <nth-view><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
@@ -97,7 +98,6 @@ DisplayCursor();
 
 function StructureEditorInput(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
-	key.preventDefault();
 	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
 	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
 	else {
@@ -192,27 +192,8 @@ function StructureEditorInput(key) {
 				break;
 		}
 	}
-	if (key.repeat && Mode) switch(key.key) {
-		case 'ArrowLeft':
-		case 'ArrowRight':
-		case 'ArrowUp':
-		case 'ArrowDown':
-			break;
-		default:
-			Ignore = key.key;
-			break;
-	}
-	else if (key.repeat && !Mode) switch(key.key) {
-		case 'ArrowLeft':
-		case 'ArrowRight':
-		case 'ArrowUp':
-		case 'ArrowDown':
-			break;
-		default:
-			Ignore = key.key;
-			break;
-	}
-	
+	if (key.repeat) Ignore = key.key;
+	key.preventDefault();
 }
 function MouseClick (e) {
 	e.preventDefault();
@@ -225,6 +206,7 @@ function KeyHold(key) {
 	}
 }
 function DisplayCursor () {
+	console.log("Display Cursor");
 	var pos = null;
 	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
@@ -252,6 +234,7 @@ function DisplayCursor () {
 	}
 	var bottom = editor.getBoundingClientRect();
 	document.getElementById('state').style.top = bottom.bottom - pos.y + 27 + 'px';
+	document.style.height += vcursor.style.height;
 }
 function CursorForward () {
 	if (expression.cursor < expression.childNodes.length) {
@@ -338,7 +321,7 @@ function InsertSymbol () {
 			}
 		}
 		else {
-			expression.insertBefore(document.createElement('nth-symbol'), expression.childNodes[expression.cursor - 1])
+			expression.insertBefore(document.createElement('nth-symbol'), expression.childNodes[expression.cursor])
 		}
 	}
 	else {
