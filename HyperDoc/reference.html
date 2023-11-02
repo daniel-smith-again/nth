@@ -11,20 +11,11 @@
 	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;}
 	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
 	nth-expression, nth-symbol, nth-string{font-family:monospace;}
-	nth-expression, nth-sequence, nth-collection, nth-type, nth-quote, nth-insert, nth-spread, nth-string
+	nth-expression
 	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid lightgray;border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
-	nth-symbol{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
-	nth-symbol br{display:block;}
+	nth-symbol, nth-comma{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
 	nth-symbol + nth-symbol{margin-left:1ch;}
-	nth-collection::before{content:"{";}
-	nth-collection::after{content:"}";}
-	nth-sequence *::after{content:",";}
-	nth-sequence:last-child::after{content:"";}
-	nth-type::before{content:"[";}
-	nth-type::after{content:"]";}
-	nth-quote::before{content:"'";}
-	nth-insert::before{content:"''";}
-	nth-spread::before{content:"'''";}
+	nth-symbol + nth-comma, nth-expression + nth-comma{margin-left:-0.5ch;}
 	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
@@ -33,7 +24,7 @@
 </style>
 </head>
 <body>
-<p style="width:25%;border-bottom:medium solid black;position:fixed;top:0;right:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
+<p id='Header' style="transition:all 0.2s;width:25%;border-bottom:medium solid black;position:fixed;top:120vh;opacity:0;right:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
 <h-cursor>
 	<p id="Result">Result:<span></span></p>
 	<p id="info">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
@@ -106,6 +97,7 @@ var Ignore = null;
 var hcursor = document.getElementsByTagName('h-cursor')[0];
 var vcursor = document.getElementsByTagName('v-cursor')[0];
 DisplayCursor();
+document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
 
 function StructureEditorInput(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
@@ -223,6 +215,7 @@ function StructureEditorInput(key) {
 			case '\'':
 				break;
 			case ',':
+				if (!key.repeat) {InsertSequence();}
 				break;
 			case '"':
 				if (!key.repeat) {InsertString(); StringInput = true;}
@@ -269,7 +262,7 @@ function MouseClick (e) {
 function KeyHold(key) {
 	key.preventDefault();
 	if (key.isComposing || key.keyCode === 229) {return;}
-	if (key.repeat) {
+	if (key.repeat && key.key != 'Shift' && key.key != 'Control') {
 		editor.onkeyup(key);
 	}
 }
@@ -278,29 +271,29 @@ function DisplayCursor () {
 	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
-		vcursor.style.left = pos.x - 13 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 7 + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
 	}
 	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.lastChild.getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
-		vcursor.style.left = pos.x - 13 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 7 + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
 	}
 	else {
 		pos = expression.getBoundingClientRect();
 		vcursor.style.height = window.innerHeight - pos.y + 'px';
 		vcursor.style.left = pos.x + 'px';
-		vcursor.style.top = pos.y - 13 + 'px';
+		vcursor.style.top = pos.y - 3 + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 7 + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
 	}
 	var bottom = editor.getBoundingClientRect();
-	document.getElementById('state').style.top = (vcursor.style.top - bottom.bottom) + 'px';
+	document.getElementById('state').style.top = (bottom.bottom - pos.y) + 'px';
 }
 function CursorForward () {
 	if (expression.cursor < expression.childNodes.length) {
@@ -331,7 +324,6 @@ function AppendToSymbol (c) {
 	DisplayCursor();
 }
 function InsertExpression () {
-	console.log("insert expression");
 	if (expression) {
 		var temp = document.createElement('nth-expression');
 		temp.style.boxShadow = '0ch 0ch 3ch -0.5ch black';
@@ -368,7 +360,7 @@ function InsertExpression () {
 }
 function AppendToSequence () {
 	if (expression.parentElement && expression.parentElement.tagName != 'NTH-VIEW') {
-		temp = document.createElement
+		
 	}
 
 }
@@ -437,6 +429,27 @@ function InsertLineBreak () {
 		}
 	}
 }
+function InsertSequence() {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			if (expression.childNodes[expression.cursor - 1].tagName != 'NTH-COMMA') {
+				if (expression.cursor == expression.childNodes.length) {
+					expression.appendChild(document.createElement('nth-comma'));
+					expression.lastChild.appendChild(document.createTextNode(','));
+					CursorForward();
+				}
+				else {
+					if (expression.childNodes[expression.cursor].tagName != 'NTH-COMMA') {
+						var temp = document.createElement('nth-comma');
+						temp.appendChild(document.createTextNode(','));
+						expression.insertBefore(temp, expression.childNodes[expression.cursor]);
+						CursorForward();
+					}
+				}
+			}
+		}
+	}
+}
 function AlignNode () {
 
 }
@@ -455,6 +468,10 @@ function DeleteSymbol () {
 				}
 			}
 			else if (sym.tagName == 'BR') {
+				sym.remove();
+				CursorBack();
+			}
+			else if (sym.tagName == 'NTH-COMMA') {
 				sym.remove();
 				CursorBack();
 			}
@@ -525,7 +542,6 @@ function OuterExpression () {
 		var n = 0;
 		for (x in expression.parentNode.childNodes) {
 			if (expression.parentNode.childNodes[x] == expression) {
-				console.log(x);
 				n = x;
 				break;
 			}
