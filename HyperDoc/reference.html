@@ -497,15 +497,13 @@ function InsertSymbol () {
 function InsertLineBreak () {
 	if (expression.childNodes.length > 0) {
 		if (expression.cursor > 0) {
-			if (expression.childNodes[expression.cursor - 1].tagName != 'BR' && expression.childNodes[expression.cursor - 1] != expression.firstChild) {
-				if (expression.cursor == expression.childNodes.length) {
-					expression.appendChild(document.createElement('br'));
-				}
-				else {
-					expression.insertBefore(document.createElement('br'), expression.childNodes[expression.cursor - 1]);
-				}
-				CursorForward();
+			if (expression.cursor == expression.childNodes.length) {
+				expression.appendChild(document.createElement('br'));
 			}
+			else {
+				expression.insertBefore(document.createElement('br'), expression.childNodes[expression.cursor]);
+			}
+			CursorForward();
 		}
 	}
 }
@@ -801,10 +799,14 @@ function ExportCode (n, s) {
 				break;
 			case 'NTH-COMMA':
 				s += ', ';
+				break;
 			case 'BR':
 				s += '\n';
+				break;
 			case 'NTH-TAB':
-				s += n.childNodes[x].textContent
+				for (var i = 0; i < n.childNodes[x].textContent.length; i ++) {
+					s += ' ';
+				}
 		}
 	}
 	if (n != editor.firstChild) {
@@ -837,7 +839,8 @@ function ParseFile (F, p, n) {
 	var tabspace = false;
 	for (p = 0; p < F.length; p++) {
 
-		if(tabspace && (F[p] != ' ')) {tabspace = false;}
+		if(tabspace && (F[p] != ' ')) 
+			{tabspace = false; console.log("Turning off tabspace because " + F[p])}
 
 		if (string) switch(F[p]) {
 			case '"':
@@ -904,14 +907,17 @@ function ParseFile (F, p, n) {
 				if (n.tagName == 'NTH-SYMBOL')
 					n = n.parentElement;
 				n.appendChild(document.createElement('br'))
-				tabspace = true;
+				tabspace = true; console.log("Turning on Tabspace");
 				break;
 			case ' ':
 				if (tabspace) {
+					console.log("In Tabspace")
 					if (n.lastChild.tagName == 'NTH-TAB') {
+						console.log("Tab is Present")
 						n.lastChild.textContent += '\xa0'
 					}
 					else {
+						console.log("Making New Tab")
 						n.appendChild(document.createElement('nth-tab'));
 						n.lastChild.textContent += '\xa0';
 					}
