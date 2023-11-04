@@ -26,6 +26,7 @@
 	nth-exp-tquote{background-color:var(--bg);}
 	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
 	nth-symbol, nth-comma, nth-tab{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
+	nth-tab{color:var(--hg);opacity:0.5;}
 	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
@@ -120,7 +121,7 @@ function HideHelp() {
 <p id='Header' style="transition:all 0.2s;width:25%;border-bottom:medium solid var(--fg);position:fixed;top:120vh;opacity:0;right:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
 <h-cursor>
 	<p id="Result">Result:<span></span></p>
-	<p id="info">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
+	<p id="info" style="width:32ch;">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
 </h-cursor>
 <v-cursor><p id="state"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span><br><br>This is info about the stuff your typing.<br>This is a fake auto-complete suggestion.
 	<br><br><span id='SaveCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span><span id='UploadCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></p>
@@ -326,8 +327,6 @@ function StructureEditorInput(key) {
 		case 'ArrowUp':
 		case 'ArrowDown':
 		case 'Tab':
-		//case 'Backspace':
-		//case ' ':
 			break;
 		default:
 			Ignore = key.key;
@@ -390,7 +389,7 @@ function DisplayCursor () {
 		hcursor.style.top = pos.y + pos.height + 'px';
 	}
 	var bottom = editor.getBoundingClientRect();
-	document.getElementById('state').style.top = (bottom.bottom - pos.y) + 'px';
+	document.getElementById('state').style.top = (bottom.bottom - pos.y ) + 'px';
 }
 function CursorForward () {
 	if (expression.cursor < expression.childNodes.length) {
@@ -492,7 +491,9 @@ function InsertSymbol () {
 			}
 		}
 		else {
-			expression.insertBefore(sym, expression.childNodes[expression.cursor])
+			if (expression.childNodes[expression.cursor].tagName != 'NTH-TAB') {
+				expression.insertBefore(sym, expression.childNodes[expression.cursor])
+			}
 		}
 	}
 	else {
@@ -537,6 +538,7 @@ function InsertSequence() {
 function Indent () {
 	if (expression.childNodes.length > 0 && expression.cursor > 0) {
 		var sym = expression.childNodes[expression.cursor - 1];
+		if (sym == expression.firstChild) {return;}
 		switch(sym.tagName) {
 			case 'BR': {
 				if (sym.nextSibling && sym.nextSibling.tagName == 'NTH-TAB') break;
@@ -548,7 +550,7 @@ function Indent () {
 				else {
 					expression.insertBefore(temp, expression.childNodes[expression.cursor]);
 				}
-				CursorForward();
+				//CursorForward();
 			} break;
 			case 'NTH-TAB': {
 				sym.textContent += '\xa0';
@@ -559,7 +561,7 @@ function Indent () {
 					var temp = document.createElement('nth-tab');
 					temp.appendChild(document.createTextNode('\xa0'));
 					expression.insertBefore(temp, sym);
-					CursorForward();
+					//CursorForward();
 				}	
 			} break;
 		}
