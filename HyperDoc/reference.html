@@ -7,13 +7,14 @@
 		--fg:rgb(0, 37, 33);
 		--bg:rgb(238, 232, 221);
 		--hg:rgb(65, 153, 144);
+		--hl:rgb(89, 22, 22);
 	}
 	body{font-size:calc((1vw + 1vh) * 0.7);font-family:serif;color:var(--fg);background-color:var(--bg);}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
 	h-cursor{height:0px;width:5ch;border-bottom:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
 	v-cursor{height:5ch;width:0px;border-left:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
-	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:60%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;cursor:default;}
+	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:69%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;cursor:default;}
 	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
 	nth-expression, nth-exp-collection, nth-exp-type, nth-exp-quote, nth-exp-dquote, nth-exp-tquote
 	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid var(--hg);border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
@@ -25,14 +26,14 @@
 	nth-exp-dquote *{color:var(--fg);border-color:var(--fg);}
 	nth-exp-tquote{background-color:var(--bg);}
 	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
-	nth-symbol, nth-comma, nth-tab{display:inline;min-height:2ch;min-width:1ch;vertical-align:top;}
+	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:text-top;}
 	nth-tab{color:var(--hg);opacity:0.5;}
 	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
-	h-cursor p{position:relative;left:1ch;top:-4ch;border-radius:1ch;display:block;}
-	#Result {left:1ch;top:-4ch;width:fit-content;} #Result *{font-family:monospace;}
-	v-cursor p{position:relative;top:3ch;left:1ch;border-radius:1ch;width:fit-content;min-width:80ch;}
+	#Result {font-family:serif;position:relative;top:-2ch;left:1ch;overflow-x:auto;overflow-y:hidden;height:2ch;width:40ch;}
+	v-cursor{padding:0;}
+	v-cursor #state{position:relative;top:3ch;border-radius:1ch;width:fit-content;background-color:none;padding-top:1ch;transition:all 0.2s;}
 	#Help{border-radius:1ch;width:1ch;margin:0;padding:1ch;position:absolute;top:0;left:0;z-index:99;transition:all 0.2s;}
 	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
 	#The-Result, #The-Expression, #KeyCommands{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
@@ -71,7 +72,8 @@
 			<tr><td>Spacebar (held)</td><td>Move inside expression</td></tr>
 			<tr><td>Spacebar + Shift</td><td>Put a yanked expression</td></tr>
 			<tr><td>Backspace</td><td>Previous expression</td></tr>
-			<tr><td>Backspace (held)</td><td>Delete expression</td></tr>
+			<tr><td>Backspace (held)</td><td>Move outside expression</td></tr>
+			<tr><td>Backspace + Shift</td><td>Delete expression</td></tr>
 			<tr><td>Enter</td><td>Enter Expression Mode</td></tr>
 			<tr><td>Enter (held)</td><td>Insert an expression</td></tr>
 			<tr><td>Enter + Shift</td><td>Yank an expression</td></tr>
@@ -118,14 +120,25 @@ function HideHelp() {
 	K.style.top = '-100vh';
 }
 </script>
-<p id='Header' style="transition:all 0.2s;width:25%;border-bottom:medium solid var(--fg);position:fixed;top:120vh;opacity:0;right:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
+<div id='Header' style="transition:all 0.2s;width:25%;position:fixed;top:120vh;opacity:0;right:0;">
+	<p style="border-bottom:medium solid var(--fg);margin:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
+	<p style="margin:0;">
+		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
+		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
+	</p>
+</div>
+
 <h-cursor>
-	<p id="Result">Result:<span></span></p>
+	<div id="Result">Result: <span></span></div>
 	<p id="info" style="width:32ch;">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
 </h-cursor>
-<v-cursor><p id="state"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span><br><br>This is info about the stuff your typing.<br>This is a fake auto-complete suggestion.
-	<br><br><span id='SaveCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span><span id='UploadCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></p>
-</v-cursor>
+<v-cursor>
+<div id="state">
+	<p style="font-size:calc(1vh + 1vw);margin:1ch;position:relative;top:0;left:0;padding:0;margin:0;"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span></p>
+	<p>Expression Info</p>
+	<p>Auto-complete suggestion</p>
+	
+</div></v-cursor>
 <nth-view contenteditable="true" autofocus="true" spellcheck="false"><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
 </body>
 <script>
@@ -176,6 +189,10 @@ function StructureEditorInput(key) {
 				StringInput = false;
 				CursorForward();
 				break;
+			case '\\':
+				CharacterEscape = true;
+				AppendToSymbol(key.key);
+				break;
 			default:
 				if (key.key.length == 1)
 					AppendToSymbol(key.key);
@@ -202,8 +219,14 @@ function StructureEditorInput(key) {
 				OuterExpression();
 				break;
 			case 'Backspace':
-				if (!key.repeat) {PrevExpression();}
-				else {DeleteNode();}
+				if (!key.repeat) {
+					if (!key.shiftKey) {PrevExpression();}
+					else {DeleteNode();}
+				}
+				else {OuterExpression();}
+				break;
+			case 'Delete':
+				DeleteNode();
 				break;
 			case '(':
 				if (!key.repeat) {InsertExp('nth-expression');}
@@ -300,8 +323,6 @@ function StructureEditorInput(key) {
 			case '"':
 				if (!key.repeat) {InsertString(); StringInput = true;}
 				break;
-			case '\\':
-				if (!key.repeat) {AppendToSymbol(key.key); CharacterEscape = true;}
 			default: 
 				if (key.key.length == 1) {
 					if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING')
@@ -347,10 +368,9 @@ function MouseClick (e) {
 				break;
 			}
 		}
-		console.log("Symbol clicked at " + expression.cursor);
 		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		Mode = false;
 		DisplayCursor();
+		EditExpression();
 	}
 	else editor.focus();
 }
@@ -366,7 +386,7 @@ function DisplayCursor () {
 	var pos = null;
 	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y + 'px';
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
 		vcursor.style.left = pos.x - 3 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
@@ -374,7 +394,7 @@ function DisplayCursor () {
 	}
 	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
 		pos = expression.lastChild.getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y + 'px';
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
 		vcursor.style.left = pos.x - 3 + 'px';
 		vcursor.style.top = pos.y + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
@@ -382,14 +402,21 @@ function DisplayCursor () {
 	}
 	else {
 		pos = expression.getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y + 'px';
-		vcursor.style.left = pos.x + 'px';
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
 		vcursor.style.top = pos.y - 3 + 'px';
 		hcursor.style.width = pos.x + pos.width + 'px';
 		hcursor.style.top = pos.y + pos.height + 'px';
 	}
 	var bottom = editor.getBoundingClientRect();
-	document.getElementById('state').style.top = (bottom.bottom - pos.y ) + 'px';
+	var state = document.getElementById('state');
+	var res = document.getElementById('Result');
+	var info = document.getElementById('info');
+	res.style.width = bottom.left * 0.9 + 'px';
+	info.style.width = bottom.left - 7 + 'px';
+	state.style.top = (bottom.bottom - pos.y ) + 'px';
+	state.style.width = window.innerWidth - pos.x - 50 + 'px'
+	state.style.height = (window.innerHeight - pos.y) - (pos.height) - (bottom.bottom - pos.y) + 'px';
 }
 function CursorForward () {
 	if (expression.cursor < expression.childNodes.length) {
@@ -603,6 +630,11 @@ function DeleteNode () {
 		temp.remove();
 		CursorBack();
 		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+	}
+	else {
+		expression.replaceChildren();
+		expression.cursor = 0;
+		DisplayCursor();
 	}
 
 }
