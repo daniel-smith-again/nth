@@ -108,7 +108,7 @@ async function ShowHelp() {
 	R.style.top = Rp.top - (Math.floor(R.getBoundingClientRect().height))+ 'px';
 	R.style.left = Rp.left + 'px';
 	E.style.top = Ep.bottom + 'px';
-	E.style.left = Ep.x + 'px';
+	E.style.left = Ep.x + (Ep.width * 0.32) + 'px';
 	K.style.top = '7ch';
 	K.style.right = '13ch';
 }
