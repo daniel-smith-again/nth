@@ -36,6 +36,10 @@
 	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
 	#The-Result, #The-Expression, #KeyCommands{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
 	#KeyCommands{display:block;position:absolute;width:25ch;z-index:20;left:calc(100vw - 30ch);top:-500vh;transition:all 0.2s;transition-delay:0.1s;}
+	#UploadCode{cursor:pointer;}
+	#UploadCode #CodeOpen{display:none;}
+	#UploadCode:hover #CodeClosed{display:none;}
+	#UploadCode:hover #CodeOpen{display:inline;}
 </style>
 </head>
 <body>
@@ -119,7 +123,7 @@ function HideHelp() {
 	<p id="info">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
 </h-cursor>
 <v-cursor><p id="state"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span><br><br>This is info about the stuff your typing.<br>This is a fake auto-complete suggestion.
-	<br><br><span id='SaveCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#x1f5ab;</span><span id='UploadCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();">&uArr;</span></p>
+	<br><br><span id='SaveCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span><span id='UploadCode' style="cursor:pointer;padding:0.2ch;margin:1ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></p>
 </v-cursor>
 <nth-view contenteditable="true" autofocus="true" spellcheck="false"><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
 </body>
@@ -146,6 +150,7 @@ document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
 
 function StructureEditorInput(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
+	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
 	key.preventDefault();
 	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
 	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
@@ -351,8 +356,9 @@ function MouseClick (e) {
 	else editor.focus();
 }
 function KeyHold(key) {
-	key.preventDefault();
 	if (key.isComposing || key.keyCode === 229) {return;}
+	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
+	key.preventDefault();
 	if (key.repeat && key.key != 'Shift' && key.key != 'Control') {
 		editor.onkeyup(key);
 	}
