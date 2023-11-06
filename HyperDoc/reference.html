@@ -994,11 +994,9 @@ function LinkCode () {
 	var src = CodeToString(editor, '');
 	var src_ = src	.replaceAll('\n', '%0A')
 			.replaceAll(' ', '%20');
-	console.log(src_);
 	var u = new URL(window.location);
 	u.search = '?embedsrc=' + src_;
 	var l = document.getElementById('CodeLinkIcon')
 	l.href = u.href;
-	console.log(l);
 }
 </script>
