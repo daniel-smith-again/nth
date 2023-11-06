@@ -125,7 +125,7 @@ function HideHelp() {
 	<p style="margin:0;">
 		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
 		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
-		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="LinkCode();">&#x1F517;</span>
+		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onmouseover="LinkCode();"><a id="CodeLinkIcon" href="" style="text-decoration:none;color:var(--fg);">&#x27be;</a></span>
 	</p>
 </div>
 
@@ -987,10 +987,11 @@ function ParseFile (F, p, n) {
 
 function LinkCode () {
 	var src = CodeToString(editor, '');
-	console.log(src);
+	document.getElementById('CodeLinkIcon').href = '';
 	var src_ = src	.replaceAll('\n', '%0A')
 			.replaceAll(' ', '%20');
-	console.log(src_);
-	window.location.search = '?embedsrc=' + src_;
+	var u = new URL(window.location);
+	u.search = '?embedsrc=' + src_;
+	document.getElementById('CodeLinkIcon').href = u.href;
 }
 </script>
