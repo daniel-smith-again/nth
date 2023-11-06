@@ -44,7 +44,7 @@
 	#UploadCode:hover #CodeOpen{display:inline;}
 </style>
 </head>
-<body>
+<body onload="CheckEmbed();">
 <p id="Help" onmouseover="ShowHelp();" onmouseout="HideHelp();">?
 	<div id="Help-Contents"></div>
 	<div id="KeyCommands">
@@ -125,6 +125,7 @@ function HideHelp() {
 	<p style="margin:0;">
 		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
 		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
+		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="LinkCode();">&#x1F517;</span>
 	</p>
 </div>
 
@@ -161,6 +162,15 @@ var hcursor = document.getElementsByTagName('h-cursor')[0];
 var vcursor = document.getElementsByTagName('v-cursor')[0];
 DisplayCursor();
 document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
+
+function CheckEmbed () {
+	u = new URLSearchParams(document.location.search);
+	if (u.get('embedsrc')) {
+		editor.replaceChildren();
+		s = u.get('embedsrc');
+		ParseFile(s, 0, editor);
+	}
+}
 
 function StructureEditorInput(key) {
 	if (key.isComposing || key.keyCode === 229) {return;}
@@ -810,7 +820,15 @@ function Evaluate () {
 	document.getElementById('Result').lastChild.textContent = Math.random().toString();
 }
 function ExportCode (n, s) {
-	if (n == null) {n = editor.firstChild; s = '(';}
+		var s = CodeToString(editor, '');
+		var code = new Blob([s], {type:'text/plain;charset=utf-8'});
+		var link = document.createElement('a');
+		link.href = URL.createObjectURL(code);
+		link.download = 'nth_source_code.txt';
+		link.click();
+		URL.revokeObjectURL(link.href);
+}
+function CodeToString (n, s) {
 	if (s == null) {s = '';}
 	for (var x in n.childNodes) {
 		switch(n.childNodes[x].tagName) {
@@ -820,22 +838,22 @@ function ExportCode (n, s) {
 			case 'NTH-STRING':
 				s += n.childNodes[x].textContent;
 			case 'NTH-EXPRESSION': 
-				s += '(' + ExportCode(n.childNodes[x], null) + ')';
+				s += '(' + CodeToString(n.childNodes[x], null) + ')';
 				break;
 			case 'NTH-EXP-COLLECTION': 
-				s += '{' + ExportCode(n.childNodes[x], null) + '}';
+				s += '{' + CodeToString(n.childNodes[x], null) + '}';
 				break;
 			case 'NTH-EXP-TYPE': 
-				s += '[' + ExportCode(n.childNodes[x], null) + ']';
+				s += '[' + CodeToString(n.childNodes[x], null) + ']';
 				break;
 			case 'NTH-EXP-QUOTE': 
-				s += '`' + ExportCode(n.childNodes[x], null);
+				s += '`' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-EXP-DQUOTE':
-				s += '``' + ExportCode(n.childNodes[x], null);
+				s += '``' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-EXP-TQUOTE':
-				s += '```' + ExportCode(n.childNodes[x], null);
+				s += '```' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-COMMA':
 				s += ', ';
@@ -849,19 +867,7 @@ function ExportCode (n, s) {
 				}
 		}
 	}
-	if (n != editor.firstChild) {
-		return s;
-	}
-	else {
-		s += ')'
-		console.log(s);
-		var code = new Blob([s], {type:'text/plain;charset=utf-8'});
-		var link = document.createElement('a');
-		link.href = URL.createObjectURL(code);
-		link.download = 'nth_source_code.txt';
-		link.click();
-		URL.revokeObjectURL(link.href);
-	}
+	return s;
 }
 function ImportCode () {
 	var open = document.createElement('input');
@@ -880,7 +886,7 @@ function ParseFile (F, p, n) {
 	for (p = 0; p < F.length; p++) {
 
 		if(tabspace && (F[p] != ' ')) 
-			{tabspace = false; console.log("Turning off tabspace because " + F[p])}
+			{tabspace = false;}
 
 		if (string) switch(F[p]) {
 			case '"':
@@ -911,7 +917,6 @@ function ParseFile (F, p, n) {
 			case '}':
 			case ']':
 				n.cursor = n.childNodes.length;
-				console.log(n.cursor);
 				n = n.parentElement;
 				break;
 			case '`':
@@ -941,23 +946,21 @@ function ParseFile (F, p, n) {
 			case ',':
 				if (n.tagName == 'NTH-SYMBOL')
 					n = n.parentElement;
-				n.appendChild(document.createElement('nth-comma'))
+				n.appendChild(document.createElement('nth-comma'));
+				n.lastChild.appendChild(document.createTextNode(','));
 				break;
 			case '\n':
 				if (n.tagName == 'NTH-SYMBOL')
 					n = n.parentElement;
 				n.appendChild(document.createElement('br'))
-				tabspace = true; console.log("Turning on Tabspace");
+				tabspace = true;
 				break;
 			case ' ':
 				if (tabspace) {
-					console.log("In Tabspace")
 					if (n.lastChild.tagName == 'NTH-TAB') {
-						console.log("Tab is Present")
 						n.lastChild.textContent += '\xa0'
 					}
 					else {
-						console.log("Making New Tab")
 						n.appendChild(document.createElement('nth-tab'));
 						n.lastChild.textContent += '\xa0';
 					}
@@ -980,5 +983,14 @@ function ParseFile (F, p, n) {
 	editor.firstChild.cursor = 1;
 	expression = editor.firstChild;
 	DisplayCursor();
+}
+
+function LinkCode () {
+	var src = CodeToString(editor, '');
+	console.log(src);
+	var src_ = src	.replaceAll('\n', '%0A')
+			.replaceAll(' ', '%20');
+	console.log(src_);
+	window.location.search = '?embedsrc=' + src_;
 }
 </script>
