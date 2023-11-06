@@ -9,7 +9,7 @@
 		--hg:rgb(65, 153, 144);
 		--hl:rgb(89, 22, 22);
 	}
-	body{font-size:calc((1vw + 1vh) * 0.7);font-family:serif;color:var(--fg);background-color:var(--bg);}
+	body{font-size:calc((1vw + 1vh) * 0.8);font-family:serif;color:var(--fg);background-color:var(--bg);}
 	[contenteditable]{outline:0px none transparent;}
 	[tabindex]{outline:0px none transparent;}
 	h-cursor{height:0px;width:5ch;border-bottom:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
@@ -27,7 +27,7 @@
 	nth-exp-tquote{background-color:var(--bg);}
 	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
 	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:text-top;}
-	nth-tab{color:var(--hg);opacity:0.5;}
+	nth-tab{background-color:var(--hg);opacity:0.5;border-radius:1ch;font-size:calc((1vw + 1vh) * 0.4);vertical-align:middle;}
 	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
@@ -125,7 +125,7 @@ function HideHelp() {
 	<p style="margin:0;">
 		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
 		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
-		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onmouseover="LinkCode();"><a id="CodeLinkIcon" href="" style="text-decoration:none;color:var(--fg);">&#x27be;</a></span>
+		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);"><a id="CodeLinkIcon" href="" style="text-decoration:none;color:var(--fg);">&#x27be;</a></span>
 	</p>
 </div>
 
@@ -587,7 +587,7 @@ function Indent () {
 				else {
 					expression.insertBefore(temp, expression.childNodes[expression.cursor]);
 				}
-				//CursorForward();
+				CursorForward();
 			} break;
 			case 'NTH-TAB': {
 				sym.textContent += '\xa0';
@@ -598,8 +598,7 @@ function Indent () {
 					var temp = document.createElement('nth-tab');
 					temp.appendChild(document.createTextNode('\xa0'));
 					expression.insertBefore(temp, sym);
-					//CursorForward();
-				}	
+				}
 			} break;
 		}
 	}
@@ -622,7 +621,12 @@ function DeleteSymbol () {
 						CursorBack();
 					}
 				} break;
-				case 'BR':
+				case 'BR': 
+				{
+					if (sym.nextSibling)
+						if (sym.nextSibling.tagName == 'NTH-TAB')
+							sym.nextSibling.remove();
+				}
 				case 'NTH-COMMA':
 				{
 					sym.remove();
@@ -768,6 +772,7 @@ function CloseExpression () {
 		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
 	}
 	DisplayCursor();
+	LinkCode();
 	Evaluate();
 }
 function CloseCollection () {
@@ -987,11 +992,13 @@ function ParseFile (F, p, n) {
 
 function LinkCode () {
 	var src = CodeToString(editor, '');
-	document.getElementById('CodeLinkIcon').href = '';
 	var src_ = src	.replaceAll('\n', '%0A')
 			.replaceAll(' ', '%20');
+	console.log(src_);
 	var u = new URL(window.location);
 	u.search = '?embedsrc=' + src_;
-	document.getElementById('CodeLinkIcon').href = u.href;
+	var l = document.getElementById('CodeLinkIcon')
+	l.href = u.href;
+	console.log(l);
 }
 </script>
