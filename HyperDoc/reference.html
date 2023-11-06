@@ -15,19 +15,25 @@
 	h-cursor{height:0px;width:5ch;border-bottom:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
 	v-cursor{height:5ch;width:0px;border-left:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
 	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:69%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;cursor:default;}
-	nth-view *{margin-left:0.5ch;margin-right:0.5ch;margin-top:0;margin-bottom:auto;}
+	nth-view *{margin:0;}
 	nth-expression, nth-exp-collection, nth-exp-type, nth-exp-quote, nth-exp-dquote, nth-exp-tquote
 	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid var(--hg);border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
-	nth-exp-collection{border:0.2ch dashed var(--hg);padding:-0.2ch;}
-	nth-exp-type{border:0.2ch dotted var(--hg);padding:-0.2ch;}
+	
+	nth-expression{padding:0.1ch;}
+	nth-exp-collection{border:0.2ch dashed var(--hg);padding:0.1ch;}
+	nth-exp-type{border:0.2ch dotted var(--hg);padding:0.1ch;}
+	nth-exp-collection, nth-exp-type {border-color:var(--hl);}
 	nth-exp-quote{background-color:var(--hg);border:0.2ch solid var(--hg);padding:0.1ch;}
 	nth-exp-quote *{color:var(--bg);border-color:var(--fg);}
 	nth-exp-dquote{background-color:var(--bg);}
 	nth-exp-dquote *{color:var(--fg);border-color:var(--fg);}
 	nth-exp-tquote{background-color:var(--bg);}
 	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
-	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:text-top;}
-	nth-tab{background-color:var(--hg);opacity:0.5;border-radius:1ch;font-size:calc((1vw + 1vh) * 0.4);vertical-align:middle;}
+	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:top;}
+	nth-symbol + *, nth-string + *{margin-left:1ch;}
+	nth-symbol + nth-comma, nth-symbol + nth-tab, nth-string + nth-comma, br + nth-symbol, br + nth-string {margin-left:0;}
+	* + nth-symbol, * + nth-string{margin-left:1ch;}
+	nth-tab{background-color:var(--hg);opacity:0.5;border-radius:1ch;}
 	nth-string{border-style:none;}
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
@@ -36,7 +42,7 @@
 	v-cursor #state{position:relative;top:3ch;border-radius:1ch;width:fit-content;background-color:none;padding-top:1ch;transition:all 0.2s;}
 	#Help{border-radius:1ch;width:1ch;margin:0;padding:1ch;position:absolute;top:0;left:0;z-index:99;transition:all 0.2s;}
 	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
-	#The-Result, #The-Expression, #KeyCommands{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
+	#The-Result, #The-Expression, #KeyCommands, #Top-Icons{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
 	#KeyCommands{display:block;position:absolute;width:25ch;z-index:20;left:calc(100vw - 30ch);top:-500vh;transition:all 0.2s;transition-delay:0.1s;}
 	#UploadCode{cursor:pointer;}
 	#UploadCode #CodeOpen{display:none;}
@@ -45,12 +51,12 @@
 </style>
 </head>
 <body onload="CheckEmbed();">
-<p id="Help" onmouseover="ShowHelp();" onmouseout="HideHelp();">?
-	<div id="Help-Contents"></div>
-	<div id="KeyCommands">
+<p id="Help" onmouseover="ShowHelp();">?
+	<div id="Help-Contents" onclick="HideHelp();"></div>
+	<div id="KeyCommands" style="height:32ch;overflow-y:scroll;padding-top:0;">
 		<h3>Keyboard Commands</h3>
 		<table>
-			<style>table{font-size:calc((1vh + 1vw) * 0.4)}td{padding:0.5ch;text-align:right;border-right:solid thin var(--fg);}td + td{border-right:none;border-left:solid thin var(--fg);text-align:left;}</style>
+			<style>table{font-size:calc((1vh + 1vw) * 0.6)}td{padding:0.5ch;text-align:right;border-right:solid thin var(--fg);}td + td{border-right:none;border-left:solid thin var(--fg);text-align:left;}</style>
 			<tr><th>Key</th><th>Effect</th></tr>
 			<tr><th colspan="2">Expression Mode</th></tr>
 			<tr><td>[A-z0-9]</td><td>Append to a symbol</td></tr>
@@ -85,6 +91,7 @@
 	</div>
 	<div id="The-Result">The result from evaluating the expression gets printed here.<br>&downarrow;</div>
 	<div id="The-Expression">&uparrow;<br>This is the program code that you edit.</div>
+	<div id="Top-Icons" style="width:fit-content;padding-top:none;"><span style="float:right;">&rightarrow;</span><br>&#128427; Save your code to text<br>&#128448; Open text as code<br>&#x27be; Embed your code in a link</div>
 </p>
 <p style="position:absolute;bottom:0;left:0;width:1ch;height:1ch;cursor:pointer;" onclick="InvertTheme();">&#x25d0;</p>
 <script>
@@ -102,7 +109,9 @@ async function ShowHelp() {
 	var R = document.getElementById('The-Result');
 	var Ep = editor.getBoundingClientRect();
 	var E = document.getElementById('The-Expression');
-	var K = document.getElementById('KeyCommands')
+	var K = document.getElementById('KeyCommands');
+	var T = document.getElementById('Top-Icons');
+	var Tp = document.getElementById('Header').getBoundingClientRect();
 
 	H.style.top = '0';
 	R.style.top = Rp.top - (Math.floor(R.getBoundingClientRect().height))+ 'px';
@@ -111,11 +120,14 @@ async function ShowHelp() {
 	E.style.left = Ep.x + (Ep.width * 0.32) + 'px';
 	K.style.top = '7ch';
 	K.style.right = '13ch';
+	T.style.top = '2ch';
+	T.style.left = Tp.left - T.getBoundingClientRect().width + 'px';
 }
 function HideHelp() {
 	document.getElementById('Help-Contents').style.top = '-100vh';
 	document.getElementById('The-Result').style.left = '-100vw';
 	document.getElementById('The-Expression').style.left = '-100vw';
+	document.getElementById('Top-Icons').style.left = '-100vw';
 	var K = document.getElementById('KeyCommands');
 	K.style.top = '-100vh';
 }
@@ -194,6 +206,7 @@ function StructureEditorInput(key) {
 				break;
 			case 'Backspace':
 				if (!key.repeat) {DeleteSymbol();}
+				StringInput = false;
 				break;
 			case '"':
 				StringInput = false;
@@ -493,27 +506,6 @@ function InsertExp(type) {
 	Mode = false;
 	document.getElementById('EditorMode').textContent = '\u25c9';
 }
-function InsertString () {
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor == 0) {
-			expression.insertBefore(document.createElement('nth-string'), expression.firstChild);
-		}
-		else if (expression.cursor == expression.childNodes.length) {
-			if (expression.lastChild.tagName.startsWith('NTH-S') && expression.lastChild.textContent.length == 0) {
-				return;
-			} else {
-				expression.appendChild(document.createElement('nth-string'));
-			}
-		}
-		else {
-			expression.insertBefore(document.createElement('nth-string'), expression.childNodes[expression.cursor])
-		}
-	}
-	else {
-		expression.appendChild(document.createElement('nth-string'));
-	}
-	CursorForward();
-}
 function InsertSymbol () {
 	var sym = document.createElement('nth-symbol');
 	if (expression.childNodes.length > 0) {
@@ -531,6 +523,24 @@ function InsertSymbol () {
 			if (expression.childNodes[expression.cursor].tagName != 'NTH-TAB') {
 				expression.insertBefore(sym, expression.childNodes[expression.cursor])
 			}
+		}
+	}
+	else {
+		expression.appendChild(sym);
+	}
+	CursorForward();
+}
+function InsertString() {
+	var sym = document.createElement('nth-string');
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor == 0) {
+			expression.insertBefore(sym, expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			expression.appendChild(sym);
+		}
+		else {
+			expression.insertBefore(sym, expression.childNodes[expression.cursor]);
 		}
 	}
 	else {
@@ -841,7 +851,8 @@ function CodeToString (n, s) {
 				s += n.childNodes[x].textContent + ' '; 
 				break;
 			case 'NTH-STRING':
-				s += n.childNodes[x].textContent;
+				s += '"' + n.childNodes[x].textContent.replaceAll('\xa0', ' ') + '" ';
+				break;
 			case 'NTH-EXPRESSION': 
 				s += '(' + CodeToString(n.childNodes[x], null) + ')';
 				break;
