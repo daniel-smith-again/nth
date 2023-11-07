@@ -21,9 +21,17 @@
 	<p>A <a href="terms.html#Byte">Byte</a> may store one of a range of whole, positive numberical values.</p>
 	<p>The minimum possible value which can be stored in a <a href="terms.html#Byte">Byte</a> is zero.</p>
 	<p>The maximum possible value which can be stored in a <a href="terms.html#Byte">Byte</a> is <a href="foreword.html#2-4">implementation dependent</a> but should correspond to the largest value which can be stored in the smallest unit of <a href="terms.html#Storage">storage</a> for the <a href="terms.html#Computer">computer</a> targetted by the <a href="terms.html#Implementation">implementation</a>.</p>
-	<p><a href="#Places">Places</a> are derived from <a href="terms.html#Byte">Bytes</a> such that for each <a href="terms.html#Byte">Byte</a> provided by the <a href="terms.html#Computer">computer</a>, there is a unique <a href="#Places">Place</a></p>
 	<h3><a href="#Words" id="Words">Words</a></h3>
 	<h3><a href="#Places" id="Places">Places</a></h3>
+	<p><a href="#Places">Places</a> are derived from <a href="terms.html#Byte">Bytes</a> such that for each <a href="terms.html#Byte">Byte</a> provided by the <a href="terms.html#Computer">computer</a>, there is a unique <a href="#Places">Place</a>.</p>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for <a href="#Places">Places</a></figcaption>
+	<p><code>
+		[({'@ *} -> (Program : Place))<br>
+		({'@ Place} -> (Program : *))<br>
+		({'@ Place} -> (Program : Place))]
+	</code></p>
+	</figure>
 	<h2><a href="#Vectors" id="Vectors">Vectors</a></h2>
 	<h2><a href="#Recursion" id="Recursion">Recursion</a></h2>
 	<p><a href="terms.html#Recursion">Recursion</a> may occur in <a href="terms.html#Data">data</a> where a component of some <a href="terms.html#Data">data</a> may refer to that <a href="terms.html#Data">data</a>.
