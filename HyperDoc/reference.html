@@ -481,6 +481,9 @@ function InsertExp(type) {
 		}
 		if (check.tagName != 'NTH-EXP-QUOTE') {console.log("also no prior quote"); return;}
 	}
+	if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
+		if (expression.childNodes.length == 1) return;
+	}
 	var temp = document.createElement(type);
 	temp.style.boxShadow = '0ch 0ch 3ch var(--fg)';
 	temp.cursor = 0;
@@ -507,6 +510,10 @@ function InsertExp(type) {
 function InsertSymbol () {
 	var sym = document.createElement('nth-symbol');
 	if (expression.childNodes.length > 0) {
+		if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
+			if (expression.childNodes.length == 1) return;
+		}
+
 		if (expression.cursor == 0) {
 			expression.insertBefore(sym, expression.firstChild);
 		}
@@ -920,14 +927,17 @@ function ParseFile (F, p, n) {
 			case '(':
 				n.appendChild(document.createElement('nth-expression'));
 				n = n.lastChild;
+				n.cursor = 0;
 				break;
 			case '{':
 				n.appendChild(document.createElement('nth-exp-collection'));
 				n = n.lastChild;
+				n.cursor = 0;
 				break;
 			case '[':
 				n.appendChild(document.createElement('nth-exp-type'));
 				n = n.lastChild;
+				n.cursor = 0;
 				break;
 			case ')':
 			case '}':
@@ -951,6 +961,7 @@ function ParseFile (F, p, n) {
 				else {
 					temp = document.createElement('nth-exp-quote')
 				}
+				temp.cursor = 1;
 				n.appendChild(temp);
 				n = n.lastChild;
 				break;
@@ -994,7 +1005,7 @@ function ParseFile (F, p, n) {
 				}
 				else if (n.tagName == 'NTH-SYMBOL') {
 					n = n.parentElement;
-					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+					if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
 						n = n.parentElement;
 				}
 				break;
