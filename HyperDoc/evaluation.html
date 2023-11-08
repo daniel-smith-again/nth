@@ -41,7 +41,7 @@
 	<figcaption>The following are examples of <a href="terms.html#Transform">transforms</a></figcaption>
 	<p>This is a <a href="terms.html#Transform">transform</a> which composes multiple <a href="terms.html#Functions">function</a> <a href="terms.html#Application">applications</a>, </p>
 	<p><code>
-		(define (({'compose} + ({Function} *) + {*}) -><br>
+		(define (({'compose} + ({Function} ;) + {*}) -><br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let M be (& - {'compose}) in<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop = (n m -><br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n > 0)<br>
@@ -113,16 +113,16 @@
 		(List = [{* List} {*}])
 	</code></p>
 	<p>Where a List is the <a href="terms.html#Type">type</a> of a <a href="terms.html#Collection">collection</a> of <a href="terms.html#Data">data</a> and a List or just <a href="terms.html#Data">data</a>.</p>
-	<p>Note that <a href="terms.html#Evaluate">evaluating</a> this <a href="terms.html#Expression">expression</a> does not result in infinite <a href="terms.html#Data">data</a>. The <a href="terms.html#Identifier">identifier</a>, <code>List</code>, is <a href="terms.html#Binding">bound</a> when the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a>, but <code>List</code> as it appears in the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> does not yet <a href="terms.html#Bind">bind</a> any <a href="terms.html#Data">data</a></p>
+	<p>Note that <a href="terms.html#Evaluate">evaluating</a> this <a href="terms.html#Expression">expression</a> does not result in infinite <a href="terms.html#Data">data</a>. The <a href="terms.html#Identifier">identifier</a>, <span><code>List</code></span>, is <a href="terms.html#Binding">bound</a> when the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a>, but <span><code>List</code></span> as it appears in the <a href="terms.html#Value">value</a> <a href="terms.html#Expression">expression</a> does not yet <a href="terms.html#Bind">bind</a> any <a href="terms.html#Data">data</a></p>
 	</figure>
 	
 	<h3><a href="#Let" id="Let">Let</a></h3>
 	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Let.</figcaption>
 	<p><code>
-		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} *) +<br>&nbsp;&nbsp;&nbsp;'in + ({Program} *)) -> *)]
+		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} ;) +<br>&nbsp;&nbsp;&nbsp;'in + ({Program} ;)) -> *)]
 	</code></p>
-	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <code>'in</code>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
+	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
 	<p><code>
 		(let x be y in a (b c) d)
 	</code></p>
@@ -130,7 +130,8 @@
 	<p><code>
 		(let x be y in (a (b c) d))
 	</code></p>
-	<p>with the last nested <a href="terms.html#Expression">expression</a> being the <a href="terms.html#Body">body</a>.</p>
+	<p>with the last nested <a href="terms.html#Expression">expression</a> being the <a href="terms.html#Body">body</a>.
+		In other words, all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, are concatenated as one <a href="terms.html#Expression">expression</a>.</p>
 	</figure>
 	<a href="#8-1" id="8-1">8-1</a><p>Let will create one or more <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Body">body</a>.</p>
 	<a href="#8-2" id="8-2">8-2</a><p>Each <a href="terms.html#Binding">binding</a> will be created using the <a href="terms.html#Symbol">symbol</a> preceding the keyword <a href="terms.html#Symbol">symbol</a>, <code>'be</code>, as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following it as the <a href="terms.html#Value">value</a>.</p>
@@ -150,7 +151,7 @@
 	<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequencing.</figcaption>
 	<p><code>
-	[(({'do} + ({Program} ...)) -> *)]
+	[(({'do} + ({Program} ;)) -> *)]
 	</code></p>
 	</figure>
 	<a href="#9-1" id="9-1">9-1</a><p>Sequencing will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>
@@ -180,9 +181,9 @@
 	<a href="#Fig-8" id="Fig-8">Figure 8</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Inversion</figcaption>
 	<p><code>
-	[(({'with Symbol 'as (-> *)} + <br>&nbsp;&nbsp;&nbsp;({'and Symbol 'as (-> *)} *) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} *)) -> *)]
+	[(({'with Symbol 'as (-> *)} + <br>&nbsp;&nbsp;&nbsp;({'and Symbol 'as (-> *)} ;) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} ;)) -> *)]
 	</code></p>
-	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <code>'in</code>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
+	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
 	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
 		(with x as y in a (b c) d)
 	</code></p>
@@ -190,7 +191,8 @@
 	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>
 		(with x as y in (a (b c) d))
 	</code></p>
-	<p>with the last nested <a href="terms.html#Expression">expression</a> being the <a href="terms.html#Body">body</a>.</p>
+	<p>with the last nested <a href="terms.html#Expression">expression</a> being the <a href="terms.html#Body">body</a>.
+	In other words, all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, are concatenated as one <a href="terms.html#Expression">expression</a>.</p>
 	</figure>
 	<a href="#10-1" id="10-1">10-1</a><p>Inversion accepts a number of <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs which will be used to create <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">sub-expression</a> following the <code>in</code> <a href="terms.html#Symbol">symbol</a>, referred to as the <a href="terms.html#Body">body</a>, in the Inversion <a href="terms.html#Expression">expression</a>.</p>
 	<a href="#10-2" id="10-2">10-2</a><p><a href="terms.html#Binding">Bindings</a> are created from the <a href="terms.html#Symbol">symbol</a> and <a href="terms.html#Function">function</a> pairs by treating each <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Identiier">identifier</a> and each <a href="terms.html#Function">function</a> immediately following that <a href="terms.html#Symbol">symbol</a> as the <a href="terms.html#Value">value</a> in a <a href="terms.html#Binding">binding</a>.
@@ -235,7 +237,7 @@
 	<a href="#Fig-10" id="Fig-10">Figure 10</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
 	<p><code>
-	[(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Program} *) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)]
+	[(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Program} ;) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)]
 	</code></p>
 	</figure>
 	<a href="#11-1" id="11-1">11-1</a><p>Branching accepts a series of <a>Judgement</a> and <a href="terms.html#Program">program</a> pairs and an optional trailing keyword <a>symbol</a>, <code>'else</code>, and an <a href="terms.html#Program">program</a>.</p>

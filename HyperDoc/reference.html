@@ -260,7 +260,7 @@ function StructureEditorInput(key) {
 			case '[':
 				if (!key.repeat) {InsertExp('nth-exp-type');}
 				break;
-			case '`':
+			case '\'':
 				if (!key.repeat) {InsertExp('nth-exp-quote');}
 				else {
 					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
@@ -324,7 +324,7 @@ function StructureEditorInput(key) {
 			case '[':
 				if (!key.repeat) {InsertExp('nth-exp-type');}
 				break;
-			case '`':
+			case '\'':
 				if (!key.repeat) {InsertExp('nth-exp-quote');}
 				else {
 					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
@@ -474,14 +474,12 @@ function InsertExp(type) {
 		var check = expression;
 		while (check.tagName != 'NTH-EXP-QUOTE') {
 			if (check.parentElement.tagName == 'NTH-VIEW') {
+				console.log('no prior quote')
 				return;
 			} 
 			else check = check.parentElement;
 		}
-		if (expression.tagName == 'NTH-EXP-QUOTE') return;
-	}
-	if ((expression.tagName == 'NTH-EXP-QUOTE') || (expression.tagName == 'NTH-EXP-DQUOTE') || (expression.tagName == 'NTH-EXP-TQUOTE')) {
-		if (expression.childNodes.length > 0) return;
+		if (check.tagName != 'NTH-EXP-QUOTE') {console.log("also no prior quote"); return;}
 	}
 	var temp = document.createElement(type);
 	temp.style.boxShadow = '0ch 0ch 3ch var(--fg)';
@@ -863,13 +861,13 @@ function CodeToString (n, s) {
 				s += '[' + CodeToString(n.childNodes[x], null) + ']';
 				break;
 			case 'NTH-EXP-QUOTE': 
-				s += '`' + CodeToString(n.childNodes[x], null);
+				s += '\'' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-EXP-DQUOTE':
-				s += '``' + CodeToString(n.childNodes[x], null);
+				s += '\'\'' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-EXP-TQUOTE':
-				s += '```' + CodeToString(n.childNodes[x], null);
+				s += '\'\'\'' + CodeToString(n.childNodes[x], null);
 				break;
 			case 'NTH-COMMA':
 				s += ', ';
@@ -908,6 +906,8 @@ function ParseFile (F, p, n) {
 			case '"':
 				string = false;
 				n = n.parentElement;
+				if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
+					n = n.parentElement;
 				break;
 			case '\\':
 				n.textContent += F[p] + F[p++];
@@ -934,15 +934,17 @@ function ParseFile (F, p, n) {
 			case ']':
 				n.cursor = n.childNodes.length;
 				n = n.parentElement;
+				if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+					n = n.parentElement;
 				break;
-			case '`':
+			case '\'':
 				var temp = null;
 				if (n.tagName == 'NTH-SYMBOL') n = n.parentElement;
-				if (F[p + 1] == '`' && F[p + 2] == '`') {
+				if (F[p + 1] == '\'' && F[p + 2] == '\'') {
 					temp = document.createElement('nth-exp-tquote');
 					p++;p++;
 				}
-				else if (F[p + 1] == '`') {
+				else if (F[p + 1] == '\'') {
 					temp = document.createElement('nth-exp-dquote');
 					p++;
 				}
@@ -954,20 +956,29 @@ function ParseFile (F, p, n) {
 				break;
 			case '"':
 				string = true;
-				if (n.tagName == 'NTH-SYMBOL') 
+				if (n.tagName == 'NTH-SYMBOL') {
 					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
 				n.appendChild(document.createElement('nth-string'));
 				n = n.lastChild;
 				break;
 			case ',':
-				if (n.tagName == 'NTH-SYMBOL')
+				if (n.tagName == 'NTH-SYMBOL') {
 					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
 				n.appendChild(document.createElement('nth-comma'));
 				n.lastChild.appendChild(document.createTextNode(','));
 				break;
 			case '\n':
-				if (n.tagName == 'NTH-SYMBOL')
+				if (n.tagName == 'NTH-SYMBOL') {
 					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
 				n.appendChild(document.createElement('br'))
 				tabspace = true;
 				break;
@@ -981,8 +992,11 @@ function ParseFile (F, p, n) {
 						n.lastChild.textContent += '\xa0';
 					}
 				}
-				else if (n.tagName == 'NTH-SYMBOL') 
+				else if (n.tagName == 'NTH-SYMBOL') {
 					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
 				break;
 			default:
 				if (n.tagName == 'NTH-SYMBOL') {
