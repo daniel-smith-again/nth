@@ -18,40 +18,44 @@
 	<p>Scalars are <a href="terms.html#Data">types</a> of <a href="terms.html#Data">data</a> that have a close correspondence to <a href="terms.html#Resources">resources</a> in the <a href="terms.html#Environment">environment</a>.</p>
 	<p>Scalars may store whole, positive numerical values of a fixed range where the range of possible values depends on each Scalar <a>type</a>.</p>
 	<p>The minimum possible numerical value which a Scalar can store will be zero.</p>
-	<p>The <a href="terms.html#Default">default</a> Scalar <a href="terms.html#Type">types</a> are <a href="terms.html#Byte">Byte</a> and <a href="#Words">Word</a>.</p>
+	<p>The <a href="terms.html#Default">default</a> Scalar <a href="terms.html#Type">types</a> are <a href="terms.html#Byte">Byte</a> and <a href="terms.html#Word">Word</a>.</p>
 	<p>An <a href="terms.html#Implementation">implementation</a> may provide additional Scalar <a href="terms.html#Type">types</a> which must be distinct from all existing Scalar <a href="terms.html#Type">types</a> and must comply with all properties of the <a href="terms.html#Default">default</a> Scalar <a href="terms.html#Type">types</a>.</p>
 	<p>A Scalar is <a href="terms.html#Instantiate">instantiated</a> with a <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> which must be the minimum value for that <a href="terms.html#Type">type</a>.</p>
 	<h3><a href="#Bytes" id="Bytes">Bytes</a></h3>
 	<p>The <a href="terms.html#Byte">Byte</a> is the smallest <a href="terms.html#Unit">unit</a> of <a href="terms.html#Data">data</a>, such that one <a href="terms.html#Byte">Byte</a> corresponds to one <a href="terms.html#Resource">resource</a> in the <a href="terms.html#Environment">environment</a>.</p>
 	<p>The maximum possible value which can be stored in a <a href="terms.html#Byte">Byte</a> is <a href="foreword.html#2-4">implementation dependent</a> but should correspond to the largest value which can be stored in the smallest unit of <a href="terms.html#Storage">storage</a> for the <a href="terms.html#Computer">computer</a> targetted by the <a href="terms.html#Implementation">implementation</a>.</p>
 	<p>The <a href="terms.html#Size">size</a> of a <a href="terms.html#Byte">Byte</a> is one <a href="terms.html#Byte">Byte</a>.</p>
-	<h3><a href="#Words" id="Words">Words</a></h3>
-	<p><a href="#Words">Words</a> correspond to the <a href="terms.html#Unit">unit</a> of <a href="terms.html#Data">data</a> which the <a href="terms.html#Computer">computer</a> directly <a href="terms.html#Operation">operates</a> on.</p>
-	<p>The maximum possible value which can be stored in a <a href="#Words">Word</a> is <a href="foreword.html#2-4">implementation dependent</a> but should be greater than the maximum of a <a href="terms.html#Byte">Byte</a>.</p>
-	<p>The <a href="terms.html#Size">size</a> of a <a href="#Words">Word</a> is at least two <a href="terms.html#Byte">Bytes</a> up to the minimum number of <a href="terms.html#Byte">Bytes</a> required to store the maximum <a href="#Words">Word</a> value.</p>
-	<h2><a href="#Places" id="Places">Places</a></h2>
-	<p><a href="#Places">Places</a> are derived from <a href="terms.html#Byte">Bytes</a> such that for each <a href="terms.html#Byte">Byte</a> provided by the <a href="terms.html#Computer">computer</a>, there is a unique <a href="#Places">Place</a>.</p>
+	<h3><a href="terms.html#Word" id="Words">Words</a></h3>
+	<p><a href="terms.html#Word">Words</a> correspond to the <a href="terms.html#Unit">unit</a> of <a href="terms.html#Data">data</a> which the <a href="terms.html#Computer">computer</a> directly <a href="terms.html#Operation">operates</a> on.</p>
+	<p>The maximum possible value which can be stored in a <a href="terms.html#Word">Word</a> is <a href="foreword.html#2-4">implementation dependent</a> but should be greater than the maximum of a <a href="terms.html#Byte">Byte</a> and at least large enough to count the maximum possible <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a> in the <a href="terms.html#Environment">environment</a>.</p>
+	<p>The <a href="terms.html#Size">size</a> of a <a href="terms.html#Word">Word</a> is at least two <a href="terms.html#Byte">Bytes</a> up to the minimum number of <a href="terms.html#Byte">Bytes</a> required to store the maximum <a href="terms.html#Word">Word</a> value.</p>
+	<h2><a href="terms.html#Place" id="Places">Places</a></h2>
+	<p><a href="terms.html#Place">Places</a> are derived from <a href="terms.html#Byte">Bytes</a> such that for each <a href="terms.html#Byte">Byte</a> provided by the <a href="terms.html#Computer">computer</a>, there is a unique <a href="terms.html#Place">Place</a>.</p>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for <a href="#Places">Places</a></figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for <a href="terms.html#Place">Places</a></figcaption>
 	<p><code>
 		[({'@ *} -> (Program : Place))<br>
 		({'@ Place} -> (Program : *))<br>
 		({'@ Place} -> (Program : Place))]
 	</code></p>
-	<p>Such that given <span><code>(x = 'a)</code></span>, the <a href="#Places">Place</a> of <span><code>x</code></span> is <span><code>(x' = (@ x))</code></span>, <span><code>x</code></span> is equal to <span><code>(@ x')</code></span>, and 
-	the <a href="#Places">Place</a> of the <a href="#Places">Place</a> of <span><code>x</code></span> is <span><code>((@ x') : Place)</code></span>.</p>
+	<p>Such that given <span><code>(x = 'a)</code></span>, the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>(x' = (@ x))</code></span>, <span><code>x</code></span> is equal to <span><code>(@ x')</code></span>, and 
+	the <a href="terms.html#Place">Place</a> of the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>((@ x') : Place)</code></span>.</p>
 	</figure>
-	<p>A <a href="#Places">Place</a> may be derived from any <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a> in which case the <a href="#Places">Place</a> corresponds to first <a href="terms.html#Byte">Byte</a> in the <a href="#Vectors">vector</a> of <a href="terms.html#Byte">Bytes</a> occupied by the <a href="terms.html#Unit">unit</a>.</p>
-	<h2><a href="#Vectors" id="Vectors">Vectors</a></h2>
+	<p>A <a href="terms.html#Place">Place</a> may be derived from any <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a> in which case the <a href="terms.html#Place">Place</a> corresponds to first <a href="terms.html#Byte">Byte</a> in the <a href="terms.html#Vector">vector</a> of <a href="terms.html#Byte">Bytes</a> occupied by the <a href="terms.html#Unit">unit</a>.</p>
+	<p>The <a href="terms.html#Size">size</a> of a <a href="terms.html#Place">Place</a> is at least the number of <a href="terms.html#Byte">bytes</a> required to store the number counting the <a href="terms.html#Byte">bytes</a> available in the <a href="terms.html#Environment">environment</a>.</p>
+	<p>The <a href="defaults.html#Expressions">default expression</a> which derives a <a href="terms.html#Place">Place</a> from a <a href="terms.html#Unit">unit</a> will respect the "provenence" of a <a href="terms.html#Unit">unit</a> such that deriving the <a href="terms.html#Place">Place</a> of a <a href="terms.html#Unit">unit</a> resulting from a <a href="terms.html#Member">member</a> or <a href="terms.html#Field">field</a> access <a href="terms.html#Operation">operation</a> will result in the <a href="terms.html#Place">Place</a> of that <a href="terms.html#Member">member</a> or <a href="terms.html#Field">field</a>.</p>
+	<p>A <a href="terms.html#Place">Place</a> may have a <a href="terms.html#Duration">duration</a> beyond the <a href="terms.html#Unit">unit</a> which it was derived from. In that case the <a href="terms.html#Place">Place</a> will not prevent the <a href="terms.html#Unit">unit</a> from being <a href="terms.html#Discard">discarded</a>.</p>
+	<h2><a href="terms.html#Vector" id="Vectors">Vectors</a></h2>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Vectors">vectors</a>.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="terms.html#Vector">vectors</a>.</figcaption>
 	<p><code>
 		[(([{* '; Number} {* ';}] + ({Number '; *} ;)) -> Vector)]
 	</code></p>
 	</figure>
-	<p>A <a href="#Vectors">vector</a> is a composite <a href="terms.html#Type">type</a> of <a href="terms.html#Data">data</a> where all <a href="terms.html#Member">members</a> are indexed, and <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
-	<p>The <a href="#Vectors">vector</a> <a href="terms.html#Type">type</a> is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Collection">collection</a> <a href="terms.html#Type">type</a>. As such, the terminology used to describe <a href="terms.html#Collections">collections</a> is used to describe <a href="#Vectors">vectors</a>.</p>
-	<p><a href="terms.html#Member">Members</a> in a <a href="#Vectors">vector</a> are indexed beginning with one for the first <a href="terms.html#Member">member</a>, incrementing by one for each additional <a href="terms.html#Member">member</a>, and the <a href="terms.html#Cardinality">cardinality</a> of the <a href="#Vectors">vector</a> being the index of the last <a>member</a>.</p>
+	<p>The <a href="terms.html#Vector">vector</a> <a href="terms.html#Type">type</a> is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Collection">collection</a> <a href="terms.html#Type">type</a>. As such, the terminology used to describe <a href="terms.html#Collections">collections</a> is used to describe <a href="terms.html#Vector">vectors</a>.</p>
+	<p>A <a href="terms.html#Vector">vector</a> is a composite <a href="terms.html#Type">type</a> of <a href="terms.html#Data">data</a> where all <a href="terms.html#Member">members</a> are indexed, and <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+	<p><a href="terms.html#Member">Members</a> in a <a href="terms.html#Vector">vector</a> are indexed beginning with one for the first <a href="terms.html#Member">member</a>, incrementing by one for each additional <a href="terms.html#Member">member</a>, and the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Vector">vector</a> being the index of the last <a>member</a>.</p>
+	<p>For each <a href="terms.html#Unit">unit</a>, the <a href="terms.html#Environment">environment</a> will maintain a <a href="terms.html#Vector">vector</a> of <a href="terms.html#Byte">bytes</a> which contains the <a href="terms.html#Data">data</a> for that <a href="terms.html#Unit">unit</a> where the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Vector">vector</a> is equal to the <a href="terms.html#Size">size</a> of the <a href="terms.html#Unit">unit</a> and the <a href="terms.html#Place">Place</a> of the first <a href="terms.html#Byte">byte</a> in the <a href="terms.html#Vector">vector</a> is the <a href="terms.html#Place">Place</a> of the <a href="terms.html#Unit">unit</a>.</p>
 	<h2><a href="#Recursion" id="Recursion">Recursion</a></h2>
 	<p><a href="terms.html#Recursion">Recursion</a> may occur in <a href="terms.html#Data">data</a> where a component of some <a href="terms.html#Data">data</a> may refer to that <a href="terms.html#Data">data</a>.
 	In this case, <a href="terms.html#Recursion">recursion</a> is only observed by the <a href="terms.html#Operation">operations</a> which access components of that <a href="terms.html#Data">data</a>. 
@@ -63,4 +67,12 @@
 		(x = (x 1 *))
 	</code></p>
 	</figure>
+	<h2><a href="#Sizes" id="Sizes">Sizes</a></h2>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for deriving the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a>.</figcaption>
+	<p><code>
+	[({'## *} -> Word)]
+	</code></p>
+	</figure>
+	<p>The <a href="defaults.html#Expressions">default expression</a> for the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a> will return the <a href="terms.html#Size">size</a> as a <a href="terms.html#Word">Word</a> <a href="terms.html#Value">value</a>.</p>
 </body>
