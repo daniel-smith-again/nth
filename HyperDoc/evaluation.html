@@ -41,7 +41,7 @@
 	<figcaption>The following are examples of <a href="terms.html#Transform">transforms</a></figcaption>
 	<p>This is a <a href="terms.html#Transform">transform</a> which composes multiple <a href="terms.html#Functions">function</a> <a href="terms.html#Application">applications</a>, </p>
 	<p><code>
-		(define (({'compose} + ({Function} ;) + {*}) -><br>
+		(define (({'compose} + (Function ;) + {*}) -><br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let M be (& - {'compose}) in<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(loop = (n m -><br>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n > 0)<br>
@@ -67,7 +67,7 @@
 	
 	<h2>Reduction</h2>
 	<a href="#4-1" id="4-1">4-1</a><p>A <a href="terms.html#Program">program</a> can be <a href="terms.html#Reduce">reduced</a> only when all <a href="terms.html#Expression">expressions</a> in the <a href="terms.html#Program">program</a> are <a href="defaults.html#Expressions">default expressions</a>.</p>
-	<a href="#4-2" id="4-2">4-2</a><p>A <a href="terms.html#Program">program</a> consisting of only <a href="defaults.html#Expressions">default expressions</a>, it may only be <a href="terms.html#Reduce">reduced</a> if it is determined to be <a href="terms.html#Correct">correct</a>.</p>
+	<a href="#4-2" id="4-2">4-2</a><p>A <a href="terms.html#Program">program</a> consisting of only <a href="defaults.html#Expressions">default expressions</a> may only be <a href="terms.html#Reduce">reduced</a> if it is determined to be <a href="terms.html#Correct">correct</a>.</p>
 	<a href="#4-3" id="4-3">4-3</a><p><a href="terms.html#Reduce">Reduction</a> begins by attempting to <a href="terms.html#Resolve">resolve</a> the <a href="terms.html#Identifier">identifiers</a> in the <a href="terms.html#Expression">expression</a> being <a href="terms.html#Reduce">reduced</a>.</p>
 	<a href="#4-4" id="4-4">4-4</a><p><a href="terms.html#Reduce">Reduction</a> will substitute all <a href="terms.html#Identifier">identifiers</a> with their <a href="terms.html#Value">values</a> in-place according to the <a href="terms.html#Binding">bindings</a> held in the <a href="terms.html#Scope">scope</a> used for that <a href="terms.html#Evaluate">evaluation</a>.</p>
 	<a href="#4-5" id="4-5">4-5</a><p><a href="terms.html#Reduce">Reduction</a> will ignore any and all <a href="terms.html#Transform">transforms</a> in the <a href="terms.html#Scope">scope</a> and must not <a href="terms.html#Application">apply</a> them.</p>
@@ -120,7 +120,7 @@
 	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Let.</figcaption>
 	<p><code>
-		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} ;) +<br>&nbsp;&nbsp;&nbsp;'in + ({Program} ;)) -> *)]
+		[(({'let} + {Symbol 'be *} +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} ;) +<br>&nbsp;&nbsp;&nbsp;'in + (Program ;)) -> *)]
 	</code></p>
 	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
 	<p><code>
@@ -151,7 +151,7 @@
 	<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequencing.</figcaption>
 	<p><code>
-	[(({'do} + ({Program} ;)) -> *)]
+	[(({'do (Program ;)}) -> *)]
 	</code></p>
 	</figure>
 	<a href="#9-1" id="9-1">9-1</a><p>Sequencing will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>

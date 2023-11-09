@@ -711,3 +711,14 @@ treated as a program?
 how do I compute a list without computing it?
 Easy, say that it's not a program.
 Just return the list.
+
+
+semantics:
+
+(a ;) is an array of a
+
+({1} + (a ;)) is {1 a a a a ...}
+({1} + {(a ;)}) is {1 {a a a a a a a}}
+but what about 
+({1} + ({a b} ;)) is {1 a b a b a b ...}
+({1} + ({{a b}} ;)) is {1 {a b} {a b} ...}

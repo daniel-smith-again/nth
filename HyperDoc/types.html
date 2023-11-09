@@ -10,8 +10,44 @@
 	<a id="up" href="index.html">&centerdot;</a>
 
 	<h1><a href="#Types" id="Types">Types</a></h1>
+	<p><a href="terms.html#Type">Types</a> provide a means of specifying <a href="terms.html#Constraint">constraints</a> on a program and to some extent, the intent of that program.</p>
+	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "discrete" and "continuous".</p>
+	<p>A <a href="#Discrete-Types">Discrete Type</a> is a <a href="terms.html#Type">type</a> with a finite amount of <a href="terms.html#Member">members</a> such that every possible <a href="terms.html#Instance">instance</a> of a <a href="#Discrete-Types">Discrete Type</a> is a known <a href="terms.html#Member">member</a>.</p>
+	<p>A <a href="#Continuous-Types">Continuous Type</a> is a <a href="terms.html#Type">type</a> with an unknown amount of <a href="terms.html#Member">members</a> such that for every known <a href="terms.html#Member">member</a>, an <a href="terms.html#Instance">instance</a> of a new <a href="terms.html#Member">member</a> of that <a href="terms.html#Type">type</a> may still be created.</p>
+	<figure>
+	<figcaption>An example of the difference between <a href="#Discrete-Types">Discrete Types</a> and <a href="#Continuous-Types">Continuous Types</a>.</figcaption>
+	<p><code>(x = [1 2 3],<br>y = (Number | (x -> x > 1)))</code></p>
+	<p>Here, <span><code>x</code></span> is a <a href="#Discrete-Types">Discrete Type</a> such that no <a>instance</a> is not one of <span><code>1</code>, <code>2</code>, or <code>3</code></span>.
+	Conversely, <span><code>y</code></span> is a <a href="#Continuous-Types">Continuous Type</a> where for each <a href="terms.html#Instance">instance</a>, there is always another <a href="terms.html#Instance">instance</a>
+	such that</p>
+	<p><code>(let m be 1<br>&nbsp;and n be (m + 1) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((? m) = y) then ((? n) = y))</code></p> 
+	<p>results in <span><code>Success</code></span>.</p>
+	</figure>
+	<h3><a href="#Discrete-Types" id="Discrete-Types">Discrete Types</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Discrete-Types">Discrete Types</a>.</figcaption>
+	<p><code>[(({'members} + ({*} ;)) -> Type)]</code></p>
+	<p>where each result following the keyword <a>symbol</a>, <span><code>'members</code></span>, is used as a <a href="terms.html#Member">member</a> of the resulting <a href="terms.html#Type">type</a>.</p>
+	</figure>
+	<h3><a href="#Continuous-Types" id="Continuous-Types">Continuous Types</a></h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Continuous-Types">Continuous Types</a>.</figcaption>
+	<p><code>[(((Type ;) + {'| (-> Judgement)} -> Type)</code></p>
+	<p>where one or more "base" <a href="terms.html#Type">types</a> are provided and then a "proposition" <a href="terms.html#Function">function</a> after the bar, <span><code>|</code></span>, which accepts an <a href="terms.html#Instance">instance</a> of each of the "base" <a>types</a> as a <a href="terms.html#Parameter">parameter</a>.</p>
+	</figure>
 	<h2><a href="#Correct-Programs" id="Correct-Programs">Correct Programs</a></h2>
-
+	<p>A <a href="terms.html#Program">program</a> is determined to be <a href="terms.html#Correct">correct</a> if there are no <a href="terms.html#Error">errors</a> resulting from <a href="terms.html#Constraint">constraint</a> violations.</p>
+	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>
+	<h3><a href="#Type-Rules" id="Type-Rules">Type Rules</a></h3>
+	<ol>
+		<li>A <a>value</a> is an <a>instance</a> of some <a>type</a> which is <a>instantiated</a> in the <a>scope</a>.</li>
+		<li>The result of <a>evaluating</a> an <a>expression</a> is a <a>value</a></li>
+		<li>Given a <a>type</a> which is a <a>subtype</a> of another, an <a>instance</a> of the first is an <a>instance</a> of the second.</li>
+		<li>Given a <a>continuous type</a> defined with more than one "base" <a>type</a>, an <a>instance</a> of that <a>type</a> neccessitates at least one <a>instance</a> of each of the "base" <a>types</a>.</li>
+		<li>Given a <a>continuous type</a> defined with multiple "base" <a>types</a>, <a>instances</a> of each "base" <a>type</a> must be <a>instantiated</a> for all to be an <a>instance</a> of that <a>continuous type</a>.</li>
+		<li>An <a>instance</a> of a <a>continuous type</a> is an <a>instance</a> of each of its "base" <a>types</a> such that the <a>application</a> of the "proposition" <a>function</a>, using those <a>instances</a> as <a>parameters</a>, result in <code>Success</code>.</li>
+	</ol>
+<!--
 	<dl>
 		<dt>Number</dt>
 		<dt>Integer</dt>
@@ -33,7 +69,6 @@
 		
 	</dl>
 
-	<!--
 		(Byte = [], 
 		Word = [],
 		Place = [],
