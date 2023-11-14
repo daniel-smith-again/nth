@@ -1,0 +1,5 @@
+What is the type theory?
+
+Type is an unindexed collection of unique values as members.
+A Discrete Type has a cardinality.
+A Continuous Type does not have a cardinality.

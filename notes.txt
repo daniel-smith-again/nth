@@ -722,3 +722,20 @@ semantics:
 but what about 
 ({1} + ({a b} ;)) is {1 a b a b a b ...}
 ({1} + ({{a b}} ;)) is {1 {a b} {a b} ...}
+
+
+A binding expression can be out of order. 
+In a scope, if the binding expression.
+
+
+What is my type system?
+
+A type represents one or more possible instantiations as members.
+A unit is a type corresponding to exactly one instantiation.
+A discrete type is a type where you can count its members.
+A continuous type is a type where you can't count its members.
+The top type '* represents all types in the context.
+The bottom type '_ represents no types in the context.
+
+
+so if (T : Type, t : Type, (T = t) : Judgement) then is (T < t and t < T) true?
