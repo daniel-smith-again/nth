@@ -34,6 +34,7 @@ h3{padding-top:3ch;font-size:calc(var(--scale) * 1.5);width:69%;margin-left:auto
 p > a, details > a, figcaption > a, td > a, li > a{color:var(--link);}
 a:active, a:hover, a:link, a:visited {border:none;}
 :target{all:none;}
+mtr{border-width:0.2ch;}
 
 #searchbar{background-color:inherit;color:inherit;font-size:inherit;border:solid calc(0.2 * var(--scale)) var(--fg);border-radius:1ch;display:block;margin:auto;height:3ch;width:31%;margin-top:3ch;}
 #searchbutton{background-color:inherit;color:inherit;font-size:inherit;border:none;cursor:pointer;display:block;margin:auto;margin-bottom:1ch;height:2ch;font-size:calc(var(--scale) * 1.5);}
