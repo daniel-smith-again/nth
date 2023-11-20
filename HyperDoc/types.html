@@ -103,6 +103,41 @@
 			<p>The <a href="terms.html#Value">value</a>, <code>false</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Boolean</code>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Boolean</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
 			<p>The <a href="terms.html#Type">type</a>, <code>Boolean</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Type</code>.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>True</mi><mspace width="1em"/><mi>Any</mi><mo>]</mo><mo>=</mo><mi>Success</mi></mrow></mfrac></math></summary>
+			<p><code>Success</code> is either the Boolean <a href="terms.html#Value">value</a>, <code>True</code>, or the <a href="terms.html#Value">value</a> <code>Any</code>.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>False</mi><mspace width="1em"/><mi>Nil</mi><mo>]</mo><mo>=</mo><mi>Failure</mi></mrow></mfrac></math></summary>
+			<p><code>Failure</code> is either the Boolean <a href="terms.html#Value">value</a>, <code>False</code>, or the <a href="terms.html#Value">value</a> <code>Nil</code></p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>Success</mi><mspace width="1em"/><mi>Failure</mi><mo>]</mo><mo>=</mo><mi>Judgement</mi></mrow></mfrac></math></summary>
+			<p><code>Judgement</code> is the <a href="terms.html#Type">type</a> of <code>Success</code> and <code>Failure</code>.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mi>Judgement</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
+			<p>The <a href="terms.html#Type">type</a>, <code>Judgement</code>, is a <a href="terms.html#Type">type</a>.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Judgement</mi></mrow><mrow><mtable>
+			<mtr><mtd><mi>x</mi><mo>&and;</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>&and;</mo><mi>x</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>&or;</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>&or;</mo><mi>x</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary>
+			<p>Logical conjunction and disjunction are commutative.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>z</mi><mo>:</mo><mi>Judgement</mi></mrow><mrow><mtable>
+			<mtr><mtd><mi>x</mi><mo>&and;</mo><mi>y</mi><mo>&and;</mo><mi>z</mi><mo>=</mo><mi>z</mi><mo>&and;</mo><mi>y</mi><mo>&and;</mo><mi>x</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>&or;</mo><mi>y</mi><mo>&or;</mo><mi>z</mi><mo>=</mo><mi>z</mi><mo>&or;</mo><mi>y</mi><mo>&or;</mo><mi>x</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary>
+			<p>Logical conjunction and disjunction are associative.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
+			<mtr><mtd><mi>Success</mi><mo>&and;</mo><mi>Success</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>Success</mi><mo>&and;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+			<mtr><mtd><mi>Failure</mi><mo>&and;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary>
+			<p>Logical conjunction over Judgements.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
+			<mtr><mtd><mi>Success</mi><mo>&or;</mo><mi>Success</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>Success</mi><mo>&or;</mo><mi>Failure</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>Failure</mi><mo>&or;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary>
+			<p>Logical disjunction over Judgements.</p></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
+			<mtr><mtd><mo>&not;</mo><mi>Success</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+			<mtr><mtd><mo>&not;</mo><mi>Failure</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary>
+			<p>Logical negation over Judgements.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mn>0, 1, 2,</mn><mo>... :</mo><mi>Number</mi></mrow></mfrac></math></summary>
 			<p>Numerical <a href="terms.html#Value">values</a> are <a href="terms.html#Member">members</a> of the <a href="terms.html#Type">type</a>, <code>Number</code>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Number</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
@@ -113,7 +148,8 @@
 			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Collection">collection</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>n</mi></mrow></mfrac></math></summary>
 			<p>The <a href="terms.html#Cardinality">cardinality</a> of a <a href="terms.html#Collection">collection</a> is the number of its <a href="terms.html#Field">fields</a>/</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mi>x</mi><mo>_</mo><mi>i</mi><mo>=</mo><msub><mi>e</mi><mi>i</mi></msub></mrow></mfrac></math></summary></details>
+		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mi>x</mi><mo>_</mo><mi>i</mi><mo>=</mo><msub><mi>e</mi><mi>i</mi></msub></mrow></mfrac></math></summary>
+			<p>Each <a href="terms.html#Field">field</a> in a <a href="terms.html#Collection">collection</a> is indexed by the order in which it occurred in the <a href="defaults.html#Expressions">default expression</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>n</mi><mo>:</mo><mi>Number</mi><mspace width="1em" /><mi>x</mi><mo>:=</mo><mi>m</mi><mo>;</mo><mi>n</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Vector</mi></mrow></mfrac></math></summary>
 			<p>The <a href="data.html#Vectors">vector</a> <a href="defaults.html#Expressions">default expression</a> <a href="terms.html#Instantiate">instantiates</a> a <a href="data.html#Vectors">vector</a> <a href="terms.html#Unit">unit</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Vector</mi><mo>&lt;</mo><mi>Collection</mi></mrow></mfrac></math></summary>
@@ -136,6 +172,7 @@
 			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>refine</code>, <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Type">type</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>t</mi><mo>:</mo><mi>Type</mi><mspace width="1em"/><mi>P</mi><mo>:=</mo><mi>t</mi><mo>&rightarrow;</mo><mi>Judgement</mi></mtd></mtr><mtr><mtd><mi>x</mi><mo>:=</mo><mi>t</mi><mo>where</mo><mi>P</mi></mtd></mtr></mtable></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>Nil</mi></mrow></mfrac></math></summary>
 			<p>The <a href="terms.html#Cardinality">cardinality</a> of a <a href="#Qualified-Type">qualified type</a> cannot be counted and therefore is <code>Nil</code>.</p></details>
-		
+		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>t</mi><mo>:</mo><mi>Type</mi><mspace width="1em"/><mi>P</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/><mi>x</mi><mo>:=</mo><mi>t</mi><mo>where</mo><mi>P</mi></mrow><mrow><mi>P</mi><mo>:</mo><mi>Any</mi><mo>&rightarrow;</mo><mi>Judgement</mi></mrow></mfrac></math></summary>
+			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>refine</code>, expects a <a href="terms.html#Function">function</a>, <code>Any -> Judgement</code>, as its second <a href="terms.html#Parameter">parameter</a>.</p></details>
 	</div>
 </body>
