@@ -40,11 +40,12 @@
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>
 	<h3><a href="#Type-Rules" id="Type-Rules">Type Rules</a></h3>
 	<p>For a <a href="terms.html#Program">program</a> to be determined <a href="terms.html#Correct">correct</a>, it must conform to some rules of judgement which are defined such that a <a href="terms.html#Correct">correct</a> <a href="terms.html#Program">program</a> cannot cause a contradictory judgement.
-	These rules are given below in a grammar which corresponds to the <a href="defaults.html#Expressions">default expressions</a> provided by <i>n</i><sup>th</sup>.</p>
-	<math display="block">
+	These rules are given below in a grammar which corresponds to the <a href="defaults.html#Expressions">default expressions</a> provided by <i>n</i><sup>th</sup>.<br>
+	<math>
 	<mtable columnalign="right center left left">
 	<mtr><mtd><mi>e</mi></mtd><mtd><mo>::=</mo></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>x</mi></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; symbol</mtext></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>t</mi></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; type</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mn>0</mn><mo>|</mo><mn>1</mn><mo>|</mo><mn>2</mn><mo>|</mo><mo>...</mo></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; numbers</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>True</mi><mo>|</mo><mi>False</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; booleans</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>define</mo><mi>e</mi><mo>|</mo><mo>define</mo><mi>x</mi><mo>as</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; definition</mtext></mtd></mtr>
@@ -70,8 +71,71 @@
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>?</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; derive type</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>@</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; place operator</mtext></mtd></mtr>
 	</mtable>
-	</math>
+	</math></p>
+	<p>In addition to the rule grammar, there names of the <a href="defaults.html#Types">default types</a> are also given...<br>
+	<math><mtable columalign="right center left left">
+	<mtr><mtd><mi>t</mi></mtd><mtd><mo>::=</mo></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mo>Any</mo></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mo>Nil</mo></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mo>Instance</mo></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Type</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Boolean</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Success</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Failure</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Judgement</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Natural</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Integer</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Rational</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Number</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Byte</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Word</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Place</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Vector</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>String</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Collection</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Function</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Symbol</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Expression</mi></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>Program</mi></mtd></mtr>
+	</mtable></math></p>
 	<p>Rules are given in the form <math><mfrac linethickness="0.1em"><mrow><mi>e</mi></mrow><mrow><mi>j</mi></mrow></mfrac></math> where <i>e</i> corresponds to an <a href="terms.html#Expression">expression</a> which occurs in a <a href="terms.html#Context">context</a>, and <i>j</i> corresponds to an <a href="terms.html#Expression">expression</a> which must succeed in any <a href="terms.html#Context">context</a> where <i>e</i> occurs.</p>
+	<p>The rules for <a href="terms.html#Type">types</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
+		<details><summary><math><mfrac><mrow /><mrow><mi>Nil</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Scope">context</a>, there is <code>Nil</code>.</p></details>
+		<details><summary><math><mfrac><mrow /><mrow><mi>Any</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Scope">context</a>, there is <code>Any</code>.</p></details>
+		<details><summary><math><mfrac><mrow /><mrow><mi>Nil</mi><mo>:</mo><mi>Any</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Context">context</a>, <code>Nil</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Any</code>.</p></details>
+		<details><summary><math><mfrac><mrow /><mrow><mi>Type</mi><mo>:</mo><mi>Any</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Context">context</a>, <code>Type</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Any</code>.</p></details>
+		<details><summary><math><mfrac><mrow /><mrow><mi>Instance</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Instance">context</a>, <code>Instance</code> is an <a href="terms.html#Instance">instance</a> of <code>Type</code>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi></mrow><mrow><mi>Nil</mi><mo>:</mo><mi>x</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Scope">context</a>, <code>Nil</code> is a <a href="terms.html#Subtype">subtype</a> of all <a href="terms.html#Instance">instances</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Any</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Scope">context</a>, all <a href="terms.html#Instance">instances</a> are a <a href="terms.html#Subtype">subtype</a> of <code>Any</code>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><mi>e</mi><mo>]</mo></mrow><mrow><mi>x</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary><p>Given a <a>type</a> <i>x</i>, <i>x</i> is an <a href="terms.html#Instance">instance</a> of <code>Type</code></p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo></mo><msub><mi>e</mi><mn>2</mn></msub><mo>, ...,</mo></mo><msub><mi>e</mi><mi>n</mi></msub><mo>]</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>n</mi></mrow></mfrac></math></summary><p>The <a href="terms.html#Cardinality">cardinality</a> of a <a href="terms.html#Type">type</a> is the number of its <a href="terms.html#Members">members</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><mi>Nil</mi><mo>]</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mn>0</mn></mrow></mfrac></math></summary><p>Given a <a href="terms.html#Type">type</a> with no <a href="terms.html#Member">members</a>, its <a href="terms.html#Cardinality">cardinality</a> is zero.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><mi>Nil</mi><mo>]</mo></mrow><mrow><mi>x</mi><mo>:</mo><mi>Instance</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Type">type</a> with no <a href="terms.html#Member">members</a> is an <a href="terms.html#Instance">instance</a> of <code>Instance</code>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mo>...</mo><mo>]</mo><mspace width="1em"/><mi>y</mi><mo>:=</mo><mo>[</mo><msub><mi>b</mi><mn>1</mn></msub><msub><mi>b</mi><mn>2</mn></msub><mo>...</mo><mo>]</mo></mrow><mrow><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mo>[</mo><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mo>...</mo><msub><mi>b</mi><mn>1</mn></msub><msub><mi>b</mi><mn>2</mn></msub><mo>...</mo><mo>]</mo></mrow></mfrac></math></summary><p>The addition of two <a href="terms.html#Type">types</a> is equivalent to a <a href="terms.html#Type">type</a> formed of every <a href="terms.html#Member">member</a> of both <a href="terms.html#Type">types</a>.</p></details>
+		<details><summary><math><mfrac>
+			<mrow><mtable>
+				<mtr><mtd><mi>x</mi><mo>:</mo><mi>Type</mi></mtd><mtd><mi>y</mi><mo>:</mo><mi>Type</mi></mtd></mtr>
+				<mtr><mtd><mi>z</mi><mo>:=</mo><mi>x</mi><mo>-</mo><mi>y</mi></mtd><mtd><mi>k</mi><mo>:</mo><mi>z</mi></mtd></mtr>
+			</mtable></mrow>
+			<mrow><mi>z</mi><mo>&lt;</mo><mi>x</mi><mspace width="1em"/><mi>k</mi><mo>:</mo><mi>x</mi><mspace width="1em"/><mi>k</mi><mo>:&#x0338;</mo><mi>y</mi></mrow>
+		</mfrac></math></summary><p>Subtracting two <a href="terms.html#Type">types</a> gives a <a href="terms.html#Subtype">subtype</a> which includes all <a href="terms.html#Member">members</a> of the first and excludes all <a href="terms.html#Member">members</a> of the second.</p></details>
+	</div>
+	<p>The rules for <a href="terms.html#Data">Data</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
+	</div>
+	<p>The rules for <a href="terms.html#Collection">Collections</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
+	</div>
+	<p>The rules for <a href="terms.html#Function">Functions</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
+	</div>
+	<p>The rules for <a href="terms.html#Arithmetic">arithmetic</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
+	</div>
+	<p>The rules for <a href="evaluation.html">control</a> are...</p>
+	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
+	</div>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;width:69%;margin-bottom:5ch;">
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Any</mi></mrow></mfrac></math></summary>
 			<p>The <a href="terms.html#Value">value</a>, <code>Any</code>, corresponds to every <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a>.</p></details>
