@@ -38,7 +38,8 @@
 	nth-string::before{content:'"';}
 	nth-string::after{content:'"';}
 	#Result {font-family:serif;position:relative;top:-2ch;left:1ch;overflow-x:auto;overflow-y:hidden;height:2ch;width:40ch;}
-	v-cursor{padding:0;}
+	v-cursor{padding:0;top:150vw;transition-delay:0.2s;}
+	h-cursor{transition-delay:0.2s;}
 	v-cursor #state{position:relative;top:3ch;border-radius:1ch;width:fit-content;background-color:none;padding-top:1ch;transition:all 0.2s;}
 	#Help{border-radius:1ch;width:1ch;margin:0;padding:1ch;position:absolute;top:0;left:0;z-index:99;transition:all 0.2s;}
 	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
@@ -174,6 +175,8 @@ var hcursor = document.getElementsByTagName('h-cursor')[0];
 var vcursor = document.getElementsByTagName('v-cursor')[0];
 DisplayCursor();
 document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
+hcursor.style.transitionDelay = '0s';
+vcursor.style.transitionDelay = '0s';
 
 function CheckEmbed () {
 	u = new URLSearchParams(document.location.search);

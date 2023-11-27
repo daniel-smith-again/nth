@@ -12,6 +12,7 @@ p, h1, figure, figcaption, li, dl, details{width:69%;max-width:80ch;margin-left:
 ol, ul, dl{width:fit-content;margin-left:auto;margin-right:auto;text-align:center;}
 body > a{display:block;height:0;}
 h1{font-size:calc(var(--scale) * 3);border-bottom:solid 0.2ch var(--fg);border-radius:0;}
+
 #title-page{height:34vh;border:none;}
 p{text-align:justify-all;}
 code{color:var(--lfg);font-family:monospace;font-size:calc(var(--scale) * 0.5);}
@@ -49,6 +50,10 @@ mfrac mrow{padding:0.5em;}
 #next{right:0;}
 #prev{left:0ch;}
 #up{left:calc(50vw - 2ch);}
+
+h1{font-size:calc(var(--scale) * 3);}
+h2{font-size:calc(var(--scale) * 2);}
+h3{font-size:calc(var(--scale) * 1);}
 
 @media print {
 	#searchbar, #searchbutton, #next, #prev, #up{display: none;}
