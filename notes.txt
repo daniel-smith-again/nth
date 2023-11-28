@@ -739,3 +739,11 @@ The bottom type '_ represents no types in the context.
 
 
 so if (T : Type, t : Type, (T = t) : Judgement) then is (T < t and t < T) true?
+
+
+
+What's the nth equivalent of the haskell datatype
+data Tree x = Leaf x | Branch Tree x Tree x
+
+(Tree = [{*} {Tree Tree}])
+(Tree = [Leaf Branch], Leaf = [{*}], Branch = [{Tree Tree}])
