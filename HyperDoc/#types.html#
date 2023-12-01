@@ -35,20 +35,6 @@
 	<p><code>[(((Type ;) + {'| (-> Judgement)} -> Type)</code></p>
 	<p>where one or more "base" <a href="terms.html#Type">types</a> are provided and then a "proposition" <a href="terms.html#Function">function</a> after the bar, <span><code>|</code></span>, which accepts an <a href="terms.html#Instance">instance</a> of each of the "base" <a>types</a> as a <a href="terms.html#Parameter">parameter</a>.</p>
 	</figure>
-	<h2><a href="#Constraints" id="Constraints">Constraints</a></h2>
-	<p>A <a href="terms.html#Constraint">constraint</a> implies a process which is external to the semantics given for <a href="terms.html#Evaluate">evaluation</a>.</p>
-	<p>A <a href="terms.html#Program">program</a> will either satisfy or violate a <a href="terms.html#Constraint">constraint</a>.</p>
-	<p>In the case where a <a href="terms.html#Program">program</a> violates a <a href="terms.html#Constraint">constraint</a>, that <a href="terms.html#Program">program</a> must not be <a href="terms.html#Evaluate">evaluated</a>.</p>
-	<p>A <a href="foreword.html#Conformance">conforming implementation</a> must prove that all <a href="terms.html#Constraint">constraints</a> are satisfied before and during <a href="terms.html#Evaluate">evaluation</a>.</p>
-	<p>A <a href="terms.html#Constraint">constraint</a> must only apply to the <a href="terms.html#Scope">scope</a> in which the <a href="terms.html#Constraint">constraint</a> was <a href="terms.html#Assertion">asserted</a>.</p>
-	<p><a href="terms.html#Constraint">Constraints</a> must be satisfied for the <a href="terms.html#Duration">duration</a> of the <a href="terms.html#Scope">scope</a> in which they were <a href="terms.html#Assertion">asserted</a>.</p>
-	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> a <a href="terms.html#Assertion">assertion</a></figcaption>
-	<p><code>
-		[({* ': Type} -> *) ({Symbol ': Type} -> Symbol)]
-	</code></p>
-	</figure>
-	<p><a href="terms.html#Assertion">Assertion</a> will apply a <a href="terms.html#Constraint">constraint</a> to a <a href="terms.html#Program">program</a> in two ways, by <a href="terms.html#Constraint">constraining</a> the result of an <a href="terms.html#Evaluate">evalaution</a> or by <a href="terms.html#Constraint">constraining</a> a <a href="terms.html#Binding">binding</a>.</p>
 	<h2><a href="#Correct-Programs" id="Correct-Programs">Correct Programs</a></h2>
 	<p>A <a href="terms.html#Program">program</a> is determined to be <a href="terms.html#Correct">correct</a> if there are no <a href="terms.html#Error">errors</a> resulting from <a href="terms.html#Constraint">constraint</a> violations.</p>
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>
@@ -155,11 +141,6 @@
 	<p>The rules for <a href="evaluation.html">control</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;">
 	</div>
-
-
-
-
-	
 	<div style="display:none;flex-wrap:wrap;flex-direction:row;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;width:69%;margin-bottom:5ch;">
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Any</mi></mrow></mfrac></math></summary>
 			<p>The <a href="terms.html#Value">value</a>, <code>Any</code>, corresponds to every <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a>.</p></details>
