@@ -38,17 +38,29 @@
 	<h2><a href="#Constraints" id="Constraints">Constraints</a></h2>
 	<p>A <a href="terms.html#Constraint">constraint</a> implies a process which is external to the semantics given for <a href="terms.html#Evaluate">evaluation</a>.</p>
 	<p>A <a href="terms.html#Program">program</a> will either satisfy or violate a <a href="terms.html#Constraint">constraint</a>.</p>
-	<p>In the case where a <a href="terms.html#Program">program</a> violates a <a href="terms.html#Constraint">constraint</a>, that <a href="terms.html#Program">program</a> must not be <a href="terms.html#Evaluate">evaluated</a>.</p>
-	<p>A <a href="foreword.html#Conformance">conforming implementation</a> must prove that all <a href="terms.html#Constraint">constraints</a> are satisfied before and during <a href="terms.html#Evaluate">evaluation</a>.</p>
+	<p>In the case where a <a href="terms.html#Program">program</a> violates a <a href="terms.html#Constraint">constraint</a>, it is considered an <a href="terms.html#Error">error</a> and that <a href="terms.html#Program">program</a> must not be <a href="terms.html#Evaluate">evaluated</a>.</p>
+	<p>A <a href="foreword.html#Conformance">conforming implementation</a> must prove that all <a href="terms.html#Constraint">constraints</a> are satisfied before <a href="terms.html#Evaluate">evaluating</a> a <a href="terms.html#Program">program</a>.
+	The approach used to prove a <a href="terms.html#Program">program</a> satisfies all <a href="terms.html#Constraint">constraints</a> is <a href="foreword.html#2-4">implementation dependent</a>.</p>
 	<p>A <a href="terms.html#Constraint">constraint</a> must only apply to the <a href="terms.html#Scope">scope</a> in which the <a href="terms.html#Constraint">constraint</a> was <a href="terms.html#Assertion">asserted</a>.</p>
 	<p><a href="terms.html#Constraint">Constraints</a> must be satisfied for the <a href="terms.html#Duration">duration</a> of the <a href="terms.html#Scope">scope</a> in which they were <a href="terms.html#Assertion">asserted</a>.</p>
+	<p>An <a href="terms.html#Assertion">assertion</a> may be made on a <a href="terms.html#Symbol">symbol</a>, <a href="terms.html#Constraint">constraining</a> it as an <a href="terms.html#Identifier">identifier</a>, before that <a href="terms.html#Symbol">symbol</a> is used as an <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a>. In this case, <a href="terms.html#Assertion">assertion</a> on that <a href="terms.html#Symbol">symbol</a> implies that it is an <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Binding">binding</a> where the exact <a href="terms.html#Value">value</a> is not known.</p>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> a <a href="terms.html#Assertion">assertion</a></figcaption>
 	<p><code>
-		[({* ': Type} -> *) ({Symbol ': Type} -> Symbol)]
-	</code></p>
+		[({Expression ': Type} -> Expression) ({Symbol ': Type} -> Symbol)]
+	</code>where an <a href="terms.html#Assertion">assertion</a> is made on <a href="terms.html#Program-Model">Program Model</a> components and <a href="terms.html#Constraint">constrains</a> structural and <a href="terms.html#Data">data</a> components differently.</p>
 	</figure>
 	<p><a href="terms.html#Assertion">Assertion</a> will apply a <a href="terms.html#Constraint">constraint</a> to a <a href="terms.html#Program">program</a> in two ways, by <a href="terms.html#Constraint">constraining</a> the result of an <a href="terms.html#Evaluate">evalaution</a> or by <a href="terms.html#Constraint">constraining</a> a <a href="terms.html#Binding">binding</a>.</p>
+	<p><a href="terms.html#Assertion">Assertions</a> which <a href="terms.html#Constraint">constrain</a> a result enforce that the result must satisfy the <a href="terms.html#Constraint">constraint</a> before the <a href="terms.html#Expression">expression</a> which produces the result is <a href="terms.html#Evaluate">evaluated</a>.</p>
+	<p><a href="terms.html#Assertion">Assertions</a> which constrain a <a href="terms.html#Binding">binding</a> enforce that each occurrance of the <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Scope">scope</a> where the <a href="terms.html#Constraint">constraint</a> was <a href="terms.html#Assertion">asserted</a> must satisfy the <a href="terms.html#Constraint">constraint</a>.</p>
+	<figure>
+	<figcaption>Examples of how <a href="terms.html#Assertion">assertion</a> may be used in a <a href="terms.html#Program">program</a>.</figcaption>
+	<p>Given the type, <code>(t = ['a 'b 'c])</code>&#x2807;</p>
+	<p>This example, <code>(('a) : t)</code> makes an <a>assertion</a> on an <a>expression</a> such that the result of <a>evaluating</a> <span><code>('a)</code></span> must result in an instance of <span><code>t</code></span>.</p>
+	<p>This example, <code>((x : t) = 'b)</code> makes an <a>assertion</a> on a <a>binding</a> where the <a>identifier</a>, <span><code>x</code></span> can only ever be <a>bound</a> to <a>values</a> which are <a>instances</a> of <span><code>t</code></span>.</p>
+	<p>This example, <code>(x : t, x = 'c)</code> highlights the special case of <a href="terms.html#Assertion">assertion</a> on a <a href="terms.html#Symbol">symbol</a> where <span><code>x</code></span> is treated as an <a href="terms.html#Identifier">identifier</a> in both <a href="terms.html#Step">steps</a>.</p>
+	<p>This example, <code>(x : t, x = 'd)</code> shows a case where a <a>constraint</a> is violated.</p>
+	</figure>
 	<h2><a href="#Correct-Programs" id="Correct-Programs">Correct Programs</a></h2>
 	<p>A <a href="terms.html#Program">program</a> is determined to be <a href="terms.html#Correct">correct</a> if there are no <a href="terms.html#Error">errors</a> resulting from <a href="terms.html#Constraint">constraint</a> violations.</p>
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>
