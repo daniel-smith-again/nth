@@ -54,6 +54,7 @@ mfrac mrow{padding:0.5em;}
 h1{font-size:calc(var(--scale) * 3);}
 h2{font-size:calc(var(--scale) * 2);}
 h3{font-size:calc(var(--scale) * 1);}
+math{font-size:calc(var(--scale) * 0.7);}
 
 @media print {
 	#searchbar, #searchbutton, #next, #prev, #up{display: none;}

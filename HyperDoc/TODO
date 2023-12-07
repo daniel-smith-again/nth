@@ -1,0 +1,3 @@
+Complete formal type rules.
+Specify how (quote) closes over the context.
+How do transforms resolve bindings?
