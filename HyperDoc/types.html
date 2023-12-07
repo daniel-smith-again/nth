@@ -11,21 +11,21 @@
 
 	<h1><a href="#Types" id="Types">Types</a></h1>
 	<p><a href="terms.html#Type">Types</a> provide a means of specifying <a href="terms.html#Constraint">constraints</a> on a program and to some extent, the intent of that program.</p>
-	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "inductive" and "qualified".</p>
-	<p>A <a href="#Inductive-Types">inductive type</a> is a <a href="terms.html#Type">type</a> with a <a href="terms.html#Cardinality">cardinality</a> such that every possible <a href="terms.html#Instance">instance</a> is a <a href="terms.html#Member">member</a>.</p>
+	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "enumerated" and "qualified".</p>
+	<p>A <a href="#Enumerated-Types">enumerated type</a> is a <a href="terms.html#Type">type</a> with a <a href="terms.html#Cardinality">cardinality</a> such that every possible <a href="terms.html#Instance">instance</a> is a <a href="terms.html#Member">member</a>.</p>
 	<p>A <a href="#Qualified-Types">qualified type</a> is a <a href="terms.html#Type">type</a> with an uncountable <a href="terms.html#Cardinality">cardinality</a> such that for every <a href="terms.html#Member">member</a>, an <a>instance</a> can be created which is not a <a>member</a>.</p>
 	<figure>
-	<figcaption>An example of the difference between <a href="#Inductive-Types">inductive types</a> and <a href="#Qualified-Types">qualified types</a>.</figcaption>
+	<figcaption>An example of the difference between <a href="#Enumerated-Types">enumerated types</a> and <a href="#Qualified-Types">qualified types</a>.</figcaption>
 	<p><code>(x = [1 2 3],<br>y = (Number | (x -> x > 1)))</code></p>
-	<p>Here, <span><code>x</code></span> is a <a href="#Inductive-Types">inductive type</a> such that no <a>instance</a> is not one of <span><code>1</code>, <code>2</code>, or <code>3</code></span>.
+	<p>Here, <span><code>x</code></span> is a <a href="#Enumerated-Types">enumerated type</a> such that no <a>instance</a> is not one of <span><code>1</code>, <code>2</code>, or <code>3</code></span>.
 	Conversely, <span><code>y</code></span> is a <a href="#Qualified-Types">qualified type</a> where for each <a href="terms.html#Instance">instance</a>, there is always another <a href="terms.html#Instance">instance</a>
 	such that</p>
-	<p><code>(let m be 1<br>&nbsp;and n be (m + 1) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((? m) = y) then ((? n) = y))</code></p> 
+	<p><code>(let m be 1<br>&nbsp;and n be (m + 1) in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((? m) = y) then (((? n) = y) : Judgement))</code></p> 
 	<p>results in <span><code>Success</code></span>.</p>
 	</figure>
-	<h3><a href="#Inductive-Types" id="Inductive-Types">Inductive types</a></h3>
+	<h3><a href="#Enumerated-Types" id="Inductive-Types">Inductive types</a></h3>
 	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Inductive-Types">inductive types</a>.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Enumerated-Types">enumerated types</a>.</figcaption>
 	<p><code>[(({'members} + ({*} ;)) -> Type)]</code></p>
 	<p>where each result following the keyword <a>symbol</a>, <span><code>'members</code></span>, is used as a <a href="terms.html#Member">member</a> of the resulting <a href="terms.html#Type">type</a>.</p>
 	</figure>
@@ -212,7 +212,7 @@
 			<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>x</mi><mo>:</mo><mi>t</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Any</mi></mtd></mtr><mtr><mtd><mi>y</mi><mo>:=</mo><mi>x</mi></mtd></mtr></mtable></mrow><mrow><mo>?</mo><mi>y</mi><mo>=</mo><mi>t</mi></mrow></mfrac></math></summary>
 				<p>Given an inner <a href="terms.html#Expression">expression</a> of a specific <a href="terms.html#Type">type</a>, the outer <a href="terms.html#Expression">expression</a> must accept an <a href="terms.html#Instance">instance</a> of the inner <a href="terms.html#Type">type</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>k</mi><mn>1</mn></msub><mo>,</mo><msub><mi>k</mi><mi>2</mi></msub><mo>, ...,</mo><msub><mi>k</mi><mi>n</mi></msub><mo>]</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>n</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Cardinality">cardinality</a> of an <a href="#Inductive-Type">inductive type</a> is the number of its <a href="terms.html#Member">members</a>.</p></details>
+			<p>The <a href="terms.html#Cardinality">cardinality</a> of an <a href="#Enumerated-Type">enumerated type</a> is the number of its <a href="terms.html#Member">members</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>k</mi><mn>1</mn></msub><mo>,</mo><msub><mi>k</mi><mi>2</mi></msub><mo>, ...,</mo><msub><mi>k</mi><mi>n</mi></msub><mo>]</mo></mrow><mrow><msub><mi>k</mi><mi>a</mi></msub><mo>=&#x0338;</mo><msub><mi>k</mi><mi>b</mi></msub></mrow></mfrac></math></summary>
 			<p>Every <a href="terms.html#Member">member</a> of a <a href="terms.html#Type">type</a> is inequal to every other <a href="terms.html#Member">member</a>.</p></details>
 		<details><summary><math><mfrac linethickness="0.1em"><mrow><msub><mi>Type</mi><mi>a</mi></msub><mspace width="1em"/><msub><mi>Type</mi><mi>b</mi></msub></mrow><mrow><msub><mi>Type</mi><mi>a</mi></msub><mo>=&#x0338;</mo><msub><mi>Type</mi><mi>b</mi></msub></mrow></mfrac></math></summary>
