@@ -40,21 +40,26 @@
 	<h2><a href="#Places" id="Places">Places</a></h2>
 	<a href="#6-1" id="6-1">6-1</a><p><a href="terms.html#Place">Places</a> are derived from <a href="terms.html#Byte">Bytes</a> such that for each <a href="terms.html#Byte">Byte</a> provided by the <a href="terms.html#Computer">computer</a>, there is a unique <a href="terms.html#Place">Place</a>.</p>
 	<a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for <a href="terms.html#Place">Places</a></figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for deriving <a href="terms.html#Place">places</a></figcaption>
 	<p><code>
-		[({'@ *} -> (Program : Place))<br>
-		({'@ Place} -> (Program : *))<br>
-		({'@ Place} -> (Program : Place))]
+		({'@ *} -> Place)
 	</code></p>
-	<p>Such that given <span><code>(x = 'a)</code></span>, the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>(x' = (@ x))</code></span>, <span><code>x</code></span> is equal to <span><code>(@ x')</code></span>, and 
-	the <a href="terms.html#Place">Place</a> of the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>((@ x') : Place)</code></span>.</p>
+	<p>Such that, given <span><code>(x = 1, x' = (@ x))</code></span>, <span><code>x</code></span> <a href="terms.html#Binding">binds</a> the <a href="terms.html#Data">data</a>, and <span><code>x'</code></span> <a href="terms.html#Binding">binds</a> the <a href="terms.html#Place">Place</a> corresponding to the first <a href="terms.html#Byte">byte</a> in the <a href="terms.html#Vector">vector</a> which stores <span><code>x</code></span>.</p>
+	</figure>
+	<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expression</a> for referring to a <a href="terms.html#Place">place</a>.</figcaption>
+	<p><code>
+		({'@@ Place} -> Any)
+	</code></p>
+	<p>Such that, given <span><code>(x = 1, x' = (@ x))</code></span>, <span><code>x</code></span> is equivalent to <span><code>(@@ x')</code></span>.</p>
 	</figure>
 	<a href="#6-2" id="6-2">6-2</a><p>A <a href="terms.html#Place">Place</a> may be derived from any <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a> in which case the <a href="terms.html#Place">Place</a> corresponds to first <a href="terms.html#Byte">Byte</a> in the <a href="terms.html#Vector">vector</a> of <a href="terms.html#Byte">Bytes</a> occupied by the <a href="terms.html#Unit">unit</a>.</p>
 	<a href="#6-3" id="6-3">6-3</a><p>The <a href="terms.html#Size">size</a> of a <a href="terms.html#Place">Place</a> is at least the number of <a href="terms.html#Byte">bytes</a> required to store the number counting the <a href="terms.html#Byte">bytes</a> available in the <a href="terms.html#Environment">environment</a>.</p>
 	<a href="#6-4" id="6-4">6-4</a><p>The <a href="defaults.html#Expressions">default expression</a> which derives a <a href="terms.html#Place">Place</a> from a <a href="terms.html#Unit">unit</a> will respect the "provenence" of a <a href="terms.html#Unit">unit</a> such that deriving the <a href="terms.html#Place">Place</a> of a <a href="terms.html#Unit">unit</a> resulting from a <a href="terms.html#Member">member</a> or <a href="terms.html#Field">field</a> access <a href="terms.html#Operation">operation</a> will result in the <a href="terms.html#Place">Place</a> of that <a href="terms.html#Member">member</a> or <a href="terms.html#Field">field</a>.</p>
 	<a href="#6-5" id="6-5">6-5</a><p>A <a href="terms.html#Place">Place</a> may have a <a href="terms.html#Duration">duration</a> beyond the <a href="terms.html#Unit">unit</a> which it was derived from. In that case the <a href="terms.html#Place">Place</a> will not prevent the <a href="terms.html#Unit">unit</a> from being <a href="terms.html#Discard">discarded</a>.</p>
+	<a href="#6-6" id="6-6">6-6</a><p>The <a>data</a> at a <a>Place</a> is accessed by the <a>default expression</a> for referencing <a>places</a> given in <a>Figure 3</a></p>
 	<h2><a href="terms.html#Vector" id="Vectors">Vectors</a></h2>
-	<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
+	<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="terms.html#Vector">vectors</a>.</figcaption>
 	<p><code>
 		(([{* '; Number} {* ';}] + ({Number '; *} ;)) -> Vector)
@@ -70,14 +75,14 @@
 	In this case, <a href="terms.html#Recursion">recursion</a> is only observed by the <a href="terms.html#Operation">operations</a> which access components of that <a href="terms.html#Data">data</a>. 
 	There will only ever be a single <a href="terms.html#Data">data</a> unit.
 	<a href="terms.html#Execute">Executing</a> <a href="terms.html#Operation">operations</a> which access <a href="terms.html#Data">data</a> from a component which contains a recursive reference will only yield the <i>existing</i> <a href="terms.html#Data">data</a> unit which contains the <a href="terms.html#Recursion">recursive</a> component.</p>
-	<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
+	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 	<figcaption>An example of <a href="terms.html#Recursion">recursive</a> <a href="terms.html#Data">data</a></figcaption>
 	<p><code>
 		(x = (x 1 *))
 	</code></p>
 	</figure>
 	<h2><a href="#Sizes" id="Sizes">Sizes</a></h2>
-	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
+	<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for deriving the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a>.</figcaption>
 	<p><code>
 	({'## *} -> Word)
