@@ -747,3 +747,10 @@ data Tree x = Leaf x | Branch Tree x Tree x
 
 (Tree = [{*} {Tree Tree}])
 (Tree = [Leaf Branch], Leaf = [{*}], Branch = [{Tree Tree}])
+
+
+I have a single place operator, '@
+It references or dereferences based on type.
+If I give it Any, (x = (@ (y : Any))), it references, ((? x) = Place)
+If I give it a Place, (z = (@ x)), it dereferences, (z = y)
+If I want to reference a place, I "downcast", (x' = (@ (x : Unit)))
