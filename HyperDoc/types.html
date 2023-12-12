@@ -192,8 +192,27 @@
 		<details><summary><math><mfrac><mrow><mtable><mtr><mtd><mi>x</mi><mo>:</mo><mi>Collection</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Collection</mi></mtd></mtr><mtr><mtd><mi>z</mi><mo>=</mo><mi>x</mi><mo>-</mo><mi>y</mi></mtd></mtr></mtable></mrow><mrow><mo>#</mo><mi>z</mi><mo>=</mo><mo>#</mo><mi>x</mi><mo>-</mo><mo>#</mo><mi>y</mi></mrow></mfrac></math></summary><p>The <a>cardinality</a> of the difference of two <a>collections</a> is the difference of the <a>cardinality</a> of the minuend from the <a>cardinality</a> of the subtrahend.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><mo>...</mo><mi>a</mi><mo>...</mo><mi>b</mi><mo>...</mo><mo>}</mo><mspace width="1em"/><mi>m</mi><mo>&lt;</mo><mi>n</mi></mrow><mrow><mi>x</mi><mo>_</mo><mi>m</mi><mo>=</mo><mi>a</mi><mspace width="1em"/><mi>x</mi><mo>_</mo><mi>n</mi><mo>=</mo><mi>b</mi></mrow></mfrac></math></summary><p>Given any two <a href="terms.html#Field">fields</a> in a <a href="terms.html#Collection">collection</a>, the <a href="terms.html#Field">field</a> which occurrs first in the <a href="defaults.html#Expressions">default expression</a>, <code>fields</code>, has an <a href="terms.html#Index">index</a> less than the <a href="terms.html#Field">field</a> which occurs in the <a href="defaults.html#Expressions">default expression</a> after.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><mi>f</mi><mo>:=</mo><msub><mi>e</mi><mn>1</mn></msub><mspace width="0.5em"/><mo>(</mo><mi>g</mi><mo>:=</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mi>g</mi><mo>)</mo><mspace width="0.5em"/><msub><mi>e</mi><mn>3</mn></msub><mo>}</mo></mrow><mrow><mi>x</mi><mo>=</mo><mo>{</mo><mi>f</mi><mo>:=</mo><msub><mi>e</mi><mn>1</mn></msub><msub><mi>e</mi><mn>2</mn></msub><msub><mi>e</mi><mn>3</mn></msub><mo>}</mo></mrow></mfrac></math></summary><p>An assignment <a href="terms.html#Expression">expression</a> which occurs where a <a href="terms.html#Field">field</a> is provided in the <a href="defaults.html#Expressions">default expression</a> <code>fields</code> will <a href="terms.html#Binding">bind</a> that <a href="terms.html#Field">field</a> in the <a href="terms.html#Collection">collection</a>.</p></details>
-		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><mi>f</mi><mo>:=</mo><mi>e</mi><mo>}</mo></mrow><mrow><mi>x</mi><mo>.</mo><mi>f</mi><mo>=</mo><mi>e</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Field">field</a> which is <a href="terms.html#Binding">bound</a> by assignment in a <a href="terms.html#Collection">collection</a> may be accessed by the field access <a href="defaults.html#Expressions">default expression</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><mi>f</mi><mo>:=</mo><mi>e</mi><mo>}</mo></mrow><mrow><mi>x</mi><mo>.</mo><mi>f</mi><mo>=</mo><mi>e</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Field">field</a> which is <a href="terms.html#Binding">bound</a> by assignment in a <a href="terms.html#Collection">collection</a> may be accessed by the <a href="terms.html#Field">field</a> access <a href="defaults.html#Expressions">default expression</a>.</p></details>
 		<details><summary><math><mfrac><mrow /><mrow><mo>{</mo><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>...</mo><msub><mi>x</mi><mi>n</mi></msub><mo>}</mo><mo>=</mo><mi>x</mi><mo>;</mo><mi>n</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Collection">collection</a> where each <a href="terms.html#Field">field</a> is an <a href="terms.html#Instance">instance</a> of the same <a href="terms.html#Type">type</a> is equivalent to a vector of that <a href="terms.html#Type">type</a> and the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Collection">collection</a>.</p></details>
+		<details><summary><math><mfrac>
+			<mrow><mtable><mtr><mtd>
+				<mi>f</mi><mo>:</mo><mi>Symbol</mi><mspace width="1em"/>
+				<mi>x</mi><mo>=</mo>
+				<mo>{</mo><mi>...</mi><mi>a</mi><mo>:=</mo><mi>b</mi><mi>...</mi><mo>}</mo><mspace width="1em"/>
+				<mi>x</mi><mo>_</mo><mi>i</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>f</mi>
+				</mtd></mtr>
+				<mtr><mtd>
+					<mi>k</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/>
+					<mi>y</mi><mo>=</mo><mo>{</mo> 
+					<msub><mi>...</mi><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow></msub>
+					<mi>f</mi><mo>:</mo><mspace width="0.2em"/>
+					<mi>k</mi><mo>where</mo><mi>x</mi><mo>&rightarrow;</mo><mi>x</mi><mo>&lt;</mo><mi>b</mi><mspace width="0.5em"/>
+					<msub><mi>...</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>}</mo><mspace width="1em"/>
+					<mi>y</mi><mo>_</mo><mi>i</mi><mo>=</mo><mi>y</mi><mo>.</mo><mi>f</mi>
+				</mtd></mtr>
+			</mrow>
+			<mrow>
+				<mi>x</mi><mo>&gt;</mo><mi>y</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Collection">collection</a> with some <a href="terms.html#Binding">bound</a> <a href="terms.html#Field">fields</a> is the <a href="terms.html#Supertype">supertype</a> of all <a href="terms.html#Collection">collections</a> containng <a href="terms.html#Binding">bound</a> <a href="terms.html#Field">fields</a> at the same <a href="terms.html#Index">indexes</a>, with the same <a href="terms.html#Identifier">identifiers</a>, where the <a href="terms.html#Field">field</a> <a href="terms.html#Value">values</a> are also <a href="terms.html#Instance">instances</a> of the <a href="terms.html#Value">values</a> in the first <a href="terms.html#Collection">collection's</a> <a href="terms.html#Field">fields</a>.</p></details>
 	</div>
 	<p>The rules for <a href="terms.html#Function">Functions</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
@@ -204,9 +223,44 @@
 			<mtr><mtd><mi>A</mi><mo>&rightarrow;</mo><mi>b</mi><mo>&lt;</mo><mi>A</mi><mo>&rightarrow;</mo><mi>B</mi></mtd></mtr>
 			<mtr><mtd><mi>a</mi><mo>&rightarrow;</mo><mi>B</mi><mo>&lt;</mo><mi>A</mi><mo>&rightarrow;</mo><mi>B</mi></mtd></mtr>
 			</mtable></mrow></mfrac></math></summary><p>A <a href="terms.html#Function">function</a> is the <a href="terms.html#Supertype">supertype</a> of another <a href="terms.html#Function">function</a> where the <a href="terms.html#Parameter">parameter</a> and result <a href="terms.htmlType">types</a> are <a href="terms.html#Subtype">subtypes</a> of the <a href="terms.html#Parameter">parameter</a> and result <a href="terms.html#Type">types</a> of the first.</p></details>
+		<details><summary><math><mfrac><mrow><mo>compute</mo><mi>f</mi><mo>=</mo><mi>m</mi><mo>&rightarrow;</mo><mi>n</mi><mo>in</mo><mi>k</mi></mrow><mrow><mi>f</mi><mi>x</mi><mo>=</mo><mo>compute</mo><mi>n</mi><mo>in</mo><mo>{</mo><mi>m</mi><mo>:=</mo><mi>x</mi><mo>}</mo><mo>+</mo><mi>k</mi></mrow></mfrac></math></summary><p>Given a <a href="terms.html#Scope">scope</a> where a <a href="terms.html#Function">function</a> is constructed, that <a href="terms.html#Scope">scope</a> must be included in the <a href="terms.html#Scope">scope</a> used to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Function">function</a> <a href="terms.html#Body">body</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>f</mi><mo>:=</mo><mo>with</mo><mi>m</mi><mo>as</mo><mi>n</mi><mo>in</mo><mi>k</mi><mo>&rightarrow;</mo><mo>(</mo><mi>...</mi><mo>,</mo><mi>m</mi><mi>y</mi><mo>,</mo><mi>...</mi><mo>)</mo></mrow>
+			<mrow><mo>with</mo><mi>m</mi><mo>as</mo><mi>z</mi><mo>:</mo><mi>n</mi><mo>in</mo><mi>f</mi><mi>x</mi></mrow></mfrac></math></summary><p>A <a href="terms.html#Function">function</a> <a href="terms.html#Body">body</a> will <a href="terms.html#Close">close</a> over any <a href="terms.html#Modulator">modulators</a> which are <a href="terms.html#Binding">bound</a> in the <a href="terms.html#Scope">scope</a> where the <a href="terms.html#Function">function</a> is constructed such that a separate <a href="terms.html#Modulator">modulator</a> must be <a href="terms.html#Binding">bound</a> to the equivalent <a href="terms.html#Identifier">identifier</a> and must be a <a href="terms.html#Subtype">subtype</a> of the original <a href="terms.html#Modulator">modulator</a> in the <a href="terms.html#Scope">scope</a> where the <a href="terms.html#Function">function</a> is <a href="terms.html#Application">applied</a>.</p></details>
 	</div>
 	<p>The rules for <a href="terms.html#Arithmetic">arithmetic</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Number</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Number</mi></mrow><mrow><mtable>
+			<mtr><mtd><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>-</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>*</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>/</mo><mi>y</mi><mo>=</mo><mi>Rational</mi></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>//</mo><mi>y</mi><mo>=</mo><mo>{</mo><mi>Quotient</mi><mo>:</mo><mi>Integer</mi><mspace width="0.2em"/><mi>Remainder</mi><mo>:</mo><mi>Number</mi><mo>}</mo></mtd></mtr>
+			<mtr><mtd><mi>x</mi><mo>mod</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
+			<mtr><mtd><mo>flr</mo><mi>x</mi><mo>=</mo><mi>Integer</mi></mtd></mtr>
+			<mtr><mtd><mo>cln</mo><mi>x</mi><mo>=</mo><mi>Integer</mi></mtd></mtr>
+			<mtr><mtd><mo>abs</mo><mi>x</mi><mo>=</mo><mi>Number</mi><mo>&#x2265;</mo><mn>0</mn></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary><p>Generic arithmetic <a href="terms.html#Operation">operations</a> over <code>Number</code> <a href="terms.html#Instance">instances</a>.</p></details>
+		<details><summary><math><mfrac>
+			<mrow><mi>x</mi><mo>=</mo><mo>{</mo><mi>Quotient</mi><mo>:</mo><mi>Integer</mi><mspace width="0.5em"/><mi>Remainder</mi><mo>:</mo><mi>Number</mi><mo>}</mo><mspace width="1em"/><mi>y</mi><mo>=</mo><mi>x</mi></mrow>
+			<mrow><mtable>
+				<mtr><mtd><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi><mo>+</mo><mi>y</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mi>x</mi><mo>-</mo><mi>y</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi><mo>-</mo><mi>y</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mi>x</mi><mo>*</mo><mi>y</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi><mo>*</mo><mi>y</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mi>x</mi><mo>/</mo><mi>y</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi><mo>/</mo><mi>y</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mi>x</mi><mo>mod</mo><mi>y</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi><mo>mod</mo><mi>y</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mo>flr</mo><mi>x</mi><mo>=</mo><mo>floor</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mo>cln</mo><mi>x</mi><mo>=</mo><mo>floor</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mo>abs</mo><mi>x</mi><mo>=</mo><mo>floor</mo><mi>x</mi><mo>.</mo><mi>Quotient</mi></mtd></mtr>
+				<mtr><mtd><mo>rem</mo><mi>x</mi><mo>=</mo><mi>x</mi><mo>.</mo><mi>Remainder</mi></mtd></mtr>
+			</mtable></mrow>
+		</mfrac></math></summary><p>Generic arithmetic <a href="terms.html#Operation">operations</a> where the result of a division <a href="terms.html#Operation">operation</a> is used.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Rational</mi></mrow>
+			<mrow><mtable>
+				<mtr><mtd><mo>nmr</mo><mi>x</mi><mo>=</mo><mi>Integer</mi></mtd></mtr>
+				<mtr><mtd><mo>dnm</mo><mi>x</mi><mo>=</mo><mi>Natural</mi></mtd></mtr>
+				<mtr><mtd><mo>rnd</mo><mi>x</mi><mo>=</mo><mo>{</mo><mi>Quotient</mi><mo>:</mo><mi>Integer</mi><mspace width="0.2em"/><mi>Remainder</mi><mo>:</mo><mi>Natural</mi><mo>}</mo></mtd></mtr>
+			</mtable></mrow></mfrac></math></summary><p>The <a href="terms.html#Operation">operations</a> for converting a <code>Rational</code> <a href="terms.html#Instance">instance</a> to a <a href="terms.html#Subtype">subtype</a> <a href="terms.html#Instance">instance</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Integer</mi></mrow><mrow><mo>abs</mo><mi>x</mi><mo>=</mo><mi>Natural</mi></mrow></mfrac></math></summary><p>The absolute value of an <code>Integer</code> <a href="terms.html#Instance">instance</a> results in a <a>Natural</a> <a href="terms.html#Instance">instance</a>.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Number</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Number</mi></mrow><mrow><mtable>
 			<mtr><mtd><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>+</mo><mi>x</mi></mtd></mtr>
 			<mtr><mtd><mi>x</mi><mo>*</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>*</mo><mi>x</mi></mtd></mtr>
@@ -234,8 +288,12 @@
 		<details><summary><math><mfrac><mrow><mo>with</mo><mi>x</mi><mo>as</mo><mi>y</mi><mo>in</mo><mi>e</mi></mrow><mrow><mtable>
 			<mtr><mtd><mi>x</mi><mo>=</mo><mi>y</mi></mtd></mtr>
 			<mtr><mtd><mi>y</mi><mo>:</mo><mo>(</mo><mi>Function</mi><mo>&rightarrow;</mo><mi>Any</mi><mo>)</mo></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary></details>
-		<details><summary><math><mfrac><mrow><mo>with</mo><mi>x</mi><mo>as</mo><mi>y</mi><mo>in</mo><mo>(</mo><mi>...</mi><mo>,</mo><mi>x</mi><mi>z</mi><mo>:</mo><mi>t</mi><mo>,</mo><mi>...</mi><mo>)</mo></mrow><mrow><mi>y</mi><mo>:</mo><mo>{</mo><mi>Function</mi><mo>?</mo><mi>x</mi><mo>}</mo><mo>&rightarrow;</mo><mi>t</mi></mrow></mfrac></math></summary></details>
+		</mtable></mrow></mfrac></math></summary><p>In an <a href="evaluation.html#Inversion">Inversion</a> <a href="terms.html#Expression">expression</a>, the <a href="terms.html#Modulator">modulator</a> must be a <a href="terms.html#Function">function</a> which accepts a <a href="terms.html#Function">function</a> as a <a href="terms.html#Parameter">parameter</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mo>with</mo><mi>x</mi><mo>as</mo>
+			<mo>(</mo><mi>y</mi><mo>:</mo><mo>{</mo><mi>Function</mi><mspace width="0.2em"/><msub><mi>z</mi><mn>1</mn></msub><mspace width="0.2em"/><msub><mi>z</mi><mn>2</mn></msub><mo>...</mo><mspace width="0.2em"/><msub><mi>z</mi><mi>n</mi></msub><mo>}</mo><mo>&rightarrow;</mo><mi>t</mi><mo>)</mo>
+			<mo>in</mo><mo>(</mo><mi>...</mi><mo>,</mo><mi>x</mi><msub><mi>k</mi><mn>1</mn></msub><msub><mi>k</mi><mn>2</mn></msub><mi>...</mi><msub><mi>k</mi><mi>m</mi></msub><mo>,</mo><mi>...</mi><mo>)</mo></mrow>
+			<mrow><msub><mi>k</mi><mi>i</mi></msub><mo>:</mo><msub><mi>z</mi><mi>i</mi></msub><mspace width="1em"/><mi>m</mi><mo>=</mo><mi>n</mi><mspace width="1em"/><mi>x</mi><msub><mi>k</mi><mn>1</mn></msub><msub><mi>k</mi><mn>2</mn></msub><mi>...</mi><msub><mi>k</mi><mi>m</mi></msub><mo>:</mo><mi>t</mi></mrow>
+		</mfrac></math></summary><p>The <a href="terms.html#Application">application</a> of a <a href="terms.html#Modulator">modulator</a> in an <a href="evaluation.html#Inversion">Inversion</a> <a href="terms.html#Body">body</a> must provide all <a href="terms.html#Parameter">parameters</a> defined in the <a href="terms.html#Modulator">modulator</a> excluding the initial <a href="terms.html#Continuation">continuation</a> <a href="terms.html#Parameter">parameter</a>.</p></details>
 	</div>
 
 
