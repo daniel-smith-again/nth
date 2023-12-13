@@ -66,9 +66,9 @@
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>
 	<h3><a href="#Type-Rules" id="Type-Rules">Type Rules</a></h3>
 	<p>For a <a href="terms.html#Program">program</a> to be determined <a href="terms.html#Correct">correct</a>, it must conform to some rules of judgement which are defined such that a <a href="terms.html#Correct">correct</a> <a href="terms.html#Program">program</a> cannot cause a contradictory judgement.
-	These rules are given below in a grammar which corresponds to the <a href="defaults.html#Expressions">default expressions</a> provided by <i>n</i><sup>th</sup>.<br>
-	<math>
-	<mtable columnalign="right center left left left">
+	These rules are given below in a grammar which corresponds to the <a href="defaults.html#Expressions">default expressions</a> provided by <i>n</i><sup>th</sup>.<br></p>
+	<math style="display:block;width:69%;margin:auto;text-align:center;">
+	<mtable columnalign="right center left left left" display="width:fit-content;margin:auto;">
 	<mtr><mtd><mi>e</mi></mtd><mtd><mo>::=</mo></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>x</mi></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; symbol</mtext></mtd><mtd><mtext>(0)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mi>t</mi></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; type</mtext></mtd><mtd><mtext>(0)</mtext></mtd></mtr>
@@ -95,13 +95,14 @@
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>x</mi><mo>&rightarrow;</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; function</mtext></mtd><mtd><mtext>(0)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; application</mtext></mtd><mtd><mtext>(1)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mo>&or;</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>&and;</mo><mi>e</mi><mo>|</mo><mo>&not;</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; boolean arithmetic</mtext></mtd><mtd><mtext>(1)</mtext></mtd></mtr>
-	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mo>+</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>-</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>*</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>/</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; arithmetic</mtext></mtd><mtd><mtext>(1) following PEMDAS</mtext></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mo>+</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>-</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>*</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>/</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>//</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>mod</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; arithmetic</mtext></mtd><mtd><mtext>(1)</mtext></mtd></mtr>
+	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>flr</mo><mi>e</mi><mo>|</mo><mo>cln</mo><mi>e</mi><mo>|</mo><mo>abs</mo><mi>e</mi><mo>|</mo><mo>rem</mo><mi>e</mi><mo>|</mo><mo>nmr</mo><mi>e</mi><mo>|</mo><mo>dnm</mo><mi>e</mi><mo>|</mo><mo>rnd</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; numerical operations</mtext></mtd><mtd><mtext>(1)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mo>:</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>=</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; structural judgements</mtext></mtd><mtd><mtext>(6)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mi>e</mi><mo>&lt;</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>&gt;</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>&#x2264;</mo><mi>e</mi><mo>|</mo><mi>e</mi><mo>&#x2265;</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; ordinal judgements</mtext></mtd><mtd><mtext>(6)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>?</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; derive type</mtext></mtd><mtd><mtext>(2)</mtext></mtd></mtr>
 	<mtr><mtd /><mtd><mo>|</mo></mtd><mtd><mrow><mo>@</mo><mi>e</mi></mrow></mtd><mtd><mtext>&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot;&centerdot; place operator</mtext></mtd><mtd><mtext>(2)</mtext></mtd></mtr>
 	</mtable>
-	</math></p>
+	</math>
 	<p>In addition to the rule grammar, there names of the <a href="defaults.html#Types">default types</a> are also given...<br>
 	<math><mtable columalign="right center left left">
 	<mtr><mtd><mi>t</mi></mtd><mtd><mo>::=</mo></mtd></mtr>
@@ -161,14 +162,14 @@
 	</div>
 	<p>The rules for <a href="terms.html#Data">Data</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
-		<details><summary><math><mfrac><mrow/><mrow><mi>Scalar</mi><mo>:</mo><mi>Natural</mi></mrow></mfrac></math></summary></details>
+		<details><summary><math><mfrac><mrow/><mrow><mi>Scalar</mi><mo>:</mo><mi>Natural</mi></mrow></mfrac></math></summary><p>In any given <a href="terms.html#Context">context</a>, <code>Scalar</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Natural</code>.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Scalar</mi></mrow><mrow><mi>x</mi><mo>&#x2265;</mo><mn>0</mn></mrow></mfrac></math></summary><p>Scalar data can only represent positive numerical values.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Byte</mi></mrow><mrow><mi>x</mi><mo>&#x2264;</mo><mi>&#x1d539;</mi></mrow></mfrac></math></summary><p><a href="terms.html#Byte">Byte</a> data can only represent positive numerical values which are less or equal to the maximum <a href="terms.html#Byte">Byte</a> value, &#x1d539;.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Word</mi></mrow><mrow><mi>x</mi><mo>&#x2264;</mo><mi>&#x1d54e;</mi></mrow></mfrac></math></summary><p>Word data can only represent positive numerical values which are less or equal to the maximum Word value, &#x1d54e;</p></details>
-		<details><summary><math><mfrac><mrow/><mrow><mo>from</mo><mi>x</mi><mo>to</mo><mi>y</mi><mo>:</mo><mi>Range</mi></mrow></mfrac></math></summary><p>The range <a href="defaults.html#Expressions">default expression</p> results in instances of the <a href="terms.html#Type">type</a>, <code>Range</code></details>
+		<details><summary><math><mfrac><mrow/><mrow><mo>from</mo><mi>x</mi><mo>to</mo><mi>y</mi><mo>:</mo><mi>Range</mi></mrow></mfrac></math></summary><p>The range <a href="defaults.html#Expressions">default expression</a> results in instances of the <a href="terms.html#Type">type</a>, <code>Range</code>.</p></details>
 		<details><summary><math><mfrac><mrow><mo>from</mo><mi>x</mi><mo>to</mo><mi>y</mi></mrow><mrow><mi>x</mi><mo>&lt;</mo><mi>y</mi></mrow></mfrac></math></summary><p>The miminum numerical value in a range must be lesser than the maximum numerical value in a range.</p></details>
 		<details><summary><math><mfrac><mrow><mi>n</mi><mo>:</mo><mi>Scalar</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Range</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Natural</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Natural</mi></mrow></mfrac></math></summary><p>Scalar and range data can only represent non-rational numerical values.</p></details>
-		<details><summary><math><mfrac><mrow /><mrow><mi>x</mi><mo>;</mo><mi>y</mi><mo>:</mo><mi>Vector</mi></mrow></math></summary><p>The <a href="defaults.html#Expressions">default expression</a> for constructing vectors will always result in an <a href="terms.html#Instance">instance</a> of <code>Vector</code>.</p></details>
+		<details><summary><math><mfrac><mrow /><mrow><mi>x</mi><mo>;</mo><mi>y</mi><mo>:</mo><mi>Vector</mi></mrow></mfrac></math></summary><p>The <a href="defaults.html#Expressions">default expression</a> for constructing vectors will always result in an <a href="terms.html#Instance">instance</a> of <code>Vector</code>.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>;</mo><mi>y</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Natural</mi></mrow></mfrac></math></summary><p>In the <a href="defaults.html#Expressions">default expression</a> for constructing vectors, the first <a href="terms.html#Parameter">parameter</a> may be any <a href="terms.html#Instance">instance</a> and the second <a href="terms.html#Parameter">parameter</a> must be an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Type">type</a> <code>Natural</code>.</p></details>
 		<details><summary><math><mfrac><mrow /><mrow><mi>x</mi><mo>;</mo><mi>y</mi><mo>_</mo><mi>n</mi><mo>:</mo><mi>x</mi></mrow></mfrac></math></summary><p>Each <a href="terms.html#Index">index</a> in a <a href="terms.html#Vector">vector</a> must be an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Type">type</a> given as the first <a href="terms.html#Parameter">parameter</a> in the <a href="terms.html#Vector">vector</a> constructor <a href="terms.html#Expression">expression</a>.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>;</mo><mi>y</mi><mo>_</mo><mi>n</mi></mrow><mrow><mi>n</mi><mo>:</mo><mi>Natural</mi><mspace width="1em"/><mi>n</mi><mo>&#x2264;</mo><mi>y</mi></mrow></mfrac></math></summary><p>The numerical value used to <a href="terms.html#Subscript">subscript</a> a <a href="terms.html#Vector">vector</a> must be an <a href="terms.html#Instance">instance</a> of <code>Natural</code> which is less than the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Vector">vector</a>.</p></details>
@@ -229,6 +230,7 @@
 	</div>
 	<p>The rules for <a href="terms.html#Arithmetic">arithmetic</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
+		<details><summary><math><mfrac><mrow/><mrow><mi>Natural</mi><mo>&lt;</mo><mi>Integer</mi><mo>&lt;</mo><mi>Rational</mi><mo>&lt;</mo><mi>Number</mi></mrow></mfrac></math></summary><p>The numerical <a href="terms.html#Type">type</a> hierarchy.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Number</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Number</mi></mrow><mrow><mtable>
 			<mtr><mtd><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
 			<mtr><mtd><mi>x</mi><mo>-</mo><mi>y</mi><mo>=</mo><mi>Number</mi></mtd></mtr>
@@ -277,6 +279,30 @@
 			<mtr><mtd><mi>x</mi><mo>/</mo><mi>y</mi><mo>=</mo><mi>x</mi></mtd></mtr>
 			<mtr><mtd><mi>y</mi><mo>/</mo><mi>x</mi><mo>=</mo><mi>Nil</mi></mtd></mtr>
 			</mrow></mfrac></math></summary><p>Special cases in arithmetic over natural numbers where one operand is <code>0</code>.</p></details>
+		<details><summary><math><mfrac><mrow/><mrow><mtable>
+			<mtr><mtd><mi>Judgement</mi><mo>:</mo><mi>Type</mi></mtd></mtr>
+			<mtr><mtd><mi>Success</mi><mo>:</mo><mi>Judgement</mi></mtd></mtr>
+			<mtr><mtd><mi>Failure</mi><mo>:</mo><mi>Judgement</mi></mtd></mtr>
+			<mtr><mtd><mi>Success</mi><mo>=</mo><mo>[</mo><mi>True</mi><mspace width="0.2em"/><mi>Any</mi><mo>]</mo></mtd></mtr>
+			<mtr><mtd><mi>Failure</mi><mo>=</mo><mo>[</mo><mi>False</mi><mspace width="0.2em"/><mi>Nil</mi><mo>]</mo></mtd></mtr>
+		</mtable></mrow></math></summary><p>The <code>Judgement</code> and <code>Boolean</code> <a href="terms.html#Type">type</a> hierarchy.</p></details>
+		<details><summary><math><mfrac><mrow><mi>a</mi><mo>:</mo><mi>Success</mi><mspace width="1em"/><mi>b</mi><mo>:</mo><mi>Failure</mi></mrow>
+		<mrow><mtable>
+			<mtr><mtd><mi>a</mi><mo>&and;</mo><mi>a</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>a</mi><mo>&and;</mo><mi>b</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+			<mtr><mtd><mi>b</mi><mo>&and;</mo><mi>b</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary><p>Logical conjunction on <code>Judgement</code> <a href="terms.html#Instance">instances</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>a</mi><mo>:</mo><mi>Success</mi><mspace width="1em"/><mi>b</mi><mo>:</mo><mi>Failure</mi></mrow>
+		<mrow><mtable>
+			<mtr><mtd><mi>a</mi><mo>&or;</mo><mi>a</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>a</mi><mo>&or;</mo><mi>b</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
+			<mtr><mtd><mi>b</mi><mo>&or;</mo><mi>b</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary><p>Logical disjunction on <code>Judgement</code> <a href="terms.html#Instance">instances</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mi>a</mi><mo>:</mo><mi>Success</mi><mspace width="1em"/><mi>b</mi><mo>:</mo><mi>Failure</mi></mrow>
+		<mrow><mtable>
+			<mtr><mtd><mo>&not;</mo><mi>a</mi><mo>=</mo><mi>b</mi></mtd></mtr>
+			<mtr><mtd><mo>&not;</mo><mi>b</mi><mo>=</mo><mi>a</mi></mtd></mtr>
+		</mtable></mrow></mfrac></math></summary><p>Logical negation on <code>Judgement</code> <a href="terms.html#Instance">instances</a>.</p></details>
 	</div>
 	<p>The rules for <a href="evaluation.html">control</a> are...</p>
 	<div style="display:flex;flex-wrap:wrap;flex-direction:row;gap:1ch;width:69%;margin:auto;">
@@ -294,113 +320,6 @@
 			<mo>in</mo><mo>(</mo><mi>...</mi><mo>,</mo><mi>x</mi><msub><mi>k</mi><mn>1</mn></msub><msub><mi>k</mi><mn>2</mn></msub><mi>...</mi><msub><mi>k</mi><mi>m</mi></msub><mo>,</mo><mi>...</mi><mo>)</mo></mrow>
 			<mrow><msub><mi>k</mi><mi>i</mi></msub><mo>:</mo><msub><mi>z</mi><mi>i</mi></msub><mspace width="1em"/><mi>m</mi><mo>=</mo><mi>n</mi><mspace width="1em"/><mi>x</mi><msub><mi>k</mi><mn>1</mn></msub><msub><mi>k</mi><mn>2</mn></msub><mi>...</mi><msub><mi>k</mi><mi>m</mi></msub><mo>:</mo><mi>t</mi></mrow>
 		</mfrac></math></summary><p>The <a href="terms.html#Application">application</a> of a <a href="terms.html#Modulator">modulator</a> in an <a href="evaluation.html#Inversion">Inversion</a> <a href="terms.html#Body">body</a> must provide all <a href="terms.html#Parameter">parameters</a> defined in the <a href="terms.html#Modulator">modulator</a> excluding the initial <a href="terms.html#Continuation">continuation</a> <a href="terms.html#Parameter">parameter</a>.</p></details>
-	</div>
-
-
-
-
-	
-	<div style="display:none;flex-wrap:wrap;flex-direction:row;gap:1ch 1ch;justify-content:center;text-align:left;margin-left:auto;margin-right:auto;width:69%;margin-bottom:5ch;">
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Any</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>Any</code>, corresponds to every <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Nil</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>Nil</code>, corresponds to no <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>Any</mi></mrow><mrow><mi>Any</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/><mo>?</mo><mi>Any</mi><mo>=</mo><mi>Any</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>Any</code>, is the <a href="terms.html#Type">type</a> of itself.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>Nil</mi></mrow><mrow><mi>Nil</mi><mo>:</mo><mi>Any</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>Nil</code>, is a <a href="terms.html#Member">member</a> of <code>Any</code></p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><msub><mi>Nil</mi><mi>x</mi></msub><mspace width="1em"/><msub><mi>Nil</mi><mi>y</mi></msub></mrow><mrow><msub><mi>Nil</mi><mi>x</mi></msub><mo>=</mo><msub><mi>Nil</mi><mi>y</mi></msub></mrow></mfrac></math></summary>
-			<p>All <a href="terms.html#Instance">instances</a> of <code>Nil</code> are equivalent.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mi>Type</mi><mo>:</mo><mi>Any</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Type</code>, is a <a href="terms.html#Member">member</a> of <code>Any</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><mi>...</mi><mo>]</mo></mrow><mrow><mi>x</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>x</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>t</mi></mtd></mtr><mtr><mtd><mi>y</mi><mo>:=</mo><mi>x</mi></mtd></mtr></mtable></mrow><mrow><mo>?</mo><mi>x</mi><mo>=</mo><mi>t</mi></mrow></mfrac></math></summary>
-			<p>Given an outer <a href="terms.html#Expression">expression</a> which expects a specific <a href="terms.html#Type">type</a>, the inner <a href="terms.html#Expression">expression</a> must be an <a href="terms.html#Instance">instance</a> of the expected <a href="terms.html#Type">type</a>.</p></details>
-			<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>x</mi><mo>:</mo><mi>t</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Any</mi></mtd></mtr><mtr><mtd><mi>y</mi><mo>:=</mo><mi>x</mi></mtd></mtr></mtable></mrow><mrow><mo>?</mo><mi>y</mi><mo>=</mo><mi>t</mi></mrow></mfrac></math></summary>
-				<p>Given an inner <a href="terms.html#Expression">expression</a> of a specific <a href="terms.html#Type">type</a>, the outer <a href="terms.html#Expression">expression</a> must accept an <a href="terms.html#Instance">instance</a> of the inner <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>k</mi><mn>1</mn></msub><mo>,</mo><msub><mi>k</mi><mi>2</mi></msub><mo>, ...,</mo><msub><mi>k</mi><mi>n</mi></msub><mo>]</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>n</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Cardinality">cardinality</a> of an <a href="#Enumerated-Type">enumerated type</a> is the number of its <a href="terms.html#Member">members</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>[</mo><msub><mi>k</mi><mn>1</mn></msub><mo>,</mo><msub><mi>k</mi><mi>2</mi></msub><mo>, ...,</mo><msub><mi>k</mi><mi>n</mi></msub><mo>]</mo></mrow><mrow><msub><mi>k</mi><mi>a</mi></msub><mo>=&#x0338;</mo><msub><mi>k</mi><mi>b</mi></msub></mrow></mfrac></math></summary>
-			<p>Every <a href="terms.html#Member">member</a> of a <a href="terms.html#Type">type</a> is inequal to every other <a href="terms.html#Member">member</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><msub><mi>Type</mi><mi>a</mi></msub><mspace width="1em"/><msub><mi>Type</mi><mi>b</mi></msub></mrow><mrow><msub><mi>Type</mi><mi>a</mi></msub><mo>=&#x0338;</mo><msub><mi>Type</mi><mi>b</mi></msub></mrow></mfrac></math></summary>
-			<p>No two <a href="terms.html#Type">types</a> are equal.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>True</mi><mo>:</mo><mi>Boolean</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>true</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Boolean</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>False</mi><mo>:</mo><mi>Boolean</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Value">value</a>, <code>false</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Boolean</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Boolean</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Boolean</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Type</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>True</mi><mspace width="1em"/><mi>Any</mi><mo>]</mo><mo>=</mo><mi>Success</mi></mrow></mfrac></math></summary>
-			<p><code>Success</code> is either the Boolean <a href="terms.html#Value">value</a>, <code>True</code>, or the <a href="terms.html#Value">value</a> <code>Any</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>False</mi><mspace width="1em"/><mi>Nil</mi><mo>]</mo><mo>=</mo><mi>Failure</mi></mrow></mfrac></math></summary>
-			<p><code>Failure</code> is either the Boolean <a href="terms.html#Value">value</a>, <code>False</code>, or the <a href="terms.html#Value">value</a> <code>Nil</code></p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mo>[</mo><mi>Success</mi><mspace width="1em"/><mi>Failure</mi><mo>]</mo><mo>=</mo><mi>Judgement</mi></mrow></mfrac></math></summary>
-			<p><code>Judgement</code> is the <a href="terms.html#Type">type</a> of <code>Success</code> and <code>Failure</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mi>Judgement</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Judgement</code>, is a <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Judgement</mi></mrow><mrow><mtable>
-			<mtr><mtd><mi>x</mi><mo>&and;</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>&and;</mo><mi>x</mi></mtd></mtr>
-			<mtr><mtd><mi>x</mi><mo>&or;</mo><mi>y</mi><mo>=</mo><mi>y</mi><mo>&or;</mo><mi>x</mi></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary>
-			<p>Logical conjunction and disjunction are commutative.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>y</mi><mo>:</mo><mi>Judgement</mi><mspace width="1em"/><mi>z</mi><mo>:</mo><mi>Judgement</mi></mrow><mrow><mtable>
-			<mtr><mtd><mi>x</mi><mo>&and;</mo><mi>y</mi><mo>&and;</mo><mi>z</mi><mo>=</mo><mi>z</mi><mo>&and;</mo><mi>y</mi><mo>&and;</mo><mi>x</mi></mtd></mtr>
-			<mtr><mtd><mi>x</mi><mo>&or;</mo><mi>y</mi><mo>&or;</mo><mi>z</mi><mo>=</mo><mi>z</mi><mo>&or;</mo><mi>y</mi><mo>&or;</mo><mi>x</mi></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary>
-			<p>Logical conjunction and disjunction are associative.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
-			<mtr><mtd><mi>Success</mi><mo>&and;</mo><mi>Success</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
-			<mtr><mtd><mi>Success</mi><mo>&and;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
-			<mtr><mtd><mi>Failure</mi><mo>&and;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary>
-			<p>Logical conjunction over Judgements.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
-			<mtr><mtd><mi>Success</mi><mo>&or;</mo><mi>Success</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
-			<mtr><mtd><mi>Success</mi><mo>&or;</mo><mi>Failure</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
-			<mtr><mtd><mi>Failure</mi><mo>&or;</mo><mi>Failure</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary>
-			<p>Logical disjunction over Judgements.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow></mrow><mrow><mtable>
-			<mtr><mtd><mo>&not;</mo><mi>Success</mi><mo>=</mo><mi>Failure</mi></mtd></mtr>
-			<mtr><mtd><mo>&not;</mo><mi>Failure</mi><mo>=</mo><mi>Success</mi></mtd></mtr>
-		</mtable></mrow></mfrac></math></summary>
-			<p>Logical negation over Judgements.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mn>0, 1, 2,</mn><mo>... :</mo><mi>Number</mi></mrow></mfrac></math></summary>
-			<p>Numerical <a href="terms.html#Value">values</a> are <a href="terms.html#Member">members</a> of the <a href="terms.html#Type">type</a>, <code>Number</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Number</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Number</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Type</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Collection</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Collection</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Type</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mi>x</mi><mo>:</mo><mi>Collection</mi></mrow></mfrac></math></summary>
-			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Collection">collection</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>n</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Cardinality">cardinality</a> of a <a href="terms.html#Collection">collection</a> is the number of its <a href="terms.html#Field">fields</a>/</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mo>{</mo><msub><mi>e</mi><mn>1</mn></msub><mo>,</mo><msub><mi>e</mi><mn>2</mn></msub><mo>,</mo><mo>... ,</mo><msub><mi>e</mi><mi>n</mi></msub><mo>}</mo></mrow><mrow><mi>x</mi><mo>_</mo><mi>i</mi><mo>=</mo><msub><mi>e</mi><mi>i</mi></msub></mrow></mfrac></math></summary>
-			<p>Each <a href="terms.html#Field">field</a> in a <a href="terms.html#Collection">collection</a> is indexed by the order in which it occurred in the <a href="defaults.html#Expressions">default expression</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>n</mi><mo>:</mo><mi>Number</mi><mspace width="1em" /><mi>x</mi><mo>:=</mo><mi>m</mi><mo>;</mo><mi>n</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Vector</mi></mrow></mfrac></math></summary>
-			<p>The <a href="data.html#Vectors">vector</a> <a href="defaults.html#Expressions">default expression</a> <a href="terms.html#Instantiate">instantiates</a> a <a href="data.html#Vectors">vector</a> <a href="terms.html#Unit">unit</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Vector</mi><mo>&lt;</mo><mi>Collection</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Vector</code>, is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Type">type</a>, <code>Collection</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>m</mi><mo>:</mo><mi>Number</mi><mspace width="1em"/><mi>n</mi><mo>:</mo><mi>Number</mi></mtd></mtr><mtr><mtd><mi>x</mi><mo>:</mo><mi>Vector</mi></mtd></mtr></mtable></mrow><mrow><mo>?</mo><mi>x</mi><mo>_</mo><mi>m</mi><mo>=</mo><mo>?</mo><mi>x</mi><mo>_</mo><mi>n</mi></mrow></mfrac></math></summary>
-			<p>Every <a href="terms.html#Field">field</a> in a <a href="data.html#Vectors">vector</a> is an <a href="terms.html#Instance">instance</a> of the same <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mphantom><mi>x</mi></mphantom></mrow><mrow><mi>Function</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Type">type</a>, <code>Function</code>, is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Type">type</a>, <code>Type</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>x</mi><mo>:=</mo><mi>Any</mi><mo>&rightarrow;</mo><mi>Any</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Function</mi></mrow></mfrac></math></summary>
-			<p>The <a href="defaults.html#Expressions">default expression</a> for defining <a href="terms.html#Function">functions</a> <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Function">function</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>f</mi><mo>=</mo><mi>a</mi><mo>&rightarrow;</mo><mi>b</mi></mrow><mrow><mo>?</mo><mi>f</mi><mo>=</mo><mo>{</mo><mi>a</mi><mspace width="1em"/><mi>b</mi><mo>}</mo></mrow></mfrac></math></summary>
-			<p>Deriving the <a href="terms.html#Type">type</a> of a <a href="terms.html#Function">function</a> results in a <a href="terms.html#Collection">collection</a> of the <a href="terms.html#Parameter">parameter</a> and result <a href="terms.html#Type">types</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>f</mi><mi>x</mi></mrow><mrow><mi>f</mi><mo>:</mo><mi>Function</mi><mspace width="1em"/><mi>x</mi><mo>=</mo><mo>(?</mo><mi>f</mi><mo>_</mo><mn>1</mn><mo>)</mo></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Unit">unit</a> given as a <a href="terms.html#Parameter">parameter</a> in a <a href="terms.html#Function">function</a> <a href="terms.html#Application">application</a> must be an <a href="terms.html#Instance">instance</a> of that <a href="terms.html#Function">function's</a> <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> and the <a href="terms.html#Unit">unit</a> being <a href="terms.html#Application">applied</a> must be a <a href="terms.html#Function">function</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>a</mi><mo>:</mo><mi>A</mi><mspace width="1em"/><mi>b</mi><mo>:</mo><mi>B</mi></mrow><mrow><mi>a</mi><mo>&rightarrow;</mo><mi>b</mi><mspace width="0.2em"/><mo>:</mo><mspace width="0.2em"/><mi>A</mi><mo>&rightarrow;</mo><mi>B</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Supertype">supertype</a> of a <a href="terms.html#Function">function</a> is the <a href="terms.html#Function">function</a> over the <a href="terms.html#Supertype">supertypes</a> of the <a href="terms.html#Parameter">parameters</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><msub><mi>t</mi><mi>a</mi></msub><mo>:</mo><mi>Type</mi><mspace width="1em" /><msub><mi>t</mi><mi>b</mi></msub><mo>:</mo><mi>Type</mi></mtd></mtr><mtr><mtd><mi>f</mi><mo>:=</mo><msub><mi>t</mi><mi>a</mi></msub><mo>&rightarrow;</mo><msub><mi>t</mi><mi>b</mi></msub></mtd></mtr></mtable></mrow><mrow><mi>f</mi><msub><mi>t</mi><mi>a</mi></msub><mo>=</mo><msub><mi>t</mi><mi>b</mi></msub></mrow></mfrac></math></summary>
-			<p><a href="terms.html#Application">Applying</a> a <a href="terms.html#Function">function</a> to an <a href="terms.html#Instance">instance</a> of it's <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> leaves an <a href="terms.html#Instance">instance</a> of the result <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>t</mi><mo>:</mo><mi>Type</mi><mspace width="1em"/><mi>P</mi><mo>:=</mo><mi>t</mi><mo>&rightarrow;</mo><mi>Judgement</mi></mtd></mtr><mtr><mtd><mi>x</mi><mo>:=</mo><mi>t</mi><mo>where</mo><mi>P</mi></mtd></mtr></mtable></mrow><mrow><mi>x</mi><mo>:</mo><mi>Type</mi></mrow></mfrac></math></summary>
-			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>refine</code>, <a href="terms.html#Instantiate">instantiates</a> a <a href="terms.html#Type">type</a>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mtable><mtr><mtd><mi>t</mi><mo>:</mo><mi>Type</mi><mspace width="1em"/><mi>P</mi><mo>:=</mo><mi>t</mi><mo>&rightarrow;</mo><mi>Judgement</mi></mtd></mtr><mtr><mtd><mi>x</mi><mo>:=</mo><mi>t</mi><mo>where</mo><mi>P</mi></mtd></mtr></mtable></mrow><mrow><mo>#</mo><mi>x</mi><mo>=</mo><mi>Nil</mi></mrow></mfrac></math></summary>
-			<p>The <a href="terms.html#Cardinality">cardinality</a> of a <a href="#Qualified-Type">qualified type</a> cannot be counted and therefore is <code>Nil</code>.</p></details>
-		<details><summary><math><mfrac linethickness="0.1em"><mrow><mi>t</mi><mo>:</mo><mi>Type</mi><mspace width="1em"/><mi>P</mi><mo>:</mo><mi>Any</mi><mspace width="1em"/><mi>x</mi><mo>:=</mo><mi>t</mi><mo>where</mo><mi>P</mi></mrow><mrow><mi>P</mi><mo>:</mo><mi>Any</mi><mo>&rightarrow;</mo><mi>Judgement</mi></mrow></mfrac></math></summary>
-			<p>The <a href="defaults.html#Expressions">default expression</a>, <code>refine</code>, expects a <a href="terms.html#Function">function</a>, <code>Any -> Judgement</code>, as its second <a href="terms.html#Parameter">parameter</a>.</p></details>
+		<details><summary><math><mfrac><mrow><mo>if</mo><msub><mi>c</mi><mn>1</mn></msub><mo>then</mo><msub><mi>e</mi><mi>a</mi></msub><mo>or</mo><msub><mi>c</mi><mn>2</mn></msub><mo>then</mo><msub><mi>e</mi><mi>b</mi></msub><mo>else</mo><msub><mi>e</mi><mi>c</mi></msub><mo>:</mo><mi>t</mi></mrow><mrow><msub><mi>e</mi><mi>x</mi></msub><mo>:</mo><mi>t</mi></mrow></mfrac></math></summary><p>In a <a href="evaluation.html#Branching">Braching</a> <a href="terms.html#Expression">expression</a>, all <a href="terms.html#Expression">sub-expressions</a> must result in an <a href="terms.html#Instance">instance</a> which satisfies the <a href="terms.html#Constraint">constraint</a> on the <a href="evaluation.html#Branching">branching</a> <a href="terms.html#Expression">expression</a>.</details>
 	</div>
 </body>
