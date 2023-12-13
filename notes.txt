@@ -754,3 +754,11 @@ It references or dereferences based on type.
 If I give it Any, (x = (@ (y : Any))), it references, ((? x) = Place)
 If I give it a Place, (z = (@ x)), it dereferences, (z = y)
 If I want to reference a place, I "downcast", (x' = (@ (x : Unit)))
+
+here's a question: 
+does (t : T) mean (T = (m + t)), or does it mean (T = (m + [t]))
+Like if I say something is a Judgement, does it mean [Any Nil True False] or 
+does it mean [Success Failure]
+It means [Any Nil True False]
+What does it mean if I constrain a type?
+(A = [a], B = [b], C = [c], T = [A B C], k : T)
