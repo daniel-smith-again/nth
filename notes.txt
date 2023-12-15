@@ -762,3 +762,12 @@ does it mean [Success Failure]
 It means [Any Nil True False]
 What does it mean if I constrain a type?
 (A = [a], B = [b], C = [c], T = [A B C], k : T)
+
+How do you filter.
+Filters are guaranteed to run for each, except it duplicates the array.
+You can do a map and get a filter from a map.
+what about fold?
+that's just updating a value in the scope for map.
+it's all just map.
+how do I write map?
+(M * f)
