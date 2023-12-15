@@ -29,6 +29,9 @@
 	<p><code>[(({'members} + ({*} ;)) -> Type)]</code></p>
 	<p>where each result following the keyword <a>symbol</a>, <span><code>'members</code></span>, is used as a <a href="terms.html#Member">member</a> of the resulting <a href="terms.html#Type">type</a>.</p>
 	</figure>
+	<p>An <a>enumerated type</a> will <a>constrain</a> a <a>value</a> by restricting the <a>value</a> such that it must be an <a>instance</a> of the <a>constraining</a> type.</p>
+	<p>A <a href="terms.html#Unit">unit</a>, which is an <a href="terms.html#Instance">instance</a> of an <a href="#Enumerated-Types">enumerated type</a>, must be equal to one of the <a href="terms.html#Unit">units</a> listed as a <a href="terms.html#Member">member</a> of the <a href="#Enumerated-Types">enumerated type</a>.
+		This relation is such that <br><code>((a = b) : Success)</code> where <code>x</code> is a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Instance">instance</a> and <code>y</code> is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Constraint">constraining</a> <a href="terms.html#Type">type</a>.</p>
 	<h3><a href="#Qualified-Types" id="Qualified-Types">Qualified types</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Qualified-Types">qualified types</a>.</figcaption>
