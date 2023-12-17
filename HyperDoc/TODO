@@ -1,3 +1,11 @@
 Complete formal type rules.
+
 Specify how (quote) closes over the context.
+
 How do transforms resolve bindings?
+
+Add character type to data chapter
+
+Add character type to types chapter
+
+Add clause to define what unicode general character classes are accepted
