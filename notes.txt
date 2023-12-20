@@ -773,3 +773,20 @@ how do I write map?
 (M * f)
 
 
+something that's really weird is that I have no way to talk about interfaces.
+Example:
+
+(Dog : Type,
+ Cat : Type,
+ Animal = [Dog Cat],
+ bark : ((Dog) -> 'woof),
+ meow : ((Cat) -> 'purr),
+ speak : ((Animal) -> ???))
+
+So here the deal is that Animal should be defined for every occurrance.
+TypeClasses allow you to make the restriction that if something is an animal,
+it has to implement the `speak` function.
+I don't need interfaces.
+Simply, speak must be proven to work according to its type at compile time.
+If Dog and Cat are both Animals, then all Animal functions must support both 
+Dog and Cat.
