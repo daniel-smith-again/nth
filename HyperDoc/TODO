@@ -9,3 +9,5 @@ Add character type to data chapter
 Add character type to types chapter
 
 Add clause to define what unicode general character classes are accepted
+
+Fix vector transform definition so that it works for just (_ ;)

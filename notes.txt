@@ -772,4 +772,13 @@ it's all just map.
 how do I write map?
 (M * f)
 
+Given (M : Collection) and 
+(f = (x -> x + 1),
+ g = (x y -> x + y),
+ r = (from a to b))
+then 
+(M f) maps f over M because f has one parameter
+(M g) folds M over g because g has two parameters
+(M r) makes a slice of M from index a to index b
+
 
