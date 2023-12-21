@@ -1,8 +1,12 @@
 Complete formal type rules.
 
-Specify how (quote) closes over the context.
+Specify how (quote) closes over the context. (Does it?)
+
+How do first class contexts work?
 
 How do transforms resolve bindings?
+
+How does quoting work? Can functions quote their parameters?
 
 Add character type to data chapter
 
