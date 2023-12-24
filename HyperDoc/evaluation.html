@@ -135,10 +135,11 @@
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> for assignment-based <a href="terms.html#Function">function</a> definition.</figcaption>
 	<p><code>
 		(({Symbol} + (Symbol ;) + {'= Program}) -><br>
-		(let f be (& _ 1 _ 1)<br>
-		and l be ((& _ 1) (from 2 to ((# (& _ 1) - 2))))<br>
-		and p be (& _ 1 _ (# (& _ 1))) in<br>
-		({f '= (l + {'->} + p)} : Program))) 
+		&nbsp;(let f be (& _ 1 _ 1)<br>
+		&nbsp;&nbsp;and l be ((& _ 1) (from 2 to ((# (& _ 1) - 2))))<br>
+		&nbsp;&nbsp;and p be (& _ 1 _ (# (& _ 1)))<br>
+		&nbsp;&nbsp;in<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;({f '= (l + {'->} + p)} : Program))) 
 	</code></p>
 	<p>Such that <span><code>(f x y = (x + y))</code></span> is <br>transformed to <span><code>(f = (x y -> (x + y)))</code></span></p>
 	</figure>
