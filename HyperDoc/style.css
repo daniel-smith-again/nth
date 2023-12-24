@@ -41,6 +41,7 @@ mtable mtd{text-align:center;} mtable mtd + mtd{text-align:center;} mtable mtd +
 mtd{padding:0.1em;}
 mtr * {padding-right:0.2em;}
 mfrac mrow{padding:0.5em;}
+figure > p > span {white-space:nowrap;}
 :target{all:none;}
 #searchbar{background-color:inherit;color:inherit;font-size:inherit;border:solid calc(0.2 * var(--scale)) var(--fg);border-radius:1ch;display:block;margin:auto;height:3ch;width:31%;margin-top:3ch;}
 #searchbutton{background-color:inherit;color:inherit;font-size:inherit;border:none;cursor:pointer;display:block;margin:auto;margin-bottom:1ch;height:2ch;font-size:calc(var(--scale) * 1.5);}
