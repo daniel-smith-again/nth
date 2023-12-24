@@ -42,9 +42,7 @@
 	<a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expressions</a> for <a href="terms.html#Place">Places</a></figcaption>
 	<p><code>
-		[({'@ *} -> (Program : Place))<br>
-		({'@ Place} -> (Program : *))<br>
-		({'@ Place} -> (Program : Place))]
+		([{'@ *} {'@ Place}] -> (Program : [* Place])
 	</code></p>
 	<p>Such that given <span><code>(x = 'a)</code></span>, the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>(x' = (@ x))</code></span>, <span><code>x</code></span> is equal to <span><code>(@ x')</code></span>, and 
 	the <a href="terms.html#Place">Place</a> of the <a href="terms.html#Place">Place</a> of <span><code>x</code></span> is <span><code>((@ x') : Place)</code></span>.</p>
@@ -57,7 +55,7 @@
 	<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="terms.html#Vector">vectors</a>.</figcaption>
 	<p><code>
-		(([{* '; Number} {* ';}] + ({Number '; *} ;)) -> Vector)
+		([{* '; Number} {* ';}] -> Vector)
 	</code></p>
 	<p>Where <span><code>(1 ; 1)</code></span> results in a <a href="terms.html#Vector">vector</a> of one number, one, and <span><code>(1 ;)</code></span> results in the <a href="terms.html#Type">type</a> of all <a href="terms.html#Vector">vectors</a> of any length with members of the <a href="terms.html#Type">type</a>, one.</p>
 	</figure>
