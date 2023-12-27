@@ -791,4 +791,23 @@ However, this may happen out of order and across scopes.
 Well the easiest is that you only declare this type when all instances are present
 What does this even do though?
 I have a type compared to some other type.
-(t T | (x y -> if ((P x) /\ (Q y)) then ))
+(t T | (x y -> if ((P x) /\ (Q y)) then true))
+
+
+(Consumable = [Consumed Available],
+ isavailable : ((Consumable) -> Judgement),
+ isavailable x = (if ((? x) = Consumed) then False or ((? x) = Available) then True)
+
+
+How to do pattern matching?
+Based on equality and subtyping.
+True cases are where the item is equal or a subtype of the value.
+
+(match (? x) Consumed => False Available => True)
+
+
+(where (f x) is n
+ then 1 is True
+ then 2 is False
+ then 3 is 1
+ then 4 is 2)

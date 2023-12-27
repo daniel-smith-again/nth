@@ -264,22 +264,32 @@
 	</figure>
 	
 	<h3><a href="#Branching" id="Braching">Branching</a></h3>
+	<p>Branching <a href="terms.html#Evaluate">evaluation</a> will <a href="terms.html#Evaluate">evaluate</a> one of a set of <a href="terms.html#Program">programs</a> according to some factor determined during <a href="terms.html#Evaluate">evaluation</a>.
+	There are two forms of Branching <a href="terms.html#Evaluate">evaluation</a>, Judgemental and Qualitative.
+	Judgemental Branching will <a href="terms.html#Evaluate">evaluate</a> a <a href="terms.html#Program">program</a> depending on an <a href="terms.html#Expression">expression</a> resulting in an <a href="terms.html#Instance">instance</a> of <code>Judgement</code>.
+	Qualitative Branching will <a href="terms.html#Evaluate">evaluate</a> a <a href="terms.html#Program">program</a> depending on an equality or subtype comparison resulting in an <a href="terms.html#Instance">instance</a> of <code>Success</code>.</p>
 	<a href="#Fig-11" id="Fig-11">Figure 11</a><figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Conditional Evaluation.</figcaption>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements Judgemental Branching.</figcaption>
 	<p><code>
-	[(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Program} ;) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)]
+	(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Program} ;) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)
 	</code></p>
 	</figure>
-	<a href="#12-1" id="12-1">12-1</a><p>Branching accepts a series of <a>Judgement</a> and <a href="terms.html#Program">program</a> pairs and an optional trailing keyword <a>symbol</a>, <code>'else</code>, and an <a href="terms.html#Program">program</a>.</p>
-	<a href="#12-2" id="12-2">12-2</a><p>Branching will <a href="terms.html#Evaluate">evaluate</a> each <a>Judgement</a> <a href="terms.html#Expression">expression</a>, in the order in which they occur in the Branch <a href="terms.html#Expression">expression</a>, until either a <a>Success</a> result occurs or there are no more <a>Judgement</a> <a href="terms.html#Expression">expressions</a> to <a href="terms.html#Evaluate">evaluate</a>.
-	<a href="#12-3" id="12-3">12-3</a><p>The result of a Branch <a>expression</a> is determined according to the following cases...</p>
+	<a href="#Fig-12" id="Fig-12">Figure 12</a><figure>
+	<figcaption>The <a>type</a> of <a>transform</a> which implements Qualitative Branching.</figcaption>
+	<p><code>
+	(([{'given * 'as Symbol} {'given *}] + ({'then * 'is Program} ;)) -> *)
+	</code></p>
+	</figure>
+	<a href="#12-1" id="12-1">12-1</a><p>Judgemental Branching accepts a series of <a>Judgement</a> and <a href="terms.html#Program">program</a> pairs and an optional trailing keyword <a>symbol</a>, <code>'else</code>, and an <a href="terms.html#Program">program</a>.</p>
+	<a href="#12-2" id="12-2">12-2</a><p>Judgemental Branching will <a href="terms.html#Evaluate">evaluate</a> each <a>Judgement</a> <a href="terms.html#Expression">expression</a>, in the order in which they occur in the Branch <a href="terms.html#Expression">expression</a>, until either a <a>Success</a> result occurs or there are no more <a>Judgement</a> <a href="terms.html#Expression">expressions</a> to <a href="terms.html#Evaluate">evaluate</a>.
+	<a href="#12-3" id="12-3">12-3</a><p>The result of a Judgemental Branching <a>expression</a> is determined according to the following cases...</p>
 	<ul>
 	<li>If <a href="terms.html#Evaluate">evaluating</a> a <a>Judgement</a> results in a <a>Success</a>, then the <a href="terms.html#Program">program</a> immediately following that <a>Judgement</a> is <a href="terms.html#Evaluate">evaluated</a> and the result is the result of the Branch <a href="terms.html#Expression">expression</a>.</li>
 	<li>If no <a href="terms.html#Evaluate">evaluation</a> results in a <a>Success</a>, then the trailing <a href="terms.html#Program">program</a> is <a href="Evaluate">evaluated</a> and that result is the result of the Branch <a href="terms.html#Expression">expression</a>.</li>
 	<li>If there is no trailing <a href="terms.html#Program">program</a>, and no <a href="terms.html#Evaluate">evaluation</a> results in a <a>Success</a>, then the result of the Branch <a href="terms.html#Expression">expression</a> is <code>_</code>.</li>
 	</ul>
 	<a href="#12-4" id="12-4">12-4</a><p>If <a href="terms.html#Evaluate">evaluating</a> a <a>Judgement</a> <a href="terms.html#Expression">expression</a> results in <a>Success</a>, the Branch cannot <a href="terms.html#Evaluate">evaluate</a> other <a>Judgement</a> <a href="terms.html#Expression">expressions</a> or <a href="terms.html#Program">programs</a>.</p>
-	<a href="#Fig-12" id="Fig-12">Figure 12</a><figure>
+	<a href="#Fig-13" id="Fig-13">Figure 13</a><figure>
 	<figcaption>The following three <a>programs</a> demonstrate the three possible control paths which may occur when <a>evaluating</a> a branch.</figcaption>
 	<p><code>
 		(if (Failure) then 'A<br>
@@ -300,8 +310,13 @@
 	</code></p>
 	<p>The result of this branch is <span><code>_</code></span>.</p>
 	</figure>
+	<p>Qualitative Branching accepts an initial <a href="terms.html#Value">value</a> and optional <a href="terms.html#Symbol">symbol</a> pair, and then a series of <a href="terms.html#Value">value</a> and <a href="terms.html#Program">program</a> pairs.</p>
+	<p>If a <a href="terms.html#Symbol">symbol</a> is provided after the initial <a href="terms.html#Value">value</a>, then that <a href="terms.html#Symbol">symbol</a> will be <a href="terms.html#Binding">bound</a> as the <a href="terms.html#Identifier">identifier</a> for the initial <a href="terms.html#Value">value</a> in a <a href="terms.html#Scope">scope</a> which will be used to <a href="terms.html#Evaluate">evaluate</a> one of the series of <a href="terms.html#Program">programs</a>.</p>
+	<p><a href="terms.html#Evaluate">Evaluating</a> a Qualitative Branching <a href="terms.html#Expression">expression</a> will perform a test of the initial <a href="terms.html#Value">value</a> against each <a href="terms.html#Value">value</a> in the series until a <code>Success</code> <a href="terms.html#Instance">instance</a> results, at which point the <a href="terms.html#Program">program</a> paired with the <a href="terms.html#Value">value</a> resulting in a successful test will be <a href="terms.html#Evaluate">evaluated</a> and its result used as the result of the Qualitative Branching <a href="terms.html#Expression">expression</a>.</p>
+	<p>The test of the initial <a>value</a> against the <a>values</a> in the series is performed as follows...</p>
+	<ol></ol>
 	<h3><a href="#Quoting" id="Quoting">Quoting</a></h3>
-	<a href="#Fig-13" id="Fig-13">Figure 13</a><figure>
+	<a href="#Fig-14" id="Fig-14">Figure 14</a><figure>
 	<figcaption>The <a>type</a> of <a>transform</a> which implements Quoting.</figcaption>
 	<p><code>({'quote Program} -> Program)</code></p>
 	</figure>
@@ -309,7 +324,7 @@
 	<a href="#12-6" id="12-6">12-6</a><p>The <a href="terms.html#Program-Model">Program Model</a> is formed using <a href="terms.html#Collection">collections</a> and can be used as a <a href="terms.html#Collection">collection</a> in further <a href="terms.html#Program">programs</a>.</p>
 	
 	<h3><a href="#Computing" id="Computing">Computing</a></h3>
-	<a href="#Fig-14" id="Fig-14">Figure 14</a><figure>
+	<a href="#Fig-15" id="Fig-15">Figure 15</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements Computing</figcaption>
 	<p><code>[({'compute Program 'in Context} -> *)]</code></p>
 	</figure>
