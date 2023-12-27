@@ -789,3 +789,6 @@ Given two things, (x y : k), you can say they are instances of (k) such that
 (x : t) and (y : T).
 However, this may happen out of order and across scopes.
 Well the easiest is that you only declare this type when all instances are present
+What does this even do though?
+I have a type compared to some other type.
+(t T | (x y -> if ((P x) /\ (Q y)) then ))
