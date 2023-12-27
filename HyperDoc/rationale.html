@@ -160,20 +160,12 @@
 	If the user wishes to add additional routines to the implementation, the image allows the user to load additional native artifacts into the image describing operations as they are carried out natively in the environment.
 	This solution conforms to all the properties of the portability requirement and allows an implementation of <i>n</i><sup>th</sup> to be created in a timely fashion.</p>
 
-	<h2><a href="#Features" id="Features">Features</a></h2>
-	<p>What are the features that <i>n</i><sup>th</sup> has that allow it to live up to these requirements?
-	Firstly, it provides the normal features which are expected for a useful language: functions, variables, numbers, logic, and structures.
-	It provides these in a very <i>simple</i> manner. 
-	For each of the primitive types, there is one constructor.
-	Structures are described simply by listing their components, without additional grammar or domain language.
-	Notation is included where it's important such as the symbolic operators denoting functions and variable binding.
-	This prevents the base language from being so uniform that its components are indistinguishable.</p>
-	<p>A prominant feature is the expressive static type system.
-	Normally, a language provides the base types, structure types, and only limited checks.
-	<i>n</i><sup>th</sup> allows the user to specify arbitrary checks against arbitrary properties.</p>
-	The type system in <i>n</i><sup>th</sup> is cranked up to 13, so to speak. 
-	It allows not only arbitrary restrictions on variables, but also arbitrary restrictive relationships between multiple things.
-	A type is not simply a "set of values", but a proposition, in some sense, which can be made with respect to any number of entities within a program.</p>
+	<p>A prominent philosophy which affects <i>n</i><sup>th</sup>'s design is that there are no "errors".
+	Obviously this statement is not true in reality, but it conveys a very important property.
+	An <i>n</i><sup>th</sup> program cannot reach a state where unexpected behavior occurs.
+	In fact, <i>n</i><sup>th</sup> is not capable of expressing an error condition.
+	The programmer may consider some state or control flow invalid, but <i>n</i><sup>th</sup> does not support that distinction.
+	If it is not something invalidated before the program is run, then the programmer is required to account for it during runtime.</p>
 
 	<h2><a href="#Epilogue" id="Epilogue">Epilogue</a></h2>
 	<p><i>n</i><sup>th</sup> represents a modern and informed attempt to create a useful tool.
