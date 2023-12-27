@@ -781,35 +781,11 @@ then
 (M g) folds M over g because g has two parameters
 (M r) makes a slice of M from index a to index b
 
-
-something that's really weird is that I have no way to talk about interfaces.
-Example:
-
-(Dog : Type,
- Cat : Type,
- Animal = [Dog Cat],
- bark : ((Dog) -> 'woof),
- meow : ((Cat) -> 'purr),
- speak : ((Animal) -> ???))
-
-So here the deal is that Animal should be defined for every occurrance.
-TypeClasses allow you to make the restriction that if something is an animal,
-it has to implement the `speak` function.
-I don't need interfaces.
-Simply, speak must be proven to work according to its type at compile time.
-If Dog and Cat are both Animals, then all Animal functions must support both 
-Dog and Cat.
-
-
-So I have a qualified type 
-(t = (A B | (x y -> P x y)))
-How do I enforce the two types?
-(m n : t) is one way where you're constraining symbols.
-How do I say which one is which, but separately?
-That's a big deal is being separate.
-So if they're separate, then how do I talk about them?
-One type is related to another type, but by how? Binding?
-No, it would be by a graph.
-What am I really saying?
-Two things occurring in scope are related but not by a function?
-What does this do? Nothing.
+How do I do multiple types?
+I have (k = (t T | (m n -> P m n)))
+Where x and y are types.
+Here, instances are tuples of things that all have to exist at the same time.
+Given two things, (x y : k), you can say they are instances of (k) such that
+(x : t) and (y : T).
+However, this may happen out of order and across scopes.
+Well the easiest is that you only declare this type when all instances are present
