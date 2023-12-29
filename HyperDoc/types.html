@@ -32,10 +32,10 @@
 	<p>where each result following the keyword <a>symbol</a>, <span><code>'members</code></span>, is used as a <a href="terms.html#Member">member</a> of the resulting <a href="terms.html#Type">type</a>.</p>
 	</figure>
 	<p>An <a href="#Enumerated-Types">enumerated type</a> will <a href="terms.html#Constraint">constrain</a> a <a href="terms.html#Value">value</a> by restricting the <a href="terms.html#Value">value</a> such that it must be an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Constraint">constraining</a> <a href="terms.html#Type">type</a>.</p>
-	<p>Given any two <a>default expressions</a> which construct <a>enumerated types</a>, the resulting <a>types</a> cannot be equal.</p>
+	<p>Given any two <a href="defaults.html#Expressions">default expressions</a> which construct <a href="#Enumerated-Types">enumerated types</a>, the resulting <a>types</a> cannot be <a href="terms.html#Equivalence">equal</a>.</p>
 	<p>A <a href="terms.html#Unit">unit</a>, which is an <a href="terms.html#Instance">instance</a> of an <a href="#Enumerated-Types">enumerated type</a>, must be equal to one of the <a href="terms.html#Unit">units</a> listed as a <a href="terms.html#Member">member</a> of the <a href="#Enumerated-Types">enumerated type</a>.
 		This relation is such that <br><code>((a = b) : Success)</code> where <code>x</code> is a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Instance">instance</a> and <code>y</code> is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Constraint">constraining</a> <a href="terms.html#Type">type</a>.</p>
-	<p>The <a>default expression</a> for constructing an <a>enumerated type</a> implements a special case whereby if a <a>symbol</a> given as a <a>member</a> is not an <a>identifier</a> in the <a>scope</a> where the <a>default expression</a> is <a>evaluated</a>, then that <a>symbol</a> will be <a>bound</a> as the <a>identifier</a> to the <a>value</a>, <code>[ _ ]</code> in that <a>scope</a>.</p>
+	<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, for constructing an <a href="#Enumerated-Types">enumerated type</a> implements a special case whereby if a <a href="terms.html#Symbol">symbol</a> given as a <a href="terms.html#Member">member</a> is not an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Scope">scope</a> where <code>members</code> is <a href="terms.html#Evaluate">evaluated</a>, then that <a href="terms.html#Symbol">symbol</a> will be <a href="terms.html#Binding">bound</a> as the <a href="terms.html#Identifier">identifier</a> to the <a href="terms.html#Value">value</a>, <code>[ _ ]</code> in that <a href="terms.html#Scope">scope</a>.</p>
 	<h3><a href="#Qualified-Types" id="Qualified-Types">Qualified types</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Qualified-Types">qualified types</a>.</figcaption>
@@ -71,9 +71,14 @@
 	</figure>
 	<h2>Type Arithmetic</h2>
 	<h3>Addition</h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> addition.</figcaption>
+	<p><code>
+		({Type '+ Type} -> Program)
+	</code></p>
+	</figure>
 	<h3>Subtraction</h3>
 	<h3>Derive from Instance</h3>
-	<h2>Type Comparisons</h2>
 	<figure>
 	<figcaption>The <a>type</a> of <a>transform</a> which implements addition over <a>types</a>.</figcaption>
 	<p><code>
