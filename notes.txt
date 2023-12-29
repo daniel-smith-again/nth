@@ -796,3 +796,40 @@ I have a type compared to some other type.
 What I really mean is 
 (Construct x = {x},
  Wrapped = (Collection | image Construct))
+
+
+Match on type.
+
+(Color = [red blue green],
+ x : Color,
+ check x
+      where red is 1
+      where blue is 2
+      where green is 3)
+Words suck, don't use words.
+
+(Color = [red blue green],
+ x : Color,
+ x ~ red => 1 blue => 2 green => 3,
+ given x where red is 1 where blue is 2 where green is 3,
+ match x where red is 1 where blue is 2 where green is 3,
+ x where red is 1 and blue is 2 and green is 3,
+ given x then red is 1 and blue is 2 and green is 3)
+
+case x of red -> 1 blue -> 2 green -> 3
+
+given x where red is 1 blue is 2 green is 3
+
+chose from x where red is 1 blue is 2 green is 3
+branch x where red is 1
+
+chose x where
+
+where x is red then 1 is blue then 2 is green then 3
+where x is red then 1
+where x is 
+	red then 1
+	blue then 2
+	green then 3
+
+

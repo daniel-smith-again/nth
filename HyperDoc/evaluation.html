@@ -277,7 +277,7 @@
 	<a href="#Fig-12" id="Fig-12">Figure 12</a><figure>
 	<figcaption>The <a>type</a> of <a>transform</a> which implements Qualitative Branching.</figcaption>
 	<p><code>
-	(([{'given * 'as Symbol} {'given *}] + ({'where * 'is Program} ;)) -> *)
+	(([{'where * 'as Symbol} {'where *}] + ({'is * 'then Program} ;)) -> *)
 	</code></p>
 	</figure>
 	<a href="#12-1" id="12-1">12-1</a><p>Judgemental Branching accepts a series of <a>Judgement</a> and <a href="terms.html#Program">program</a> pairs and an optional trailing keyword <a>symbol</a>, <code>'else</code>, and an <a href="terms.html#Program">program</a>.</p>
@@ -323,20 +323,20 @@
 	<a href="#Fig-14" id="Fig-14">Figure 14</a><figure>
 	<figcaption>The following <a>programs</a> demonstrate the three possible control paths which may occur when <a>evaluating</a> a Qualitative Branch.</figcaption>
 	<p><code>
-		(given 1 as n<br>
-		&nbsp;where 1 is 'A<br>
-		&nbsp;where Number is 'B)
+		(where 1 as n<br>
+		&nbsp;is 1 then 'A<br>
+		&nbsp;is Number then 'B)
 	</code></p>
 	<p>The result of this branch is <span><code>'A</code></span></p><br>
 	<p><code>
-		(given 1 as n<br>
-		&nbsp;where True is 'A<br>
-		&nbsp;where Number is 'B)
+		(where 1 as n<br>
+		&nbsp;is True then 'A<br>
+		&nbsp;is Number then 'B)
 	</code></p>
 	<p>The result of this branch is <span><code>'B</code></span></p><br>
 	<p><code>
-		(given 1 as n<br>
-		&nbsp;where True is 'A)
+		(where 1 as n<br>
+		&nbsp;is True then 'A)
 	</code></p>
 	<p>The result of this branch is <span><code>_</code></span></p>
 	</figure>
