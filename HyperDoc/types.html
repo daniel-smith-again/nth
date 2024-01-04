@@ -77,15 +77,23 @@
 		({Type '+ Type} -> Program)
 	</code></p>
 	</figure>
+	<p>The addition of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of both <a href="terms.html#Type">types</a>.</p>
 	<h3>Subtraction</h3>
-	<h3>Derive from Instance</h3>
 	<figure>
-	<figcaption>The <a>type</a> of <a>transform</a> which implements addition over <a>types</a>.</figcaption>
+	<figcaption>THe <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> subtraction.</figcaption>
 	<p><code>
-		({Type '+ Type'} -> Type)
+		({Type '- Type} -> Program)
 	</code></p>
 	</figure>
-	<p></p>
+	<p>The subtraction of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of the first <a href="terms.html#Type">type</a> which is not also a <a href="terms.html#Member">member</a> of the second type.</p>
+	<h3>Derive from Instance</h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> derivation.</figcaption>
+	<p><code>
+		({'? *} -> Program)
+	</code></p>
+	</figure>
+	<p>Deriving a <a href="terms.html#Type">type</a> from a <a href="terms.html#Value">value</a> will give the <a href="terms.html#Type">type</a> that <a href="terms.html#Constraint">constrains</a> the <a href="terms.html#Value">value</a>.</p>
 	<h2><a href="#Correct-Programs" id="Correct-Programs">Correct Programs</a></h2>
 	<p>A <a href="terms.html#Program">program</a> is determined to be <a href="terms.html#Correct">correct</a> if there are no <a href="terms.html#Error">errors</a> resulting from <a href="terms.html#Constraint">constraint</a> violations.</p>
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>

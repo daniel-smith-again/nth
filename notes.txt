@@ -833,3 +833,8 @@ where x is
 	green then 3
 
 
+
+in Ocaml I can say (<. 1 + 2 .> : Number)
+In nth, I can only say ('(1 + 2) : Program)
+I can't talk about what might happen when you evaluate the program.
+
