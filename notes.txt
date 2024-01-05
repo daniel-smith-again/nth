@@ -838,3 +838,7 @@ in Ocaml I can say (<. 1 + 2 .> : Number)
 In nth, I can only say ('(1 + 2) : Program)
 I can't talk about what might happen when you evaluate the program.
 
+How do I do assembly?
+Compiling an image leaves an artifact format.
+An artifact is a bunch of functions and top-level bindings.
+So at any point you can create an artifact fragment which isn't compiled.

@@ -13,3 +13,24 @@ Add character type to types chapter
 Add clause to define what unicode general character classes are accepted
 
 Fix vector transform definition so that it works for just (_ ;)
+
+How do you delete a transform?
+So far you define it and you can't undef it.
+That's image introspection stuff.
+What are my image functions?
+Given that images are bindings.
+
+Load, Store, Extract, Open, Close, Define, List, This.
+
+load will open an image from a system location
+store will save an image to a system location
+extract will create an artifact from an image
+open will use a loaded image as the top-level
+close will move outside the current top-level
+list will create a listing of all the bindings in an image
+the binding, this, refers to the current top-level
+
+
+meta stuff:
+
+describe will describe a unit
