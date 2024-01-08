@@ -35,14 +35,41 @@
 	<p>Given any two <a href="defaults.html#Expressions">default expressions</a> which construct <a href="#Enumerated-Types">enumerated types</a>, the resulting <a>types</a> cannot be <a href="terms.html#Equivalence">equal</a>.</p>
 	<p>A <a href="terms.html#Unit">unit</a>, which is an <a href="terms.html#Instance">instance</a> of an <a href="#Enumerated-Types">enumerated type</a>, must be equal to one of the <a href="terms.html#Unit">units</a> listed as a <a href="terms.html#Member">member</a> of the <a href="#Enumerated-Types">enumerated type</a>.
 		This relation is such that <br><code>((a = b) : Success)</code> where <code>x</code> is a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Instance">instance</a> and <code>y</code> is a <a href="terms.html#Member">member</a> of the <a href="terms.html#Constraint">constraining</a> <a href="terms.html#Type">type</a>.</p>
-	<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, for constructing an <a href="#Enumerated-Types">enumerated type</a> implements a special case whereby if a <a href="terms.html#Symbol">symbol</a> given as a <a href="terms.html#Member">member</a> is not an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Scope">scope</a> where <code>members</code> is <a href="terms.html#Evaluate">evaluated</a>, then that <a href="terms.html#Symbol">symbol</a> will be <a href="terms.html#Binding">bound</a> as the <a href="terms.html#Identifier">identifier</a> to the <a href="terms.html#Value">value</a>, <code>[ _ ]</code> in that <a href="terms.html#Scope">scope</a>.</p>
+	<p>The <a href="defaults.html#Expressions">default expression</a>, <code>members</code>, for constructing an <a href="#Enumerated-Types">enumerated type</a> implements a special case whereby if a <a href="terms.html#Symbol">symbol</a> given as a <a href="terms.html#Member">member</a> is not an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Scope">scope</a> where <code>members</code> is <a href="terms.html#Evaluate">evaluated</a>, then that <a href="terms.html#Symbol">symbol</a> will be <a href="terms.html#Binding">bound</a> as the <a href="terms.html#Identifier">identifier</a> to the <a href="terms.html#Value">value</a>, <span><code>[ _ ]</code></span> in that <a href="terms.html#Scope">scope</a>.</p>
 	<h3><a href="#Qualified-Types" id="Qualified-Types">Qualified types</a></h3>
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for constructing <a href="#Qualified-Types">qualified types</a>.</figcaption>
 	<p><code>[(((Type ;) + {'| (-> Judgement)} -> Type)</code></p>
 	<p>where one or more "base" <a href="terms.html#Type">types</a> are provided and then a "proposition" <a href="terms.html#Function">function</a> after the bar, <span><code>|</code></span>, which accepts an <a href="terms.html#Instance">instance</a> of each of the "base" <a>types</a> as a <a href="terms.html#Parameter">parameter</a>.</p>
 	</figure>
-	<p>A <a href="#Qualified-Types">qualified type</a> will <a href="terms.html#Constraint">constraint</a> a <a href="terms.html#Value">value</a> by restricting the <a href="terms.html#Value">value</a> such that, when given as a <a href="terms.html#Parameter">parameter</a> to the "proposition" <a href="terms.html#Function">function</a>, the result of the <a href="terms.html#Application">application</a> is an <a href="terms.html#Inhabitant">inhabitant</a> of <code>Success</code>.</p>
+	<p>A <a href="#Qualified-Types">qualified type</a> will <a href="terms.html#Constraint">constrain</a> a <a href="terms.html#Value">value</a> by restricting the <a href="terms.html#Value">value</a> such that, when given as a <a href="terms.html#Parameter">parameter</a> to the "proposition" <a href="terms.html#Function">function</a>, the result of the <a href="terms.html#Application">application</a> is an <a href="terms.html#Inhabitant">inhabitant</a> of <code>Success</code>.
+	Thus any <a href="terms.html#Unit">unit</a> which results in a <code>Success</code> when used as a <a href="terms.html#Parameter">parameter</a> must be an <a href="terms.html#Instance">instance</a> of that <a href="#Qualified-Types">qualified type</a>.</p>
+	<p>Any two <a href="#Qualified-Types">qualified types</a> may be <a href="terms.html#Equivalence">equal</a> if the "base" <a href="terms.html#Type">types</a> are both equal and the "proposition" <a href="terms.html#Function">functions</a> are both <a href="terms.html#Equivalence">equal</a>.</p>
+	<h2>Type Arithmetic</h2>
+	<h3>Addition</h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> addition.</figcaption>
+	<p><code>
+		({Type '+ Type} -> Program)
+	</code></p>
+	</figure>
+	<p>The addition of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of both <a href="terms.html#Type">types</a>.</p>
+	<h3>Subtraction</h3>
+	<figure>
+	<figcaption>THe <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> subtraction.</figcaption>
+	<p><code>
+		({Type '- Type} -> Program)
+	</code></p>
+	</figure>
+	<p>The subtraction of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of the first <a href="terms.html#Type">type</a> which is not also a <a href="terms.html#Member">member</a> of the second type.</p>
+	<h3>Derive from Instance</h3>
+	<figure>
+	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> derivation.</figcaption>
+	<p><code>
+		({'? *} -> Program)
+	</code></p>
+	</figure>
+	<p>Deriving a <a href="terms.html#Type">type</a> from a <a href="terms.html#Value">value</a> will give the <a href="terms.html#Type">type</a> that <a href="terms.html#Constraint">constrains</a> the <a href="terms.html#Value">value</a>.</p>
 	<h2><a href="#Constraints" id="Constraints">Constraints</a></h2>
 	<p>A <a href="terms.html#Constraint">constraint</a> implies a process which is external to the semantics given for <a href="terms.html#Evaluate">evaluation</a>.</p>
 	<p>A <a href="terms.html#Program">program</a> will either satisfy or violate a <a href="terms.html#Constraint">constraint</a>.</p>
@@ -69,31 +96,6 @@
 	<p>This example, <code>(x : t, x = 'c)</code> highlights the special case of <a href="terms.html#Assertion">assertion</a> on a <a href="terms.html#Symbol">symbol</a> where <span><code>x</code></span> is treated as an <a href="terms.html#Identifier">identifier</a> in both <a href="terms.html#Step">steps</a>.</p>
 	<p>This example, <code>(x : t, x = 'd)</code> shows a case where a <a>constraint</a> is violated.</p>
 	</figure>
-	<h2>Type Arithmetic</h2>
-	<h3>Addition</h3>
-	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> addition.</figcaption>
-	<p><code>
-		({Type '+ Type} -> Program)
-	</code></p>
-	</figure>
-	<p>The addition of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of both <a href="terms.html#Type">types</a>.</p>
-	<h3>Subtraction</h3>
-	<figure>
-	<figcaption>THe <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> subtraction.</figcaption>
-	<p><code>
-		({Type '- Type} -> Program)
-	</code></p>
-	</figure>
-	<p>The subtraction of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of the first <a href="terms.html#Type">type</a> which is not also a <a href="terms.html#Member">member</a> of the second type.</p>
-	<h3>Derive from Instance</h3>
-	<figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> derivation.</figcaption>
-	<p><code>
-		({'? *} -> Program)
-	</code></p>
-	</figure>
-	<p>Deriving a <a href="terms.html#Type">type</a> from a <a href="terms.html#Value">value</a> will give the <a href="terms.html#Type">type</a> that <a href="terms.html#Constraint">constrains</a> the <a href="terms.html#Value">value</a>.</p>
 	<h2><a href="#Correct-Programs" id="Correct-Programs">Correct Programs</a></h2>
 	<p>A <a href="terms.html#Program">program</a> is determined to be <a href="terms.html#Correct">correct</a> if there are no <a href="terms.html#Error">errors</a> resulting from <a href="terms.html#Constraint">constraint</a> violations.</p>
 	<p>A <a href="terms.html#Constraint">constraint</a> is either conformed to or violated by a <a href="terms.html#Program">program</a> according to a set of rules which specify how a <a href="terms.html#Constraint">constraint</a> relates to a <a href="terms.html#Program">program</a>.</p>

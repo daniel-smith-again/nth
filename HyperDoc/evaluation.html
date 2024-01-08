@@ -25,9 +25,6 @@
 	<a href="#2-5" id="2-5">2-5</a><p>If no <a href="terms.html#Transform">transforms</a> can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, and it is not a <a href="defaults.html#Expressions">default expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 	<a href="#2-6" id="2-6">2-6</a><p>If an <a href="terms.html#Expression">expression</a> with one or more nested <a href="terms.html#Expression">expressions</a> is <a href="terms.html#Rewrite">rewritten</a>, each inner <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Rewrite">rewritten</a> before the outer <a href="terms.html#Expression">expression</a>.</p>
 	<a href="#2-7" id="2-7">2-7</a><p><a>Rewriting</a> must not <a href="terms.html#Resolve">resolve</a> a <a href="terms.html#Binding">binding</a> if that <a href="terms.html#Binding">binding</a> is not a <a href="terms.html#Transform">transform</a>.</p>
-	
-	
-	
 	<h2>Reduction</h2>
 	<a href="#3-1" id="3-1">3-1</a><p>A <a href="terms.html#Program">program</a> can be <a href="terms.html#Reduce">reduced</a> only when all <a href="terms.html#Expression">expressions</a> in the <a href="terms.html#Program">program</a> are <a href="defaults.html#Expressions">default expressions</a>.</p>
 	<a href="#3-2" id="3-2">3-2</a><p>A <a href="terms.html#Program">program</a> consisting of only <a href="defaults.html#Expressions">default expressions</a> may only be <a href="terms.html#Reduce">reduced</a> if it is determined to be <a href="terms.html#Correct">correct</a>.</p>
@@ -36,7 +33,6 @@
 	<a href="#3-5" id="3-5">3-5</a><p><a href="terms.html#Reduce">Reduction</a> will ignore any and all <a href="terms.html#Transform">transforms</a> in the <a href="terms.html#Scope">scope</a> and must not <a href="terms.html#Application">apply</a> them.</p>
 	<a href="#3-6" id="3-6">3-6</a><p>If all <a href="terms.html#Identifier">identifiers</a> in the <a href="terms.html#Expression">expression</a> are <a href="terms.html#Resolve">resolved</a>, then <a href="terms.html#Reduce">reduction</a> may begin <a href="terms.html#Execute">executing</a> the <a href="terms.html#Operation">operations</a> corresponding to that <a href="terms.html#Expression">expression</a>, otherwise, if all <a href="terms.html#Identifier">identifiers</a> cannot be <a href="terms.html#Resolve">resolved</a>, it is an <a href="terms.html#Error">error</a>.</p>
 	<a href="#3-7" id="3-7">3-7</a><p><a href="terms.html#Reduce">Reduction</a> of a <a href="terms.html#Program">program</a> is performed according to the definitions of <a href="defaults.html#Expressions">default expressions</a> and <a href="defaults.html#Functions">default functions</a> such that some <a href="foreword.html#Conformance">implementation defined</a> <a href="terms.html#Operation">operations</a> are <a href="terms.html#Execute">executed</a> in an <a href="foreword.html#Conformance">implementation dependent</a> order in a manner which produces a <a href="terms.html#Correct">correct</a> result according to those definitions provided in this document.</p>
-	
 	<h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 	<a href="#4-1" id="4-1">4-1</a><p>The <a href="terms.html#Context">Context</a> is used to persist <a href="terms.html#Resource">resources</a> in the <a href="terms.html#Environment">environment</a> for the <a href="terms.html#Execute">execution</a> one or more <a href="terms.html#Operation">operations</a>.</p>
 	<a href="#4-2" id="4-2">4-2</a><p><a href="terms.html#Context">Contexts</a> may be arbitrarily nested where the the inner <a href="terms.html#Context">context</a> <a href="terms.html#Closure">closes</a> over the outer <a href="terms.html#Context">context</a>.</p>
@@ -56,8 +52,6 @@
 	<a>Contexts</a> may not be destructured and <a>bindings</a> may not be used as <a>data</a>.
 	Consequently, an <a>implementation</a> is not required to <a>implement</a> <a>bindings</a> as literal <a href="terms.html#Function">functions</a>. 
 	A <a href="terms.html#Binding">binding</a> being a <a href="terms.html#Function">function</a> only provides an intuition for the way <a href="terms.html#Binding">bindings</a> affect the <a href="terms.html#Evaluation">evaluation</a> of a <a href="terms.html#Program">program</a>.</p>
-	
-
 	<h3><a href="#Transforms" id="Transforms">Transforms</a></h3>
 	<a href="#6-1" id="6-1">6-1</a><p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Functions">function</a>,<br><code>(Collection -> *)</code><br>
 	such that a <a href="terms.html#Transform">transform</a> <a href="terms.html#Binds">binds</a> one or more <a href="terms.html#Expression">expressions</a> as <a href="terms.html#Identifier">identifiers</a>, according to a <a href="terms.html#Program-Model">Program Model</a> structure specified by the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a>.</p>
