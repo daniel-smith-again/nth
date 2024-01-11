@@ -265,7 +265,7 @@
 	<a href="#Fig-11" id="Fig-11">Figure 11</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements Judgemental Branching.</figcaption>
 	<p><code>
-	(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'or Judgement 'then Program} ;) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)
+	(({'if Judgement 'then Program} +<br>&nbsp;&nbsp;&nbsp;({'if Judgement 'then Program} ;) +<br>&nbsp;&nbsp;&nbsp;[{'else Program} {}]) -> *)
 	</code></p>
 	</figure>
 	<a href="#Fig-12" id="Fig-12">Figure 12</a><figure>
@@ -287,14 +287,14 @@
 	<figcaption>The following three <a href="terms.html#Program">programs</a> demonstrate the three possible control paths which may occur when <a href="terms.html#Evalute">evaluating</a> a Judgemental Branch.</figcaption>
 	<p><code>
 		(if (Failure) then 'A<br>
-		&nbsp;or&nbsp;(Success) then 'B<br>
-		&nbsp;or&nbsp;(Success) then 'C)
+		&nbsp;if&nbsp;(Success) then 'B<br>
+		&nbsp;if&nbsp;(Success) then 'C)
 	</code></p>
 	<p>The result of this branch is <span><code>'B</code></span>.</p>
 	<br>
 	<p><code>
 		(if (Failure) then 'A<br>
-		&nbsp;or&nbsp;(Failure) then 'B<br>
+		&nbsp;if&nbsp;(Failure) then 'B<br>
 		&nbsp;else 'C)
 	</code></p>
 	<p>The result of this branch is <span><code>'C</code></span>.</p>

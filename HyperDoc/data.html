@@ -66,25 +66,20 @@
 	<a href="#7-2" id="7-2">7-2</a><p>A <a href="terms.html#Vector">vector</a> is a composite <a href="terms.html#Type">type</a> of <a href="terms.html#Data">data</a> where all <a href="terms.html#Member">members</a> are indexed, and <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
 	<a href="#7-3" id="7-3">7-3</a><p><a href="terms.html#Member">Members</a> in a <a href="terms.html#Vector">vector</a> are indexed beginning with one for the first <a href="terms.html#Member">member</a>, incrementing by one for each additional <a href="terms.html#Member">member</a>, and the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Vector">vector</a> being the index of the last <a>member</a>.</p>
 	<a href="#7-4" id="7-4">7-4</a><p>For each <a href="terms.html#Unit">unit</a>, the <a href="terms.html#Environment">environment</a> will maintain a <a href="terms.html#Vector">vector</a> of <a href="terms.html#Byte">bytes</a> which contains the <a href="terms.html#Data">data</a> for that <a href="terms.html#Unit">unit</a> where the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Vector">vector</a> is equal to the <a href="terms.html#Size">size</a> of the <a href="terms.html#Unit">unit</a> and the <a href="terms.html#Place">Place</a> of the first <a href="terms.html#Byte">byte</a> in the <a href="terms.html#Vector">vector</a> is the <a href="terms.html#Place">Place</a> of the <a href="terms.html#Unit">unit</a>.</p>
-	<h2><a href="#Recursion" id="Recursion">Recursion</a></h2>
-	<a href="#8-1" id="8-1">8-1</a><p><a href="terms.html#Recursion">Recursion</a> may occur in <a href="terms.html#Data">data</a> where a component of some <a href="terms.html#Data">data</a> may refer to that <a href="terms.html#Data">data</a>.
-	In this case, <a href="terms.html#Recursion">recursion</a> is only observed by the <a href="terms.html#Operation">operations</a> which access components of that <a href="terms.html#Data">data</a>. 
-	There will only ever be a single <a href="terms.html#Data">data</a> unit.
-	<a href="terms.html#Execute">Executing</a> <a href="terms.html#Operation">operations</a> which access <a href="terms.html#Data">data</a> from a component which contains a recursive reference will only yield the <i>existing</i> <a href="terms.html#Data">data</a> unit which contains the <a href="terms.html#Recursion">recursive</a> component.</p>
-	<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
-	<figcaption>An example of <a href="terms.html#Recursion">recursive</a> <a href="terms.html#Data">data</a></figcaption>
-	<p><code>
-		(x = (x 1 *))
-	</code></p>
-	</figure>
 	<h2><a href="#Sizes" id="Sizes">Sizes</a></h2>
-	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
+	<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the <a href="defaults.html#Expressions">default expression</a> for deriving the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a>.</figcaption>
 	<p><code>
 	({'## *} -> Word)
 	</code></p>
 	</figure>
-	<a href="#9-1" id="9-1">9-1</a><p>The <a href="defaults.html#Expressions">default expression</a> for the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a> will return the <a href="terms.html#Size">size</a> as a <a href="terms.html#Word">Word</a> <a href="terms.html#Value">value</a>.</p>
+	<a href="#8-1" id="9-1">9-1</a><p>The <a href="defaults.html#Expressions">default expression</a> for the <a href="terms.html#Size">size</a> of a <a href="terms.html#Unit">unit</a> will return the <a href="terms.html#Size">size</a> as a <a href="terms.html#Word">Word</a> <a href="terms.html#Value">value</a>.</p>
 	<h2><a href="#Equivalence" id="Equivalence">Equivalence</a></h2>
-	<a href="#10-1" id="10-1">10-1</a><p><a href="terms.html#Equivalence">Equivalence</a> between <a href="terms.html#Unit">units</a> is a primitive notion and depends on the <a href="defaults.html#Types">default type</a> of the <a href="terms.html#Unit">unit</a>.</p>
+	<a href="#9-1" id="9-1">9-1</a><p><a href="terms.html#Equivalence">Equivalence</a> between <a href="terms.html#Unit">units</a> is a primitive notion and depends on the <a href="defaults.html#Types">default type</a> of the <a href="terms.html#Unit">unit</a>. Two <a href="terms.html#Unit">Units</a> with <a href="defaults.html#Types">default types</a> that aren't <a href="terms.html#Equivalence">equal</a> cannot themselves be <a href="terms.html#Equivalence">equivalent</a>.</p>
+	<a href="#9-2" id="9-2">9-2</a><p>A <a href="terms.html#Unit">unit</a> will always be <a href="terms.html#Equivalence">equal</a> to itself, such that <span><code>(x = &#x1d55c;, (x = x) : Success) </code></span></p>
+	<a href="#9-3" id="9-3">9-3</a><p>A <a href="terms.html#Unit">unit</a> will always be <a href="terms.html#Equivalence">equal</a> to a copy of itself, such that <span><code>(x = &#x1d55c;, y = x, (x = y) : Success)</code></span></p>
+	<a href="#9-4" id="9-4">9-4</a><p>A <a href="terms.html#Unit">unit</a> will always be <a href="terms.html#Equivalence">equal</a> to itself as it appears in a <a href="terms.html#Closure">closure</a> such that <span><code>(x = &#x1d55c;, f n = ((n = x) : Judgement), (f x) : Success)</code></span></p>
+	<h2><a href="#Programs" id="Programs">Programs</a></h2>
+	<p>A <a href="terms.html#Program">program</a> may be converted to <a href="terms.html#Data">data</a> using a <a href="terms.html#Quote">quote</a> <a href="terms.html#Operator">operation</a>.</p>
+	<p>A <a href="terms.html#Program">program</a> as <a href="terms.html#Data">data</a> must still be <a href="terms.html#Correct">correct</a> as if it were a <a href="terms.html#Program-Model">Program Model</a>.</p>
 </body>

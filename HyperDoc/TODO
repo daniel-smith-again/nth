@@ -1,5 +1,3 @@
-Specify how (quote) closes over the context. (Does it?)
-
 How do first class contexts work?
 
 How do transforms resolve bindings?
@@ -22,6 +20,9 @@ Given that images are bindings.
 
 Load, Store, Extract, Open, Close, Define, List, This.
 
+should autocomplete be a feature?
+Yes, partial match of a transform should be available.
+
 load will open an image from a system location
 store will save an image to a system location
 extract will create an artifact from an image
@@ -34,3 +35,9 @@ the binding, this, refers to the current top-level
 meta stuff:
 
 describe will describe a unit
+suggest will attempt to guess a complete transform expression from an incomplete expression.
+
+
+how can a program be a subtype of a type?
+Can it be a subtype of an instance?
+a program is a real object though.
