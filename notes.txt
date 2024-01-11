@@ -842,3 +842,19 @@ How do I do assembly?
 Compiling an image leaves an artifact format.
 An artifact is a bunch of functions and top-level bindings.
 So at any point you can create an artifact fragment which isn't compiled.
+
+
+
+What should I do about Algebraic Data Types?
+First, they can't be anonymous since there's a specific type.
+
+overload the define expression.
+ADT's have to be top-level declarations anyways.
+
+So how would I make a tree?
+
+(define Tree (Leaf n) (Branch n l r))
+(define t as (Branch 1 (Leaf 2) (Leaf 3)))
+(given t
+       is Leaf * then (t . n)
+       is (Branch Natural * *) then (t . r))

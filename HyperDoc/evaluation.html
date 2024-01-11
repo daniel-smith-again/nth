@@ -96,14 +96,18 @@
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Definition.</figcaption>
 	<p><code>
 		({'define} +<br>
-		&nbsp;[{Transform} {Symbol 'as *}] +<br>
-		&nbsp;([{'and Transform} {'and Symbol 'as *}] ;) -> _)
+		&nbsp;[{Transform} {Symbol 'as *} ({Symbol} + ((Symbol ;) ;))] +<br>
+		&nbsp;(({'and} + <br>
+		&nbsp;&nbsp;&nbsp;[{Transform} {Symbol 'as *} ({Symbol} + ((Symbol ;) ;))]) ;)<br>
+		&nbsp; -> _)
 	</code></p>
 	</figure>
-	<a href="#7-1" id="7-1">7-1</a><p>Definition will create a <a>binding</a> in the <a href="terms.html#Top-Level">top level</a>.</p>
-	<a href="#7-1" id="7-2">7-2</a><p>If the Definition <a href="terms.html#Expression">expression</a> is given a <a href="terms.html#Symbol">symbol</a> followed by <a href="terms.html#Data">data</a>, it will create a <a href="terms.html#Binding">binding</a> where the <a href="terms.html#Symbol">symbol</a> is the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> is the <a href="terms.html#Value">value</a>.</p>
+	<a href="#7-1" id="7-1">7-1</a><p>Definition will create a <a>binding</a> in the <a href="terms.html#Top-Level">top level</a>.
+	A Definition <a>expression</a> can accept multiple <a>parameters</a> to bind in the <a href="terms.html#Top-Level">top level</a>.</p>
+	<a href="#7-1" id="7-2">7-2</a><p>If the Definition <a href="terms.html#Expression">expression</a> is given a <a href="terms.html#Symbol">symbol</a> followed by the keyword <a href="terms.html#Symbol">symbol</a>, <code>'as</code>, then <a href="terms.html#Data">data</a>, it will create a <a href="terms.html#Binding">binding</a> where the <a href="terms.html#Symbol">symbol</a> is the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> is the <a href="terms.html#Value">value</a>.</p>
 	<a href="#7-3" id="7-3">7-3</a><p>If the Definition <a href="terms.html#Expression">expression</a> is given only a <a href="terms.html#Function">function</a> of the specific type <code>(Collection -> *)</code>, it will create a <a href="terms.html#Transform">transform</a> where the <a href="terms.html#Collection">collection</a> <a href="terms.html#Parameter">parameter</a> corresponds to the <a href="terms.html#Type">type</a> of <a href="terms.html#Program-Model">Program Model</a> components which are accepted as <a href="terms.html#Identifier">identifiers</a> that the <a href="terms.html#Transform">transform</a> will be <a href="terms.html#Application">applied</a> to.</p>
-	<a href="#7-4" id="7-4">7-4</a><p>A Definition <a>expression</a> can accept multiple <a>parameters</a> to bind in the <a href="terms.html#Top-Level">top level</a> </p>
+	<a href="#7-4" id="7-4">7-4</a><p>If the Definition <a href="terms.html#Expression">expression</a> is given a <a href="terms.html#Symbol">symbol</a> followed by a <a href="terms.html#Collection">collection</a> of <a href="terms.html#Collection">collections</a> of <a href="terms.html#Symbol">symbols</a>, it will create a <a href="terms.html#Datatype">datatype</a> according to <a href="data.html#Datatypes"><i>Data, Datatypes</i></a>.</p>
+	
 	
 	<h3><a href="#Assignment" id="Assignment">Assignment</a></h3>
 	<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
