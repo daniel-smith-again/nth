@@ -12,7 +12,7 @@
 	<h1><a href="#Types" id="Types">Types</a></h1>
 	<p><a href="terms.html#Type">Types</a> provide a means of specifying <a href="terms.html#Constraint">constraints</a> on a program and to some extent, the intent of that program.</p>
 	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "enumerated" and "qualified".</p>
-	<p>No two <a>types</a> can be <a>equivalent</a> with the exception that they are the same according to <a href="data.html#Equivalence"><i>Data, Equivalence</i></a>.</p>
+	<p>No two <a>types</a> can be <a>equivalent</a> with the exception that a single <a href="terms.html#Type">type</a> is always <a href="terms.html#Equivalent">equivalent</a> to itself according to <a href="data.html#Equivalence"><i>Data, Equivalence</i></a>.</p>
 	<p>A <a href="#Enumerated-Types">enumerated type</a> is a <a href="terms.html#Type">type</a> with a <a href="terms.html#Cardinality">cardinality</a> such that every possible <a href="terms.html#Instance">instance</a> is a <a href="terms.html#Member">member</a>.</p>
 	<p>A <a href="#Qualified-Types">qualified type</a> is a <a href="terms.html#Type">type</a> with an uncountable <a href="terms.html#Cardinality">cardinality</a> such that for every <a href="terms.html#Member">member</a>, an <a>instance</a> can be created which is not a <a>member</a>.</p>
 	<figure>
@@ -49,7 +49,7 @@
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> addition.</figcaption>
 	<p><code>
-		({Type '+ Type} -> Program)
+		({Type '+ Type} -> Type)
 	</code></p>
 	</figure>
 	<p>The addition of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of both <a href="terms.html#Type">types</a>.</p>
@@ -57,7 +57,7 @@
 	<figure>
 	<figcaption>THe <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> subtraction.</figcaption>
 	<p><code>
-		({Type '- Type} -> Program)
+		({Type '- Type} -> Type)
 	</code></p>
 	</figure>
 	<p>The subtraction of two <a href="terms.html#Type">types</a> will result in a single <a href="terms.html#Type">type</a> with every <a href="terms.html#Member">member</a> of the first <a href="terms.html#Type">type</a> which is not also a <a href="terms.html#Member">member</a> of the second type.</p>
@@ -65,7 +65,7 @@
 	<figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Type">type</a> derivation.</figcaption>
 	<p><code>
-		({'? *} -> Program)
+		({'? *} -> Type)
 	</code></p>
 	</figure>
 	<p>Deriving a <a href="terms.html#Type">type</a> from a <a href="terms.html#Value">value</a> will give the <a href="terms.html#Type">type</a> that <a href="terms.html#Constraint">constrains</a> the <a href="terms.html#Value">value</a>.</p>
@@ -207,6 +207,7 @@
 		<details><summary><math><mfrac><mrow/><mrow><mtable><mtr><mtd><mi>Byte</mi><mo>&lt;</mo><mi>Scalar</mi></mtd></mtr><mtr><mtd><mi>Word</mi><mo>&lt;</mo><mi>Scalar</mi></mtd></mtr></mtable></mrow></mfrac></math></summary><p>The <a href="terms.html#Subtype">subtypes</a> of the <code>Scalar</code> <a href="terms.html#Type">type</a>.</p></details>
 		<details><summary><math><mfrac><mrow/><mrow><mi>Scalar</mi><mo>&lt;</mo><mi>Natural</mi></mrow></mfrac></math></summary><p>In any given <a href="terms.html#Context">context</a>, <code>Scalar</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Natural</code>.</p></details>
 		<details><summary><math><mfrac><mrow/><mrow><mi>Data</mi><mo>&lt;</mo><mi>Type</mi></mrow></mfrac></math></summary><p>In any given <a href="terms.html#Context">context</a>, <code>Data</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Type</code>.</p></details>
+		<details><summary><math><mfrac><mrow/><mrow><mi>Program</mi><mo>&lt;</mo><mi>Any</mi></mrow></mfrac></math></summary><p>In any <a href="terms.html#Context">context</a>, <code>Program</code> is a <a href="terms.html#Subtype">subtype</a> of <code>Any</code>.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Scalar</mi></mrow><mrow><mi>x</mi><mo>&#x2265;</mo><mn>0</mn></mrow></mfrac></math></summary><p>Scalar data can only represent positive numerical values.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Byte</mi></mrow><mrow><mi>x</mi><mo>&#x2264;</mo><mi>&#x1d539;</mi></mrow></mfrac></math></summary><p><a href="terms.html#Byte">Byte</a> data can only represent positive numerical values which are less or equal to the maximum <a href="terms.html#Byte">Byte</a> value, &#x1d539;.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Word</mi></mrow><mrow><mi>x</mi><mo>&#x2264;</mo><mi>&#x1d54e;</mi></mrow></mfrac></math></summary><p>Word data can only represent positive numerical values which are less or equal to the maximum Word value, &#x1d54e;</p></details>
@@ -377,4 +378,8 @@
 		<details><summary><math><mfrac><mrow><mo>where</mo><mi>x</mi><mo>is</mo><msub><mi>a</mi><mn>1</mn></msub><mo>then</mo><msub><mi>A</mi><mn>1</mn></msub><mo>is</mo><msub><mi>a</mi><mn>2</mn></msub><mo>then</mo><msub><mi>A</mi><mn>2</mn></msub><mo>...</mo><mo>is</mo><msub><mi>a</mi><mi>n</mi></msub><mo>then</mo><msub><mi>A</mi><mi>n</mi></msub></mrow><mrow><mo>?</mo><mi>x</mi><mo>:</mo><mo>[</mo><msub><mi>a</mi><mn>1</mn></msub><msub><mi>a</mi><mn>2</mn></msub><mo>...</mo><msub><mi>a</mi><mi>n</mi></msub><mo>]</mo></mrow></mfrac></math></summary><p>In a Qualitative Branching <a>expression</a>, there must be a corresponding <a>value</a> - <a>program</a> pair for each <a>member</a> in the <a>type</a> of <math><mi>x</mi></math> such that each <a>member</a> is a <a>subtype</a> of at least one <a>value</a> from a pair.</p></details>
 		<details><summary><math><mfrac><mrow><mi>x</mi><mo>:</mo><mi>Program</mi><mspace width="1em"/><mo>compute</mo><mi>x</mi><mo>in</mo><mi>this</mi><mo>:</mo><mi>T</mi></mrow><mrow><mi>x</mi><mo>:</mo><mi>Program</mi><mo>&lt;</mo><mi>T</mi></mrow></mfrac></math></summary><p>Given a <a href="terms.html#Program">program</a> which <a href="terms.html#Evaluate">evaluates</a> to an <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Type">type</a>, then the <a href="terms.html#Program">program</a> itself must be <a href="terms.html#Equivalence">equivalent</a> to that <a href="terms.html#Instance">instance</a>.</p></details>
 	</div>
+	<h2><a href="#Abstract-Evaluation" id="Abstract-Evaluation">Abstract Evaluation</a></h2>
+	<p>A case may arise where an <a href="terms.html#Assertion">assertion</a> has established an <a href="terms.html#Identifier">identifier</a> in a <a href="terms.html#Scope">scope</a>, and that <a href="terms.html#Identifier">identifier</a> is then used in an <a href="terms.html#Expression">expression</a> before a definite <a href="terms.html#Value">value</a> has been given for that <a href="terms.html#Binding">binding</a>. 
+	In this case, <a href="terms.html#Evaluate">evaluation</a> of that <a href="terms.html#Expression">expression</a> will attempt to produce a <a href="terms.html#Type">type</a> as the result of the <a href="terms.html#Expression">expression</a> where each <a href="terms.html#Member">member</a> of that <a href="terms.html#Type">type</a> could be a result if a definite <a href="terms.html#Value">value</a> is substituted for that <a href="terms.html#Identifier">identifier</a>.</p>
+	<p>If the <a href="terms.html#Type">type</a> resulting from an abstract <a href="terms.html#Evaluation">evaluation</a> has only one <a href="terms.html#Member">member</a>, then that <a href="terms.html#Member">member</a> can be given directly as a result <a href="terms.html#Value">value</a>.</p>
 </body>
