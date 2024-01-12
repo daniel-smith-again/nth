@@ -85,6 +85,16 @@
 	<a href="#10-3" id="10-3">10-3</a><p>Given that a <a href="terms.html#Program">program</a> is a specific <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Collection">collection</a> corresponding to a <a href="terms.html#Correct">correct</a> <a href="terms.html#Program-Model">Program Model</a>, a <a href="terms.html#Program">program</a> <a href="terms.html#Instance">instance</a> is additionally an <a href="terms.html#Instance">instance</a> of some <a href="terms.html#Type">type</a> of which the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Program">program</a> is also an <a href="terms.html#Instance">instance</a>. 
 	This relation is such that, given a <a href="terms.html#Program">program</a>, <span><code>(p = '(true /\ false))</code></span>, <span><code>p</code></span> is an <a href="terms.html#Instance">instance</a> of <code>Program</code>, and also an <a href="terms.html#instance">instance</a> of <code>Boolean</code>.</p>
 	<h2><a href="#Datatypes" id="Datatypes">Datatypes</a></h2>
+	<figure>
+	<figcaption>The <a>type</a> of <a>transform</a> which implements <a>datatype</a> definition.</figcaption>
+	<p><code>
+	({'define} + (Symbol ;) + {'where} +<br>
+	&nbsp;[(Symbol ;) ((Symbol ;) + {'is} (Symbol ;))] -> Data)
+	</code></p>
+	</figure>
+	<p>The <a>default expression</a> for <a href="evaluation.html#Definition">definition</a> has a third formation which allows for <a>datatypes</a> to be defined.</p>
+	
+	<!--
 	<p>A <a href="terms.html#Datatype">Datatype</a> is created by providing a listing of <a href="terms.html#Datatype">symbols</a> in a <a href="evaluation.html#Definition">definition</a> <a href="terms.html#Expression">expression</a>. 
 	These <a href="terms.html#Datatype">symbols</a> are used to name the components of a <a href="terms.html#Datatype">Datatype</a>.</p>
 	<p>Given a <a href="terms.html#Collection">collection</a> of a <a href="terms.html#Collection">collection</a> of <a href="terms.html#Symbol">symbols</a> in a <a href="terms.html#Datatype">datatype</a> definition, each inner <a href="terms.html#Collection">collection</a> corresponds to a <a href="terms.html#Constructor">constructor</a>.</p>
@@ -104,4 +114,5 @@
 	<p>All composite <a href="terms.html#Constructor">constructors</a> are <a href="terms.html#Equivalence">equal</a> to themselves and all <a href="terms.html#Instance">instances</a> if and only if the same <a href="terms.html#Constructor">constructor</a> is applied for <a href="terms.html#Instance">instances</a> and the respective <a href="terms.html#Parameter">parameters</a> are <a href="terms.html#Equivalence">equivalent</a> such that <span><code>((append 'a 'b) = (append 'a 'b))</code></span> and <span><code>((append 'a 'b) =/= (append 'c 'd))</code></span>.</p>
 	<p>The <a href="terms.html#Value">values</a> which can be held as <a href="terms.html#Field">fields</a> in a composite <a href="terms.html#Datatype">datatype</a> <a href="terms.html#Instance">instance</a> can be <a href="terms.html#Constraint">constrained</a> by adding a <a href="terms.html#Type">type</a> <a href="terms.html#Assertion">assertion</a> to a <a href="terms.html#Symbol">symbol</a> given as a <a href="terms.html#Constructor">constructor</a> <a href="terms.html#Parameter">parameter</a>.
 	For example, the <a href="terms.html#Datatype">datatype</a>, <span><code>(define singleton (single x))</code></span>, can be <a href="terms.html#Constraint">constrained</a> to hold only <a href="terms.html#Instance">instances</a> of <code>T</code> in its <a href="terms.html#Field">field</a> by including the <a href="terms.html#Assertion">assertion</a>, <span><code>(define singleton (single (x : T)))</code></span>.</p>
+	-->
 </body>

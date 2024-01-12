@@ -858,3 +858,33 @@ So how would I make a tree?
 (given t
        is Leaf * then (t . n)
        is (Branch Natural * *) then (t . r))
+
+
+
+
+time to simplify. the language is getting too big. there's too much crap in there.
+
+I need pattern matching. What does that look like?
+
+(define Tree (Branch * Tree Tree) (Leaf *))
+(f x = (x + x))
+(define f (x -> x + x))
+((x : Tree) = (Branch 'a (Leaf 'b) (Leaf 'c)))
+(let (a (b)(c)) be x in {a b c})
+
+How to flatten a tree?
+(define Tree (Branch Tree Tree) (Leaf *))
+
+
+I want do define a tree flattener using inversion.
+The inversion function just recieves a series of leaves.
+The inverted body recursively goes down through the tree.
+
+
+
+ADT syntax
+
+(define ADT where ...)
+
+how to make a constructor?
+
