@@ -843,48 +843,21 @@ Compiling an image leaves an artifact format.
 An artifact is a bunch of functions and top-level bindings.
 So at any point you can create an artifact fragment which isn't compiled.
 
+I have a thing called a "datatype".
+It allows me to tag/encapsulate data while keeping an underlying representation.
+The encapsulation is treated as an abstract type.
+How to express this?
+It should be anonymous like collections.
+There should be certain ways to form things.
+How should a tree be formed anonymously?
+As a collection, it would be 
+(tree = [{*} {tree tree}])
+If you wanted to parameterize on a type, then
+(tree x = [{x} {tree tree}])
+The point is that I'm at least declaring a single name of the type.
+There's no point to naming it anonymously since that ruins any constraints.
+It's nominal so it's based on naming.
 
+(define tree x with (leaf x) (branch tree tree))
 
-What should I do about Algebraic Data Types?
-First, they can't be anonymous since there's a specific type.
-
-overload the define expression.
-ADT's have to be top-level declarations anyways.
-
-So how would I make a tree?
-
-(define Tree (Leaf n) (Branch n l r))
-(define t as (Branch 1 (Leaf 2) (Leaf 3)))
-(given t
-       is Leaf * then (t . n)
-       is (Branch Natural * *) then (t . r))
-
-
-
-
-time to simplify. the language is getting too big. there's too much crap in there.
-
-I need pattern matching. What does that look like?
-
-(define Tree (Branch * Tree Tree) (Leaf *))
-(f x = (x + x))
-(define f (x -> x + x))
-((x : Tree) = (Branch 'a (Leaf 'b) (Leaf 'c)))
-(let (a (b)(c)) be x in {a b c})
-
-How to flatten a tree?
-(define Tree (Branch Tree Tree) (Leaf *))
-
-
-I want do define a tree flattener using inversion.
-The inversion function just recieves a series of leaves.
-The inverted body recursively goes down through the tree.
-
-
-
-ADT syntax
-
-(define ADT where ...)
-
-how to make a constructor?
-
+Now I have ((branch (leaf 1) (leaf 1)) : (tree Natural))
