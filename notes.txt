@@ -798,66 +798,11 @@ What I really mean is
  Wrapped = (Collection | image Construct))
 
 
-Match on type.
-
-(Color = [red blue green],
- x : Color,
- check x
-      where red is 1
-      where blue is 2
-      where green is 3)
-Words suck, don't use words.
-
-(Color = [red blue green],
- x : Color,
- x ~ red => 1 blue => 2 green => 3,
- given x where red is 1 where blue is 2 where green is 3,
- match x where red is 1 where blue is 2 where green is 3,
- x where red is 1 and blue is 2 and green is 3,
- given x then red is 1 and blue is 2 and green is 3)
-
-case x of red -> 1 blue -> 2 green -> 3
-
-given x where red is 1 blue is 2 green is 3
-
-chose from x where red is 1 blue is 2 green is 3
-branch x where red is 1
-
-chose x where
-
-where x is red then 1 is blue then 2 is green then 3
-where x is red then 1
-where x is 
-	red then 1
-	blue then 2
-	green then 3
-
-
-
-in Ocaml I can say (<. 1 + 2 .> : Number)
-In nth, I can only say ('(1 + 2) : Program)
-I can't talk about what might happen when you evaluate the program.
-
-How do I do assembly?
-Compiling an image leaves an artifact format.
-An artifact is a bunch of functions and top-level bindings.
-So at any point you can create an artifact fragment which isn't compiled.
-
-I have a thing called a "datatype".
-It allows me to tag/encapsulate data while keeping an underlying representation.
-The encapsulation is treated as an abstract type.
-How to express this?
-It should be anonymous like collections.
-There should be certain ways to form things.
-How should a tree be formed anonymously?
-As a collection, it would be 
-(tree = [{*} {tree tree}])
-If you wanted to parameterize on a type, then
-(tree x = [{x} {tree tree}])
-The point is that I'm at least declaring a single name of the type.
-There's no point to naming it anonymously since that ruins any constraints.
-It's nominal so it's based on naming.
-
-(define tree x with (leaf x) (branch tree tree))
-
-Now I have ((branch (leaf 1) (leaf 1)) : (tree Natural))
+Constructors are good to have.
+The system is closed though.
+What about GADT's?
+It's all a trick of functions.
+That's a macro.
+What is a datatype?
+It's data, used as a type constraint.
+Just (a ~ b)
