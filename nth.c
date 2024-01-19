@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include <sys/ioctl.h>
 #include <sys/mman.h>
@@ -13,82 +14,133 @@
 #define In STDIN_FILENO
 #define Out STDOUT_FILENO
 
-char * Buffer;
-unsigned long long int BufferLength;
+char *Buffer;
 unsigned long long int BufferSize;
+unsigned long long int BufferLength;
+unsigned long long int Offset;
+char *Nest;
+unsigned long long int Inner;
 
-//this is for advanced editing. 
-//leave it for later...
-typedef struct {char *line; unsigned long long int length;} Line;
-Line *Lines;
-unsigned long long int Row;
-unsigned long long int Column;
+void Eval();
+void Print();
 
 struct termios raw, restore;
+struct winsize Window; //fields: ws_row, ws_col
+void WinSizeCh (int signum) {
+	ioctl(Out, TIOCGWINSZ, &Window);
+}
 
 int main () {
 
 	tcgetattr(0, &restore);
 	raw = restore;
-	raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
-	raw.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-	raw.c_cflag &= ~(CSIZE | PARENB);
-	raw.c_cflag |= CS8;
+	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	raw.c_oflag &= ~(OPOST);
+	raw.c_cflag |= (CS8);
+	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 	raw.c_cc[VMIN] = 0;
 	raw.c_cc[VTIME] = 1;
 	tcsetattr(0, TCSANOW, &raw);
 
+	ioctl(Out, TIOCGWINSZ, &Window);
+	signal(SIGWINCH, WinSizeCh);
+
 	char c[128];
 	unsigned long long int r;
-	Buffer = malloc(sizeof(char) * 1028);
-	BufferLength = 0;
-	BufferSize = 1024;
-
-	Lines = malloc(sizeof(Line)); //for sanity, but don't touch yet
-	Lines[0].line = &(Buffer[0]); //ditto
-	Lines[0].length = 0; //ddiittttoo
 
 	write(Out, "\x1b[2J\x1b[H", 7);
+
+	Buffer = malloc(sizeof(char) * 1028);
+	BufferSize = 1028;
+	BufferLength = 0;
+	Offset = 0;
+	Inner = 0;
+	Nest = 0;
 
 	ReadInput:
 	r = read(In, c, 128);
 	if (r == 1) {
-		if (c[0] < ' ') {
-			switch (c[0]) {
-				case 27: //esc 
-					goto Exit; break;
-				case 8: //backspace
-				case 127: //delete
-					write(Out, "!", 1);
-					if (BufferLength > 0)
-						BufferLength --;
-					if (BufferLength < BufferSize / 2 && BufferLength > 1028) {
-						Buffer = realloc(Buffer, sizeof(char) * ((BufferLength / 1028) + 1028));
+		switch(c[0]) {
+			case 27: //escape key
+				goto Exit;
+				break;
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+				write(Out, "\x0a\x0d", 2);
+				Offset = 0;
+				if (Inner == 0) {Eval();}
+				break;
+			case 8:
+			case 127:
+				if (Offset > 0 && BufferLength > 0) {
+					write(Out, "\b\x1b[K", 4);
+					BufferLength--;
+					Offset--;
+				}
+			default:
+				if (c[0] >= ' ') {
+					switch(c[0]) {
+						case '(':
+						case '[':
+						case '{':
+							Inner++;
+							Nest = realloc(Nest, sizeof(char) * Inner);
+							Nest[Inner-1] = c[0];
+							//write(Out, Nest, Inner);
+							break;
+						case ')':
+						case ']':
+						case '}':
+							if (Inner > 0) {
+								if (
+									(Nest[Inner-1] == '(' && c[0] == ')') ||
+									(Nest[Inner-1] == '[' && c[0] == ']') ||
+									(Nest[Inner-1] == '{' && c[0] == '}')
+								) {
+									Inner--;
+								}
+								else {
+									goto NestingError;
+								}
+							}
+							else {
+								goto NestingError;
+							}
+							break;
 					}
-					break;
-				case 10:
-				case 12:
-				case 13:
-					c[0] = '\n';
-					goto AppendCharacter; 
-					break;
-			}
+					write(Out, c, 1);
+					BufferLength++;
+					if (BufferLength >= BufferSize) {
+						BufferSize += 1028;
+						Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+						Buffer[BufferLength - 1] = c[0];
+					}
+					Offset ++;
+				}
 		}
-		else {
-			AppendCharacter:
-			BufferLength++;
-			if (BufferLength >= BufferSize) {
-				Buffer = realloc(Buffer, sizeof(char) * (BufferSize + 1028));
-			}
-			Buffer[BufferLength - 1] = c[0];
+		NestingError:
+		//write(Out, c, 1);
+	}
+	else {
+		if (c[1] == '[') {
 		}
-		write(Out, "\x1b[H", 3);
-		//write(Out, "\n", 1);
-		write(Out, Buffer, BufferLength);
 	}
 	goto ReadInput;
 	Exit:
-	free(Buffer);
+	if (Buffer) free(Buffer);
+	if (Nest) free(Nest);
 	tcsetattr(0, TCSANOW, &restore);
 	return 0;
+}
+
+void Eval() {
+	free(Buffer);
+	free(Nest);
+	BufferSize = 0;
+	BufferLength = 0;
+	Inner = 0;
+	Buffer = malloc(sizeof(char) * 1028);
+	BufferSize = 1028;
 }

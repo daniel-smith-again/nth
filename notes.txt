@@ -806,3 +806,12 @@ That's a macro.
 What is a datatype?
 It's data, used as a type constraint.
 Just (a ~ b)
+
+
+
+How does the front-end hold and echo text?
+It holds it in an AST.
+Displays the AST as it is.
+Newlines and indentation are additional AST things that are discarded.
+What about user-defined new-lines?
+How to handle those?
