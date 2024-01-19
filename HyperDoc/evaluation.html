@@ -149,7 +149,9 @@
 	<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Let.</figcaption>
 	<p><code>
-		[(({'let} + {Symbol 'be *}) +<br>&nbsp;&nbsp;&nbsp;({'and Symbol 'be *} ;) +<br>&nbsp;&nbsp;&nbsp;'in + (Program ;)) -> *)]
+		(({'let} + {Program 'be *} +<br>
+		&nbsp;&nbsp;({'and Program 'be *};) +<br>
+		&nbsp;&nbsp;{'in} + (Program ;)) -> *)
 	</code></p>
 	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
 	<p><code>
@@ -165,6 +167,19 @@
 	<a href="#9-1" id="9-1">9-1</a><p>Let will create one or more <a href="terms.html#Binding">bindings</a> in a new <a href="terms.html#Context">context</a> which will be used as the <a href="terms.html#Scope">scope</a> to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Body">body</a>.</p>
 	<a href="#9-2" id="9-2">9-2</a><p>Each <a href="terms.html#Binding">binding</a> will be created using the <a href="terms.html#Symbol">symbol</a> preceding the keyword <a href="terms.html#Symbol">symbol</a>, <code>'be</code>, as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following it as the <a href="terms.html#Value">value</a>.</p>
 	<a href="#9-3" id="9-3">9-3</a><p>When <a href="terms.html#Evaluate">evaluation</a> of the <a href="terms.html#Body">body</a> has been completed, Let will <a href="terms.html#Discard">discard</a> the <a href="terms.html#Context">context</a> that was used for <a href="terms.html#Evaluate">evaluation</a>.</p>
+	<a href="#9-4" id="9-4">9-4</a><p>If an <a href="terms.html#Expression">expression</a> is provided instead of a <a href="terms.html#Symbol">symbol</a>, both the <a href="terms.html#Expression">expression</a> and the <a href="terms.html#Data">data</a> will be destructured and one or more <a href="terms.html#Binding">bindings</a> made where the <a href="terms.html#Symbol">symbol</a> components of the former are used as <a href="terms.html#Identifier">identifier</a> for the <a href="terms.html#Field">fields</a> of the latter.</p>
+	<a href="#9-5" id="9-5">9-5</a><p>In the case where Let must destucture <a>data</a>, the <a>data</a> must be an <a>instance</a> of <code>Collection</code>.</p>
+	<a href="#9-6" id="9-6">9-6</a><p>When destructuring a <a>collection</a>, the following cases must apply...</p>
+	<ul>
+	<li>the <a href="terms.html#Expression">expression</a> corresponds to the <a href="terms.html#Collection">collection</a> given as the <a href="terms.html#Data">data</a>.</li>
+	<li>The <a href="terms.html#Symbol">symbol</a> in the <a href="terms.html#Expression">expression</a> will be used as the <a href="terms.html#Identifier">identifier</a> to <a href="terms.html#Binding">bind</a> the <a href="terms.html#Field">field</a> in the <a href="terms.html#Collection">collection</a> which has the <a href="terms.html#Equivalence">equivalent</a> <a href="terms.html#Index">index</a>.</li>
+	<li>If the <a href="terms.html#Expression">expression</a> contains one of <code>Any</code>, <code>Nil</code>, <code>_</code>, or <code>*</code>, the <a href="terms.html#Field">field</a> at the corresponding <a href="terms.html#Index">index</a> will not be <a href="terms.html#Binding">bound</a>.</li>
+	<li>If the <a href="terms.html#Expression">expression</a> contains a nested <a href="terms.html#Expression">expression</a>, the <a href="terms.html#Collection">collection</a> must contain a nested <a href="terms.html#Collection">collection</a> as a <a href="terms.html#Field">field</a> at the corresponding <a href="terms.html#Index">index</a>.</li>
+	<li>If the <a href="terms.html#Expression">expression</a> contains a <a href="terms.html#Number">number</a>, the <a href="terms.html#Equivalence">equivalent</a> number of <a href="terms.html#Field">fields</a> will be skipped, beginning with the <a href="terms.html#Field">field</a> corresponding to the <a href="terms.html#Index">index</a> of the <a href="terms.html#Number">number</a> and continuing for <code>(n - 1)</code> more <a>fields</a> where <code>n</code> is the <a href="terms.html#Value">value</a> of the <a href="terms.html#Number">number</a>.
+	The <a href="terms.html#Number">number</a> must be an <a href="terms.html#Instance">instance</a> of <code>Natural</code>.</li>
+	<li>The <a href="terms.html#Expression">expression</a> given to destructure a <a href="terms.html#Collection">collection</a> must not be <a href="terms.html#Evaluate">evaluated</a>.
+	All <a href="terms.html#Program-Model">Program Model</a> components of the <a href="terms.html#Expression">expression</a> shall be interpreted as destructuring commands according to this list of cases.</li>
+	</ul>
 	
 	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
 	<p>There are a number of <a href="defaults.html#Expressions">default expressions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, they control the "flow" of evaluation. They are...</p>
