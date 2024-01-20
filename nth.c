@@ -81,7 +81,7 @@ int main () {
 			case 13:
 				write(Out, "\x0a\x0d", 2);
 				Offset = 0;
-				if (Inner == 0) {Eval();}
+				if (Inner == 0 && BufferLength > 0) {Eval();}
 				break;
 			case 8:
 			case 127:
@@ -111,14 +111,17 @@ int main () {
 									(Nest[Inner-1] == '{' && c[0] == '}')
 								) {
 									Inner--;
+									write(Out, c, 1);
 									if (Inner == 0) {Eval();}
+									goto Repeat;
+								
 								}
 								else {
-									goto NestingError;
+									goto Repeat;
 								}
 							}
 							else {
-								goto NestingError;
+								goto Repeat;
 							}
 							break;
 					}
@@ -132,8 +135,7 @@ int main () {
 					Offset ++;
 				}
 		}
-		NestingError:
-		//write(Out, c, 1);
+		Repeat:
 	}
 	else {
 		if (c[1] == '[') {
@@ -272,7 +274,7 @@ void Eval() {
 			case ' ':
 				break;
 			case ',':
-				//do this thing here
+				//TODO
 			default:
 				Int sym_length = 1;
 				for (Int i = n; i < BufferLength; i++) {
@@ -305,10 +307,14 @@ void Eval() {
 					node->expression.datalist[node->expression.length - 1] = *np;
 				}
 				n += sym_length;
+				break;
 		}
-		if (nesting == 0) {ActuallyEval(program);}
 	}
-	if (nesting == 0) ActuallyEval(program);
+	if (nesting == 0 && program != NULL) {
+		ActuallyEval(program);
+		free(program);
+		program = NULL;
+	}
 	else write(Out, "?\r\n", 3);
 
 	free(Buffer);
@@ -322,6 +328,5 @@ void Eval() {
 }
 
 void ActuallyEval(Program *P) {
-
-	free(P);
+	write(Out, "\n\rResult\n\r", 10);
 }
