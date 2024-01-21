@@ -272,9 +272,16 @@ void Eval() {
 				if (nesting > 0) nesting--;
 				break;
 			case ' ':
+                                //space doesn't do anything aside from delimiting two symbols.
+                                //can be safely discarded here.
 				break;
 			case ',':
-				//TODO next
+				//do this thing here
+                                /*
+                                i need a way to go from (a, b, c) to (do (a) (b) (c))
+                                but the tricky bit is i can't use backtracking
+                                I have to insert expressions as i go
+                                */
 			default:
 				Int sym_length = 1;
 				for (Int i = n; i < BufferLength; i++) {
