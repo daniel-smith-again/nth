@@ -22,14 +22,33 @@ typedef unsigned long long int Int;
 char *Buffer;
 Int BufferSize;
 Int BufferLength;
-Int Offset;
+void BufferAppend(char c) {
+	BufferLength++;
+	if (BufferLength >= BufferSize) {
+		BufferSize += 1028;
+		Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+	}
+	Buffer[BufferLength - 1] = c;
+}
+Int Offset; //you can only backspace the current terminal line you're on.
 char *Nest;
 Int Inner;
+typedef struct prog {
+	enum {Symbol, Expression} type;
+	union {
+		struct {char *data; Int length;} symbol;
+		struct {struct prog *datalist; Int length;} expression;
+	};
+	struct prog *parent;
+} Program;
+Program *AST;
+Int Bi;
+Program *Parse(Program *parent);
+Program *Eval();
 
 
 
-void Eval();
-void Print();
+void Print(Program *data);
 
 struct termios raw, restore;
 struct winsize Window; //fields: ws_row, ws_col
@@ -81,10 +100,15 @@ int main () {
 			case 13:
 				write(Out, "\x0a\x0d", 2);
 				Offset = 0;
-				if (Inner == 0 && BufferLength > 0) {Eval();}
+				if (Inner == 0 && BufferLength > 0) {
+					Parse(0);
+				}
+				else if (BufferLength > 0) {
+					BufferAppend(' ');
+				}
 				break;
 			case 8:
-			case 127:
+			case 127: //backspace
 				if (Offset > 0 && BufferLength > 0) {
 					write(Out, "\b\x1b[K", 4);
 					BufferLength--;
@@ -110,11 +134,7 @@ int main () {
 									(Nest[Inner-1] == '[' && c[0] == ']') ||
 									(Nest[Inner-1] == '{' && c[0] == '}')
 								) {
-									Inner--;
-									write(Out, c, 1);
-									if (Inner == 0) {Eval();}
-									goto Repeat;
-								
+									Inner--;								
 								}
 								else {
 									goto Repeat;
@@ -124,13 +144,18 @@ int main () {
 								goto Repeat;
 							}
 							break;
+						case ',':
+							if (Inner > 0 && Nest[Inner - 1] == '(') {
+								BufferAppend(',');
+							}
+							else {
+								goto Repeat;
+							}
 					}
 					write(Out, c, 1);
-					BufferLength++;
-					if (BufferLength >= BufferSize) {
-						BufferSize += 1028;
-						Buffer = realloc(Buffer, sizeof(char) * BufferSize);
-						Buffer[BufferLength - 1] = c[0];
+					BufferAppend(c[0]);
+					if (Inner == 0 && BufferLength > 0) {
+						Parse(0);
 					}
 					Offset ++;
 				}
@@ -149,184 +174,30 @@ int main () {
 	return 0;
 }
 
-typedef struct prog {
-	enum {Symbol, Expression} type;
-	union {
-		struct {char *data; Int length;} symbol;
-		struct {struct prog *datalist; Int length;} expression;
-	};
-	struct prog *parent;
-} Program;
-
-void ActuallyEval(Program *P);
-
-void Eval() {
-
-	Program *program = NULL;
-	Program *node = NULL;
-	Int n = 0;
-	Int doflag = 0;
-	Int nesting = 0;
-	Program *np;
-	char* tmp;
-	for (Int n = 0; n < BufferLength; n ++) {
-		switch(Buffer[n]) {
-			case '(':
-				np = malloc(sizeof(Program));
-				np->type = Expression;
-				np->expression.datalist = NULL;
-				np->expression.length = 0;
-				if (program == NULL) {
-					program = np;
-					node = program;
-					node->parent = NULL;
-				}
-				else {
-					np->parent = node;
-					node->expression.length++;
-					node->expression.datalist = realloc(node->expression.datalist, sizeof(Program) * (node->expression.length));
-					node->expression.datalist[node->expression.length - 1] = *np;
-				}
-				node = np;
-				nesting++;
-				break;
-			case '{':
-				np = malloc(sizeof(Program));
-				np->type = Expression;
-				np->expression.datalist = malloc(sizeof(Program));
-				np->expression.length = 1;
-				np->expression.datalist[0].type = Symbol;
-				np->expression.datalist[0].parent = np;
-				np->expression.datalist[0].symbol.data = malloc(sizeof(char) * 6);
-				tmp = np->expression.datalist[0].symbol.data;
-				tmp[0] = 'f', tmp[1] = 'i', tmp[2] = 'e', tmp[3] = 'l', tmp[4] = 'd', tmp[5] = 's';
-				np->expression.datalist[0].symbol.length = 6;
-				if (program == NULL) {
-					program = np;
-					node = program;
-					node->parent = NULL;
-				}
-				else {
-					np->parent = node;
-					node->expression.length++;
-					node->expression.datalist = realloc(node->expression.datalist, sizeof(Program) * (node->expression.length));
-					node->expression.datalist[node->expression.length - 1] = *np;
-				}
-				node = np;
-				nesting++;
-				break;
-			case '[':
-				np = malloc(sizeof(Program));
-				np->type = Expression;
-				np->expression.datalist = malloc(sizeof(Program));
-				np->expression.length = 1;
-				np->expression.datalist[0].type = Symbol;
-				np->expression.datalist[0].parent = np;
-				np->expression.datalist[0].symbol.data = malloc(sizeof(char) * 7);
-				tmp = np->expression.datalist[0].symbol.data;
-				tmp[0] = 'm', tmp[1] = 'e', tmp[2] = 'm', tmp[3] = 'b', tmp[4] = 'e', tmp[5] = 'r', tmp[6] = 's';
-				np->expression.datalist[0].symbol.length = 7;
-				if (program == NULL) {
-					program = np;
-					node = program;
-					node->parent = NULL;
-				}
-				else {
-					np->parent = node;
-					node->expression.length++;
-					node->expression.datalist = realloc(node->expression.datalist, sizeof(Program) * (node->expression.length));
-					node->expression.datalist[node->expression.length - 1] = *np;
-				}
-				node = np;
-				nesting++;
-				break;
-			case '\'':
-				np = malloc(sizeof(Program));
-				np->type = Expression;
-				np->expression.datalist = malloc(sizeof(Program));
-				np->expression.length = 1;
-				np->expression.datalist[0].type = Symbol;
-				np->expression.datalist[0].parent = np;
-				np->expression.datalist[0].symbol.data = malloc(sizeof(char) * 5);
-				tmp = np->expression.datalist[0].symbol.data;
-				tmp[0] = 'q', tmp[1] = 'u', tmp[2] = 'o', tmp[3] = 't', tmp[4] = 'e';
-				np->expression.datalist[0].symbol.length = 5;
-				if (program == NULL) {
-					program = np;
-					node = program;
-					node->parent = NULL;
-				}
-				else {
-					np->parent = node;
-					node->expression.length++;
-					node->expression.datalist = realloc(node->expression.datalist, sizeof(Program) * (node->expression.length));
-					node->expression.datalist[node->expression.length - 1] = *np;
-				}
-				node = np;
-				nesting++;
-				break;
-			case ')':
-			case '}':
-			case ']':
-				node = node->parent;
-				if (nesting > 0) nesting--;
-				break;
-			case ' ':
-				break;
-			case ',':
-				//TODO next
-			default:
-				Int sym_length = 1;
-				for (Int i = n; i < BufferLength; i++) {
-					switch(Buffer[i]) {
-						case '(': case'{': case '[': case ']': case '}': case ')': case ' ': case ',':
-							break;
-						default: 
-							sym_length++;
-							break;
-					}
-				}
-				char *str = malloc(sizeof(char) * sym_length);
-				for (Int i = 0; i < sym_length; i++) {
-					str[i] = Buffer[n+i];
-				}
-				np = malloc(sizeof(Program));
-				np->type = Symbol;
-				np->symbol.data = str;
-				np->symbol.length = sym_length;
-
-				if (program == NULL) {
-					program = np;
-					node = program;
-					node->parent = NULL;
-				}
-				else {
-					np->parent = node;
-					node->expression.length++;
-					node->expression.datalist = realloc(node->expression.datalist, sizeof(Program) * (node->expression.length));
-					node->expression.datalist[node->expression.length - 1] = *np;
-				}
-				n += sym_length;
-				break;
-		}
+Program *Parse(Program *parent) 
+{
+	if (parent == 0) {
+		AST = malloc(sizeof(Program));
+		Bi = 0;
 	}
-	if (nesting == 0 && program != NULL) {
-		ActuallyEval(program);
-		free(program);
-		program = NULL;
+	switch(Buffer[Bi]) {
+		case '(':
+			break;
+		case '{':
+			break;
+		case '[':
+			break;
+		case ')':
+			break;
+		case '}':
+			break;
+		case ']':
+			break;
+		case '\'':
+			break;
+		case ',':
+			break;
+		default:
+			break;
 	}
-	else write(Out, "?\r\n", 3);
-
-	free(Buffer);
-	free(Nest);
-	BufferSize = 0;
-	BufferLength = 0;
-	Inner = 0;
-	Buffer = malloc(sizeof(char) * 1028);
-	BufferSize = 1028;
-	Nest = malloc(sizeof(char));
-}
-
-void ActuallyEval(Program *P) {
-	write(Out, "\n\rResult\n\r", 10);
 }
