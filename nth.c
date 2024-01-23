@@ -123,7 +123,35 @@ int main () {
 				if (Offset > 0 && BufferLength > 0) {
 					switch(Buffer[BufferLength]) {
                                                 case '(':
-                                                       break;
+                                                        Inner--;
+                                                        break;
+                                                case '{':
+                                                        Inner--;
+                                                        break;
+                                                case '[':
+                                                        Inner--;
+                                                        break;
+                                                case ')':
+                                                        Inner++;
+                                                        Nest = realloc(Nest, sizeof(char) * Inner);
+                                                        Nest[Inner - 1] = '(';
+                                                        break;
+                                                case '}':
+                                                        Inner++;
+                                                        Nest = realloc(Nest, sizeof(char) * Inner);
+                                                        Nest[Inner - 1] = '{';
+                                                        break;
+                                                case ']':
+                                                        Inner++;
+                                                        Nest = realloc(Nest, sizeof(char) * Inner);
+                                                        Nest[Inner - 1] = '[';
+                                                        break;
+                                                case '\'':
+                                                        if (BufferLength > 1 && Buffer[BufferLength - 2] != '\'') {
+                                                                Quoted = 0;
+                                                                Inner--;
+                                                        }
+                                                        break;
                                         }
                                         BufferLength--;
 					Offset--;
