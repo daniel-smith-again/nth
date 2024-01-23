@@ -121,7 +121,11 @@ int main () {
 			case 8:
 			case 127: //backspace
 				if (Offset > 0 && BufferLength > 0) {
-					BufferLength--;
+					switch(Buffer[BufferLength]) {
+                                                case '(':
+                                                       break;
+                                        }
+                                        BufferLength--;
 					Offset--;
 					Echo();
 				}
@@ -182,7 +186,7 @@ int main () {
 							}
 							break;
 						case ',':
-							if (Inner == 0 || Nest[Inner - 1] != '(') {
+							if (Inner == 0 || Nest[Inner - 1] != '(' || Buffer[BufferLength - 1] == ',' || Buffer[BufferLength - 1] == '(') {
 								goto Repeat;
 							}
 					}
@@ -211,23 +215,46 @@ int main () {
 }
 
 Program *Parse() {
-	write(Out, "PARSING", 7);
 	Program *node;
 	Program *tmp;
 	if (Bi >= BufferLength) return 0;
 	node = malloc(sizeof(Program));
+        StartOver:
 	switch(Buffer[Bi]) {
 		case '(':
-			node->type = Expression;
-			node->size = 0;
+                        node = 0;
+			tmp->type = Expression;
+			tmp->size = 0;
 			while(Buffer[Bi] != ')') {
 				if (Bi < BufferLength) Bi++;
 				else break;
-				node->size ++;
-				node->collection = realloc(node->collection, sizeof(Program*) * node->size);
-				node->collection[node->size - 1] = Parse();
-				node->collection[node->size - 1]->parent = node;
-			}
+                                if (Buffer[Bi] == ',') {
+                                        if (Bi < BufferLength) Bi++;
+                                        if (node == 0) {
+                                                node = malloc(sizeof(Program));
+                                                node->type = Expression;
+                                                node->size = 1;
+                                                node->collection = malloc(sizeof(Program*));
+                                                node->collection[0]->type = Symbol;
+                                                node->collection[0]->size = 2;
+                                                node->collection[0]->parent = node;
+                                                node->collection[0]->data = malloc(sizeof(char) * 2);
+                                                node->collection[0]->data[0] = 'd';
+                                                node->collection[0]->data[1] = 'o';
+                                        }
+                                        node->size ++;
+                                        node->collection = realloc(node->collection, sizeof(Program*) * node->size);
+                                        node->collection[node->size - 1] = tmp;
+                                        tmp = malloc(sizeof(Program));
+                                        tmp->type = Expression;
+                                        tmp->size = 0;
+                                }
+				tmp->size ++;
+				tmp->collection = realloc(tmp->collection, sizeof(Program*) * tmp->size);
+				tmp->collection[tmp->size - 1] = Parse();
+				tmp->collection[tmp->size - 1]->parent = tmp;
+                        }
+                        if (node == 0) {node = tmp;}
 			break;
 		case '{':
 			node->type = Expression;
@@ -270,8 +297,9 @@ Program *Parse() {
 			}
 			break;
 		case '\'':
+                        if (Bi < BufferLength) Bi++;
 			node->type = Expression;
-			node->size = 1;
+			node->size = 2;
 			node->collection = malloc(sizeof(Program*) * node->size);
 			tmp = malloc(sizeof(Program));
 			tmp->type = Symbol;
@@ -279,9 +307,15 @@ Program *Parse() {
 			tmp->data = malloc(sizeof(char) * tmp->size);
 			tmp->data[0] = 'q', tmp->data[1] = 'u', tmp->data[2] = 'o', tmp->data[3] = 't', tmp->data[4] = 'e';
 			tmp->parent = node;
-			node->collection[node->size - 1] = tmp;
+			node->collection[node->size - 2] = tmp;
+                        node->collection[node->size - 1] = Parse();
 		case ' ':
+                        if (Bi < BufferLength) Bi++;
+                        goto StartOver;
+                        break;
 		case ',':
+                        if (Bi < BufferLength) Bi++;
+                        goto StartOver;
 			break;
 		default:
 			node->type = Symbol;
