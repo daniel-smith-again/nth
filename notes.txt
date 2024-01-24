@@ -831,7 +831,3 @@ expressions are normal expressions or do expressions.
 that means I should add a do flag
 A do flag is just a do being the first expression though.
 I need a do flag this is silly.
-
-
-
-'(quote a)
