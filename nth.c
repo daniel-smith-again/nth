@@ -304,15 +304,17 @@ Program *Parse() {
 				p->size++;
 				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 				p->collection[p->size - 1] = tmp;
-				if (p->type == Quote || p->type == Insert || p->type == Spread) {
-					if (Nest[Level - 1] == '\'' && p->type == Quote)
-						Level --, Quoted = 0;
-					p = p->parent;
-				}
+                                while (p->type == Quote || p->type == Insert || p->type == Spread) {
+                                        if (Nest[Level - 1] == '\'' && p->type == Quote) {
+                                                Level--; Quoted = 0;
+                                                for(Int n = 0; n < Level; n++) if (Nest[n] == '\'')
+                                                                {Quoted = 1; break;}
+                                        }
+                                        p = p->parent;
+                                }
 				break;
 		}
 	}
-	
 	if (Level > 0) {
 		Discard(top);
 		return 0;
@@ -359,15 +361,15 @@ Program *Eval(Program *p) {
 			write(Out, "]", 1);
 			break;
 		case Quote:
-			write(Out, "'", 1);
+			write(Out, " '", 2);
 			Eval(p->collection[0]);
 			break;
 		case Insert:
-			write(Out, "''", 2);
+			write(Out, " ''", 3);
 			Eval(p->collection[0]);
 			break;
 		case Spread:
-			write(Out, "'''", 3);
+			write(Out, " '''", 4);
 			Eval(p->collection[0]);
 			break;
 	}
