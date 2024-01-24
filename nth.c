@@ -1,30 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
 #include <signal.h>
-
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
 #define In STDIN_FILENO
 #define Out STDOUT_FILENO
 #define InfoString \
 "Welcome to the nth compiler utility.\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com\r\n"
-
 typedef unsigned long long int Int;
-
 typedef struct Program__ {
 	enum {Symbol, Expression, Sequence, Collection, Type, Quote, Insert, Spread} type;
-	union{
-		char* symbol;
-		struct Program__ **collection;
-	};
+	union{ char* symbol; struct Program__ **collection; };
 	Int size;
 	struct Program__ *parent;
 } Program;
@@ -55,12 +47,10 @@ void WinSizeCh (int signum) {
 }
 void Echo() {
 	write(Out, "\x1b[2K\r", 5);
-	if (Offset > Window.ws_col) {
+	if (Offset > Window.ws_col)
 		write(Out, &Buffer[BufferLength - Window.ws_col], Window.ws_col);
-	}
-	else {
+	else
 		write(Out, &Buffer[BufferLength - Offset], Offset);
-	}
 }
 void SetRawMode();
 void Exit();
@@ -68,27 +58,19 @@ void Exit();
 int main () {
 	atexit(Exit);
 	SetRawMode();
-
 	BufferLength = 0;
 	BufferSize = 1028;
 	Buffer = malloc(sizeof(char) * BufferSize);
 	Offset = 0;
-
 	Program *Input;
-
 	char c[128];
 	Int r;
-
-	Repeat:
+        Repeat:
 	r = read(In, c, sizeof(c));
 	if (r == 1) {
 		switch(c[0]) {
-			case 27: //escape key
-				exit(0); break;
-			case 10:
-			case 11:
-			case 12:
-			case 13: //all the ways to line break
+			case 27: exit(0); break;//escape key
+			case 10: case 11: case 12: case 13: //all the ways to line break
 				BufferAppend(' ');
 				write(Out, "\r\n", 2);
 				Offset = 0;
@@ -106,10 +88,8 @@ int main () {
 					Discard(Input);
 					Input = 0;
 				}
-				//write(Out, "\r\n", 2);
 				break;
-			case 8: //backspace
-			case 127: //delete
+			case 8: case 127:
 				if (Offset > 0) {
 					Offset--;
 					BufferLength --;
@@ -122,10 +102,7 @@ int main () {
 				Echo();
 				break;
 		}
-	}
-	else {
-
-	}
+	} else { } //in case I want to handle arrow keys
 	goto Repeat;
 	return 0;
 }
@@ -140,10 +117,8 @@ void SetRawMode() {
 	raw.c_cc[VMIN] = 0;
 	raw.c_cc[VTIME] = 1;
 	tcsetattr(0, TCSANOW, &raw);
-
 	ioctl(Out, TIOCGWINSZ, &Window);
 	signal(SIGWINCH, WinSizeCh);
-
 	write(Out, "\x1b[2J\x1b[H", 7);
 	write(Out, InfoString, sizeof(InfoString));
 	write(Out, "\r\n", 1);
@@ -159,16 +134,9 @@ void Discard(Program *p) {
 		case Symbol:
 			free(p->symbol);
 			break;
-		case Expression:
-		case Sequence:
-		case Collection:
-		case Type:
-		case Quote:
-		case Insert:
-		case Spread:
-			for (Int i = 0; i < p->size; i++) {
+		case Expression: case Sequence: case Collection: case Type: case Quote: case Insert: case Spread:
+			for (Int i = 0; i < p->size; i++)
 				Discard(p->collection[i]);
-			}
 			free(p->collection);
 			break;
 		default:
@@ -235,16 +203,14 @@ Program *Parse() {
 					Discard(top);
 					return (Program *)1;
 				}
-				else 
-					goto CloseExpression;
+				else goto CloseExpression;
 			case '}':
 				if (Level == 0 || Nest[Level - 1] != '{') {
 					write(Out, "\r\n?\r\n", 5);
 					Discard(top);
 					return (Program *)1;
 				}
-				else
-					goto CloseExpression;
+				else goto CloseExpression;
 			case ']':
 				if (Level == 0 || Nest[Level - 1] != '[') {
 					write(Out, "\r\n?\r\n", 5);
@@ -253,17 +219,15 @@ Program *Parse() {
 				}
 				CloseExpression:
 				p = p->parent;
-				if (p->type == Sequence)
-					p = p->parent;
+				if (p->type == Sequence) p = p->parent;
 				Level --;
-				if (Nest[Level - 1] == '\'')
-					Level --, Quoted = 0;
+				if (Nest[Level - 1] == '\'') Level --, Quoted = 0;
 				break;
 			case '\'':
 				Int QuoteSize = 1;
-				for (; i + QuoteSize < BufferLength; QuoteSize++) {
-					if (Buffer[i + QuoteSize] != '\'') break;
-				}
+				for (; i + QuoteSize < BufferLength; QuoteSize++)
+					if (Buffer[i + QuoteSize] != '\'') 
+                                                break;
 				i += (QuoteSize - 1);
 				if (QuoteSize == 1) {
 					Quoted = 1;
@@ -279,10 +243,8 @@ Program *Parse() {
 				}
 				else {
 					tmp = malloc(sizeof(Program));
-					if (QuoteSize == 2)
-						tmp->type = Insert;
-					else 
-						tmp->type = Spread;
+					if (QuoteSize == 2) tmp->type = Insert;
+					else tmp->type = Spread;
 				}
 				tmp->size = 0;
 				tmp->parent = p;
@@ -328,12 +290,11 @@ Program *Parse() {
 				tmp = malloc(sizeof(Program));
 				tmp->type = Symbol;
 				tmp->parent = p;
-				for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++) {
+				for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++)
 					switch(Buffer[i + tmp->size]) {
 						case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
 							goto Break;
 					}
-				}
 				Break:
 				tmp->symbol = malloc(sizeof(char) * tmp->size);
 				for (Int n = 0; n < tmp->size; n++)
@@ -353,7 +314,6 @@ Program *Parse() {
 	}
 	
 	if (Level > 0) {
-		//write(Out, "\r\n?\r\n", 5);
 		Discard(top);
 		return 0;
 	}
@@ -364,7 +324,7 @@ Program *Parse() {
 		BufferSize = 0;
 		return top;
 	}
-}
+} //complete parser in 327 lines no big deal or anything...
 
 Program *Eval(Program *p) {
 	if (p == 0) return 0;
@@ -376,9 +336,7 @@ Program *Eval(Program *p) {
 			break;
 		case Expression:
 			write(Out, "(", 1);
-			for (Int n = 0; n < p->size; n++) {
-				Eval(p->collection[n]);
-			}
+			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
 			write(Out, ")", 1);
 			break; 
 		case Sequence:
@@ -392,16 +350,12 @@ Program *Eval(Program *p) {
 			break;
 		case Collection:
 			write(Out, "{", 1);
-			for (Int n = 0; n < p->size; n++) {
-				Eval(p->collection[n]);
-			}
+			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
 			write(Out, "}", 1);
 			break;
 		case Type:
 			write(Out, "[", 1);
-			for (Int n = 0; n < p->size; n++) {
-				Eval(p->collection[n]);
-			}
+			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
 			write(Out, "]", 1);
 			break;
 		case Quote:
