@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo $'Chose a compiler backend:'
+echo $'\t1) Linux AMD64'
+echo $'\t2) Windows x86_64'
+echo $'\t3) Apple M1'
+echo $'\t4) Linux aarch64'
+read -p $'Enter option 1-3 (default 1): ' Backend
+
+echo $'Building Linux AMD64\n'
+cc nth.c -onth -g3
