@@ -93,9 +93,20 @@ int main () {
 				write(Out, "\r\n", 2);
 				Offset = 0;
 				Input = Parse(0);
-				Input;
-				Eval(Input);
-				Discard(Input);
+				if ((Int)Input == 1) {
+					free(Buffer);
+					Buffer = 0;
+					BufferLength = 0;
+					BufferSize = 0;
+				}
+				else if (Input != 0) {
+					write(Out, "\r\n", 2);
+					Eval(Input);
+					write(Out, "\r\n", 2);
+					Discard(Input);
+					Input = 0;
+				}
+				//write(Out, "\r\n", 2);
 				break;
 			case 8: //backspace
 			case 127: //delete
@@ -167,7 +178,7 @@ void Discard(Program *p) {
 
 Program *Parse() {
 	Int Quoted = 0;
-	char *Nest;
+	char *Nest = malloc(sizeof(char) * 0);
 	Int Level = 0;
 	Program *top;
 	Program *tmp;
@@ -188,6 +199,9 @@ Program *Parse() {
 				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 				p->collection[p->size - 1] = tmp;
 				p = tmp;
+				Level++;
+				Nest = realloc(Nest, sizeof(char) * Level);
+				Nest[Level - 1] = '(';
 				break;
 			case '{':
 				tmp = malloc(sizeof(Program));
@@ -198,6 +212,9 @@ Program *Parse() {
 				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 				p->collection[p->size - 1] = tmp;
 				p = tmp;
+				Level++;
+				Nest = realloc(Nest, sizeof(char) * Level);
+				Nest[Level - 1] = '{';
 				break;
 			case '[':
 				tmp = malloc(sizeof(Program));
@@ -208,12 +225,15 @@ Program *Parse() {
 				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 				p->collection[p->size - 1] = tmp;
 				p = tmp;
+				Level++;
+				Nest = realloc(Nest, sizeof(char) * Level);
+				Nest[Level - 1] = '[';
 				break;
 			case ')':
 				if (Level == 0 || Nest[Level - 1] != '(') {
 					write(Out, "\r\n?\r\n", 5);
 					Discard(top);
-					return 0;
+					return (Program *)1;
 				}
 				else 
 					goto CloseExpression;
@@ -221,7 +241,7 @@ Program *Parse() {
 				if (Level == 0 || Nest[Level - 1] != '{') {
 					write(Out, "\r\n?\r\n", 5);
 					Discard(top);
-					return 0;
+					return (Program *)1;
 				}
 				else
 					goto CloseExpression;
@@ -229,51 +249,78 @@ Program *Parse() {
 				if (Level == 0 || Nest[Level - 1] != '[') {
 					write(Out, "\r\n?\r\n", 5);
 					Discard(top);
-					return 0;
+					return (Program *)1;
 				}
 				CloseExpression:
 				p = p->parent;
 				if (p->type == Sequence)
 					p = p->parent;
 				Level --;
+				if (Nest[Level - 1] == '\'')
+					Level --, Quoted = 0;
 				break;
 			case '\'':
+				Int QuoteSize = 1;
+				for (; i + QuoteSize < BufferLength; QuoteSize++) {
+					if (Buffer[i + QuoteSize] != '\'') break;
+				}
+				i += (QuoteSize - 1);
+				if (QuoteSize == 1) {
+					Quoted = 1;
+					Level++;
+					Nest[Level - 1] = '\'';
+					tmp = malloc(sizeof(Program));
+					tmp->type = Quote;
+				}
+				else if (QuoteSize > 3 || Quoted == 0) {
+					write(Out, "\r\n?\r\n", 5);
+					Discard(top);
+					return (Program*)1;
+				}
+				else {
+					tmp = malloc(sizeof(Program));
+					if (QuoteSize == 2)
+						tmp->type = Insert;
+					else 
+						tmp->type = Spread;
+				}
+				tmp->size = 0;
+				tmp->parent = p;
+				p->size++;
+				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+				p->collection[p->size - 1] = tmp;
+				p = tmp;
 				break;
-				if (i < BufferLength - 4 && 
-					Buffer[i + 1] == '\'' &&
-					Buffer[i + 2] == '\'' &&
-					Buffer[i + 3] == '\'') {
-						write(Out, "\r\n?\r\n", 5);
-						Discard(top);
-						return 0;
-					} 
 			case ' ':
 				break;
 			case ',':
-				if (i == 0 || p->parent->type != Sequence || p->type != Expression) {
+				if(Nest[Level-1] != '(') {
 					write(Out, "\r\n?\r\n", 5);
 					Discard(top);
-					return 0;
+					return (Program*)1;
 				}
-				else if (p->parent->type = Sequence) {
-					p->parent->size++;
-					p->parent->collection = realloc(p->parent->collection, sizeof(Program*) * p->parent->size);
-					p->parent->collection[p->parent->size - 1] = p;
-					tmp = malloc(sizeof(Program));
-					tmp->parent = p->parent;
-					tmp->size = 0;
-					p = tmp;
+				else if (p->parent->type == Sequence) {
+					tmp = p->parent;
+					tmp->size++;
+					tmp->collection = realloc(tmp->collection, sizeof(Program*) * tmp->size);
+					p = malloc(sizeof(Program));
+					tmp->collection[tmp->size - 1] = p;
+					p->parent = tmp;
+					p->type = Expression;
+					p->size = 0;				
 				}
-				else if (p->type == Expression) {
+				else {
 					tmp = malloc(sizeof(Program));
 					tmp->type = Sequence;
 					tmp->size = 2;
 					tmp->parent = p->parent;
+					p->parent->collection[p->parent->size - 1] = tmp;
 					tmp->collection = malloc(sizeof(Program*) * tmp->size);
 					tmp->collection[0] = p;
 					p->parent = tmp;
 					p = malloc(sizeof(Program));
 					p->parent = tmp;
+					p->type = Expression;
 					tmp->collection[1] = p;
 				}
 				break;
@@ -282,7 +329,7 @@ Program *Parse() {
 				tmp->type = Symbol;
 				tmp->parent = p;
 				for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++) {
-					switch(Buffer[i + tmp->size - 1]) {
+					switch(Buffer[i + tmp->size]) {
 						case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
 							goto Break;
 					}
@@ -291,25 +338,41 @@ Program *Parse() {
 				tmp->symbol = malloc(sizeof(char) * tmp->size);
 				for (Int n = 0; n < tmp->size; n++)
 					tmp->symbol[n] = Buffer[i + n];
-				i += tmp->size;
+				i += (tmp->size - 1);
 				tmp->parent = p;
 				p->size++;
 				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 				p->collection[p->size - 1] = tmp;
+				if (p->type == Quote || p->type == Insert || p->type == Spread) {
+					if (Nest[Level - 1] == '\'' && p->type == Quote)
+						Level --, Quoted = 0;
+					p = p->parent;
+				}
 				break;
 		}
 	}
-	free(Buffer);
-	Buffer = 0;
-	BufferLength = 0;
-	BufferSize = 0;
-	return top;
+	
+	if (Level > 0) {
+		//write(Out, "\r\n?\r\n", 5);
+		Discard(top);
+		return 0;
+	}
+	else {
+		free(Buffer);
+		Buffer = 0;
+		BufferLength = 0;
+		BufferSize = 0;
+		return top;
+	}
 }
 
 Program *Eval(Program *p) {
+	if (p == 0) return 0;
 	switch(p->type) {
 		case Symbol:
+			write(Out, " ", 1);
 			write(Out, p->symbol, p->size);
+			write(Out, " ", 1);
 			break;
 		case Expression:
 			write(Out, "(", 1);
@@ -322,21 +385,37 @@ Program *Eval(Program *p) {
 			write(Out, "(", 1);
 			for (Int n = 0; n < p->size; n++) {
 				Eval(p->collection[n]);
-				write(Out, ",", 1);
+				if (n < p->size - 1)
+					write(Out, ", ", 2);
 			}
 			write(Out, ")", 1);
+			break;
 		case Collection:
 			write(Out, "{", 1);
 			for (Int n = 0; n < p->size; n++) {
 				Eval(p->collection[n]);
 			}
 			write(Out, "}", 1);
+			break;
 		case Type:
 			write(Out, "[", 1);
 			for (Int n = 0; n < p->size; n++) {
 				Eval(p->collection[n]);
 			}
 			write(Out, "]", 1);
+			break;
+		case Quote:
+			write(Out, "'", 1);
+			Eval(p->collection[0]);
+			break;
+		case Insert:
+			write(Out, "''", 2);
+			Eval(p->collection[0]);
+			break;
+		case Spread:
+			write(Out, "'''", 3);
+			Eval(p->collection[0]);
+			break;
 	}
 	Program *r;
 	return r;
@@ -345,329 +424,3 @@ Program *Eval(Program *p) {
 void Print(Program *p) {
 
 }
-/*
-
-
-
-
-char *Buffer;
-Int BufferSize;
-Int BufferLength;
-void BufferAppend(char c) {
-	BufferLength++;
-	if (BufferLength >= BufferSize) {
-		BufferSize += 1028;
-		Buffer = realloc(Buffer, sizeof(char) * BufferSize);
-	}
-	Buffer[BufferLength - 1] = c;
-}
-Int Offset; //you can only backspace the current terminal line you're on.
-char *Nest;
-Int Inner;
-Int Quoted;
-typedef struct prog {
-	enum {Symbol, Expression, Quote, Insert, Spread} type;
-	union {
-		char *data;
-		struct prog **collection;
-	};
-	Int size;
-	struct prog *parent;
-} Program;
-Program *Input;
-Int Bi;
-Program *Parse();
-Program *Eval();
-void Print(Program *data);
-
-struct termios raw, restore;
-struct winsize Window; //fields: ws_row, ws_col
-void WinSizeCh (int signum) {
-	ioctl(Out, TIOCGWINSZ, &Window);
-}
-void Echo() {
-	write(Out, "\x1b[2K\r", 5);
-	if (Offset > Window.ws_col) {
-		write(Out, &Buffer[BufferLength - Window.ws_col], Window.ws_col);
-	}
-	else {
-		write(Out, &Buffer[BufferLength - Offset], Offset);
-	}
-}
-
-int main () {
-
-	tcgetattr(0, &restore);
-	raw = restore;
-	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	raw.c_oflag &= ~(OPOST);
-	raw.c_cflag |= (CS8);
-	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-	raw.c_cc[VMIN] = 0;
-	raw.c_cc[VTIME] = 1;
-	tcsetattr(0, TCSANOW, &raw);
-
-	ioctl(Out, TIOCGWINSZ, &Window);
-	signal(SIGWINCH, WinSizeCh);
-
-	char c[128];
-	Int r;
-
-	write(Out, "\x1b[2J\x1b[H", 7);
-	//write(Out, "\x1b[107;30m", 9);
-	write(Out, InfoString, sizeof(InfoString));
-	//write(Out, "\n\r\x1b[0m", 6);
-	write(Out, "\n", 1);
-
-	Buffer = malloc(sizeof(char) * 1028);
-	BufferSize = 1028;
-	BufferLength = 0;
-	Offset = 0;
-	Inner = 0;
-	Nest = 0;
-	Quoted = 0;
-
-	ReadInput:
-	r = read(In, c, 128);
-	if (r == 1) {
-		switch(c[0]) {
-			case 27: //escape key
-				goto Exit;
-				break;
-			case 10:
-			case 11:
-			case 12:
-			case 13:
-				Offset = 0;
-				write(Out, "\r\n", 2);
-				if (Inner == 0 && BufferLength > 0) {
-					Input = Parse();
-					Input;
-				}
-				else if (BufferLength > 0) {
-					BufferAppend(' ');
-				}
-				Echo();
-				break;
-			case 8:
-			case 127: //backspace
-				if (Offset > 0 && BufferLength > 0) {
-                                        BufferLength--;
-					Offset--;
-					Echo();
-				}
-				break;
-			default:
-				if (c[0] >= ' ') {
-					switch(c[0]) {
-						case '(':
-						case '[':
-						case '{':
-							Inner++;
-							Nest = realloc(Nest, sizeof(char) * Inner);
-							Nest[Inner-1] = c[0];
-							break;
-						case ')':
-						case ']':
-						case '}':
-							if (Inner > 0) {
-								if (
-									(Nest[Inner-1] == '(' && c[0] == ')') ||
-									(Nest[Inner-1] == '[' && c[0] == ']') ||
-									(Nest[Inner-1] == '{' && c[0] == '}')
-								) {
-									Inner--;
-									if (Nest[Inner - 1] == '\'') {
-										Inner--;
-										Quoted = 0;
-									}								
-								}
-								else {
-									goto Repeat;
-								}
-							}
-							else {
-								goto Repeat;
-							}
-							break;
-						case '\'':
-							break;
-							if (Quoted == 0) {
-								Quoted = 1;
-								Inner++;
-								Nest = realloc(Nest, sizeof(char) * Inner);
-								Nest[Inner-1] = c[0];
-							}
-							else {
-								if (Buffer[BufferLength - 1] == '\'' && Nest[Inner - 1] == '\'') {
-									goto Repeat;
-								}
-								else if (BufferLength > 4) {
-									if ((Buffer[BufferLength - 2] == '\'') &&
-									    (Buffer[BufferLength - 3] == '\'')) {
-										switch(Buffer[BufferLength - 4]) {
-											case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
-												goto Repeat;
-										}
-									    }
-								}
-							}
-							break;
-						case ',':
-							if (Inner == 0 || Nest[Inner - 1] != '(' || Buffer[BufferLength - 1] == ',' || Buffer[BufferLength - 1] == '(') {
-								goto Repeat;
-							}
-					}
-					BufferAppend(c[0]);
-					if (Inner == 0 && BufferLength > 0) {
-						//Input = Parse(0);
-					}
-					Offset ++;
-					Echo();
-				}
-		}
-		Repeat:
-	}
-	else {
-		if (c[1] == '[') {
-			//do fancy editing here
-			//fill in later
-		}
-	}
-	goto ReadInput;
-	Exit:
-	if (Buffer != NULL) free(Buffer);
-	if (Nest != NULL) free(Nest);
-	tcsetattr(0, TCSANOW, &restore);
-	return 0;
-}
-
-Program *Parse() {
-
-
-
-	/*
-	Program *node;
-	Program *tmp;
-	if (Bi >= BufferLength) return 0;
-	node = malloc(sizeof(Program));
-        StartOver:
-	switch(Buffer[Bi]) {
-		case '(':
-                        node = 0;
-			tmp->type = Expression;
-			tmp->size = 0;
-			while(Buffer[Bi] != ')') {
-				if (Bi < BufferLength) Bi++;
-				else break;
-                                if (Buffer[Bi] == ',') {
-                                        if (Bi < BufferLength) Bi++;
-                                        if (node == 0) {
-                                                node = malloc(sizeof(Program));
-                                                node->type = Expression;
-                                                node->size = 1;
-                                                node->collection = malloc(sizeof(Program*));
-                                                node->collection[0]->type = Symbol;
-                                                node->collection[0]->size = 2;
-                                                node->collection[0]->parent = node;
-                                                node->collection[0]->data = malloc(sizeof(char) * 2);
-                                                node->collection[0]->data[0] = 'd';
-                                                node->collection[0]->data[1] = 'o';
-                                        }
-                                        node->size ++;
-                                        node->collection = realloc(node->collection, sizeof(Program*) * node->size);
-                                        node->collection[node->size - 1] = tmp;
-                                        tmp = malloc(sizeof(Program));
-                                        tmp->type = Expression;
-                                        tmp->size = 0;
-                                }
-				tmp->size ++;
-				tmp->collection = realloc(tmp->collection, sizeof(Program*) * tmp->size);
-				tmp->collection[tmp->size - 1] = Parse();
-				tmp->collection[tmp->size - 1]->parent = tmp;
-                        }
-                        if (node == 0) {node = tmp;}
-			break;
-		case '{':
-			node->type = Expression;
-			node->size = 1;
-			node->collection = malloc(sizeof(Program*) * node->size);
-			tmp = malloc(sizeof(Program));
-			tmp->type = Symbol;
-			tmp->size = 6;
-			tmp->data = malloc(sizeof(char) * tmp->size);
-			tmp->data[0] = 'f', tmp->data[1] = 'i', tmp->data[2] = 'e', tmp->data[3] = 'l', tmp->data[4] = 'd', tmp->data[5] = 's';
-			tmp->parent = node;
-			node->collection[node->size - 1] = tmp;
-			while(Buffer[Bi] != '}') {
-				if (Bi < BufferLength) Bi++;
-				else break;
-				node->size ++;
-				node->collection = realloc(node->collection, sizeof(Program*) * node->size);
-				node->collection[node->size - 1] = Parse();
-				node->collection[node->size - 1]->parent = node;
-			}
-			break;
-		case '[':
-			node->type = Expression;
-			node->size = 1;
-			node->collection = malloc(sizeof(Program*) * node->size);
-			tmp = malloc(sizeof(Program));
-			tmp->type = Symbol;
-			tmp->size = 7;
-			tmp->data = malloc(sizeof(char) * tmp->size);
-			tmp->data[0] = 'm', tmp->data[1] = 'e', tmp->data[2] = 'm', tmp->data[3] = 'b', tmp->data[4] = 'e', tmp->data[5] = 'r', tmp->data[6] = 's';
-			tmp->parent = node;
-			node->collection[node->size - 1] = tmp;
-			while(Buffer[Bi] != ']') {
-				if (Bi < BufferLength) Bi++;
-				else break;
-				node->size ++;
-				node->collection = realloc(node->collection, sizeof(Program*) * node->size);
-				node->collection[node->size - 1] = Parse();
-				node->collection[node->size - 1]->parent = node;
-			}
-			break;
-		case '\'':
-                        if (Bi < BufferLength) Bi++;
-			node->type = Expression;
-			node->size = 2;
-			node->collection = malloc(sizeof(Program*) * node->size);
-			tmp = malloc(sizeof(Program));
-			tmp->type = Symbol;
-			tmp->size = 5;
-			tmp->data = malloc(sizeof(char) * tmp->size);
-			tmp->data[0] = 'q', tmp->data[1] = 'u', tmp->data[2] = 'o', tmp->data[3] = 't', tmp->data[4] = 'e';
-			tmp->parent = node;
-			node->collection[node->size - 2] = tmp;
-                        node->collection[node->size - 1] = Parse();
-		case ' ':
-                        if (Bi < BufferLength) Bi++;
-                        goto StartOver;
-                        break;
-		case ',':
-                        if (Bi < BufferLength) Bi++;
-                        goto StartOver;
-			break;
-		default:
-			node->type = Symbol;
-			node->size = 0;
-			node->collection = 0;
-			for (Int i = Bi; i < BufferLength; i++) {
-				switch(Buffer[i]) {
-					case '(': case '{': case '[': case ')': case '}': case ']': case ',': case ' ':
-						goto LoopEnd;
-					default:
-						node->size ++;
-				}
-			}
-			LoopEnd:
-			node->data = malloc(sizeof(char) * node->size);
-			for (Int i = 0; i < node->size; i++)
-				node->data[i] = Buffer[Bi + i];
-			Bi += node->size;
-	}
-	return node;
-	
-}
-*/
