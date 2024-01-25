@@ -134,6 +134,50 @@ Program *Parse() {
 	p->parent = 0;
 	for (Int i = 0; i < BufferLength; i ++) {
 		switch(Buffer[i]) {
+			case '"':
+				if (i < BufferLength - 1)
+					i++;
+				else {
+					write(Out, "\r\n?\r\n", 5);
+					Discard(top);
+					return (Program *)1;
+				}
+				tmp = malloc(sizeof(Program));
+				tmp->type = String;
+				tmp->size = 0;
+				tmp->parent = p;
+				tmp->size = 0;
+				tmp->symbol = malloc(sizeof(char) * tmp->size);
+				for (Int n = 0, Escape = 0; i + n < BufferLength; n++) {
+					if (Buffer[i + n] == '"') {
+						i += n;
+						break;
+					}
+					if (Buffer[i+n] == '\\') {
+						Escape = 1;
+					}
+					else {
+						if (Escape == 1) {
+							switch(Buffer[i + n]) {
+								case '"':
+								case '\\':
+									tmp->size++;
+									tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+									tmp->symbol[tmp->size - 1] = Buffer[i + n];
+									break;
+							}
+						}
+						else {
+							tmp->size++;
+							tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+							tmp->symbol[tmp->size - 1] = Buffer[i + n];
+						}
+					}
+				}
+				p->size++;
+				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+				p->collection[p->size - 1] = tmp;
+				break;
 			case '(':
 				tmp = malloc(sizeof(Program));
 				tmp->type = Expression;
@@ -311,6 +355,11 @@ Program *Eval(Program *p) {
 			write(Out, " ", 1);
 			write(Out, p->symbol, p->size);
 			write(Out, " ", 1);
+			break;
+		case String:
+			write(Out, "\"", 1);
+			write(Out, p->symbol, p->size);
+			write(Out, "\"", 1);
 			break;
 		case Expression:
 			write(Out, "(", 1);
