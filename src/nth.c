@@ -435,7 +435,7 @@ Program *FancyPrint(Program *p) {
 			break;
 		case String:
 			for (Int n = 0; n < p->size; n++) {
-				if (p->collection[n]->type == Symbol) {
+				if (p->collection[n]->type == String && p->collection[n]->size == 1) {
 					write(Out, "\"", 1);
 					write(Out, p->collection[n]->symbol, p->collection[n]->size);
 					write(Out, "\"", 1);

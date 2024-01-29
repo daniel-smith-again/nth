@@ -145,13 +145,33 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			}
 			break;
 		case String:
+			for (Int n = 0; n < p->size; n++)
+				if (p->collection[n]->type == Expression)
+					Clean(p->collection[n]);
 			Program *tmp = malloc(sizeof(Program));
 			tmp->collection = p->collection;
 			tmp->size = p->size;
 			p->size += p->size - 1;
-			for (Int n = 0; n < tmp->size; n++) {
+			p->collection = malloc(sizeof(Program*) * p->size);
+			for (Int n = 0, m = 0; n < tmp->size; n++, m++) {
+					p->collection[m] = tmp->collection[n];
+					if (tmp->collection[n]->type == Symbol)
+						p->collection[m]->type = String;
+					else
+						p->collection[m]->type = Expression;
+					p->collection[m]->parent = p;
+				if (n < tmp->size - 1) {
+					m++;
+					p->collection[m] = malloc(sizeof(Program));
+					p->collection[m]->type = Symbol;
+					p->collection[m]->size = 1;
+					p->collection[m]->symbol = malloc(sizeof(char) * 1);
+					p->collection[m]->symbol[0] = '+';
+					p->collection[m]->parent = p;
+				}
 
 			}
+			free(tmp);
 			break;
 	}
 	return p;
@@ -160,5 +180,4 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 void Eval(Program *p, collection *Env) {
 	Clean(p);
 	FancyPrint(p);
-	
 }
