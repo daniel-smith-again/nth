@@ -162,14 +162,22 @@ Program *Parse() {
 	p->parent = 0;
 	for (Int i = 0; i < BufferLength; i ++) {
 		switch(Buffer[i]) {
-			case '\\':
-				if (InString)
-					StringEscape = 1;
-				else 
-					goto makesym;
-				break;
 			case '"':
-				InString = 0;
+				if (InString) {
+					InString = 0;
+					p = p->parent;
+				}
+				else {
+					InString = 1;
+					tmp = malloc(sizeof(Program));
+					tmp->type = String;
+					tmp->size = 0;
+					tmp->parent = p;
+					p->size ++;
+					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+					p->collection[p->size - 1] = tmp;
+					p = tmp;
+				}
 				break;
 			case '(':
 				tmp = malloc(sizeof(Program));
@@ -232,6 +240,7 @@ Program *Parse() {
 				}
 				CloseExpression:
 				p = p->parent;
+				if (p->type == String) InString = 1;
 				if (p->type == Sequence) p = p->parent;
 				Level --;
 				if (Nest[Level - 1] == '\'') Level --, Quoted = 0;
@@ -301,35 +310,95 @@ Program *Parse() {
 				break;
 			default:
 				makesym:
-				tmp = malloc(sizeof(Program));
-				tmp->type = Symbol;
-				tmp->parent = p;
-				for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++)
-					switch(Buffer[i + tmp->size]) {
-						case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
-							goto Break;
+				if (InString) {
+					tmp = malloc(sizeof(Program));
+					tmp->type = Symbol;
+					tmp->symbol = malloc(sizeof(char) * 0);
+					tmp->parent = p;
+					for (Int escape = 0; i < BufferLength; i++) {
+						switch(Buffer[i]) {
+							case '\\':
+								if (!escape) {
+									escape = 1;
+									break;
+								}
+								else
+									escape = 0;
+									goto DefaultAppChar;
+								break;
+							case '"':
+								if (!escape) {
+									i --;
+									goto StringBreak;
+								}
+								else
+									escape = 0;
+									goto DefaultAppChar;
+								break;
+							case '(':
+								if (escape) {
+									i --;
+									InString = 0;
+									goto StringBreak;
+								}
+								else 
+									escape = 0;
+									goto DefaultAppChar;
+								break;
+							default:
+								if (escape) {
+									write(Out, "\r\n?\r\n", 5);
+									Discard(top);
+									return (Program*)1;
+								}
+								DefaultAppChar:
+								tmp->size ++;
+								tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+								tmp->symbol[tmp->size - 1] = Buffer[i];
+						}
 					}
-				Break:
-				tmp->symbol = malloc(sizeof(char) * tmp->size);
-				for (Int n = 0; n < tmp->size; n++)
-					tmp->symbol[n] = Buffer[i + n];
-				i += (tmp->size - 1);
-				tmp->parent = p;
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-				p->collection[p->size - 1] = tmp;
-                                while (p->type == Quote || p->type == Insert || p->type == Spread) {
-                                        if (Nest[Level - 1] == '\'' && p->type == Quote) {
-                                                Level--; Quoted = 0;
-                                                for(Int n = 0; n < Level; n++) if (Nest[n] == '\'')
-                                                                {Quoted = 1; break;}
-                                        }
-                                        p = p->parent;
-                                }
+					StringBreak:
+					tmp->parent = p;
+					p->size ++;
+					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+					p->collection[p->size - 1] = tmp;
+				}
+				else {
+					tmp = malloc(sizeof(Program));
+					tmp->type = Symbol;
+					tmp->parent = p;
+					for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++)
+						switch(Buffer[i + tmp->size]) {
+							case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
+								goto SymBreak;
+						}
+					SymBreak:
+					tmp->symbol = malloc(sizeof(char) * tmp->size);
+					for (Int n = 0; n < tmp->size; n++)
+						tmp->symbol[n] = Buffer[i + n];
+					i += (tmp->size - 1);
+					tmp->parent = p;
+					p->size++;
+					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+					p->collection[p->size - 1] = tmp;
+					while (p->type == Quote || p->type == Insert || p->type == Spread) {
+						if (Nest[Level - 1] == '\'' && p->type == Quote) {
+							Level--; Quoted = 0;
+							for(Int n = 0; n < Level; n++) if (Nest[n] == '\'')
+									{Quoted = 1; break;}
+						}
+						p = p->parent;
+					}
+				}
 				break;
 		}
 	}
-	if (Level > 0) {
+	if (InString) {
+		write(Out, "\x1b[90m\"\x1b[0m", 10);
+		Discard(top);
+		return 0;
+	}
+	else if (Level > 0) {
 		Discard(top);
 		write(Out, "\x1b[90m", 5);
 		for (Int n = Level; n > 0; n--) {
@@ -365,9 +434,15 @@ Program *FancyPrint(Program *p) {
 			write(Out, " ", 1);
 			break;
 		case String:
-			write(Out, "\"", 1);
-			write(Out, p->symbol, p->size);
-			write(Out, "\"", 1);
+			for (Int n = 0; n < p->size; n++) {
+				if (p->collection[n]->type == Symbol) {
+					write(Out, "\"", 1);
+					write(Out, p->collection[n]->symbol, p->collection[n]->size);
+					write(Out, "\"", 1);
+				} 
+				else 
+					FancyPrint(p->collection[n]);
+			}
 			break;
 		case Expression:
 			write(Out, "(", 1);

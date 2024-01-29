@@ -144,6 +144,15 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 				Clean(p->collection[n]);
 			}
 			break;
+		case String:
+			Program *tmp = malloc(sizeof(Program));
+			tmp->collection = p->collection;
+			tmp->size = p->size;
+			p->size += p->size - 1;
+			for (Int n = 0; n < tmp->size; n++) {
+
+			}
+			break;
 	}
 	return p;
 }
