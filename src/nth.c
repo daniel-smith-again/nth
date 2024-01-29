@@ -165,6 +165,8 @@ Program *Parse() {
 			case '\\':
 				if (InString)
 					StringEscape = 1;
+				else 
+					goto makesym;
 				break;
 			case '"':
 				InString = 0;
@@ -298,6 +300,7 @@ Program *Parse() {
 				}
 				break;
 			default:
+				makesym:
 				tmp = malloc(sizeof(Program));
 				tmp->type = Symbol;
 				tmp->parent = p;
