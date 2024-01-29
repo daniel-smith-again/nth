@@ -3,6 +3,8 @@
 struct termios raw, restore;
 struct winsize Window; //fields: ws_row, ws_col
 
+collection *Image;
+
 char *Buffer;
 Int BufferLength;
 Int BufferSize;
@@ -41,15 +43,26 @@ int main () {
 	Program *Input;
 	char c[128];
 	Int r;
+	Init(Image);
         Repeat:
 	r = read(In, c, sizeof(c));
 	if (r == 1) {
 		switch(c[0]) {
-			case 27: exit(0); break;//escape key
+			case 27: 
+				if (BufferLength == 0) {
+					exit(0);
+				}
+				else {
+					write(Out, "\r\n", 2);
+					free(Buffer), Buffer = 0;
+					BufferLength = 0;
+					BufferSize = 0;
+					Offset = 0;
+				}
+				break;
 			case 10: case 11: case 12: case 13: //all the ways to line break
-				BufferAppend(' ');
-				write(Out, "\r\n", 2);
-				Offset = 0;
+				if (BufferLength == 0) 
+					break;
 				Input = Parse(0);
 				if ((Int)Input == 1) {
 					free(Buffer);
@@ -59,10 +72,22 @@ int main () {
 				}
 				else if (Input != 0) {
 					write(Out, "\r\n", 2);
-					Eval(Input);
+					//FancyPrint(Input);
+					Eval(Input, Image);
 					write(Out, "\r\n", 2);
 					Discard(Input);
 					Input = 0;
+				}
+				else if (Input == 0) {
+					switch (Buffer[BufferLength - 1]) {
+						case ')': case '}': case ']':
+							break;
+						default:
+							BufferAppend(' ');
+							Offset = 0;
+							write(Out, "\r\n", 2);
+							break;
+					}
 				}
 				break;
 			case 8: case 127:
@@ -95,9 +120,10 @@ void SetRawMode() {
 	tcsetattr(0, TCSANOW, &raw);
 	ioctl(Out, TIOCGWINSZ, &Window);
 	signal(SIGWINCH, WinSizeCh);
-	write(Out, "\x1b[2J\x1b[H", 7);
+	//write(Out, "\x1b[2J\x1b[H", 7);
+	write(Out, "\r\n", 2);
 	write(Out, InfoString, sizeof(InfoString));
-	write(Out, "\r\n", 1);
+	write(Out, "\r\n", 2);
 }
 
 void Exit() {
@@ -122,6 +148,8 @@ void Discard(Program *p) {
 
 Program *Parse() {
 	Int Quoted = 0;
+	Int InString = 0;
+	Int StringEscape = 0;
 	char *Nest = malloc(sizeof(char) * 0);
 	Int Level = 0;
 	Program *top;
@@ -134,49 +162,12 @@ Program *Parse() {
 	p->parent = 0;
 	for (Int i = 0; i < BufferLength; i ++) {
 		switch(Buffer[i]) {
+			case '\\':
+				if (InString)
+					StringEscape = 1;
+				break;
 			case '"':
-				if (i < BufferLength - 1)
-					i++;
-				else {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program *)1;
-				}
-				tmp = malloc(sizeof(Program));
-				tmp->type = String;
-				tmp->size = 0;
-				tmp->parent = p;
-				tmp->size = 0;
-				tmp->symbol = malloc(sizeof(char) * tmp->size);
-				for (Int n = 0, Escape = 0; i + n < BufferLength; n++) {
-					if (Buffer[i + n] == '"') {
-						i += n;
-						break;
-					}
-					if (Buffer[i+n] == '\\') {
-						Escape = 1;
-					}
-					else {
-						if (Escape == 1) {
-							switch(Buffer[i + n]) {
-								case '"':
-								case '\\':
-									tmp->size++;
-									tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
-									tmp->symbol[tmp->size - 1] = Buffer[i + n];
-									break;
-							}
-						}
-						else {
-							tmp->size++;
-							tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
-							tmp->symbol[tmp->size - 1] = Buffer[i + n];
-						}
-					}
-				}
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-				p->collection[p->size - 1] = tmp;
+				InString = 0;
 				break;
 			case '(':
 				tmp = malloc(sizeof(Program));
@@ -337,6 +328,20 @@ Program *Parse() {
 	}
 	if (Level > 0) {
 		Discard(top);
+		write(Out, "\x1b[90m", 5);
+		for (Int n = Level; n > 0; n--) {
+			switch(Nest[n - 1]) {
+				case '(':
+					write(Out, ")", 1); break;
+				case '{':
+					write(Out, "}", 1); break;
+				case '[':
+					write(Out, "]", 1); break;
+				default:
+					break;
+			}
+		}
+		write(Out, "\x1b[0m", 4);
 		return 0;
 	}
 	else {
@@ -348,7 +353,7 @@ Program *Parse() {
 	}
 } //complete parser in 327 lines no big deal or anything...
 
-Program *Eval(Program *p) {
+Program *FancyPrint(Program *p) {
 	if (p == 0) return 0;
 	switch(p->type) {
 		case Symbol:
@@ -363,13 +368,13 @@ Program *Eval(Program *p) {
 			break;
 		case Expression:
 			write(Out, "(", 1);
-			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
 			write(Out, ")", 1);
 			break; 
 		case Sequence:
 			write(Out, "(", 1);
 			for (Int n = 0; n < p->size; n++) {
-				Eval(p->collection[n]);
+				FancyPrint(p->collection[n]);
 				if (n < p->size - 1)
 					write(Out, ", ", 2);
 			}
@@ -377,25 +382,25 @@ Program *Eval(Program *p) {
 			break;
 		case Collection:
 			write(Out, "{", 1);
-			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
 			write(Out, "}", 1);
 			break;
 		case Type:
 			write(Out, "[", 1);
-			for (Int n = 0; n < p->size; n++) Eval(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
 			write(Out, "]", 1);
 			break;
 		case Quote:
 			write(Out, " '", 2);
-			Eval(p->collection[0]);
+			FancyPrint(p->collection[0]);
 			break;
 		case Insert:
 			write(Out, " ''", 3);
-			Eval(p->collection[0]);
+			FancyPrint(p->collection[0]);
 			break;
 		case Spread:
 			write(Out, " '''", 4);
-			Eval(p->collection[0]);
+			FancyPrint(p->collection[0]);
 			break;
 	}
 	Program *r;

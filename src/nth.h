@@ -25,9 +25,51 @@ typedef struct Program__ {
 } Program;
 
 Program *Parse();
-Program *Eval(Program *p);
-void Run(Program *p);
+Program *FancyPrint(Program *p);
 void Print(Program *r);
 void Discard(Program *p);
+
+//primitive type representations
+
+struct nth__number;
+struct nth__function;
+struct nth__type;
+struct nth__collection;
+struct nth__symbol;
+struct nth__expression;
+typedef struct nth__number {
+	char* digits;
+	Int size;
+} number;
+typedef struct nth__collection {
+	struct nth__number size;
+	void ** members;
+} collection;
+typedef struct nth__expression {
+	struct nth__collection expr;
+} expression;
+typedef struct nth__function {
+	enum {Raw, Cached} kind;
+	union {
+		struct nth__expression f;
+		void *F;
+	};
+} function;
+typedef struct nth__type {
+	enum {Qualified, Enumerated} kind;
+	union {
+		struct nth__function predicate;
+		struct nth__collection members;
+	};
+} type;
+
+typedef struct nth__symbol {
+	char* data;
+	Int size;
+} symbol;
+
+
+void Init(collection *I);
+void Eval(Program *P, collection *Env);
 
 #endif //nth_h__

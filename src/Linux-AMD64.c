@@ -1,15 +1,9 @@
 #include "nth.h"
 
-Program *env;
-Int IsFreshRun = 1;
-/*
-typedef struct expression__ {
-	enum{symbol, expression} T;
+void Init(collection *I) {
 
-};*/
+}
 
-void Run(Program *p) {
-	if (IsFreshRun) {
-		env = malloc(sizeof(Program));
-	}
+void Eval(Program *p, collection *Env) {
+	write(Out, "EVALUATING", 10);
 }
