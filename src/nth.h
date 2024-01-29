@@ -19,7 +19,7 @@
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com\r\n"
 typedef unsigned long long int Int;
 typedef struct Program__ {
-	enum {Symbol, String, Number, Expression, Sequence, Collection, Type, Quote, Insert, Spread} type;
+	enum {Symbol, String, Number, Expression, Sequence, Collection, Type, Quote, Unquote, Requote} type;
 	union{ char* symbol; struct Program__ **collection; };
 	Int size;
 	struct Program__ *parent;

@@ -136,7 +136,7 @@ void Discard(Program *p) {
 		case Symbol:
 			free(p->symbol);
 			break;
-		case Expression: case Sequence: case Collection: case Type: case Quote: case Insert: case Spread:
+		case Expression: case Sequence: case Collection: case Type: case Quote: case Unquote: case Requote:
 			for (Int i = 0; i < p->size; i++)
 				Discard(p->collection[i]);
 			free(p->collection);
@@ -242,8 +242,12 @@ Program *Parse() {
 				p = p->parent;
 				if (p->type == String) InString = 1;
 				if (p->type == Sequence) p = p->parent;
+				if (p->parent->type == Quote || p->parent->type == Unquote || p->parent->type == Requote)
+					p = p->parent;
 				Level --;
 				if (Nest[Level - 1] == '\'') Level --, Quoted = 0;
+				for (Int n = 0; n < Level; n++)
+					if (Nest[n] == '\'') {Quoted = 1; break;}
 				break;
 			case '\'':
 				Int QuoteSize = 1;
@@ -265,8 +269,8 @@ Program *Parse() {
 				}
 				else {
 					tmp = malloc(sizeof(Program));
-					if (QuoteSize == 2) tmp->type = Insert;
-					else tmp->type = Spread;
+					if (QuoteSize == 2) tmp->type = Unquote;
+					else tmp->type = Requote;
 				}
 				tmp->size = 0;
 				tmp->parent = p;
@@ -381,7 +385,7 @@ Program *Parse() {
 					p->size++;
 					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
 					p->collection[p->size - 1] = tmp;
-					while (p->type == Quote || p->type == Insert || p->type == Spread) {
+					while (p->type == Quote || p->type == Unquote || p->type == Requote) {
 						if (Nest[Level - 1] == '\'' && p->type == Quote) {
 							Level--; Quoted = 0;
 							for(Int n = 0; n < Level; n++) if (Nest[n] == '\'')
@@ -472,11 +476,11 @@ Program *FancyPrint(Program *p) {
 			write(Out, " '", 2);
 			FancyPrint(p->collection[0]);
 			break;
-		case Insert:
+		case Unquote:
 			write(Out, " ''", 3);
 			FancyPrint(p->collection[0]);
 			break;
-		case Spread:
+		case Requote:
 			write(Out, " '''", 4);
 			FancyPrint(p->collection[0]);
 			break;

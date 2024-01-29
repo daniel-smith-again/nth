@@ -2,6 +2,7 @@
 
 void Init(collection *I) {
 
+
 }
 
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
@@ -103,7 +104,7 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			strncpy(p->collection[0]->symbol, "quote", 5);
 			p->collection[0]->parent = p;
 			break;
-		case Insert:
+		case Unquote:
 			for (Int n = 0; n < p->size; n++) {
 				Clean(p->collection[n]);
 			}
@@ -115,13 +116,13 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			}
 			p->collection[0] = malloc(sizeof(Program));
 			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 6;
+			p->collection[0]->size = 7;
 			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 6);
-			strncpy(p->collection[0]->symbol, "insert", 6);
+			p->collection[0]->symbol = malloc(sizeof(char) * 7);
+			strncpy(p->collection[0]->symbol, "unquote", 7);
 			p->collection[0]->parent = p;
 			break;
-		case Spread:
+		case Requote:
 			for (Int n = 0; n < p->size; n++) {
 				Clean(p->collection[n]);
 			}
@@ -133,10 +134,10 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			}
 			p->collection[0] = malloc(sizeof(Program));
 			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 6;
+			p->collection[0]->size = 7;
 			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 6);
-			strncpy(p->collection[0]->symbol, "spread", 6);
+			p->collection[0]->symbol = malloc(sizeof(char) * 7);
+			strncpy(p->collection[0]->symbol, "requote", 7);
 			p->collection[0]->parent = p;
 			break;
 		case Expression:
@@ -180,4 +181,5 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 void Eval(Program *p, collection *Env) {
 	Clean(p);
 	FancyPrint(p);
+
 }
