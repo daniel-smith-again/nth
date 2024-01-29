@@ -808,26 +808,6 @@ It's data, used as a type constraint.
 Just (a ~ b)
 
 
-
-How does the front-end hold and echo text?
-It holds it in an AST.
-Displays the AST as it is.
-Newlines and indentation are additional AST things that are discarded.
-What about user-defined new-lines?
-How to handle those?
-
-
-I need to turn (a b c, p q r, x y z) into (do (a b c) (p q r) (x y z))
-How do I do that?
-the comma takes the expression so far and puts it into its own thing.
-For example
-(a b c, x y z)
-is parsed as 
-(a b c) until you get the comma,
-then the body of the current node is put into another node.
-(do a b c)
-
-expressions are normal expressions or do expressions.
-that means I should add a do flag
-A do flag is just a do being the first expression though.
-I need a do flag this is silly.
+how to do f-strings like 
+"Hello\(SpaceChar)World"
+A string struct
