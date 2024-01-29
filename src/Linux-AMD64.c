@@ -179,7 +179,8 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 }
 
 void Eval(Program *p, collection *Env) {
-	Clean(p);
 	FancyPrint(p);
+	//Clean(p);
+	//FancyPrint(p);
 
 }

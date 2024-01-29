@@ -242,12 +242,13 @@ Program *Parse() {
 				p = p->parent;
 				if (p->type == String) InString = 1;
 				if (p->type == Sequence) p = p->parent;
-				if (p->parent->type == Quote || p->parent->type == Unquote || p->parent->type == Requote)
-					p = p->parent;
 				Level --;
 				if (Nest[Level - 1] == '\'') Level --, Quoted = 0;
 				for (Int n = 0; n < Level; n++)
-					if (Nest[n] == '\'') {Quoted = 1; break;}
+					if (Nest[n] == '\'') {
+						Quoted = 1; 
+						break;
+					}
 				break;
 			case '\'':
 				Int QuoteSize = 1;
