@@ -26,6 +26,8 @@ typedef struct Program__ {
 } Program;
 
 Program *Parse();
+Program *Read();
+char GetChar();
 Program *FancyPrint(Program *p);
 void Print(Program *r);
 void Discard(Program *p);

@@ -184,3 +184,12 @@ void Eval(Program *p, collection *Env) {
 	//FancyPrint(p);
 
 }
+
+char GetChar() {
+	char c;
+	Int r = read(In, &c, 1);
+	if (r == 1) 
+		return c;
+	else
+		return (char)0;
+}

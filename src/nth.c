@@ -44,7 +44,14 @@ int main () {
 	char c[128];
 	Int r;
 	Init(Image);
+	Input = Read();
+	Eval(Input, Image);
         Repeat:
+	Input = Read();
+	Eval(Input, Image);
+	Discard(Input);
+	goto Repeat;
+	/*
 	r = read(In, c, sizeof(c));
 	if (r == 1) {
 		switch(c[0]) {
@@ -105,6 +112,7 @@ int main () {
 		}
 	} else { } //in case I want to handle arrow keys
 	goto Repeat;
+	*/
 	return 0;
 }
 
@@ -143,6 +151,22 @@ void Discard(Program *p) {
 			break;
 		default:
 			break;
+	}
+}
+
+Program *Read() {
+	char *Nest = malloc(sizeof(char) * 0);
+	Int Level = 0;
+	Program *top;
+	Program *tmp;
+	Program *p;
+	top = malloc(sizeof(Program));
+	p = top;
+	p->type = Expression;
+	p->size = 0;
+	p->parent = 0;
+	for (char c = 0; read(In, &c, 1) > 0;) {
+
 	}
 }
 
@@ -243,12 +267,7 @@ Program *Parse() {
 				if (p->type == String) InString = 1;
 				if (p->type == Sequence) p = p->parent;
 				Level --;
-				if (Nest[Level - 1] == '\'') Level --, Quoted = 0;
-				for (Int n = 0; n < Level; n++)
-					if (Nest[n] == '\'') {
-						Quoted = 1; 
-						break;
-					}
+				if (Nest[Level - 1] == '\'') Level --;
 				break;
 			case '\'':
 				Int QuoteSize = 1;
