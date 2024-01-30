@@ -252,31 +252,36 @@ Program *Parse() {
 				break;
 			case '\'':
 				Int QuoteSize = 1;
-				for (; i + QuoteSize < BufferLength; QuoteSize++)
-					if (Buffer[i + QuoteSize] != '\'') 
-                                                break;
-				i += (QuoteSize - 1);
+				for (; i + QuoteSize < BufferLength; QuoteSize++) 
+					if (Buffer[i + QuoteSize] != '\'')
+						break;
+				i += QuoteSize - 1;
 				if (QuoteSize == 1) {
-					Quoted = 1;
 					Level++;
 					Nest[Level - 1] = '\'';
 					tmp = malloc(sizeof(Program));
 					tmp->type = Quote;
 				}
-				else if (QuoteSize > 3 || Quoted == 0) {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program*)1;
-				}
-				else {
+				else if (QuoteSize < 4) {
+					for (Int n = 0; n < Level; n++) 
+						if (Nest[n] == '\'') 
+							goto InsideQuote;
+					goto OutsideQuote;
+					InsideQuote:
 					tmp = malloc(sizeof(Program));
 					if (QuoteSize == 2) tmp->type = Unquote;
 					else tmp->type = Requote;
 				}
+				else {
+					OutsideQuote:
+					write(Out, "\r\n?\r\n", 5);
+					Discard(top);
+					return (Program*)1;
+				}
 				tmp->size = 0;
 				tmp->parent = p;
 				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+				p->collection = realloc(p->collection, sizeof(Program) * p->size);
 				p->collection[p->size - 1] = tmp;
 				p = tmp;
 				break;
@@ -388,9 +393,7 @@ Program *Parse() {
 					p->collection[p->size - 1] = tmp;
 					while (p->type == Quote || p->type == Unquote || p->type == Requote) {
 						if (Nest[Level - 1] == '\'' && p->type == Quote) {
-							Level--; Quoted = 0;
-							for(Int n = 0; n < Level; n++) if (Nest[n] == '\'')
-									{Quoted = 1; break;}
+							Level--;
 						}
 						p = p->parent;
 					}
@@ -428,7 +431,7 @@ Program *Parse() {
 		BufferSize = 0;
 		return top;
 	}
-} //complete parser in 327 lines no big deal or anything...
+}
 
 Program *FancyPrint(Program *p) {
 	if (p == 0) return 0;
