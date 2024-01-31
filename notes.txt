@@ -808,6 +808,15 @@ It's data, used as a type constraint.
 Just (a ~ b)
 
 
-how to do f-strings like 
-"Hello\(SpaceChar)World"
-A string struct
+
+How do I set reader macros?
+I don't.
+I don't want to run a program entirely from the command line.
+The read and print functions are just there to facilitate the compiler/debugger.
+The point is when your done, you can run your program without that.
+The workflow is you have your command line interface/REPL that lets you touch and tickle the executable binary.
+At some point, you decide the program is finished, so you either export the function to create an executable
+or you export the image to create a library.
+The point is that everything you do is with the intent to extract a stand-alone program.
+If you want a reader "mode" that reads in some syntax and turns it into lisp, you want an executable that does that.
+You don't want a read-table.
