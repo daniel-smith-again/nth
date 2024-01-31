@@ -10,6 +10,12 @@ Int BufferLength;
 Int BufferSize;
 Int Pos;
 Int Offset;
+char readchar();
+char PeekChar();
+
+char*Nest;
+Int Level;
+
 void BufferAppend(char c) {
 	BufferLength++;
 	if (BufferLength >= BufferSize) {
@@ -26,7 +32,7 @@ void WinSizeCh (int signum) {
 void Echo() {
 	write(Out, "\x1b[2K\r", 5);
 	if (Offset > Window.ws_col)
-		write(Out, &Buffer[BufferLength - Window.ws_col], Window.ws_col);
+		write(Out, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
 	else
 		write(Out, &Buffer[BufferLength - Offset], Offset);
 }
@@ -39,90 +45,30 @@ int main () {
 	BufferLength = 0;
 	BufferSize = 1028;
 	Buffer = malloc(sizeof(char) * BufferSize);
+	Pos = 0;
 	Offset = 0;
 	Program *Input;
-	char c[128];
+	char c;
 	Int r;
 	Init(Image);
-	Input = Read();
-	Eval(Input, Image);
         Repeat:
 	Input = Read();
+	write(Out, "\r\n", 2);
 	Eval(Input, Image);
+	write(Out, "END\r\n", 5);
 	Discard(Input);
 	goto Repeat;
-	/*
-	r = read(In, c, sizeof(c));
-	if (r == 1) {
-		switch(c[0]) {
-			case 27: 
-				if (BufferLength == 0) {
-					exit(0);
-				}
-				else {
-					write(Out, "\r\n", 2);
-					free(Buffer), Buffer = 0;
-					BufferLength = 0;
-					BufferSize = 0;
-					Offset = 0;
-				}
-				break;
-			case 10: case 11: case 12: case 13: //all the ways to line break
-				if (BufferLength == 0) 
-					break;
-				Input = Parse(0);
-				if ((Int)Input == 1) {
-					free(Buffer);
-					Buffer = 0;
-					BufferLength = 0;
-					BufferSize = 0;
-				}
-				else if (Input != 0) {
-					write(Out, "\r\n", 2);
-					//FancyPrint(Input);
-					Eval(Input, Image);
-					write(Out, "\r\n", 2);
-					Discard(Input);
-					Input = 0;
-				}
-				else if (Input == 0) {
-					switch (Buffer[BufferLength - 1]) {
-						case ')': case '}': case ']':
-							break;
-						default:
-							BufferAppend(' ');
-							Offset = 0;
-							write(Out, "\r\n", 2);
-							break;
-					}
-				}
-				break;
-			case 8: case 127:
-				if (Offset > 0) {
-					Offset--;
-					BufferLength --;
-					Echo();
-				}
-				break;
-			default:
-				BufferAppend(c[0]);
-				Offset++;
-				Echo();
-				break;
-		}
-	} else { } //in case I want to handle arrow keys
-	goto Repeat;
-	*/
 	return 0;
 }
 
 void SetRawMode() {
 	tcgetattr(0, &restore);
 	raw = restore;
-	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | ISTRIP | IXON);
 	raw.c_oflag &= ~(OPOST);
 	raw.c_cflag |= (CS8);
-	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	raw.c_cflag &= ~(CSIZE | PARENB);
+	raw.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
 	raw.c_cc[VMIN] = 0;
 	raw.c_cc[VTIME] = 1;
 	tcsetattr(0, TCSANOW, &raw);
@@ -135,8 +81,174 @@ void SetRawMode() {
 }
 
 void Exit() {
-	if (Buffer != 0) {free(Buffer);}
+	//if (Buffer != 0) {free(Buffer);}
 	tcsetattr(0, TCSANOW, &restore);
+	exit(0);
+}
+
+void ShowHint() {
+	for (Int n = 0; n < Level; n++) {
+
+	}
+}
+
+char PeekChar() {
+	char c = readchar();
+	Pos--;
+	return c;
+}
+
+char readchar() {
+	char c = 0;
+	Int r = 0;
+	if (BufferLength == 0 || Pos >= BufferLength) {
+		BufferLength = 0;
+		Pos = 0;
+		BufferSize = 1024;
+		Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+		for (;;) {
+			if (read(In, &c, 1)) {
+				if (c == 27) Exit();
+				else if ((c == 8 || c == 127) && Offset > 0) {
+					Offset --;
+					BufferLength --;
+				}
+				else {
+					Offset++;
+					BufferLength++;
+					if (BufferLength >= BufferSize) {
+						BufferSize += 1024;
+						Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+					}
+					if (c >= 10 && c <= 13) {
+						Offset = 0;
+						Buffer[BufferLength - 1] = ' ';
+						write(Out, "\r\n", 2);
+						goto End;
+					}
+					else
+						Buffer[BufferLength - 1] = c;
+				}
+				Echo();
+			}
+		}
+	}
+	End:
+	c = Buffer[Pos];
+	Pos ++;
+	return c;
+}
+
+void Append(Program *p, Program *q) {
+	p->size ++;
+	if (p->collection)
+		p->collection = realloc(p->collection, sizeof(Program*) * p->size);
+	else
+		p->collection = malloc(sizeof(Program*) * p->size);
+	q->parent = p;
+	p->collection[p->size - 1] = q;
+}
+
+Program *ReadString() {
+
+}
+Program *ReadSymbol() {
+	Program *tmp;
+	tmp = malloc(sizeof(Program));
+	tmp->type = Symbol;
+	tmp->size = 0;
+	tmp->collection = 0;
+	char c = 0;
+	for (;;) {
+		c = PeekChar();
+		if (	c == ' ' ||
+			c == ',' ||
+			c == '(' ||
+			c == '{' ||
+			c == '[' ||
+			c == ')' ||
+			c == '}' ||
+			c == ']' ||
+			c == '"')
+			return tmp;
+		else {
+			c = readchar();
+			tmp->size ++;
+			tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+			tmp->symbol[tmp->size - 1] = c;
+		}
+	}
+}
+Program *ReadQuote() {
+
+}
+Program *ReadCollection() {
+
+}
+Program *ReadType() {
+
+}
+Program *Read() {
+	Program *tmp, *p;
+	tmp = malloc(sizeof(Program));
+	tmp->type = Expression;
+	tmp->size = 0;
+	tmp->collection = 0;
+	Level ++;
+	Nest = realloc(Nest, sizeof(char) * Level);
+	Nest[Level - 1] = '(';
+	for (;;) {
+		char c = readchar();
+		switch(c) {
+			case '(':
+				p = Read();
+				if (p) Append(tmp, p);
+				else {Discard(tmp); return 0;}
+				break;
+			case '{':
+				p = ReadCollection();
+				if (p) Append(tmp, p);
+				else {Discard(tmp); return 0;}
+				break;
+			case '[':
+				p = ReadType();
+				if (p) Append(tmp, p);
+				else {Discard(tmp); return 0;}
+				break;
+			case '\'':
+				p = ReadQuote();
+				if (p) Append(tmp, p);
+				else {Discard(tmp); return 0;}
+				break;
+			case '"':
+				p = ReadString();
+				if (p) Append(tmp, p);
+				else {Discard(tmp); return 0;}
+				break;
+			case ')':
+				Level --;
+				Nest = realloc(Nest, sizeof(char) * Level);
+				return tmp;
+				break;
+			case ']':
+			case '}':
+				Discard(tmp);
+				return 0;
+				break;
+			default:
+				if (tmp->collection[tmp->size - 1]->type != Symbol) {
+					tmp->size ++;
+					tmp->collection = realloc(sizeof(Program*) * tmp->size);
+					tmp->collection[tmp->size - 1] = malloc(sizeof(Program));
+					tmp->collection[tmp->size - 1]->type = Symbol;
+					tmp->collection[tmp->size - 1]->size = 0;
+					tmp->collection[tmp->size - 1]->parent = tmp;
+				}
+				tmp
+				break;
+				
+		}
+	}
 }
 
 void Discard(Program *p) {
@@ -154,21 +266,7 @@ void Discard(Program *p) {
 	}
 }
 
-Program *Read() {
-	char *Nest = malloc(sizeof(char) * 0);
-	Int Level = 0;
-	Program *top;
-	Program *tmp;
-	Program *p;
-	top = malloc(sizeof(Program));
-	p = top;
-	p->type = Expression;
-	p->size = 0;
-	p->parent = 0;
-	for (char c = 0; read(In, &c, 1) > 0;) {
 
-	}
-}
 
 Program *Parse() {
 	Int Quoted = 0;

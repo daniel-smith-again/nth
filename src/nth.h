@@ -18,8 +18,9 @@
 "Welcome to the nth compiler utility.\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com\r\n"
 typedef unsigned long long int Int;
+typedef enum {Symbol, String, Number, Expression, Sequence, Collection, Type, Quote, Unquote, Requote} Syntax;
 typedef struct Program__ {
-	enum {Symbol, String, Number, Expression, Sequence, Collection, Type, Quote, Unquote, Requote} type;
+	Syntax type;
 	union{ char* symbol; struct Program__ **collection; };
 	Int size;
 	struct Program__ *parent;
@@ -27,6 +28,11 @@ typedef struct Program__ {
 
 Program *Parse();
 Program *Read();
+Program *ReadString();
+Program *ReadSymbol();
+Program *ReadQuote();
+Program *ReadCollection();
+Program *ReadType();
 char GetChar();
 Program *FancyPrint(Program *p);
 void Print(Program *r);
