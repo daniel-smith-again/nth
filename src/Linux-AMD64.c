@@ -130,29 +130,39 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			}
 			break;
 		case String:
-			Program *tmp = malloc(sizeof(Program));
-			tmp->size = p->size + (p->size - 1);
-			tmp->type = Expression;
-			tmp->parent = p->parent;
-			tmp->collection = malloc(sizeof(Program*) * tmp->size);
-			for (Int n = 0, m = 0; n < p->size; n++, m++) {
-				tmp->collection[m] = p->collection[n];
-				if (tmp->collection[m]->type == Symbol)
-					tmp->collection[m]->type = String;
-				if (n < p->size - 1) {
-					m++;
-					tmp->collection[m] = malloc(sizeof(Program));
-					tmp->collection[m]->type = Symbol;
-					tmp->collection[m]->size = 1;
-					tmp->collection[m]->symbol = malloc(sizeof(char));
-					tmp->collection[m]->symbol[0] = '+';
-					tmp->collection[m]->parent = tmp;
-				}
+			Program *tmp;
+			if (p->size == 1 && p->collection[0]->type == Symbol) {
+				tmp = p->collection[0];
+				free(p->collection);
+				p->size = tmp->size;
+				p->symbol = tmp->symbol;
+				p->type = String;
 			}
-			free(p->collection);
-			p->collection = tmp->collection;
-			p->size = tmp->size;
-			p->type = tmp->type;
+			else {
+				tmp = malloc(sizeof(Program));
+				tmp->size = p->size + (p->size - 1);
+				tmp->type = Expression;
+				tmp->parent = p->parent;
+				tmp->collection = malloc(sizeof(Program*) * tmp->size);
+				for (Int n = 0, m = 0; n < p->size; n++, m++) {
+					tmp->collection[m] = p->collection[n];
+					if (tmp->collection[m]->type == Symbol)
+						tmp->collection[m]->type = String;
+					if (n < p->size - 1) {
+						m++;
+						tmp->collection[m] = malloc(sizeof(Program));
+						tmp->collection[m]->type = Symbol;
+						tmp->collection[m]->size = 1;
+						tmp->collection[m]->symbol = malloc(sizeof(char));
+						tmp->collection[m]->symbol[0] = '+';
+						tmp->collection[m]->parent = tmp;
+					}
+				}
+				free(p->collection);
+				p->collection = tmp->collection;
+				p->size = tmp->size;
+				p->type = tmp->type;
+			}
 			free(tmp);
 			break;
 	}

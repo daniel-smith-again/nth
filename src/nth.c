@@ -153,21 +153,31 @@ char readchar() {
 			if (read(In, &c, 1)) {
 				if (c == 27) Exit();
 				if (c == 8 || c == 127) {
-					Offset --;
-					BufferLength --;
+					if (Offset > 0 && BufferLength > 0) {
+						Offset --;
+						BufferLength --;
+						Echo();
+					}
 					continue;
 				}
 				if (c == 10 || c == 11 || c == 12 || c == 13) {
 					Offset = 0;
-					BufferAppend(' ');
+					BufferLength++;
+					if (BufferLength >= BufferSize)
+						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
+					Buffer[BufferLength - 1] = ' ';
 					write(Out, "\r\n", 2);
 					goto End;
 				}
 				if (c >= ' ') {
-					BufferAppend(c);
-					Offset++;
+					//BufferAppend(c);
+					BufferLength++;
+					if (BufferLength >= BufferSize)
+						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
+					Buffer[BufferLength - 1] = c;
+					Offset ++;
+					Echo();
 				}
-				Echo();
 			}
 		}
 	}
