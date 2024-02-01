@@ -52,11 +52,21 @@ int main () {
 	Int r;
 	Init(Image);
         Repeat:
-	Input = Read();
-	write(Out, "\r\n", 2);
-	Eval(Input, Image);
-	write(Out, "END\r\n", 5);
-	Discard(Input);
+	Input = Read(0);
+	//write(Out, "\r\n", 2);
+	if (Input) {
+		Eval(Input, Image);
+		write(Out, "\r\n", 2);
+		Discard(Input);
+		Input = 0;
+	}
+	else {
+		free(Buffer);
+		BufferLength = 0;
+		BufferSize = 0;
+		Pos = 0;
+		write(Out, "?\r\n", 3);
+	}
 	goto Repeat;
 	return 0;
 }
@@ -92,7 +102,40 @@ void ShowHint() {
 	}
 }
 
-char PeekChar() {
+Int IsDelimiter(char c) {
+	switch(c) {
+		case '(':
+		case '{':
+		case '[':
+		case ' ':
+		case ',':
+		case ')':
+		case '}':
+		case ']':
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+Int IsPunct(char c) {
+	switch(c) {
+		case '(':
+		case '{':
+		case '[':
+		case ' ':
+		case ',':
+		case ')':
+		case '}':
+		case ']':
+		case '\'':
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+char peekchar() {
 	char c = readchar();
 	Pos--;
 	return c;
@@ -109,25 +152,20 @@ char readchar() {
 		for (;;) {
 			if (read(In, &c, 1)) {
 				if (c == 27) Exit();
-				else if ((c == 8 || c == 127) && Offset > 0) {
+				if (c == 8 || c == 127) {
 					Offset --;
 					BufferLength --;
+					continue;
 				}
-				else {
+				if (c == 10 || c == 11 || c == 12 || c == 13) {
+					Offset = 0;
+					BufferAppend(' ');
+					write(Out, "\r\n", 2);
+					goto End;
+				}
+				if (c >= ' ') {
+					BufferAppend(c);
 					Offset++;
-					BufferLength++;
-					if (BufferLength >= BufferSize) {
-						BufferSize += 1024;
-						Buffer = realloc(Buffer, sizeof(char) * BufferSize);
-					}
-					if (c >= 10 && c <= 13) {
-						Offset = 0;
-						Buffer[BufferLength - 1] = ' ';
-						write(Out, "\r\n", 2);
-						goto End;
-					}
-					else
-						Buffer[BufferLength - 1] = c;
 				}
 				Echo();
 			}
@@ -149,106 +187,148 @@ void Append(Program *p, Program *q) {
 	p->collection[p->size - 1] = q;
 }
 
-Program *ReadString() {
-
-}
-Program *ReadSymbol() {
-	Program *tmp;
-	tmp = malloc(sizeof(Program));
-	tmp->type = Symbol;
-	tmp->size = 0;
-	tmp->collection = 0;
-	char c = 0;
-	for (;;) {
-		c = PeekChar();
-		if (	c == ' ' ||
-			c == ',' ||
-			c == '(' ||
-			c == '{' ||
-			c == '[' ||
-			c == ')' ||
-			c == '}' ||
-			c == ']' ||
-			c == '"')
-			return tmp;
-		else {
-			c = readchar();
-			tmp->size ++;
-			tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
-			tmp->symbol[tmp->size - 1] = c;
-		}
+Program *Read(Int InsideQuote) {
+	Program *p = 0, *tmp = 0;
+	p = malloc(sizeof(Program));
+	p->size = 0;
+	p->collection = 0;
+	p->symbol = 0;
+	TryAgain:
+	char c = readchar();
+	switch(c) {
+		case '(':
+			p->type = Expression;
+			goto ReadExpression;
+		case '{':
+			p->type = Collection;
+			goto ReadExpression;
+		case '[':
+			p->type = Type;
+			goto ReadExpression;
+		case '\'':
+			p->type = Quote;
+			goto ReadQuote;
+		case ' ':
+			goto TryAgain;
+			break;
+		case '"':
+			p->type = String;
+			goto ReadString;
+			break;
+		case ')': case '}': case ']': case ',':
+			goto Error;
+		default:
+			p->type = Symbol;
+			goto ReadSymbol;
 	}
-}
-Program *ReadQuote() {
-
-}
-Program *ReadCollection() {
-
-}
-Program *ReadType() {
-
-}
-Program *Read() {
-	Program *tmp, *p;
-	tmp = malloc(sizeof(Program));
-	tmp->type = Expression;
-	tmp->size = 0;
-	tmp->collection = 0;
-	Level ++;
-	Nest = realloc(Nest, sizeof(char) * Level);
-	Nest[Level - 1] = '(';
+	ReadExpression:
 	for (;;) {
-		char c = readchar();
+		c = peekchar();
 		switch(c) {
-			case '(':
-				p = Read();
-				if (p) Append(tmp, p);
-				else {Discard(tmp); return 0;}
+			case ' ':
+				readchar();
 				break;
-			case '{':
-				p = ReadCollection();
-				if (p) Append(tmp, p);
-				else {Discard(tmp); return 0;}
-				break;
-			case '[':
-				p = ReadType();
-				if (p) Append(tmp, p);
-				else {Discard(tmp); return 0;}
-				break;
-			case '\'':
-				p = ReadQuote();
-				if (p) Append(tmp, p);
-				else {Discard(tmp); return 0;}
-				break;
-			case '"':
-				p = ReadString();
-				if (p) Append(tmp, p);
-				else {Discard(tmp); return 0;}
+			case ',':
+				if (p->type != Expression && p->type != Sequence)
+					goto Error;
+				p->type = Sequence;
+				tmp = malloc(sizeof(Program));
+				tmp->type = Symbol;
+				tmp->size = 1;
+				tmp->symbol = malloc(sizeof(char));
+				tmp->symbol[0] = ',';
+				Append(p, tmp);
+				readchar();
 				break;
 			case ')':
-				Level --;
-				Nest = realloc(Nest, sizeof(char) * Level);
-				return tmp;
+				readchar();
+				if (p->type == Expression || p->type == Sequence) return p;
+				else goto Error;
+				break;
+			case '}':	
+				readchar();
+				if (p->type == Collection) return p;
+				else goto Error;
 				break;
 			case ']':
-			case '}':
-				Discard(tmp);
-				return 0;
+				readchar();
+				if (p->type == Type) return p;
+				else goto Error;
 				break;
 			default:
-				if (tmp->collection[tmp->size - 1]->type != Symbol) {
-					tmp->size ++;
-					tmp->collection = realloc(sizeof(Program*) * tmp->size);
-					tmp->collection[tmp->size - 1] = malloc(sizeof(Program));
-					tmp->collection[tmp->size - 1]->type = Symbol;
-					tmp->collection[tmp->size - 1]->size = 0;
-					tmp->collection[tmp->size - 1]->parent = tmp;
-				}
-				tmp
-				break;
-				
+				tmp = Read(InsideQuote);
+				if (tmp) Append(p, tmp);
+				else goto Error;
 		}
 	}
+	ReadQuote:
+		c = peekchar();
+		if (c == '\'') {
+			if (!InsideQuote) 
+				goto Error;
+			readchar();
+			c = peekchar();
+			if (c == '\'') p->type = Requote, readchar();
+			else p->type = Unquote;
+		}
+		tmp = Read(1);
+		if (tmp) {
+			Append(p, tmp);
+			return p;
+		}
+		else goto Error;
+	ReadString:
+		tmp = malloc(sizeof(Program));
+		tmp->type = Symbol;
+		tmp->size = 0;
+		tmp->collection = 0;
+		tmp->symbol = malloc(sizeof(char) * 0);
+		for (c = readchar(); c != '"'; c = readchar()) {
+			if (c == '\\') {
+				c = peekchar();
+				if (c == '(') {
+					Append(p, tmp);
+					tmp = Read(InsideQuote);
+					if (tmp) {
+						Append(p, tmp);
+						tmp = malloc(sizeof(Program));
+						tmp->type = Symbol;
+						tmp->size = 0;
+						tmp->collection = 0;
+						tmp->symbol = malloc(sizeof(char) * 0);
+					}
+					else goto Error;
+					continue;
+				}
+				else {
+					tmp->size++;
+					tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+					tmp->symbol[tmp->size - 1] = c;
+					readchar();
+				}
+			}
+			else {
+				tmp->size++;
+				tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
+				tmp->symbol[tmp->size - 1] = c;
+			}
+		}
+		Append(p, tmp);
+		return p;
+	ReadSymbol:
+		p->size = 1;
+		p->symbol = malloc(sizeof(char));
+		p->symbol[0] = c;
+	for (c = peekchar(); !IsDelimiter(c); c = peekchar()) {
+		p->size++;
+		p->symbol = realloc(p->symbol, sizeof(char) * p->size);
+		p->symbol[p->size - 1] = readchar();
+	}
+	return p;
+	Error:
+	if (p) Discard(p);
+	if (tmp) Discard(tmp);
+	return 0;
 }
 
 void Discard(Program *p) {
@@ -266,343 +346,53 @@ void Discard(Program *p) {
 	}
 }
 
-
-
-Program *Parse() {
-	Int Quoted = 0;
-	Int InString = 0;
-	Int StringEscape = 0;
-	char *Nest = malloc(sizeof(char) * 0);
-	Int Level = 0;
-	Program *top;
-	Program *tmp;
-	Program *p;
-	top = malloc(sizeof(Program));
-	p = top;
-	p->type = Expression;
-	p->size = 0;
-	p->parent = 0;
-	for (Int i = 0; i < BufferLength; i ++) {
-		switch(Buffer[i]) {
-			case '"':
-				if (InString) {
-					InString = 0;
-					p = p->parent;
-				}
-				else {
-					InString = 1;
-					tmp = malloc(sizeof(Program));
-					tmp->type = String;
-					tmp->size = 0;
-					tmp->parent = p;
-					p->size ++;
-					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-					p->collection[p->size - 1] = tmp;
-					p = tmp;
-				}
-				break;
-			case '(':
-				tmp = malloc(sizeof(Program));
-				tmp->type = Expression;
-				tmp->size = 0;
-				tmp->parent = p;
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-				p->collection[p->size - 1] = tmp;
-				p = tmp;
-				Level++;
-				Nest = realloc(Nest, sizeof(char) * Level);
-				Nest[Level - 1] = '(';
-				break;
-			case '{':
-				tmp = malloc(sizeof(Program));
-				tmp->type = Collection;
-				tmp->size = 0;
-				tmp->parent = p;
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-				p->collection[p->size - 1] = tmp;
-				p = tmp;
-				Level++;
-				Nest = realloc(Nest, sizeof(char) * Level);
-				Nest[Level - 1] = '{';
-				break;
-			case '[':
-				tmp = malloc(sizeof(Program));
-				tmp->type = Type;
-				tmp->size = 0;
-				tmp->parent = p;
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-				p->collection[p->size - 1] = tmp;
-				p = tmp;
-				Level++;
-				Nest = realloc(Nest, sizeof(char) * Level);
-				Nest[Level - 1] = '[';
-				break;
-			case ')':
-				if (Level == 0 || Nest[Level - 1] != '(') {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program *)1;
-				}
-				else goto CloseExpression;
-			case '}':
-				if (Level == 0 || Nest[Level - 1] != '{') {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program *)1;
-				}
-				else goto CloseExpression;
-			case ']':
-				if (Level == 0 || Nest[Level - 1] != '[') {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program *)1;
-				}
-				CloseExpression:
-				p = p->parent;
-				if (p->type == String) InString = 1;
-				if (p->type == Sequence) p = p->parent;
-				Level --;
-				if (Nest[Level - 1] == '\'') Level --;
-				break;
-			case '\'':
-				Int QuoteSize = 1;
-				for (; i + QuoteSize < BufferLength; QuoteSize++) 
-					if (Buffer[i + QuoteSize] != '\'')
-						break;
-				i += QuoteSize - 1;
-				if (QuoteSize == 1) {
-					Level++;
-					Nest[Level - 1] = '\'';
-					tmp = malloc(sizeof(Program));
-					tmp->type = Quote;
-				}
-				else if (QuoteSize < 4) {
-					for (Int n = 0; n < Level; n++) 
-						if (Nest[n] == '\'') 
-							goto InsideQuote;
-					goto OutsideQuote;
-					InsideQuote:
-					tmp = malloc(sizeof(Program));
-					if (QuoteSize == 2) tmp->type = Unquote;
-					else tmp->type = Requote;
-				}
-				else {
-					OutsideQuote:
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program*)1;
-				}
-				tmp->size = 0;
-				tmp->parent = p;
-				p->size++;
-				p->collection = realloc(p->collection, sizeof(Program) * p->size);
-				p->collection[p->size - 1] = tmp;
-				p = tmp;
-				break;
-			case ' ':
-				break;
-			case ',':
-				if(Nest[Level-1] != '(') {
-					write(Out, "\r\n?\r\n", 5);
-					Discard(top);
-					return (Program*)1;
-				}
-				else if (p->parent->type == Sequence) {
-					tmp = p->parent;
-					tmp->size++;
-					tmp->collection = realloc(tmp->collection, sizeof(Program*) * tmp->size);
-					p = malloc(sizeof(Program));
-					tmp->collection[tmp->size - 1] = p;
-					p->parent = tmp;
-					p->type = Expression;
-					p->size = 0;				
-				}
-				else {
-					tmp = malloc(sizeof(Program));
-					tmp->type = Sequence;
-					tmp->size = 2;
-					tmp->parent = p->parent;
-					p->parent->collection[p->parent->size - 1] = tmp;
-					tmp->collection = malloc(sizeof(Program*) * tmp->size);
-					tmp->collection[0] = p;
-					p->parent = tmp;
-					p = malloc(sizeof(Program));
-					p->parent = tmp;
-					p->type = Expression;
-					tmp->collection[1] = p;
-				}
-				break;
-			default:
-				makesym:
-				if (InString) {
-					tmp = malloc(sizeof(Program));
-					tmp->type = Symbol;
-					tmp->symbol = malloc(sizeof(char) * 0);
-					tmp->parent = p;
-					for (Int escape = 0; i < BufferLength; i++) {
-						switch(Buffer[i]) {
-							case '\\':
-								if (!escape) {
-									escape = 1;
-									break;
-								}
-								else
-									escape = 0;
-									goto DefaultAppChar;
-								break;
-							case '"':
-								if (!escape) {
-									i --;
-									goto StringBreak;
-								}
-								else
-									escape = 0;
-									goto DefaultAppChar;
-								break;
-							case '(':
-								if (escape) {
-									i --;
-									InString = 0;
-									goto StringBreak;
-								}
-								else 
-									escape = 0;
-									goto DefaultAppChar;
-								break;
-							default:
-								if (escape) {
-									write(Out, "\r\n?\r\n", 5);
-									Discard(top);
-									return (Program*)1;
-								}
-								DefaultAppChar:
-								tmp->size ++;
-								tmp->symbol = realloc(tmp->symbol, sizeof(char) * tmp->size);
-								tmp->symbol[tmp->size - 1] = Buffer[i];
-						}
-					}
-					StringBreak:
-					tmp->parent = p;
-					p->size ++;
-					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-					p->collection[p->size - 1] = tmp;
-				}
-				else {
-					tmp = malloc(sizeof(Program));
-					tmp->type = Symbol;
-					tmp->parent = p;
-					for (tmp->size = 1; tmp->size + i < BufferLength; tmp->size ++)
-						switch(Buffer[i + tmp->size]) {
-							case '(': case '{': case '[': case ')': case '}': case ']': case ' ': case ',':
-								goto SymBreak;
-						}
-					SymBreak:
-					tmp->symbol = malloc(sizeof(char) * tmp->size);
-					for (Int n = 0; n < tmp->size; n++)
-						tmp->symbol[n] = Buffer[i + n];
-					i += (tmp->size - 1);
-					tmp->parent = p;
-					p->size++;
-					p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-					p->collection[p->size - 1] = tmp;
-					while (p->type == Quote || p->type == Unquote || p->type == Requote) {
-						if (Nest[Level - 1] == '\'' && p->type == Quote) {
-							Level--;
-						}
-						p = p->parent;
-					}
-				}
-				break;
-		}
-	}
-	if (InString) {
-		write(Out, "\x1b[90m\"\x1b[0m", 10);
-		Discard(top);
-		return 0;
-	}
-	else if (Level > 0) {
-		Discard(top);
-		write(Out, "\x1b[90m", 5);
-		for (Int n = Level; n > 0; n--) {
-			switch(Nest[n - 1]) {
-				case '(':
-					write(Out, ")", 1); break;
-				case '{':
-					write(Out, "}", 1); break;
-				case '[':
-					write(Out, "]", 1); break;
-				default:
-					break;
-			}
-		}
-		write(Out, "\x1b[0m", 4);
-		return 0;
-	}
-	else {
-		free(Buffer);
-		Buffer = 0;
-		BufferLength = 0;
-		BufferSize = 0;
-		return top;
-	}
-}
-
 Program *FancyPrint(Program *p) {
 	if (p == 0) return 0;
 	switch(p->type) {
 		case Symbol:
-			write(Out, " ", 1);
+			//write(Out, " ", 1);
 			write(Out, p->symbol, p->size);
-			write(Out, " ", 1);
+			//write(Out, " ", 1);
 			break;
 		case String:
-			for (Int n = 0; n < p->size; n++) {
-				if (p->collection[n]->type == String && p->collection[n]->size == 1) {
-					write(Out, "\"", 1);
-					write(Out, p->collection[n]->symbol, p->collection[n]->size);
-					write(Out, "\"", 1);
-				} 
-				else 
-					FancyPrint(p->collection[n]);
-			}
-			break;
+			write(Out, "\"", 1);
+			write(Out, p->symbol, p->size);
+			write(Out, "\"", 1);
+			break; 
 		case Expression:
 			write(Out, "(", 1);
-			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) 
+				FancyPrint(p->collection[n]), n < p->size - 1 ? write(Out, " ", 1) : 0;
 			write(Out, ")", 1);
 			break; 
 		case Sequence:
 			write(Out, "(", 1);
-			for (Int n = 0; n < p->size; n++) {
-				FancyPrint(p->collection[n]);
-				if (n < p->size - 1)
-					write(Out, ", ", 2);
-			}
+			for (Int n = 0; n < p->size; n++)
+				FancyPrint(p->collection[n]), n < p->size - 1 ? write(Out, " ", 1) : 0;
 			write(Out, ")", 1);
 			break;
 		case Collection:
 			write(Out, "{", 1);
-			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) 
+				FancyPrint(p->collection[n]), n < p->size - 1 ? write(Out, " ", 1) : 0;
 			write(Out, "}", 1);
 			break;
 		case Type:
 			write(Out, "[", 1);
-			for (Int n = 0; n < p->size; n++) FancyPrint(p->collection[n]);
+			for (Int n = 0; n < p->size; n++) 
+				FancyPrint(p->collection[n]), n < p->size - 1 ? write(Out, " ", 1) : 0;
 			write(Out, "]", 1);
 			break;
 		case Quote:
-			write(Out, " '", 2);
+			write(Out, "' ", 2);
 			FancyPrint(p->collection[0]);
 			break;
 		case Unquote:
-			write(Out, " ''", 3);
+			write(Out, "'' ", 3);
 			FancyPrint(p->collection[0]);
 			break;
 		case Requote:
-			write(Out, " '''", 4);
+			write(Out, "''' ", 4);
 			FancyPrint(p->collection[0]);
 			break;
 	}

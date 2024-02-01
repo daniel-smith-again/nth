@@ -31,22 +31,6 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 				p->type = Symbol;
 				break;
 		case Sequence:
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n-1] = p->collection[n-2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 2;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 2);
-			strncpy(p->collection[0]->symbol, "do", 2);
-			p->collection[0]->parent = p;
 			break;
 		case Collection:
 			//change to (fields ...)
@@ -146,32 +130,29 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			}
 			break;
 		case String:
-			for (Int n = 0; n < p->size; n++)
-				if (p->collection[n]->type == Expression)
-					Clean(p->collection[n]);
 			Program *tmp = malloc(sizeof(Program));
-			tmp->collection = p->collection;
-			tmp->size = p->size;
-			p->size += p->size - 1;
-			p->collection = malloc(sizeof(Program*) * p->size);
-			for (Int n = 0, m = 0; n < tmp->size; n++, m++) {
-					p->collection[m] = tmp->collection[n];
-					if (tmp->collection[n]->type == Symbol)
-						p->collection[m]->type = String;
-					else
-						p->collection[m]->type = Expression;
-					p->collection[m]->parent = p;
-				if (n < tmp->size - 1) {
+			tmp->size = p->size + (p->size - 1);
+			tmp->type = Expression;
+			tmp->parent = p->parent;
+			tmp->collection = malloc(sizeof(Program*) * tmp->size);
+			for (Int n = 0, m = 0; n < p->size; n++, m++) {
+				tmp->collection[m] = p->collection[n];
+				if (tmp->collection[m]->type == Symbol)
+					tmp->collection[m]->type = String;
+				if (n < p->size - 1) {
 					m++;
-					p->collection[m] = malloc(sizeof(Program));
-					p->collection[m]->type = Symbol;
-					p->collection[m]->size = 1;
-					p->collection[m]->symbol = malloc(sizeof(char) * 1);
-					p->collection[m]->symbol[0] = '+';
-					p->collection[m]->parent = p;
+					tmp->collection[m] = malloc(sizeof(Program));
+					tmp->collection[m]->type = Symbol;
+					tmp->collection[m]->size = 1;
+					tmp->collection[m]->symbol = malloc(sizeof(char));
+					tmp->collection[m]->symbol[0] = '+';
+					tmp->collection[m]->parent = tmp;
 				}
-
 			}
+			free(p->collection);
+			p->collection = tmp->collection;
+			p->size = tmp->size;
+			p->type = tmp->type;
 			free(tmp);
 			break;
 	}
@@ -179,9 +160,8 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 }
 
 void Eval(Program *p, collection *Env) {
+	Clean(p);
 	FancyPrint(p);
-	//Clean(p);
-	//FancyPrint(p);
 
 }
 
