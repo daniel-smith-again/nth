@@ -57,15 +57,16 @@ int main () {
 	Init(Image);
         Repeat:
 	Input = Read(0);
-	//write(Out, "\r\n", 2);
+	write(Out, "\r\n", 2);
 	if (Input) {
 		Eval(Input, Image);
-		write(Out, "\r\n", 2);
+		//write(Out, "\r\n", 2);
 		Discard(Input);
 		Input = 0;
 	}
 	else {
-		free(Buffer);
+		if (Buffer) free(Buffer);
+		Buffer = 0;
 		BufferLength = 0;
 		BufferSize = 0;
 		Pos = 0;
@@ -191,7 +192,7 @@ char readchar() {
 					if (BufferLength >= BufferSize)
 						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
 					Buffer[BufferLength - 1] = '\n';
-					write(Out, "\r\n", 2);
+					//write(Out, "\r\n", 2);
 					goto End;
 				}
 				if (c >= ' ') {
@@ -209,7 +210,7 @@ char readchar() {
 	End:
 	c = Buffer[Pos];
 	if (c == '\n' && EnableHint)
-		ShowHint();
+		ShowHint(), write(Out, "\n\r", 2);
 	Pos ++;
 	return c;
 }
@@ -389,12 +390,15 @@ Program *Read(Int InsideQuote) {
 void Discard(Program *p) {
 	switch(p->type) {
 		case Symbol:
-			free(p->symbol);
+			if (p->symbol)
+				free(p->symbol), p->symbol = 0;
 			break;
 		case Expression: case Sequence: case Collection: case Type: case Quote: case Unquote: case Requote:
 			for (Int i = 0; i < p->size; i++)
 				Discard(p->collection[i]);
 			free(p->collection);
+			p->collection = 0;
+			p->size = 0;
 			break;
 		default:
 			break;
@@ -405,6 +409,7 @@ Program *FancyPrint(Program *p) {
 	if (p == 0) return 0;
 	switch(p->type) {
 		case Symbol:
+		case Number:
 			//write(Out, " ", 1);
 			write(Out, p->symbol, p->size);
 			//write(Out, " ", 1);
