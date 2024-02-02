@@ -32,10 +32,18 @@ void WinSizeCh (int signum) {
 }
 void Echo() {
 	write(Out, "\x1b[2K\r", 5);
-	if (Offset > Window.ws_col)
-		write(Out, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
-	else
-		write(Out, &Buffer[BufferLength - Offset], Offset);
+	char *str;
+	if (Offset > Window.ws_col) {
+		str = malloc(sizeof(char) * (Window.ws_col - 1));
+		strncpy(str, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
+		write(Out, str, Window.ws_col - 1);
+	}
+	else {
+		str = malloc(sizeof(char) * (Window.ws_col - 1));
+		strncpy(str, &Buffer[BufferLength - Offset], Offset);
+		write(Out, str, Offset);
+	}
+	free(str);
 }
 void SetRawMode();
 void Exit();
@@ -104,7 +112,7 @@ void Exit() {
 }
 
 void ShowHint() {
-	write(Out, "\x1b[37m", 5);
+	write(Out, "\x1b[90m", 5);
 	for (Int n = Level; n > 0; n--) {
 		switch(Nest[n - 1]) {
 			case '(':
@@ -187,16 +195,17 @@ char readchar() {
 					continue;
 				}
 				if (c == 10 || c == 11 || c == 12 || c == 13) {
-					Offset = 0;
-					BufferLength++;
+					//Offset = 0;
+					BufferLength ++;
 					if (BufferLength >= BufferSize)
-						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
-					Buffer[BufferLength - 1] = '\n';
-					//write(Out, "\r\n", 2);
+						BufferSize += 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+					//Buffer[BufferLength - 1] = '\n';
+					Buffer[BufferLength - 1] = ' ';
+					write(Out, "\n\r", 2);
+					Offset = 0;
 					goto End;
 				}
 				if (c >= ' ') {
-					//BufferAppend(c);
 					BufferLength++;
 					if (BufferLength >= BufferSize)
 						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
@@ -209,8 +218,6 @@ char readchar() {
 	}
 	End:
 	c = Buffer[Pos];
-	if (c == '\n' && EnableHint)
-		ShowHint(), write(Out, "\n\r", 2);
 	Pos ++;
 	return c;
 }
