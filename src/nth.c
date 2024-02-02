@@ -5,6 +5,7 @@ struct winsize Window; //fields: ws_row, ws_col
 
 collection *Image;
 
+
 char *Buffer;
 Int BufferLength;
 Int BufferSize;
