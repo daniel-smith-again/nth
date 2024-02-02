@@ -5,7 +5,6 @@ struct winsize Window; //fields: ws_row, ws_col
 
 collection *Image;
 
-
 char *Buffer;
 Int BufferLength;
 Int BufferSize;
@@ -16,6 +15,7 @@ char PeekChar();
 
 char*Nest;
 Int Level;
+Int EnableHint;
 
 void BufferAppend(char c) {
 	BufferLength++;
@@ -48,6 +48,9 @@ int main () {
 	Buffer = malloc(sizeof(char) * BufferSize);
 	Pos = 0;
 	Offset = 0;
+	Nest = malloc(sizeof(char) * 0);
+	Level = 0;
+	EnableHint = 1;
 	Program *Input;
 	char c;
 	Int r;
@@ -68,6 +71,8 @@ int main () {
 		Pos = 0;
 		write(Out, "?\r\n", 3);
 	}
+	Nest = realloc(Nest, sizeof(char) * 0);
+	Level = 0;
 	goto Repeat;
 	return 0;
 }
@@ -98,9 +103,24 @@ void Exit() {
 }
 
 void ShowHint() {
-	for (Int n = 0; n < Level; n++) {
-
+	write(Out, "\x1b[37m", 5);
+	for (Int n = Level; n > 0; n--) {
+		switch(Nest[n - 1]) {
+			case '(':
+				write(Out, ")", 1);
+				break;
+			case '{':
+				write(Out, "}", 1);
+				break;
+			case '[':
+				write(Out, "]", 1);
+				break;
+			case '"':
+				write(Out, "\"", 1);
+				break;
+		}
 	}
+	write(Out, "\x1b[0m", 4);
 }
 
 Int IsDelimiter(char c) {
@@ -109,6 +129,7 @@ Int IsDelimiter(char c) {
 		case '{':
 		case '[':
 		case ' ':
+		case '\n':
 		case ',':
 		case ')':
 		case '}':
@@ -125,6 +146,7 @@ Int IsPunct(char c) {
 		case '{':
 		case '[':
 		case ' ':
+		case '\n':
 		case ',':
 		case ')':
 		case '}':
@@ -137,7 +159,9 @@ Int IsPunct(char c) {
 }
 
 char peekchar() {
+	EnableHint = 0;
 	char c = readchar();
+	EnableHint = 1;
 	Pos--;
 	return c;
 }
@@ -166,7 +190,7 @@ char readchar() {
 					BufferLength++;
 					if (BufferLength >= BufferSize)
 						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
-					Buffer[BufferLength - 1] = ' ';
+					Buffer[BufferLength - 1] = '\n';
 					write(Out, "\r\n", 2);
 					goto End;
 				}
@@ -184,6 +208,8 @@ char readchar() {
 	}
 	End:
 	c = Buffer[Pos];
+	if (c == '\n' && EnableHint)
+		ShowHint();
 	Pos ++;
 	return c;
 }
@@ -220,6 +246,7 @@ Program *Read(Int InsideQuote) {
 			p->type = Quote;
 			goto ReadQuote;
 		case ' ':
+		case '\n':
 			goto TryAgain;
 			break;
 		case '"':
@@ -233,10 +260,14 @@ Program *Read(Int InsideQuote) {
 			goto ReadSymbol;
 	}
 	ReadExpression:
+	Level ++;
+	Nest = realloc(Nest, sizeof(char) * Level);
+	Nest[Level - 1] = c;
 	for (;;) {
 		c = peekchar();
 		switch(c) {
 			case ' ':
+			case '\n':
 				readchar();
 				break;
 			case ',':
@@ -253,17 +284,26 @@ Program *Read(Int InsideQuote) {
 				break;
 			case ')':
 				readchar();
-				if (p->type == Expression || p->type == Sequence) return p;
+				if (p->type == Expression || p->type == Sequence) {
+					Level --;
+					return p;
+				}
 				else goto Error;
 				break;
 			case '}':	
 				readchar();
-				if (p->type == Collection) return p;
+				if (p->type == Collection) {
+					Level --;
+					return p;
+				}
 				else goto Error;
 				break;
 			case ']':
 				readchar();
-				if (p->type == Type) return p;
+				if (p->type == Type) {
+					Level --;
+					return p;
+				}
 				else goto Error;
 				break;
 			default:
@@ -289,6 +329,9 @@ Program *Read(Int InsideQuote) {
 		}
 		else goto Error;
 	ReadString:
+		Level ++;
+		Nest = realloc(Nest, sizeof(char) * Level);
+		Nest[Level - 1] = '"';
 		tmp = malloc(sizeof(Program));
 		tmp->type = Symbol;
 		tmp->size = 0;
@@ -325,6 +368,7 @@ Program *Read(Int InsideQuote) {
 			}
 		}
 		Append(p, tmp);
+		Level --;
 		return p;
 	ReadSymbol:
 		p->size = 1;
