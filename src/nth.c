@@ -79,7 +79,7 @@ int main () {
 		BufferLength = 0;
 		BufferSize = 0;
 		Pos = 0;
-		write(Out, "?\r\n", 3);
+		write(Out, "\r\n", 2);
 	}
 	Nest = realloc(Nest, sizeof(char) * 0);
 	Level = 0;
@@ -177,7 +177,7 @@ char peekchar() {
 }
 
 char readchar() {
-	char c = 0;
+	char c[128];
 	Int r = 0;
 	if (BufferLength == 0 || Pos >= BufferLength) {
 		BufferLength = 0;
@@ -185,9 +185,10 @@ char readchar() {
 		BufferSize = 1024;
 		Buffer = realloc(Buffer, sizeof(char) * BufferSize);
 		for (;;) {
-			if (read(In, &c, 1)) {
-				if (c == 27) Exit();
-				if (c == 8 || c == 127) {
+			if (r = read(In, c, 128), r) {
+				if (r > 1) continue;
+				if (c[0] == 27) Exit();
+				if (c[0] == 8 || c[0] == 127) {
 					if (Offset > 0 && BufferLength > 0) {
 						Offset --;
 						BufferLength --;
@@ -195,7 +196,7 @@ char readchar() {
 					}
 					continue;
 				}
-				if (c == 10 || c == 11 || c == 12 || c == 13) {
+				if (c[0] == 10 || c[0] == 11 || c[0] == 12 || c[0] == 13) {
 					//Offset = 0;
 					BufferLength ++;
 					if (BufferLength >= BufferSize)
@@ -206,11 +207,11 @@ char readchar() {
 					Offset = 0;
 					goto End;
 				}
-				if (c >= ' ') {
+				if (c[0] >= ' ') {
 					BufferLength++;
 					if (BufferLength >= BufferSize)
 						BufferSize += 1024, Buffer = realloc(Buffer, BufferSize);
-					Buffer[BufferLength - 1] = c;
+					Buffer[BufferLength - 1] = c[0];
 					Offset ++;
 					Echo();
 				}
@@ -218,9 +219,9 @@ char readchar() {
 		}
 	}
 	End:
-	c = Buffer[Pos];
+	c[0] = Buffer[Pos];
 	Pos ++;
-	return c;
+	return c[0];
 }
 
 void Append(Program *p, Program *q) {
@@ -262,7 +263,11 @@ Program *Read(Int InsideQuote) {
 			p->type = String;
 			goto ReadString;
 			break;
-		case ')': case '}': case ']': case ',':
+		case ')': case '}': case ']':
+			write(Out, "Unexpected closing brace.", 25);
+			goto Error;
+		case ',':
+			write(Out, "Unexpected sequence constructor.", 32);
 			goto Error;
 		default:
 			p->type = Symbol;
@@ -280,8 +285,14 @@ Program *Read(Int InsideQuote) {
 				readchar();
 				break;
 			case ',':
-				if (p->type != Expression && p->type != Sequence)
+				if (p->type != Expression && p->type != Sequence) {
+					write(Out, "Cannot construct a sequence inside a ", 38);
+					if (p->type == Collection) 
+						write(Out, "collection constructor.", 23);
+					else
+						write(Out, "type constructor.", 17);
 					goto Error;
+				}
 				p->type = Sequence;
 				tmp = malloc(sizeof(Program));
 				tmp->type = Symbol;
@@ -297,7 +308,15 @@ Program *Read(Int InsideQuote) {
 					Level --;
 					return p;
 				}
-				else goto Error;
+				else {
+					write (Out, "Expected ", 10);
+					if (p->type == Collection) write(Out, "}", 1);
+					else write(Out, "]", 1);
+					write(Out, " but got ", 9);
+					write(Out, &c, 1);
+					write(Out, " instead.", 9);
+					goto Error;
+				}
 				break;
 			case '}':	
 				readchar();
@@ -305,7 +324,15 @@ Program *Read(Int InsideQuote) {
 					Level --;
 					return p;
 				}
-				else goto Error;
+				else {
+					write (Out, "Expected ", 10);
+					if (p->type == Expression) write(Out, ")", 1);
+					else write(Out, "]", 1);
+					write(Out, " but got ", 9);
+					write(Out, &c, 1);
+					write(Out, " instead.", 9);
+					goto Error;
+				}
 				break;
 			case ']':
 				readchar();
@@ -313,7 +340,15 @@ Program *Read(Int InsideQuote) {
 					Level --;
 					return p;
 				}
-				else goto Error;
+				else {
+					write (Out, "Expected ", 10);
+					if (p->type == Expression) write(Out, ")", 1);
+					else write(Out, "}", 1);
+					write(Out, " but got ", 9);
+					write(Out, &c, 1);
+					write(Out, " instead.", 9);
+					goto Error;
+				}
 				break;
 			default:
 				tmp = Read(InsideQuote);
@@ -324,14 +359,19 @@ Program *Read(Int InsideQuote) {
 	ReadQuote:
 		c = peekchar();
 		if (c == '\'') {
-			if (!InsideQuote) 
+			if (!InsideQuote) {
+				write(Out, "Cannot use '' or ''' outside a quote.", 37);
 				goto Error;
+			}
 			readchar();
 			c = peekchar();
 			if (c == '\'') p->type = Requote, readchar();
 			else p->type = Unquote;
 			c = peekchar();
-			if (c == '\'') goto Error;
+			if (c == '\'') {
+				write(Out, "More than three apostrophes occurred outside a symbol.", 55);
+				goto Error;
+			}
 		}
 		tmp = Read(1);
 		if (tmp) {
@@ -394,6 +434,7 @@ Program *Read(Int InsideQuote) {
 	Error:
 	if (p) Discard(p);
 	if (tmp) Discard(tmp);
+	
 	return 0;
 }
 
