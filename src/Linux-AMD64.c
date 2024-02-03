@@ -169,10 +169,8 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	return p;
 }
 
-void Eval(Program *p, collection *Env) {
-	Clean(p);
+Program *Eval(Program *p, collection *Env) {
 	FancyPrint(p);
-
 }
 
 char GetChar() {

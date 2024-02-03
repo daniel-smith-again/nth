@@ -65,10 +65,11 @@ int main () {
 	Init(Image);
         Repeat:
 	Input = Read(0);
-	write(Out, "\r\n", 2);
+	//write(Out, "\r\n", 2);
 	if (Input) {
+		Clean(Input);
 		Eval(Input, Image);
-		//write(Out, "\r\n", 2);
+		write(Out, "\r\n", 2);
 		Discard(Input);
 		Input = 0;
 	}
@@ -329,6 +330,8 @@ Program *Read(Int InsideQuote) {
 			c = peekchar();
 			if (c == '\'') p->type = Requote, readchar();
 			else p->type = Unquote;
+			c = peekchar();
+			if (c == '\'') goto Error;
 		}
 		tmp = Read(1);
 		if (tmp) {

@@ -79,6 +79,7 @@ typedef struct nth__symbol {
 
 
 void Init(collection *I);
-void Eval(Program *P, collection *Env);
+Program  *Clean(Program *p);
+Program *Eval(Program *P, collection *Env);
 
 #endif //nth_h__
