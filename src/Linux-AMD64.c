@@ -1,8 +1,7 @@
 #include "nth.h"
 
 void Init(collection *I) {
-
-
+	
 }
 
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
@@ -170,7 +169,8 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 }
 
 Program *Eval(Program *p, collection *Env) {
-	FancyPrint(p);
+	//FancyPrint(p);
+
 }
 
 char GetChar() {
