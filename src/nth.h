@@ -41,15 +41,20 @@ void Discard(Program *p);
 //primitive type representations
 
 struct nth__number;
+struct nth_boolean;
 struct nth__function;
 struct nth__type;
 struct nth__collection;
 struct nth__symbol;
 struct nth__expression;
 typedef struct nth__number {
-	char* digits;
+	char* numerator;
+        char* denominator;
 	Int size;
 } number;
+typedef struct nth_boolean {
+        char value;
+} boolean;
 typedef struct nth__collection {
 	struct nth__number size;
 	void ** members;
@@ -80,6 +85,7 @@ typedef struct nth__symbol {
 
 void Init(collection *I);
 Program  *Clean(Program *p);
+void *Compile(Program *p);
 Program *Eval(Program *P, collection *Env);
 
 #endif //nth_h__

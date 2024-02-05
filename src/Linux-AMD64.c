@@ -1,7 +1,7 @@
 #include "nth.h"
 
 void Init(collection *I) {
-	
+        I = malloc(sizeof(collection));
 }
 
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
@@ -168,9 +168,14 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	return p;
 }
 
+void *Compile(Program *p) {
+
+}
+
 Program *Eval(Program *p, collection *Env) {
 	//FancyPrint(p);
-
+        Compile(p);
+        
 }
 
 char GetChar() {
