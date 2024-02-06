@@ -62,7 +62,6 @@ int main () {
 	Program *Input;
 	char c;
 	Int r;
-	Init(Image);
         Repeat:
 	Input = Read(0);
 	//write(Out, "\r\n", 2);
@@ -201,8 +200,8 @@ char readchar() {
 					BufferLength ++;
 					if (BufferLength >= BufferSize)
 						BufferSize += 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
-					//Buffer[BufferLength - 1] = '\n';
-					Buffer[BufferLength - 1] = ' ';
+					Buffer[BufferLength - 1] = '\n';
+					//Buffer[BufferLength - 1] = ' ';
 					write(Out, "\n\r", 2);
 					Offset = 0;
 					goto End;
@@ -255,8 +254,9 @@ Program *Read(Int InsideQuote) {
 		case '\'':
 			p->type = Quote;
 			goto ReadQuote;
+                case '\n':
+                        ShowHint();
 		case ' ':
-		case '\n':
 			goto TryAgain;
 			break;
 		case '"':
@@ -280,8 +280,9 @@ Program *Read(Int InsideQuote) {
 	for (;;) {
 		c = peekchar();
 		switch(c) {
-			case ' ':
 			case '\n':
+                                ShowHint();
+			case ' ':
 				readchar();
 				break;
 			case ',':
@@ -459,8 +460,12 @@ void Discard(Program *p) {
 Program *FancyPrint(Program *p) {
 	if (p == 0) return 0;
 	switch(p->type) {
-		case Symbol:
 		case Number:
+                        write(Out, "\x1b[7m", 4);
+                        write(Out, p->symbol, p->size);
+                        write(Out, "\x1b[0m", 4);
+                        break;
+                case Symbol:
 			//write(Out, " ", 1);
 			write(Out, p->symbol, p->size);
 			//write(Out, " ", 1);

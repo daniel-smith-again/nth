@@ -820,3 +820,41 @@ or you export the image to create a library.
 The point is that everything you do is with the intent to extract a stand-alone program.
 If you want a reader "mode" that reads in some syntax and turns it into lisp, you want an executable that does that.
 You don't want a read-table.
+
+
+what are my primitive functions?
+
+(function (x y z) (...))
+(with x as f and y as g in (...))
+(let a be x and b be y in (...))
+(define Transform)
+(define x (...))
+(a = x)
+(do (...) (...) ...)
+(from a to b)
+(+ a b)
+(- a b)
+(* a b)
+(/ a b)
+(mod a b)
+(exp a b)
+(rf a b)
+(rem a)
+(flr a b)
+(cln a b)
+(abs a)
+(nmr a)
+(dnm a)
+(rnd a)
+(and a b)
+(or a b)
+(not a b)
+(fields ...)
+(members ...)
+(cardinality m)
+(size a)
+(at n m [v])
+(in n m [v])
+(map m f)
+(fold m f n)
+(slice m r)

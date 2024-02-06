@@ -47,6 +47,10 @@ struct nth__type;
 struct nth__collection;
 struct nth__symbol;
 struct nth__expression;
+struct nth_range;
+struct nth_word;
+struct nth_byte;
+struct nth_place;
 typedef struct nth__number {
 	char* numerator;
         char* denominator;
@@ -83,9 +87,15 @@ typedef struct nth__symbol {
 } symbol;
 
 
-void Init(collection *I);
 Program  *Clean(Program *p);
 void *Compile(Program *p);
 Program *Eval(Program *P, collection *Env);
+
+typedef struct {
+        void *Next;
+        void *Prev;
+        void *Info;
+        Int Size;
+} CompilerData;
 
 #endif //nth_h__

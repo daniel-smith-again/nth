@@ -1,8 +1,6 @@
 #include "nth.h"
 
-void Init(collection *I) {
-        I = malloc(sizeof(collection));
-}
+CompilerData *Env = 0;
 
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	switch(p->type) {
@@ -11,18 +9,33 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			p->type = Number;
 			for (Int n = 0, divradix = 0, dotradix = 0; n < p->size; n++) {
 				if (p->symbol[n] < '0' || p->symbol[n] > '9') {
-					if (p->symbol[n] == '.' && !dotradix && n > 0) 
-						dotradix = 1;
-					else
-						goto NaN;
-					if (p->symbol[n] == '/' && !divradix && n > 0)
-						divradix = 1;
-					else
-						goto NaN; 
-					if (n == 0) {
-						if (p->symbol[n] != '+' || p->symbol[n] != '-')
-							goto NaN;
-					} 
+                                        if (n == 0) {
+                                                if (p->symbol[n] == '+' || p->symbol[n] == '-')
+                                                        continue;
+                                                else 
+                                                        goto NaN;
+                                        } else {
+                                                if (p->symbol[n] == '.' && !dotradix && !divradix && n < p->size - 1) {
+                                                        switch(p->symbol[n-1]) {
+                                                                case '0': case '1': case '2': case '3':
+                                                                case '4': case '5': case '6': case '7':
+                                                                case '8': case '9':
+                                                                        dotradix = 1;
+                                                                        continue;
+                                                                default: goto NaN;
+                                                        }
+                                                } 
+                                                else if (p->symbol[n] == '/' && !divradix && !dotradix && n < p->size - 1) {
+                                                        switch(p->symbol[n-1]) {
+                                                                case '0': case '1': case '2': case '3':
+                                                                case '4': case '5': case '6': case '7':
+                                                                case '8': case '9':
+                                                                        divradix = 1;
+                                                                        continue;
+                                                        }
+                                                }
+                                        }
+                                        goto NaN;
 				}
 			}
 			break;
@@ -173,16 +186,7 @@ void *Compile(Program *p) {
 }
 
 Program *Eval(Program *p, collection *Env) {
-	//FancyPrint(p);
-        Compile(p);
-        
-}
+        FancyPrint(p);
+        void *txt = Compile(p);
 
-char GetChar() {
-	char c;
-	Int r = read(In, &c, 1);
-	if (r == 1) 
-		return c;
-	else
-		return (char)0;
 }
