@@ -387,7 +387,13 @@
         <figure>
         <figcaption>Examples of abstract <a href="terms.html#Evaluate">evaluation</a>.</figcaption>
         <p><code>((x : Number, y : Number, x + y) = Number)</code></p>
-        <p>In this example, <span><code>x</code></span> and <span><code>y</code></span> have not been <a href="terms.html#Assignment">assigned</a> a <a href="terms.html#Value">value</a> and therefore the <a href="terms.html#Expression">expression</a> where they are used results in the <a href="terms.html#Type">type</a> which <a href="terms.html#Constraint">constrains</a> the result of the <a href="terms.html#Expression">expression</a>.
+        <p>In this example, <span><code>x</code></span> and <span><code>y</code></span> have not been <a href="terms.html#Assignment">assigned</a> a <a href="terms.html#Value">value</a> and therefore the <a href="terms.html#Expression">expression</a> where they are used results in the <a href="terms.html#Type">type</a> which <a href="terms.html#Constraint">constrains</a> the result of the <a href="terms.html#Expression">expression</a>.</p>
+        <br>
         In this case, the <a href="terms.html#Expression">expression</a> is the <a href="defaults.html#Expressions">default expression</a> for numerical addition and the <a href="terms.html#Constraint">constraint</a> on the result of addition requires the result to be an <a href="terms.html#Instance">instance</a> of <span><code>Number</code></span>.</p>
+        <p><code>
+                ((f : Function, x : t, f x) = *)
+        </code></p>
+        <p>In this example, the result of any arbitrary <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a> to an <a href="terms.html#Instance">instance</a> of <span><code>t</code></span> is arbitrary and thus no <a href="terms.html#Constraint">constraint</a> applies. 
+        In other words, the <a>default expression</a>, <a>application</a> <a href="terms.html#Assertion">asserts</a> that the result must be an <a href="terms.html#Instance">instance</a> of <span><code>Any</code></span>.</p>
         </figure>
 </body>
