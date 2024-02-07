@@ -38,8 +38,6 @@ Program *FancyPrint(Program *p);
 void Print(Program *r);
 void Discard(Program *p);
 
-//primitive type representations
-
 struct nth__number;
 struct nth_boolean;
 struct nth__function;

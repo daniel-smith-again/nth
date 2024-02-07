@@ -181,8 +181,23 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	return p;
 }
 
-void *Compile(Program *p) {
 
+void Reduce(Program *p) {
+
+}
+
+void FindFirst(Program *p) {
+
+}
+
+void *Compile(Program *p) {
+        Reduce(p);
+        //typecheck
+        //semantic check
+        //convert variables to DeBrujin
+        //optimize
+        //register allocate
+        //emite code string
 }
 
 Program *Eval(Program *p, collection *Env) {
