@@ -851,10 +851,22 @@ what are my primitive functions?
 (not a b)
 (fields ...)
 (members ...)
+(elements ...)
 (cardinality m)
 (size a)
 (at n m [v])
 (in n m [v])
-(map m f)
-(fold m f n)
-(slice m r)
+(m f) "map"
+(m f n) "fold"
+(m r) "slice"
+
+
+1. List of transforms for rewriting
+2. List of bindings.
+After rewriting completes, there should be a primitive expression with variables pointing to either globals or locals.
+The compiler just takes the primitive expressions and writes out some assembly.
+
+Questions:
+How to determine which image I'm compiling in?
+How to run a program to run a program?
+Transforms are just a program that returns true for an expression.

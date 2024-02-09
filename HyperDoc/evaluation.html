@@ -195,7 +195,7 @@
 	<a href="#Fig-7" id="Fig-7">Figure 7</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequencing.</figcaption>
 	<p><code>
-	[(({'do (Program ;)}) -> *)]
+	(({'do (Program ;)}) -> *)
 	</code></p>
 	</figure>
 	<a href="#10-1" id="10-1">10-1</a><p>Sequencing will <a href="terms.html#Transform">transform</a> any <a href="terms.html#Expression">expression</a> which begins with the <a href="terms.html#Symbol">symbol</a> <code>'do</code> and follows with some number of <a href="terms.html#Expression">expressions</a> which will be referred to as <a href="terms.html#Step">steps</a>.</p>
@@ -225,7 +225,7 @@
 	<a href="#Fig-9" id="Fig-9">Figure 9</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Inversion</figcaption>
 	<p><code>
-	[(({'with Symbol 'as (-> *)} + <br>&nbsp;&nbsp;&nbsp;({'and Symbol 'as (-> *)} ;) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} ;)) -> *)]
+	({'with Symbol 'as (-> *)} + <br>&nbsp;&nbsp;&nbsp;({'and Symbol 'as (-> *)} ;) + <br>&nbsp;&nbsp;&nbsp;({'in} + ({Program} ;)) -> *)
 	</code></p>
 	<p>In addition to this <a href="terms.html#Type">type</a>, the <a href="terms.html#Transform">transform</a> must treat all <a href="terms.html#Program-Model">Program Model</a> components following the keyword <a href="terms.html#Symbol">symbol</a>, <span><code>'in</code></span>, as components of a nested <a href="terms.html#Expression">expression</a> such that</p>
 	<p style="text-align:left;width:fit-content;margin-left:auto;margin-right:auto;"><code>

@@ -1,7 +1,5 @@
 #include "nth.h"
 
-CompilerData *Env = 0;
-
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	switch(p->type) {
 		case Symbol:
@@ -179,15 +177,6 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 			break;
 	}
 	return p;
-}
-
-
-void Reduce(Program *p) {
-
-}
-
-void FindFirst(Program *p) {
-
 }
 
 void *Compile(Program *p) {

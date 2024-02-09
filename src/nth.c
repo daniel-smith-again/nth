@@ -519,3 +519,7 @@ Program *FancyPrint(Program *p) {
 void Print(Program *p) {
 
 }
+
+void Reduce (Program *p) {
+        
+}

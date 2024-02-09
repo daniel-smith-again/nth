@@ -96,4 +96,11 @@ typedef struct {
         Int Size;
 } CompilerData;
 
+Int IsAddition(Program *p);
+Int IsSubtraction(Program *p);
+Int IsMultiplication (Program *p);
+Int IsDivision (Program *p);
+Int IsMathExpression (Program *p);
+Int Is
+
 #endif //nth_h__
