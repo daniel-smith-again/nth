@@ -1,5 +1,7 @@
 #include "nth.h"
 
+
+
 Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	switch(p->type) {
 		case Symbol:
@@ -179,18 +181,20 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	return p;
 }
 
-void *Compile(Program *p) {
-        Reduce(p);
-        //typecheck
-        //semantic check
-        //convert variables to DeBrujin
-        //optimize
-        //register allocate
-        //emite code string
+void* Context;
+
+void Init() {
+        
 }
 
-Program *Eval(Program *p, collection *Env) {
-        FancyPrint(p);
-        void *txt = Compile(p);
+void Reduce (Program *p) {
+        
+}
 
+void *Compile(Program *p) {
+        Reduce(p);
+}
+
+Program *Eval(Program *p) {
+        Reduce(p);
 }

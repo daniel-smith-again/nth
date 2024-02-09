@@ -3,8 +3,6 @@
 struct termios raw, restore;
 struct winsize Window; //fields: ws_row, ws_col
 
-collection *Image;
-
 char *Buffer;
 Int BufferLength;
 Int BufferSize;
@@ -62,12 +60,13 @@ int main () {
 	Program *Input;
 	char c;
 	Int r;
+        Init();
         Repeat:
 	Input = Read(0);
 	//write(Out, "\r\n", 2);
 	if (Input) {
 		Clean(Input);
-		Eval(Input, Image);
+		Eval(Input);
 		write(Out, "\r\n", 2);
 		Discard(Input);
 		Input = 0;
@@ -518,8 +517,4 @@ Program *FancyPrint(Program *p) {
 
 void Print(Program *p) {
 
-}
-
-void Reduce (Program *p) {
-        
 }
