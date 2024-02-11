@@ -181,20 +181,10 @@ Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
 	return p;
 }
 
-void* Context;
-
-void Init() {
-        
-}
-
 void Reduce (Program *p) {
         
 }
 
 void *Compile(Program *p) {
-        Reduce(p);
-}
-
-Program *Eval(Program *p) {
         Reduce(p);
 }
