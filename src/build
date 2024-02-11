@@ -14,11 +14,11 @@ if [ -z ${Backend} ]
 fi
 
 if [ "${Backend}" == "1" ] 
-	then Backend="Linux-AMD64";
+	then Backend="Linux_AMD64";
 	else { 
 		echo $'Backend option not supported!' 
 	       exit 1 
 	       }
 fi
 
-cc nth.c $Backend".c" -onth -g3
+gcc nth.c $Backend".c" -onth -g3 -D$Backend

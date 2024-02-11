@@ -2,6 +2,10 @@
 "Welcome to the nth language interpreter.\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
 
+#ifdef Linux_AMD64
+#define Target "Compiled for Linux x86-64."
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -186,6 +190,8 @@ void SetRawMode() {
 	//write(Out, "\x1b[2J\x1b[H", 7);
 	write(Out, "\r\n", 2);
 	write(Out, InfoString, sizeof(InfoString));
+  write(Out, "\r\n", 2);
+  write(Out, Target, sizeof(Target));
 	write(Out, "\r\n", 2);
 }
 
@@ -201,14 +207,18 @@ void Echo()
 	char *str;
 	if (Offset > Window.ws_col) 
   {
+    str = 0;
 		str = malloc(sizeof(char) * (Window.ws_col - 1));
-		strncpy(str, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
-		write(Out, str, Window.ws_col - 1);
+		if (str) strncpy(str, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
+		else Exit();
+    write(Out, str, Window.ws_col - 1);
 	}
 	else 
   {
+    str = 0;
 		str = malloc(sizeof(char) * (Window.ws_col - 1));
-		strncpy(str, &Buffer[BufferLength - Offset], Offset);
+		if (str) strncpy(str, &Buffer[BufferLength - Offset], Offset);
+    else Exit();
 		write(Out, str, Offset);
 	}
 	free(str);
