@@ -559,7 +559,7 @@ void Delete(Program *p)
 
 void Init() 
 {
-
+  Image = malloc(sizeof(Unit));
 }
 
 void Eval(Program *p)
