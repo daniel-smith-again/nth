@@ -1,189 +1,275 @@
 #include "nth.h"
 
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
+#include <signal.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
+#define Out STDOUT_FILENO
+#define In STDIN_FILENO
 
-Program *Clean(Program *p) { //turn sugared syntax into pure s-expr
-	switch(p->type) {
-		case Symbol:
-			//check if number then switch to number
-			p->type = Number;
-			for (Int n = 0, divradix = 0, dotradix = 0; n < p->size; n++) {
-				if (p->symbol[n] < '0' || p->symbol[n] > '9') {
-                                        if (n == 0) {
-                                                if (p->symbol[n] == '+' || p->symbol[n] == '-')
-                                                        continue;
-                                                else 
-                                                        goto NaN;
-                                        } else {
-                                                if (p->symbol[n] == '.' && !dotradix && !divradix && n < p->size - 1) {
-                                                        switch(p->symbol[n-1]) {
-                                                                case '0': case '1': case '2': case '3':
-                                                                case '4': case '5': case '6': case '7':
-                                                                case '8': case '9':
-                                                                        dotradix = 1;
-                                                                        continue;
-                                                                default: goto NaN;
-                                                        }
-                                                } 
-                                                else if (p->symbol[n] == '/' && !divradix && !dotradix && n < p->size - 1) {
-                                                        switch(p->symbol[n-1]) {
-                                                                case '0': case '1': case '2': case '3':
-                                                                case '4': case '5': case '6': case '7':
-                                                                case '8': case '9':
-                                                                        divradix = 1;
-                                                                        continue;
-                                                        }
-                                                }
-                                        }
-                                        goto NaN;
-				}
-			}
-			break;
-			NaN:
-				p->type = Symbol;
-				break;
-		case Sequence:
-			break;
-		case Collection:
-			//change to (fields ...)
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size ++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n - 1] = p->collection[n - 2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 6;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 6);
-			strncpy(p->collection[0]->symbol, "fields", 6);
-			p->collection[0]->parent = p;
-			break;
-		case Type:
-			//change to (members ...)
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size ++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n - 1] = p->collection[n - 2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 7;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 7);
-			strncpy(p->collection[0]->symbol, "members", 7);
-			p->collection[0]->parent = p;
-			break;
-		case Quote:
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size ++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n - 1] = p->collection[n - 2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 5;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 5);
-			strncpy(p->collection[0]->symbol, "quote", 5);
-			p->collection[0]->parent = p;
-			break;
-		case Unquote:
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size ++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n - 1] = p->collection[n - 2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 7;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 7);
-			strncpy(p->collection[0]->symbol, "unquote", 7);
-			p->collection[0]->parent = p;
-			break;
-		case Requote:
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			p->type = Expression;
-			p->size ++;
-			p->collection = realloc(p->collection, sizeof(Program*) * p->size);
-			for (Int n = p->size; n > 1; n--) {
-				p->collection[n - 1] = p->collection[n - 2];
-			}
-			p->collection[0] = malloc(sizeof(Program));
-			p->collection[0]->type = Symbol;
-			p->collection[0]->size = 7;
-			p->collection[0]->collection = 0;
-			p->collection[0]->symbol = malloc(sizeof(char) * 7);
-			strncpy(p->collection[0]->symbol, "requote", 7);
-			p->collection[0]->parent = p;
-			break;
-		case Expression:
-			for (Int n = 0; n < p->size; n++) {
-				Clean(p->collection[n]);
-			}
-			break;
-		case String:
-			Program *tmp;
-			if (p->size == 1 && p->collection[0]->type == Symbol) {
-				tmp = p->collection[0];
-				free(p->collection);
-				p->size = tmp->size;
-				p->symbol = tmp->symbol;
-				p->type = String;
-			}
-			else {
-				tmp = malloc(sizeof(Program));
-				tmp->size = p->size + (p->size - 1);
-				tmp->type = Expression;
-				tmp->parent = p->parent;
-				tmp->collection = malloc(sizeof(Program*) * tmp->size);
-				for (Int n = 0, m = 0; n < p->size; n++, m++) {
-					tmp->collection[m] = p->collection[n];
-					if (tmp->collection[m]->type == Symbol)
-						tmp->collection[m]->type = String;
-					if (n < p->size - 1) {
-						m++;
-						tmp->collection[m] = malloc(sizeof(Program));
-						tmp->collection[m]->type = Symbol;
-						tmp->collection[m]->size = 1;
-						tmp->collection[m]->symbol = malloc(sizeof(char));
-						tmp->collection[m]->symbol[0] = '+';
-						tmp->collection[m]->parent = tmp;
-					}
-				}
-				free(p->collection);
-				p->collection = tmp->collection;
-				p->size = tmp->size;
-				p->type = tmp->type;
-			}
-			free(tmp);
-			break;
+struct termios raw, restore;
+struct winsize window;
+
+char *Buffer = 0;
+Int BufferSize = 0;
+Int BufferLength = 0;
+Int Pos = 0;
+Int Offset = 0;
+
+char *Nest = 0;
+Int Depth = 0;
+
+void WinSizeCh(int signum)
+{
+  ioctl(Out, TIOCGWINSZ, &window);
+}
+
+void Exit()
+{
+  tcsetattr(0, TCSANOW, &restore);
+  exit(0);
+}
+
+void StartShell() 
+{
+  atexit(Exit);
+  tcgetattr(0, &restore);
+  raw = restore;
+  raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | ISTRIP | IXON);
+	raw.c_oflag &= ~(OPOST);
+	raw.c_cflag |= (CS8);
+	raw.c_cflag &= ~(CSIZE | PARENB);
+	raw.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+	tcsetattr(0, TCSANOW, &raw);
+	ioctl(Out, TIOCGWINSZ, &Window);
+	signal(SIGWINCH, WinSizeCh);
+	//write(Out, "\x1b[2J\x1b[H", 7);
+	write(Out, "\r\n", 2);
+	write(Out, InfoString, sizeof(InfoString));
+	write(Out, "\r\n", 2);
+  return;
+}
+
+void ExitShell()
+{
+  Exit();
+  return;
+}
+
+void Echo()
+{
+	write(Out, "\x1b[2K\r", 5);
+	char *str;
+	if (Offset > Window.ws_col) 
+  {
+    str = 0;
+		str = malloc(sizeof(char) * (Window.ws_col - 1));
+		if (str) strncpy(str, &Buffer[BufferLength - (Window.ws_col - 1)], Window.ws_col - 1);
+		else Exit();
+    write(Out, str, Window.ws_col - 1);
 	}
-	return p;
+	else 
+  {
+    str = 0;
+		str = malloc(sizeof(char) * (Window.ws_col - 1));
+		if (str) strncpy(str, &Buffer[BufferLength - Offset], Offset);
+    else Exit();
+		write(Out, str, Offset);
+	}
+	free(str);
 }
 
-void Reduce (Program *p) {
-        
+void ShowHint() 
+{
+  write(Out, "\x1b[90m", 5);
+  for (Int n = Depth; n > 0; n--)
+    switch(Nest[n-1])
+    {
+      case '(': write(Out, ")", 1); break;
+      case '{': write(Out, "}", 1); break;
+      case '[': write(Out, "]", 1); break;
+      case '"': write(Out, "\"", 1); break;
+    }
+  write(Out, "\x1b[0m", 4);
 }
 
-void *Compile(Program *p) {
+Int IsDelimiter(char c) 
+{
+  switch(c) 
+  {
+    case '(':
+		case '{':
+		case '[':
+		case ' ':
+		case '\n':
+		case ',':
+		case ')':
+		case '}':
+		case ']':
+			return 1;
+		default:
+			return 0;
+  }
+}
+
+Int IsPunct(char c) 
+{
+	switch(c) 
+  {
+		case '(':
+		case '{':
+		case '[':
+		case ' ':
+		case '\n':
+		case ',':
+		case ')':
+		case '}':
+		case ']':
+		case '\'':
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+char PeekChar()
+{
+  char c = NextChar();
+  Pos--;
+  return c;
+}
+
+char NextChar ()
+{
+  char c[128];
+  Int r = 0;
+  if (BufferLength == 0 || Pos >= BufferLength)
+  {
+    BufferLength = 0;
+    Pos = 0;
+    BufferSize = 0;
+    Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+    for (;;)
+    {
+      if (r = read(In, c, 128), r)
+      {
+        if (r > 1) continue;
+        if (c[0] == 27) Exit();
+        if (c[0] == 8 || c[0] == 127)
+        {
+          if (Offset > 0 && BufferLength > 0)
+            Offset--, BufferLength--, Echo();
+          continue;
+        }
+        if (c[0] > 9 && c[0] < 14) 
+        {
+          BufferLength++;
+          if (BufferLength >= BufferSize)
+            BufferSize += 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+          Buffer[BufferLength - 1] = '\n';
+          write(Out, "\n\r", 2);
+          Offset = 0;
+          goto End;
+        }
+        if (c[0] >= ' ') 
+        {
+          BufferLength++;
+          if (BufferLength >= BufferSize)
+            BufferSize += 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+          Buffer[BufferLength - 1] = c[0];
+          Offset++;
+          Echo();
+        }
+      }
+    }
+  }
+  End:
+  c[0] = Buffer[Pos], Pos++;
+  return c[0];
+}
+
+Program *CreateSymbol(char *atom, Int size)
+{
+  Program *tmp = malloc(sizeof(Program));
+  tmp->size = size;
+  tmp->atom = malloc(sizeof(char) * size);
+  strncpy(tmp->atom, size, atom);
+  tmp->type = symbol;
+  return tmp;
+}
+
+void Append(Program *p, Program *q)
+{
+  if (p->type == expression)
+  {
+    p->size ++;
+    p->list = realloc(p->list, sizeof(Program*) * p->size);
+    p->list[p->size - 1] = q;
+  }
+}
+
+Program *Read(Int Quoted)
+{
+    Program *p = 0, tmp = 0;
+    p = malloc(sizeof(Program));
+    p->size = 0;
+    p->list = 0;
+    char c = 0;
+    Skip:
+    c = NextChar();
+    switch(c)
+    {
+      case '(':
+        p->type = expression;
+        goto ReadExpression;
+      case '{':
+        p->type = expression;
+        Append(p, CreateSymbol("fields"));
+        goto ReadExpression;
+      case '[':
+        p->type = expression;
+        Append(p, CreateSymbol("members"));
+        goto ReadExpression;
+      case '\'':
+        p->type = expression;
+        goto ReadQuote;
+      case '\n':
+        ShowHint();
+      case ' ':
+        goto TryAgain;
+      case '"':
+        p->type = string;
+        goto ReadString;
+      case ')': case '}': case ']':
+        write(Out, "Unexpected closing brace.", 25);
+        goto Error;
+      case ',':
+        write(Out, "Unexpected sequence constructor.", 30);
+        goto Error;
+      default:
+        p->type = symbol;
+        goto ReadSymbol;
+    }
+}
+
+void Print(Unit data)
+{
+  return;
+}
+
+Unit *Eval(Program *p)
+{
+
+}
+
+void (*Compile())(Program* expr, Collection* scope, void* txt, Int txtl)
+{
+  return 0;
 }

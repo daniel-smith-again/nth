@@ -1,51 +1,102 @@
-#ifndef nth_h__
-#define nth_h__
+#ifndef __nth_h__
+#define __nth_h__
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#define In STDIN_FILENO
-#define Out STDOUT_FILENO
-#define InfoString \
-"Welcome to the nth compiler utility.\r\n\
-Copyright (C) Daniel Smith daniel.smith.again@gmail.com\r\n"
-typedef unsigned long long int Int;
-typedef enum {Symbol, String, Number, Expression, Sequence, Collection, Type, Quote, Unquote, Requote} Syntax;
-typedef struct Program__ {
-	Syntax type;
-	union{ char* symbol; struct Program__ **collection; };
-	Int size;
-	struct Program__ *parent;
+#include <stdint.h>
+
+#ifdef Linux_AMD64
+
+typedef uint64_t Int;
+typedef Int Word;
+typedef uint8_t Byte;
+typedef Byte* Symbol;
+
+#endif
+
+typedef struct __program__ 
+{
+  Int size; 
+  enum {symbol, string, number, expression} type; 
+  union{
+    struct __program__* list;
+    Symbol *atom;
+    char *string;
+    Symbol *number;
+  };
 } Program;
 
-Program *Parse();
+typedef struct __number__ 
+{
+  Byte* Numerator;
+  Byte* Denominator;
+} Number;
+
+typedef struct __range__ 
+{
+  struct __number__ min;
+  struct __number__ max;
+} Range;
+
+typedef struct __collection__ 
+{
+  Int size;
+  Symbol* names;
+  Symbol* types;
+  void* fields;
+} Collection;
+
+typedef struct __vector__ 
+{
+  Int size;
+  Symbol type;
+  void* Elements;
+} Vector;
+
+typedef struct __type__
+{
+  Int size;
+  Symbol* members;
+} Type;
+
+typedef struct __boolean__
+{
+  Byte value;
+} Boolean;
+
+typedef struct __function__
+{
+  Int size;
+  Symbol* parameters;
+  Symbol result;
+  Program* definition;
+  Vector handlers;
+} Function;
+
+typedef struct __unit__ {
+  enum {byte, word, number, range, collection, vector, type, boolean, function} format;
+  union{
+    Byte getByte;
+    Word getWord;
+    Number getNumber;
+    Range getRange;
+    Collection getCollection;
+    Vector getVector;
+    Type getType;
+    Boolean getBoolean;
+    Function getFunction;
+    Program getProgram;
+    Symbol getSymbol;
+  };
+} Unit;
+
+void StartShell();
+void ExitShell();
+void InitSession();
+void (*Compile())(Program* expr, Collection* scope, void* txt, Int txtl);
 Program *Read();
-Program *ReadString();
-Program *ReadSymbol();
-Program *ReadQuote();
-Program *ReadCollection();
-Program *ReadType();
-char GetChar();
-Program *FancyPrint(Program *p);
-void Print(Program *r);
-void Discard(Program *p);
-
-Program  *Clean(Program *p);
-void *Compile(Program *p);
-Program *Eval(Program *P);
-
-Int IsAddition(Program *p);
-Int IsSubtraction(Program *p);
-Int IsMultiplication (Program *p);
-Int IsDivision (Program *p);
-Int IsMathExpression (Program *p);
+void Print(Unit data);
+Unit *Eval(Program *p);
 
 #endif //nth_h__
