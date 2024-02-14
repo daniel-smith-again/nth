@@ -122,6 +122,8 @@ void Delete(Program *p);
 
 void Init();
 void Eval(Program *p);
+void Desugar(Progam *p);
+Unit *Convert(Program *p);
 void Discard(Unit *n);
 
 void Print();
@@ -572,9 +574,158 @@ void Init()
   Image = malloc(sizeof(Unit));
 }
 
-void Eval(Program *p)
+void Desugar(Program *p)
+{
+  switch(p->Type)
+  {
+    case _Symbol:
+      p->Type = _Number;
+      for (Int n = 0, radix = 0; n < p->Size; n++)
+        if (n < p->Size - 1 && (p->Symbol[n] == '+' || p->Symbol[n] == '-')) continue;
+        else if ((p->Symbol[n] == '.' || p->Symbol[n] == '/') && !radix && n < p->Size - 1)
+          if (p->Symbol[n - 1] >= '0' && p->Symbol[n - 1] <= '9')
+          {
+            radix = 1;
+            continue;
+          }
+          else goto NaN;
+        else if (p->Symbol[n] >= '0' && p->Symbol[n] <= '9') continue;
+        else goto NaN;
+        break;
+        NaN: p->Type = _Symbol; break;
+    case _Sequence:
+      break;
+    case _Collection:
+      for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      p->Type = _Expression;
+      p->Size++;
+      p->Collection = realloc(p->Collection, sizeof(Program*) * p->Size);
+      for (Int n = p->Size; n > 1; n--)
+        p->Collection[n - 1] = p->Collection[n - 2];
+      p->Collection[0] = malloc(sizeof(Program));
+      p->Collection[0]->Type = _Symbol;
+      p->Size = 6;
+      p->Collection[0]->Symbol = malloc(sizeof(char) * 6);
+      strncpy(p->Collection[0]->Symbol, "fields", 6);
+      p->Collection[0]->Parent = p;
+      break;
+    case _Type:
+     for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      p->Type = _Expression;
+      p->Size++;
+      p->Collection = realloc(p->Collection, sizeof(Program*) * p->Size);
+      for (Int n = p->Size; n > 1; n--)
+        p->Collection[n - 1] = p->Collection[n - 2];
+      p->Collection[0] = malloc(sizeof(Program));
+      p->Collection[0]->Type = _Symbol;
+      p->Size = 7;
+      p->Collection[0]->Symbol = malloc(sizeof(char) * 7);
+      strncpy(p->Collection[0]->Symbol, "members", 7);
+      p->Collection[0]->Parent = p;
+      break;
+    case _Quote:
+      for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      p->Type = _Expression;
+      p->Size++;
+      p->Collection = realloc(p->Collection, sizeof(Program*) * p->Size);
+      for (Int n = p->Size; n > 1; n--)
+        p->Collection[n - 1] = p->Collection[n - 2];
+      p->Collection[0] = malloc(sizeof(Program));
+      p->Collection[0]->Type = _Symbol;
+      p->Size = 5;
+      p->Collection[0]->Symbol = malloc(sizeof(char) * 5);
+      strncpy(p->Collection[0]->Symbol, "quote", 5);
+      p->Collection[0]->Parent = p;
+      break;
+    case _Unquote:
+     for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      p->Type = _Expression;
+      p->Size++;
+      p->Collection = realloc(p->Collection, sizeof(Program*) * p->Size);
+      for (Int n = p->Size; n > 1; n--)
+        p->Collection[n - 1] = p->Collection[n - 2];
+      p->Collection[0] = malloc(sizeof(Program));
+      p->Collection[0]->Type = _Symbol;
+      p->Size = 7;
+      p->Collection[0]->Symbol = malloc(sizeof(char) * 7);
+      strncpy(p->Collection[0]->Symbol, "unquote", 7);
+      p->Collection[0]->Parent = p;
+      break;
+    case _Requote:
+     for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      p->Type = _Expression;
+      p->Size++;
+      p->Collection = realloc(p->Collection, sizeof(Program*) * p->Size);
+      for (Int n = p->Size; n > 1; n--)
+        p->Collection[n - 1] = p->Collection[n - 2];
+      p->Collection[0] = malloc(sizeof(Program));
+      p->Collection[0]->Type = _Symbol;
+      p->Size = 7;
+      p->Collection[0]->Symbol = malloc(sizeof(char) * 7);
+      strncpy(p->Collection[0]->Symbol, "requote", 7);
+      p->Collection[0]->Parent = p;
+      break;
+    case _Expression:
+      for (Int n = 0; n < p->Size; n++)
+        Desugar(p->Collection[n]);
+      break;
+    case String:
+      Program *tmp;
+      if (p->Size == 1 && p->Collection[0]->Type == _Symbol)
+      {
+        tmp = p->Collection[0];
+        free(p->Collection);
+        p->Size = tmp->Size;
+        p->Symbol = tmp->Symbol;
+        p->Type = _String;
+      }
+      else
+      {
+        tmp = malloc(sizeof(Program));
+        tmp->Size = p->Size + (p->Size - 1);
+        tmp->Type = _Expression;
+        tmp->Parent = p->Parent;
+        tmp->Collection = malloc(sizeof(Pogram*) * tmp->Size);
+        for (Int n = 0, m = 0; n < p->Size; n++, m++)
+        {
+          tmp->Collection[m] = p->Collection[n];
+          if (tmp->Collection[m]->Type == _Symbol)
+            tmp->Collection[m]->Type = _String;
+          if (n < p->Size - 1)
+          {
+            m++;
+            tmp->Collection[m] = malloc(sizeof(Program));
+            tmp->Collection[m]->Type = Symbol;
+            tmp->Collection[m]->Size = 1;
+            tmp->Collection[m]->Symbol = malloc(sizeof(char));
+            tmp->Collection[m]->Symbol[0] = '+';
+            tmp->Collection[m]->Paent = tmp;
+          }
+        }
+        free(p->Collection);
+        p->Collection = tmp->Collection;
+        p->Size = tmp->Size;
+        p->Type = tmp->Type;
+      }
+      free(tmp);
+      break;
+  }
+}
+
+void Compile(Unit *n)
 {
 
+}
+
+void Eval(Program *p)
+{
+  Desugar(p);
+  void *n = Compile(Convert(p));  
 }
 
 void Print()
