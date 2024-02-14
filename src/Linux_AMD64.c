@@ -186,5 +186,4 @@ void Reduce (Program *p) {
 }
 
 void *Compile(Program *p) {
-        Reduce(p);
 }

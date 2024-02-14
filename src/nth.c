@@ -26,7 +26,7 @@ typedef unsigned long long int Int;
 typedef enum {Boolean, Number, Range, Byte, Word, Symbol, String, Collection, Type, Vector, Function} Primitive;
 typedef struct nth_unit 
 {
-  char *Kind;
+  struct nth_unit *Kind;
   Int Size;
   Primitive Which;
   union 
@@ -46,9 +46,10 @@ typedef struct nth_unit
     } String;
     struct 
     {
+      char **Names;
       struct nth_unit **Fields;
     } Collection;
-    struct 
+    struct
     {
       enum {Qualified, Enumerated} Kind;
       union 
@@ -122,7 +123,7 @@ void Delete(Program *p);
 
 void Init();
 void Eval(Program *p);
-void Desugar(Progam *p);
+void Desugar(Program *p);
 Unit *Convert(Program *p);
 void Discard(Unit *n);
 
@@ -154,7 +155,8 @@ int main()
     Input = Read(0);
     if (Input) 
     {
-     // Eval(Input);
+      Desugar(Input);
+      Eval(Input);
       write(Out, "\r\n", 2);
       //Print(Result);
       //Delete(Input);
@@ -572,6 +574,8 @@ void Delete(Program *p)
 void Init() 
 {
   Image = malloc(sizeof(Unit));
+  Image->Which = Collection;
+    
 }
 
 void Desugar(Program *p)
@@ -674,7 +678,7 @@ void Desugar(Program *p)
       for (Int n = 0; n < p->Size; n++)
         Desugar(p->Collection[n]);
       break;
-    case String:
+    case _String:
       Program *tmp;
       if (p->Size == 1 && p->Collection[0]->Type == _Symbol)
       {
@@ -690,7 +694,7 @@ void Desugar(Program *p)
         tmp->Size = p->Size + (p->Size - 1);
         tmp->Type = _Expression;
         tmp->Parent = p->Parent;
-        tmp->Collection = malloc(sizeof(Pogram*) * tmp->Size);
+        tmp->Collection = malloc(sizeof(Program*) * tmp->Size);
         for (Int n = 0, m = 0; n < p->Size; n++, m++)
         {
           tmp->Collection[m] = p->Collection[n];
@@ -704,7 +708,7 @@ void Desugar(Program *p)
             tmp->Collection[m]->Size = 1;
             tmp->Collection[m]->Symbol = malloc(sizeof(char));
             tmp->Collection[m]->Symbol[0] = '+';
-            tmp->Collection[m]->Paent = tmp;
+            tmp->Collection[m]->Parent = tmp;
           }
         }
         free(p->Collection);
@@ -717,15 +721,9 @@ void Desugar(Program *p)
   }
 }
 
-void Compile(Unit *n)
-{
-
-}
-
 void Eval(Program *p)
 {
-  Desugar(p);
-  void *n = Compile(Convert(p));  
+
 }
 
 void Print()
