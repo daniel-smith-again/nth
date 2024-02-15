@@ -15,6 +15,16 @@ typedef Byte* Symbol;
 
 #endif
 
+typedef struct __ast__
+{
+  Int size;
+  enum {sym, str, exp, col, typ, qot, uqt, rqt}
+  union {
+    struct __ast__ *list;
+    Symbol *symbol;
+  }
+} AST;
+
 typedef struct __program__ 
 {
   Int size; 

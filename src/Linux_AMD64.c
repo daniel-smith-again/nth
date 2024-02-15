@@ -257,6 +257,17 @@ Program *Read(Int Quoted)
         p->type = symbol;
         goto ReadSymbol;
     }
+    ReadExpression:
+    Depth++, Nest = realloc(Nest, sizeof(char) * Depth), Nest[Depth - 1] = c;
+    for (;;)
+    {
+      c = PeekChar();
+      switch(c)
+      {
+        case '\n':  ShowHint();
+        case ' ':   NextChar(); break;
+      }
+    }
 }
 
 void Print(Unit data)
