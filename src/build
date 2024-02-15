@@ -21,4 +21,5 @@ if [ "${Backend}" == "1" ]
 	       }
 fi
 
-gcc nth.c $Backend".c" -onth -g3 -D$Backend
+#gcc nth.c $Backend".c" -onth -g3 -D$Backend
+gcc nth.c -onth -g3 -D$Backend
