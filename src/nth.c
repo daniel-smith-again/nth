@@ -18,7 +18,7 @@ typedef struct __program__
     struct __program__ **expression;
     char *symbol;
     char *string;
-    struct {char *numerator; char*denominator;};
+    struct {char *numerator; Int nml; char*denominator; Int dnl;};
   };
 } Program;
 
@@ -47,7 +47,7 @@ int main ()
   Begin:
   program = Read();
   if (program)
-    //Print(Compute(program);
+    //Print(Compute(program));
     Print(program), LineBreak();
   else 
   {
@@ -169,7 +169,7 @@ char ReadChar()
         else if (c[0] > 9 && c[0] < 14)
         {
           write(Out, "\r\n", 2);
-          BufferLength++;
+          BufferLength ++;
           if (BufferLength >= BufferSize)
             BufferSize += 1028, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
           Buffer[BufferLength - 1] = ' ';
@@ -212,10 +212,19 @@ void Print(Program *data)
       }
       write(Out, ")", 1);
       break;
+    case Number:
+      write(Out, data->numerator, data->nml);
+      if (data->dnl)
+        write(Out, "/", 1), write(Out, data->denominator, data->dnl);
+      break;
+    case String:
+      write(Out, "\"", 1);
+      write(Out, data->string, data->size);
+      write(Out, "\"", 1);
+      break;
   }
   return;
 }
-
 #endif
 
 Program *Read()
@@ -223,7 +232,7 @@ Program *Read()
   Program *e = malloc(sizeof(Program)), *tmp = 0;
   char c = 0;
   char *str = 0;
-  Int strl = 0, isNum = 0, Nmrl = 0, Dnml = 0;
+  Int strl = 0;
   TryAgain:
   c = PeekChar();
   switch(c)
@@ -255,18 +264,68 @@ Program *Read()
       ReadChar();
       return e;
     case '"':
+      ReadChar();
+      strl = 0, str = malloc(sizeof(char) * strl);
+      for (c = PeekChar(); c != '"'; c = PeekChar())
+      {
+        if (c == '\\')
+          ReadChar(), c = PeekChar();
+        strl++, str = realloc(str, sizeof(char) * strl), str[strl - 1] = c, ReadChar();
+      }
+      e->type = String, e->size = strl, e->string = str, ReadChar();
+      return e;
     default:
       strl = 0, str = malloc(sizeof(char) * strl);
       for (c = PeekChar(); c != ' ' && c != '(' && c != ')' && c != '"' ; c = PeekChar())
+        strl++, str = realloc(str, sizeof(char) * strl), str[strl - 1] = c, ReadChar();
+      e->type = Number;
+      e->nml = 0;
+      e->dnl = 0;
+      for (Int n = 0, radix = 0; n < strl; n++)
+        if (str[n] >= '0' && str[n] <= '9')
+          if (radix) e->dnl++;
+          else e->nml++;
+        else if (n < strl - 1 && !radix && (str[n] == '.' || str[n] == '/')) radix = 1;
+        else e->type = Symbol;
+      if (e->type == Number)
       {
-        strl++;
-        str = realloc(str, sizeof(char) * strl);
-        str[strl - 1] = c;
-        ReadChar();
+        if (e->nml < strl && str[e->nml] == '.')
+        {
+          e->dnl ++;
+          e->denominator = malloc(sizeof(char) * e->dnl);
+          for (Int n = 0; n < e->dnl; n++)
+            if (n == 0) e->denominator[n] = '1';
+            else e->denominator[n] = '0';
+          e->nml = strl - 1;
+          e->numerator = malloc(sizeof(char) * strl - 1);
+          for (Int n = 0, m = 0; n < strl; n++)
+            if (str[n] == '.') continue;
+            else e->numerator[m] = str[n], m++;
+        }
+        else if (e->nml < strl && str[e->nml] == '/')
+        {
+          e->numerator = malloc(sizeof(char) * e->nml);
+          e->denominator = malloc(sizeof(char) * e->dnl);
+          strncpy(e->numerator, str, e->nml);
+          strncpy(e->denominator, &str[e->nml + 1], e->dnl);
+        }
+        else
+        {
+          e->dnl = 0;
+          e->numerator = malloc(sizeof(char) * e->nml);
+          strncpy(e->numerator, str, e->nml);
+        }
+        e->type = Number;
+        e->size = 0;
+        free(str);
+        return e;
       }
-      e->type = Symbol;
-      e->size = strl;
-      e->symbol = str;
+      else
+      {
+        e->type = Symbol;
+        e->size = strl;
+        e->symbol = str;
+      }
       return e;
   }
 }
@@ -295,3 +354,14 @@ void Delete(Program *n)
   }
   return;
 }
+
+#ifdef Linux_AMD64
+
+
+
+void (*Compile())(Program *exp)
+{
+  return 0;
+}
+
+#endif
