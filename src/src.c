@@ -2,10 +2,6 @@
 "Welcome to the nth language interpreter.\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
 
-#ifdef Linux_AMD64
-#define Target "Compiled for Linux x86-64."
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,8 +14,16 @@ Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
 #include <sys/stat.h>
 #include <sys/types.h>
 
+
+#ifdef Linux_AMD64
+
+#define Target "Compiled for Linux x86-64."
 #define In STDIN_FILENO
 #define Out STDOUT_FILENO
+
+#endif
+
+
 
 
 typedef unsigned long long int Int;

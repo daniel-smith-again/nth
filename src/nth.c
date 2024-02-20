@@ -67,8 +67,9 @@ int main ()
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#define Out STDOUT_FILENO
 #define In STDIN_FILENO
+#define Out STDOUT_FILENO
+
 struct termios raw, restore;
 struct winsize window;
 void WinSizeCh(int signum)
@@ -119,7 +120,8 @@ char PeekChar()
 
 void Echo()
 {
-  char* str = 0, write(Out, "\x1b[2K\r", 5);
+  char* str = 0;
+  write(Out, "\x1b[2K\r", 5);
   if (Offset > window.ws_col)
   {
     str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
@@ -346,7 +348,8 @@ void Delete(Program *n)
   return;
 }
 
-typedef enum {Function, Type, Collection, Range, Vector, ProgramModel} Format;
+typedef enum {Image, Function, Type, Collection, Range, Vector, ProgramModel, SymbolConstant} Format;
+struct __image__;
 struct __function__;
 struct __type__;
 struct __collection__;
@@ -356,43 +359,39 @@ struct __number__;
 struct __word__;
 struct __byte__;
 struct __place__;
+struct __symbol__;
 
-typedef struct __unit__ 
+
+
+typedef struct __image__
 {
-  Format kind;
-  union {
-    struct __function__ f;
-    struct __type__ t;
-    struct __collection c;
-    struct __range__ r;
-    struct __vector__ v;
-    struct __number__ n;
-    struct __word__ w;
-    struct __byte__ b;
-    struct __place__ p;
-  };
-} Unit;
+  struct __symbol__* names;
+  struct __unit__* data;
+} image;
 
 typedef struct __function__ 
 {
+  Byte IsCompiled;
   char *definition;
   Int definitionl;
   Program *body;
-  char **parameters;
+  void (*compiledBody)();
+  struct __symbol__ *parameters;
   Int parametersl;
-  struct __type__ **types;
-  struct __type__ *result;
+  struct __unit__ *types;
+  struct __unit__ *result;
   struct __function__ *handlers;
   Int handlersl;
+  struct __image__ *closure;
 } function;
 
-typedef struct __type__ 
+typedef struct __type__
 {
   enum {qualified, enumerated} which;
   union {
     struct __function__ *pred;
     struct __unit__ **members;
-  }
+  };
   Int membersl;
 } type;
 
@@ -405,8 +404,8 @@ typedef struct __collection__
 
 typedef struct __range__
 {
-  struct __number__ min;
-  struct __number__ max;
+  struct __number__ *min;
+  struct __number__ *max;
 } range;
 
 typedef struct __vector__
@@ -416,15 +415,15 @@ typedef struct __vector__
   Int length;
 } vector;
 
-typedef struct __number__ 
+typedef struct __number__
 {
   enum {Natural, Integer, Rational} subset;
-  Byte signed;
-  char *numerator;
+  Byte sign;
+  unsigned char *numerator;
   Int numeratorl;
-  char *denominator;
+  unsigned char *denominator;
   Int denominatorl;
-}
+} number;
 
 typedef struct __word__ 
 {
@@ -436,13 +435,47 @@ typedef struct __byte__
   unsigned char b;
 } byte;
 
+typedef struct __symbol__
+{
+  Int length;
+  char* data;
+} symbol;
+
+typedef struct __place__
+{
+  void *p;
+} place;
+
+typedef struct __unit__ 
+{
+  Format kind;
+  union {
+    struct __image__ i;
+    struct __function__ f;
+    struct __type__ t;
+    struct __collection__ c;
+    struct __range__ r;
+    struct __vector__ v;
+    struct __number__ n;
+    struct __word__ w;
+    struct __byte__ b;
+    struct __place__ p;
+    struct __symbol__ s;
+  };
+} Unit;
+
 #ifdef Linux_AMD64
 
-Unit *Definitions;
+image *Env;
+Int EnvLevel;
+image *TopLevel;
 
 void InitImage()
 {
-
+  Env = malloc(sizeof(image));
+  TopLevel = Env;
+  EnvLevel = 0;
+  
 }
 
 Int IsPrimRoutine(Program *p)
