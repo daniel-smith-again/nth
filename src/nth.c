@@ -355,12 +355,165 @@ void Delete(Program *n)
   return;
 }
 
+typedef enum {Function, Type, Collection, Range, Vector, ProgramModel} Format;
+struct __function__;
+struct __type__;
+struct __collection__;
+struct __range__;
+struct __vector__;
+struct __number__;
+struct __word__;
+struct __byte__;
+struct __place__;
+
+typedef struct __unit__ 
+{
+  Format kind;
+  union {
+    struct __function__ f;
+    struct __type__ t;
+    struct __collection c;
+    struct __range__ r;
+    struct __vector__ v;
+    struct __number__ n;
+    struct __word__ w;
+    struct __byte__ b;
+    struct __place__ p;
+  };
+} Unit;
+
+typedef struct __function__ 
+{
+  char *definition;
+  Int definitionl;
+  Program *body;
+  char **parameters;
+  Int parametersl;
+  struct __type__ **types;
+  struct __type__ *result;
+  struct __function__ *handlers;
+  Int handlersl;
+} function;
+
+typedef struct __type__ 
+{
+  enum {qualified, enumerated} which;
+  union {
+    struct __function__ *pred;
+    struct __unit__ **members;
+  }
+  Int membersl;
+} type;
+
+typedef struct __collection__
+{
+  struct __unit__ *fields;
+  char **names;
+  Int fieldsl;
+} collection;
+
+typedef struct __range__
+{
+  struct __number__ min;
+  struct __number__ max;
+} range;
+
+typedef struct __vector__
+{
+  struct __unit__ *kind;
+  struct __unit *indicies;
+  Int length;
+} vector;
+
+typedef struct __number__ 
+{
+  enum {Natural, Integer, Rational} subset;
+  Byte signed;
+  char *numerator;
+  Int numeratorl;
+  char *denominator;
+  Int denominatorl;
+}
+
+typedef struct __word__ 
+{
+  unsigned long long int w;
+} word;
+
+typedef struct __byte__
+{
+  unsigned char b;
+} byte;
+
 #ifdef Linux_AMD64
 
+Unit *Definitions;
 
+void InitImage()
+{
+
+}
+
+Int IsPrimRoutine(Program *p)
+{
+  if (p->size == 0) return 0;
+  if (p->type != Expression) return 0;
+  if (p->size == 1)
+  {
+    if (0 == strncmp(p->symbol, "'", 1)) return 1;
+    if (0 == strncmp(p->symbol, "+", 1)) return 20;
+    if (0 == strncmp(p->symbol, "-", 1)) return 21;
+    if (0 == strncmp(p->symbol, "*", 1)) return 22;
+    if (0 == strncmp(p->symbol, "/", 1)) return 23;
+    if (0 == strncmp(p->symbol, "^", 1)) return 24;
+    if (0 == strncmp(p->symbol, "#", 1)) return 50;
+    if (0 == strncmp(p->symbol, "?", 1)) return 52;
+  }
+  else if (p->size == 2)
+  {
+    if (0 == strncmp(p->symbol, "''", 2)) return 2;
+    if (0 == strncmp(p->symbol, "do", 2)) return 9;
+    if (0 == strncmp(p->symbol, "if", 2)) return 11;
+    if (0 == strncmp(p->symbol, "/^", 2)) return 25;
+    if (0 == strncmp(p->symbol, "//", 2)) return 26;
+    if (0 == strncmp(p->symbol, "||", 2)) return 30;
+    if (0 == strncmp(p->symbol, "*/", 2)) return 31;
+    if (0 == strncmp(p->symbol, "/.", 2)) return 32;
+    if (0 == strncmp(p->symbol, "or", 2)) return 41;
+    if (0 == strncmp(p->symbol, "##", 2)) return 51;
+    if (0 == strncmp(p->symbol, "at", 2)) return 61;
+    if (0 == strncmp(p->symbol, "in", 2)) return 62;
+  }
+  else if (p->size == 3)
+  {
+    if (0 == strncmp(p->symbol, "'''", 3)) return 3;
+    if (0 == strncmp(p->symbol, "let", 3)) return 8;
+    if (0 == strncmp(p->symbol, "mod", 3)) return 3;
+    if (0 == strncmp(p->symbol, "and", 3)) return 40;
+    if (0 == strncmp(p->symbol, "not", 3)) return 42;
+    if (0 == strncmp(p->symbol, "the", 3)) return 53;
+  }
+  else if (p->size == 4)
+  {
+    if (0 == strncmp(p->symbol, "take", 4)) return 5;
+    if (0 == strncmp(p->symbol, "some", 4)) return 6;
+    if (0 == strncmp(p->symbol, "with", 4)) return 10;
+    if (0 == strncmp(p->symbol, "from", 4)) return 13;
+    if (0 == strncmp(p->symbol, "ceil", 4)) return 29;
+  }
+  else if (p->size == 5)
+  {
+    if (0 == strncmp(p->symbol, "given", 5)) return 12;
+    if (0 == strncmp(p->symbol, "floor", 5)) return 28;
+  }
+  else if (p->size == 6 && strncmp(p->symbol, "define", 6) == 0) return 14;
+  else if (p->size == 7 && strncmp(p->symbol, "collect", 7) == 0) return 4;
+  else if (p->size == 8 && strncmp(p->symbol, "function", 8) == 0) return 7;
+}
 
 void (*Compile())(Program *exp)
 {
+  
   return 0;
 }
 
