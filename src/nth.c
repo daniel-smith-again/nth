@@ -1,11 +1,9 @@
 #define InfoString \
 "Welcome to the nth language utility.\r\n\
 Copyight (C) Daniel Smith daniel.smith.again@gmail.com"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 typedef unsigned long long int Int;
 typedef Int Word;
 typedef unsigned char Byte;
@@ -44,8 +42,7 @@ int main ()
 {
   Program *program;
   StartShell();
-  Begin:
-  program = Read();
+  Begin: program = Read();
   if (program)
     //Print(Compute(program));
     Print(program), LineBreak();
@@ -122,20 +119,17 @@ char PeekChar()
 
 void Echo()
 {
-  char* str = 0;
-  write(Out, "\x1b[2K\r", 5);
+  char* str = 0, write(Out, "\x1b[2K\r", 5);
   if (Offset > window.ws_col)
   {
-    str = 0;
-    str = malloc(sizeof(char) * (window.ws_col - 1));
+    str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
     if (str) strncpy(str, &Buffer[BufferLength - (window.ws_col - 1)], window.ws_col - 1);
     else ExitShell();
     write(Out, str, window.ws_col - 1);
   }
   else
   {
-    str = 0;
-    str = malloc(sizeof(char) * (window.ws_col - 1));
+    str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
     if (str) strncpy(str, &Buffer[BufferLength - Offset], Offset);
     else ExitShell();
     write(Out, str, Offset);
@@ -150,10 +144,7 @@ char ReadChar()
   int r = 0;
   if (BufferLength == 0 || Pos >= BufferLength)
   {
-    BufferLength = 0;
-    Pos = 0;
-    BufferSize = 1024;
-    Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+    BufferLength = 0, Pos = 0, BufferSize = 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
     for (;;)
     {
       r = 0;
