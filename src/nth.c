@@ -469,8 +469,7 @@ Program *Read()
           else break;
         for (Int n = 0; n < e->num.nl; n++)
           e->num.numerator[n] = e->num.numerator[n + strl];
-        e->num.nl -= strl;
-        e->num.numerator = realloc(e->num.numerator, sizeof(char) * e->num.nl);
+        e->num.nl -= strl, e->num.numerator = realloc(e->num.numerator, sizeof(char) * e->num.nl);
         free(str);
         return e;
       }
