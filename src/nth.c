@@ -2,6 +2,7 @@
 "Welcome to the nth language programming utility\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
 #include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -12,8 +13,10 @@ Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
 #include <sys/types.h>
 #include <dlfcn.h>
 #include <elf.h>
+#define In STDIN_FILENO
+#define Out STDOUT_FILENO
 typedef unsigned long long int Int;
-typedef enum {image, function, type, collection, sequence, string, range, vector, program, symbol, byte, word} Format;
+typedef enum {image, function, type, collection, string, range, vector, program, symbol, byte, word} Format;
 struct __image__;
 struct __function__;
 struct __type__;
@@ -27,7 +30,6 @@ struct __byte__;
 struct __place__;
 struct __string__;
 struct __program__;
-struct __sequence__;
 struct __unit__;
 
 typedef struct __character__
@@ -91,11 +93,11 @@ typedef struct __vector__
 
 typedef struct __number__
 {
-  struct __byte__ sign;
-  struct __byte__ *numerator;
-  Int nl;
-  struct __byte__ *denominator;
-  Int dl;
+  char sign;
+  char *numerator;
+  char nl;
+  char *denominator;
+  char dl;
 } Number;
 
 typedef struct __range__
@@ -103,8 +105,6 @@ typedef struct __range__
   struct __number__ min;
   struct __number__ max;
 } Range;
-
-
 
 typedef struct __symbol__
 {
@@ -123,20 +123,12 @@ typedef struct __string__
   Int length;
 } String;
 
-typedef struct __sequence__
-{
-  struct __program__ *dolist;
-  Int length;
-} Sequence;
-
 typedef struct __program__ 
 {
-  Format kind;
+  enum {Sym, Exp, Str, Num} kind;
   union {
     struct __symbol__ sym;
-    struct __collection__ exp;
-    struct __type__ typ;
-    struct __sequence__ seq;
+    struct {struct __program__ *e; Int length;};
     struct __string__ str;
     struct __number__ num;
   };
@@ -151,7 +143,7 @@ typedef struct __unit__
     struct __type__ t;
     struct __collection__ c;
     struct __range__ r;
-    struct __vector__ v; 
+    struct __vector__ v;
     struct __number__ n;
     struct __character__ h;
     struct __word__ w;
@@ -160,11 +152,12 @@ typedef struct __unit__
     struct __string__ s;
     struct __symbol__ y;
     struct __program__ p;
-    struct __sequence__ q;
   };
 } Unit;
-Symbol ErrSymbol = {.data = "?", .length = 1};
-Unit ErrSym;
+Unit ErrSym = {.which = (Format)symbol, .y = (Symbol){.data = "?", .length = 1}};
+
+void StartShell();
+void ExitShell();
 
 char *Buffer;
 Int BufferSize, BufferLength, Pos, Offset;
@@ -181,19 +174,374 @@ void Quit();
 
 void main()
 {
+  StartShell();
   Program *p;
   Unit *r;
   Loop:
   p = Read();
   if (p) r = Compute(p);
   else goto Error;
-  if (r) Print(r);
+  if (r) Print(r), LineBreak();
   else goto Error;
+  goto Loop;
   Error:
-  Print(&ErrSym);
+  Print(&ErrSym), LineBreak();
   if (p) Delete(p);
   if (r) Discard(r);
   p = 0, r = 0;
   goto Loop;
   return;
+}
+
+struct termios raw, restore;
+struct winsize window;
+void WinSizeCh(int signum)
+{
+  ioctl(Out, TIOCGWINSZ, &window);
+}
+
+void StartShell()
+{
+  atexit(ExitShell);
+  tcgetattr(0, &restore);
+  raw = restore;
+  raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | ISTRIP | IXON);
+	raw.c_oflag &= ~(OPOST);
+	raw.c_cflag |= (CS8);
+	raw.c_cflag &= ~(CSIZE | PARENB);
+	raw.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+	tcsetattr(0, TCSANOW, &raw);
+	ioctl(Out, TIOCGWINSZ, &window);
+	signal(SIGWINCH, WinSizeCh);
+	//write(Out, "\x1b[2J\x1b[H", 7);
+	write(Out, "\r\n", 2);
+	write(Out, InfoString, sizeof(InfoString));
+	write(Out, "\r\n", 2);
+  return;
+}
+
+void ExitShell()
+{
+  write(Out, "\r\n", 2);
+  tcsetattr(0, TCSANOW, &restore);
+  exit(1);
+}
+
+char PeekChar()
+{
+  char c = ReadChar();
+  Pos--;
+  return c;
+}
+
+void Echo()
+{
+  char* str = 0;
+  write(Out, "\x1b[2K\r", 5);
+  if (Offset > window.ws_col)
+  {
+    str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
+    if (str) strncpy(str, &Buffer[BufferLength - (window.ws_col - 1)], window.ws_col - 1);
+    else ExitShell();
+    write(Out, str, window.ws_col - 1);
+  }
+  else
+  {
+    str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
+    if (str) strncpy(str, &Buffer[BufferLength - Offset], Offset);
+    else ExitShell();
+    write(Out, str, Offset);
+  }
+  free(str);
+
+}
+
+char ReadChar()
+{
+  char c[128];
+  int r = 0;
+  if (BufferLength == 0 || Pos >= BufferLength)
+  {
+    BufferLength = 0, Pos = 0, BufferSize = 1024, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+    for (;;)
+    {
+      r = 0;
+      if (r = read(In, c, 128), r)
+      {
+        if (r > 1) continue;
+        if (c[0] == 27) ExitShell();
+        else if (c[0] == 8 || c[0] == 127)
+        {
+          if (Offset > 0 && BufferLength > 0)
+            BufferLength --, Offset--, Echo();
+        }
+        else if (c[0] > 9 && c[0] < 14)
+        {
+          write(Out, "\r\n", 2);
+          BufferLength ++;
+          if (BufferLength >= BufferSize)
+            BufferSize += 1028, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+          Buffer[BufferLength - 1] = ' ';
+          Offset = 0;
+          Echo();
+          goto End;
+        }
+        else if (c[0] >= ' ')
+        {
+          BufferLength++;
+          if (BufferLength >= BufferSize)
+            BufferSize += 1028, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
+          Buffer[BufferLength - 1] = c[0];
+          Offset++;
+          Echo();
+        }
+      }
+    }
+  }
+  End:
+  c[0] = Buffer[Pos], Pos++;
+  return c[0];
+}
+
+void LineBreak()
+{
+  write(Out, "\r\n", 2);
+}
+
+Program *Read()
+{
+  Program *e = malloc(sizeof(Program)), *tmp = 0;
+  char c = 0;
+  char *str = 0;
+  Int strl = 0;
+  TryAgain:
+  c = PeekChar();
+  switch(c)
+  {
+    case ' ': ReadChar(); goto TryAgain;
+    case ')': ReadChar(); return 0;
+    case '(':
+      ReadChar();
+      e->kind = Exp;
+      e->length = 0;
+      e->e = malloc(sizeof(Program) * e->length);
+      for (c = PeekChar(); c != ')'; c = PeekChar())
+        if (c == ' ')
+        {
+          ReadChar(); 
+          continue;
+        }
+        else 
+        {
+          tmp = Read();
+          if (tmp)
+          {
+            e->length++;
+            e->e = realloc(e->e, sizeof(Program) * e->length);
+            e->e[e->length - 1] = *tmp;
+          }
+          else return 0;
+        }
+      ReadChar();
+      return e;
+    case '"':
+      ReadChar();
+      e->kind = Exp;
+      e->length = 1;
+      e->e = malloc(sizeof(Program) * e->length);
+      e->e[0].kind = Sym;
+      e->e[0].sym.data = malloc(sizeof(char) * 0);
+      e->e[0].sym.length = 0;
+      for (c = PeekChar(); c != '"'; c = PeekChar())
+        if (c == '\\')
+        {
+          ReadChar();
+          c = PeekChar();
+          if (c == '(')
+          {
+            e->length++;
+            e->e = realloc(e->e, sizeof(Program) * e->length);
+            tmp = Read();
+            if (tmp) e->e[e->length - 1] = *tmp, free(tmp);
+            else return 0;
+            e->length++;
+            e->e = realloc(e->e, sizeof(Program) * e->length);
+            e->e[e->length - 1].kind = Sym;
+          }
+          else {
+            e->e[e->length - 1].length++;
+            e->e[e->length - 1].sym.data = realloc(e->e[e->length - 1].sym.data, sizeof(char) * e->e[e->length - 1].sym.length);
+            e->e[e->length - 1].sym.data[e->e[e->length - 1].sym.length - 1] = c;
+            ReadChar();
+          }
+        }
+        else {
+            e->e[e->length - 1].length++;
+            e->e[e->length - 1].sym.data = realloc(e->e[e->length - 1].sym.data, sizeof(char) * e->e[e->length - 1].sym.length);
+            e->e[e->length - 1].sym.data[e->e[e->length - 1].sym.length - 1] = c;
+            ReadChar();
+        }
+      ReadChar();
+      if (e->length < 2)
+      {
+        str = e->e[e->length - 1].sym.data;
+        strl = e->e[e->length - 1].sym.length;
+        free(e->e);
+        e->kind = Str;
+        e->str.length = strl;
+        e->str.chars = (Character*)str;
+        return e;
+      }
+      else {
+        e->kind = Exp;
+        for (Int n = 0; n < e->length; n++)
+          if (e->e[n].kind == Sym)
+          {
+            str = e->e[n].sym.data;
+            strl = e->e[n].sym.length;
+            e->e[n].kind = Str;
+            e->e[n].str.chars = (Character*)str;
+            e->e[n].str.length = strl;
+          }
+        e->length++;
+        e->e = realloc(e->e, sizeof(Program) * e->length);
+        for (Int n = e->length - 1; n > 0; n--)
+          e->e[n] = e->e[n - 1];
+        e->e[0].kind = Sym;
+        e->e[0].sym.data = malloc(sizeof(char));
+        e->e[0].sym.length = 1;
+        e->e[0].sym.data[0] = '+';
+        
+        return e;
+      }
+      break;
+    default:
+      strl = 0, str = malloc(sizeof(char) * strl);
+      for (c = PeekChar(); c != ' ' && c != '(' && c != ')' && c != '"' ; c = PeekChar())
+        strl++, str = realloc(str, sizeof(char) * strl), str[strl - 1] = c, ReadChar();
+      e->kind = Num;
+      e->num.nl = 0;
+      e->num.dl = 0;
+      for (Int n = 0, radix = 0; n < strl; n++)
+        if (str[n] >= '0' && str[n] <= '9')
+          if (radix) e->num.dl++;
+          else e->num.nl++;
+        else if (n < strl - 1 && !radix && str[n] == '.') radix = 1;
+        else if (n < strl - 1 && !radix && str[n] == '/') radix = 2;
+        else if (n == 0 && str[n] == '-') e->num.sign = 1;
+        else if (n == 0 && str[n] == '+') e->num.sign = 0;
+        else e->kind = Sym;
+      if (e->kind == Num)
+      {
+        if (e->num.sign) e->num.sign = 1;
+        else e->num.sign = 0;
+        if (e->num.nl < strl && str[e->num.nl] == '.')
+        {
+          e->num.dl ++;
+          e->num.denominator = malloc(sizeof(char) * e->num.dl);
+          for (Int n = 0; n < e->num.dl; n++)
+            if (n == 0) e->num.denominator[n] = '1';
+            else e->num.denominator[n] = '0';
+          e->num.nl = strl - 1;
+          e->num.numerator = malloc(sizeof(char) * strl - 1);
+          for (Int n = 0, m = 0; n < strl; n++)
+            if (str[n] == '.') continue;
+            else e->num.numerator[m] = str[n], m++;
+        }
+        else if (e->num.nl < strl && str[e->num.nl] == '/')
+        {
+          e->num.numerator = malloc(sizeof(char) * e->num.nl);
+          e->num.denominator = malloc(sizeof(char) * e->num.dl);
+          strncpy(e->num.numerator, str, e->num.nl);
+          strncpy(e->num.denominator, &str[e->num.nl + 1], e->num.dl);
+        }
+        else
+        {
+          e->num.dl = 0;
+          e->num.numerator = malloc(sizeof(char) * e->num.nl);
+          strncpy(e->num.numerator, str, e->num.nl);
+        }
+        strl = 0;
+        for (Int n = 0; n < e->num.nl; n++)
+          if (e->num.numerator[n] == '0') strl++;
+          else break;
+        for (Int n = 0; n < e->num.nl; n++)
+          e->num.numerator[n] = e->num.numerator[n + strl];
+        e->num.nl -= strl;
+        e->num.numerator = realloc(e->num.numerator, sizeof(char) * e->num.nl);
+        free(str);
+        return e;
+      }
+      else
+      {
+        e->kind = Sym;
+        e->sym.length = strl;
+        e->sym.data = str;
+      }
+      return e;
+  }
+}
+
+Unit *Compute(Program *exp)
+{
+  Unit *u = malloc(sizeof(Unit));
+  u->which = program;
+  u->p = *exp;
+  return u;
+}
+
+void PrintProgram(Program p)
+{
+  switch(p.kind)
+  {
+    case Sym:
+      write(Out, p.sym.data, p.sym.length);
+      break;
+    case Exp:
+      write(Out, "(", 1);
+      for (Int n = 0; n < p.length; n++)
+        PrintProgram(p.e[n]), write(Out, " ", (n < p.length - 1 ? 1 : 0));
+      write(Out, ")", 1);
+      break;
+    case Str:
+      write(Out, "\"", 1);
+      write(Out, (char*)p.str.chars, p.str.length);
+      write(Out, "\"", 1);
+      break;
+    case Num:
+      write(Out, p.num.numerator, p.num.nl);
+      if (p.num.dl) write(Out, "/", 1), write(Out, p.num.denominator, p.num.dl);
+  }
+}
+
+void Print(Unit *exp)
+{
+  switch(exp->which)
+  {
+    case symbol:
+      write(Out, exp->y.data, exp->y.length);
+      break;
+    case collection:
+      break;
+    case program:
+      PrintProgram(exp->p);
+      break;
+  }
+}
+
+void Discard(Unit *u)
+{
+
+}
+
+void Delete(Program *p)
+{
+
+}
+
+void Quit()
+{
+
 }
