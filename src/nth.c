@@ -52,11 +52,12 @@ typedef struct __image__
   struct __unit__ *data;
   struct __symbol__ *names;
   Int length;
+  struct __image__ *parent;
 } Image;
 typedef struct __function__
 {
   struct __byte__ IsCompiled;
-  struct __byte__ *text;
+  void *text;
   struct __program__ *definition;
   struct __symbol__ *parameters;
   struct __unit__ *types;
@@ -168,6 +169,7 @@ char PeekChar();
 void LineBreak();
 
 Program *Read();
+void InitImage();
 Unit *Compute(Program *exp);
 void Print(Unit *exp);
 void Discard(Unit *u);
@@ -177,6 +179,7 @@ void Quit();
 void main()
 {
   StartShell();
+  InitImage();
   Program *p;
   Unit *r;
   Nesting = malloc(sizeof(char) * 0);
@@ -513,6 +516,15 @@ Program *Read()
       }
       return e;
   }
+}
+void AddNumber()
+{
+
+}
+Image *environment;
+Image *toplevel;
+void InitImage()
+{
 }
 
 Unit *Compute(Program *exp)
