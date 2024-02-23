@@ -868,3 +868,36 @@ Questions:
 How to determine which image I'm compiling in?
 How to run a program to run a program?
 Transforms are just a program that returns true for an expression.
+
+
+I need primitive function ops that correspond to the primitive functions in the language.
+
+Function    f
+Collection  c
+Type        T
+refinement  t
+Add         +
+Sub         -
+Mul         *
+Div         /
+Mod         %
+rem         \
+numerator   n
+denominator d
+expt        ^
+root        r
+do          D
+let         l
+Inversion   i
+and         &
+or          |
+not         ~
+quote       '
+conditional ?
+match case  !
+pointer     @
+equality    =
+less        <
+greater     >
+assignment  :
+vector      ;

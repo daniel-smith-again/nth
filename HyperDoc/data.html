@@ -88,21 +88,21 @@
 	<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Datatype">datatype</a> definition.</figcaption>
 	<p><code>
-	({* ':: *} -> Data)
+	({* '~ *} -> *)
 	</code></p>
 	</figure>
 	<a href="#11-1" id="11-1">11-1</a><p>A <a href="terms.html#Datatype">datatype</a> is a pairing of two <a href="terms.html#Value">values</a>, left and right of the keyword <a href="terms.html#Symbol">symbol</a>, <code>'~</code>, such that the left represents an arbitrary <a href="terms.html#Constraint">constraint</a> on the right.</p>
-	<a href="#11-2" id="11-2">11-2</a><p>Given a <a href="terms.html#Value">value</a>, <code>x</code> which is an <a href="terms.html#Instance">instance</a> of <code>X</code> such that <span><code>(x : X)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> is a <a href="terms.html#Subtype">subtype</a> of <code>X</code>.</p>
-	<a href="#11-3" id="11-3">11-3</a><p>Given <span><code>(x : X)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> will always satisfy the <a href="terms.html#Constraint">constraint</a>, <span><code>((a ~ x) : X)</code></span>.</p>
-	<a href="#11-4" id="11-4">11-4</a><p>Given <span><code>(x : X)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> will always satisfy the <a href="terms.html#Constraints">constraints</a> <span><code>((a ~ x) : (a ~ X))</code></span> and <span><code>((a ~ x) : ((? a) ~ X))</code></span>.</p>
+	<a href="#11-2" id="11-2">11-2</a><p>Given a <a href="terms.html#Value">value</a>, <code>x</code> which is an <a href="terms.html#Instance">instance</a> of <code>T</code> such that <span><code>(x : T)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> is a <a href="terms.html#Subtype">subtype</a> of <code>T</code>.</p>
+	<a href="#11-3" id="11-3">11-3</a><p>Given <span><code>(x : T)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> will always satisfy the <a href="terms.html#Constraint">constraint</a>, <span><code>((a ~ x) : T)</code></span>.</p>
+	<a href="#11-4" id="11-4">11-4</a><p>Given <span><code>(x : T)</code></span>, the <a href="terms.html#Datatype">datatype</a> <span><code>(a ~ x)</code></span> will always satisfy the <a href="terms.html#Constraints">constraints</a> <span><code>((a ~ x) : (a ~ T))</code></span> and <span><code>((a ~ x) : ((? a) ~ T))</code></span>.</p>
 	<a href="#11-5" id="11-5">11-5</a><p>When a <a href="terms.html#Datatype">datatype</a> is <a href="terms.html#Evaluate">evaluated</a>, it must satisfy all <a href="terms.html#Constraint">constraints</a>, in which case it will be evaluated as just the right <a href="terms.html#Value">value</a> and the left must be <a href="terms.html#Discard">discarded</a> beforehand.</p>
 	<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
-	<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements a <a href="terms.html#Datatype">datatype</a> definition.</figcaption>
-	<p><code>
-	({':: *} -> *)
-	</code></p>
-	</figure>
-	<a href="#11-6" id="11-6">11-6</a><p>The <a href="terms.html#Value">value</a> used as the left <a href="terms.html#Value">value</a> in a <a href="terms.html#Datatype">datatype</a> can be derived from a <a href="terms.html#Datatype">datatype</a> <a href="terms.html#Instance">instance</a> by the <a href="defaults.html#Expressions">default expression</a> in <a href="#Fig-6">Figure 6</a>.
+  <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements <a href="terms.html#Datatype">datatype</a> derivation.</figcaption>
+  <p><code>
+  ((collection '~ *) -> *)
+  </code></p>
+  </figure>
+  <a href="#11-6" id="11-6">11-6</a><p>The <a href="terms.html#Value">value</a> used as the left <a href="terms.html#Value">value</a> in a <a href="terms.html#Datatype">datatype</a> can be derived from a <a href="terms.html#Datatype">datatype</a> <a href="terms.html#Instance">instance</a> by the <a href="defaults.html#Expressions">default expression</a> in <a href="#Fig-6">Figure 6</a>.
 	The <a href="terms.html#Value">value</a> resulting from this derivation cannot be the same <a href="terms.html#Unit">unit</a> which was originally used since that <a href="terms.html#Unit">unit</a> must be <a href="terms.html#Discard">discarded</a>. 
 	Instead the resulting <a href="terms.html#Value">value</a> is an <a href="terms.html#Instance">instance</a> which is <a href="terms.html#Equivalence">equivalent</a> to the original <a href="terms.html#Unit">unit</a> which was used.</p>
 </body>
