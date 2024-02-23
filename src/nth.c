@@ -161,6 +161,8 @@ void ExitShell();
 
 char *Buffer;
 Int BufferSize, BufferLength, Pos, Offset;
+char *Nesting;
+Int Nestingl;
 char ReadChar();
 char PeekChar();
 void LineBreak();
@@ -177,7 +179,12 @@ void main()
   StartShell();
   Program *p;
   Unit *r;
+  Nesting = malloc(sizeof(char) * 0);
+  Nestingl = 0;
   Loop:
+  if (Nesting) free(Nesting);
+  Nesting = malloc(sizeof(char) * 0);
+  Nestingl = 0;
   p = Read();
   if (p) r = Compute(p);
   else goto Error;
@@ -195,6 +202,7 @@ void main()
 
 struct termios raw, restore;
 struct winsize window;
+
 void WinSizeCh(int signum)
 {
   ioctl(Out, TIOCGWINSZ, &window);
@@ -283,7 +291,7 @@ char ReadChar()
           BufferLength ++;
           if (BufferLength >= BufferSize)
             BufferSize += 1028, Buffer = realloc(Buffer, sizeof(char) * BufferSize);
-          Buffer[BufferLength - 1] = ' ';
+          Buffer[BufferLength - 1] = '\n';
           Offset = 0;
           Echo();
           goto End;
@@ -310,6 +318,7 @@ void LineBreak()
   write(Out, "\r\n", 2);
 }
 
+
 Program *Read()
 {
   Program *e = malloc(sizeof(Program)), *tmp = 0;
@@ -321,9 +330,17 @@ Program *Read()
   switch(c)
   {
     case ' ': ReadChar(); goto TryAgain;
+    case '\n': 
+      ReadChar();
+      for (Int n = Nestingl; n > 0; n--)
+        write(Out, &Nesting[n - 1], 1);
+      goto TryAgain;
     case ')': ReadChar(); return 0;
     case '(':
       ReadChar();
+      Nestingl++;
+      Nesting = realloc(Nesting, sizeof(char) * Nestingl);
+      Nesting[Nestingl - 1] = ')';
       e->kind = Exp;
       e->length = 0;
       e->e = malloc(sizeof(Program) * e->length);
@@ -331,6 +348,13 @@ Program *Read()
         if (c == ' ')
         {
           ReadChar(); 
+          continue;
+        }
+        else if (c == '\n')
+        {
+          ReadChar();
+          for (Int n = Nestingl; n > 0; n--)
+            write(Out, &Nesting[n - 1], 1);
           continue;
         }
         else 
@@ -345,9 +369,13 @@ Program *Read()
           else return 0;
         }
       ReadChar();
+      if (Nestingl > 0) Nestingl--;
       return e;
     case '"':
       ReadChar();
+      Nestingl++;
+      Nesting = realloc(Nesting, sizeof(char) * Nestingl);
+      Nesting[Nestingl - 1] = '"';
       e->kind = Exp;
       e->length = 1;
       e->e = malloc(sizeof(Program) * e->length);
@@ -355,10 +383,13 @@ Program *Read()
       e->e[0].sym.data = malloc(sizeof(char) * 0);
       e->e[0].sym.length = 0;
       for (c = PeekChar(); c != '"'; c = PeekChar())
+      {
+        if (c == '\n') c = ' ';
         if (c == '\\')
         {
           ReadChar();
           c = PeekChar();
+          if (c == '\n') c = ' ';
           if (c == '(')
           {
             e->length++;
@@ -383,6 +414,8 @@ Program *Read()
             e->e[e->length - 1].sym.data[e->e[e->length - 1].sym.length - 1] = c;
             ReadChar();
         }
+      }
+      if (Nestingl > 0) Nestingl--;
       ReadChar();
       if (e->length < 2)
       {
@@ -413,13 +446,12 @@ Program *Read()
         e->e[0].sym.data = malloc(sizeof(char));
         e->e[0].sym.length = 1;
         e->e[0].sym.data[0] = '+';
-        
         return e;
       }
       break;
     default:
       strl = 0, str = malloc(sizeof(char) * strl);
-      for (c = PeekChar(); c != ' ' && c != '(' && c != ')' && c != '"' ; c = PeekChar())
+      for (c = PeekChar(); c != ' ' && c != '(' && c != ')' && c != '"' && c != '\n'; c = PeekChar())
         strl++, str = realloc(str, sizeof(char) * strl), str[strl - 1] = c, ReadChar();
       e->kind = Num;
       e->num.nl = 0;
