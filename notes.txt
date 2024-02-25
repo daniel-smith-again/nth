@@ -901,3 +901,10 @@ less        <
 greater     >
 assignment  :
 vector      ;
+
+
+what does fib in my language look like?
+(define fib as (n -> 
+where n is 0 then 1
+        is 1 then 1
+        is Number then ((fib (n - 1)) + (fib (n - 2)))))
