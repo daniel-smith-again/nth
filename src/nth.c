@@ -171,8 +171,11 @@ void Read()
   }
   void *Construct()
   {
-
+    char c = PeekChar;
   }
+  program = malloc(0);
+  program = Construct();
+  return program ;
 }
 
 void Compute()

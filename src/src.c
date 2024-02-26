@@ -249,7 +249,7 @@ char PeekChar()
   char c = ReadChar();
   Pos--;
   return c;
-}
+
 
 void Echo()
 {
