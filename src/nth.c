@@ -1,15 +1,55 @@
 #include <stdlib.h>
 #include <stdio.h>
-#define InfoString \ 
+#define InfoString \
 "Welcome to the nth language programming utility\r\n\
 Copyright (C) Daniel Smith daniel.smith.again@gmail.com"
-typedef long long unsigned int Int;
+typedef unsigned char Byte;
+typedef long long unsigned int Word;
+typedef Byte Bool;
+typedef void* Place;
+typedef unsigned int Character;
+//[Byte][Word+][Word+]
 typedef struct {
-  Int type;
-} Data;
+  Byte words;
+  //wordsx2 array of words representing min value then max
+  Place minmax;
+} Range;
+//[Word][Place+][Place+]
+typedef struct {
+  Word cardinality;
+  //array of symbols and then array of field data
+  Place fields;
+} Collection;
+typedef Collection Type; //type is same format as collection with nominal distinction
+typedef struct {
+  Word length;
+  Place type;
+} Array;
+typedef struct {
+  Byte params;
+  Byte handlers;
+  Place result;
+  Place text;
+  Place paramlist;
+} Function;
+typedef struct {
+  Place base;
+  Place qualifier;
+} Predicate;
+
+typedef struct {
+  Character contents;
+} Symbol;
+
+typedef struct {
+  enum {byte, word, range, array, collection, type, predicate, function} kind;
+  Place data;
+} Unit;
+
+
 
 void* Read();
-void Compute(void *program);
+void *Compute(void *program);
 void Print(void *data);
 
 void StartShell();
@@ -89,7 +129,7 @@ void ExitShell()
   exit(1);
 }
 
-void Read()
+void *Read()
 {
   char *Buffer;
   Int BufferSize;
@@ -104,14 +144,14 @@ void Read()
     if (Offset > window.ws_col)
     {
       str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
-      if (str) strncpy(str, &Buffer[BufferLength - (window.ws_col - 1)], window.ws_col - 1);
+      if (str) 0;//strncpy(str, &Buffer[BufferLength - (window.ws_col - 1)], window.ws_col - 1);
       else ExitShell();
       write(Out, str, window.ws_col - 1);
     }
     else
     {
       str = 0, str = malloc(sizeof(char) * (window.ws_col - 1));
-      if (str) strncpy(str, &Buffer[BufferLength - Offset], Offset);
+      if (str) 0;//strncpy(str, &Buffer[BufferLength - Offset], Offset);
       else ExitShell();
       write(Out, str, Offset);
     }
@@ -178,12 +218,12 @@ void Read()
   return program ;
 }
 
-void Compute()
+void *Compute(void *program)
 {
 
 }
 
-void Print()
+void Print(void *data)
 {
 
 }
