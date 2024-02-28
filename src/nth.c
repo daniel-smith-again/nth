@@ -8,45 +8,6 @@ typedef long long unsigned int Word;
 typedef Byte Bool;
 typedef void* Place;
 typedef unsigned int Character;
-//[Byte][Word+][Word+]
-typedef struct {
-  Byte words;
-  //wordsx2 array of words representing min value then max
-  Place minmax;
-} Range;
-//[Word][Place+][Place+]
-typedef struct {
-  Word cardinality;
-  //array of symbols and then array of field data
-  Place fields;
-} Collection;
-typedef Collection Type; //type is same format as collection with nominal distinction
-typedef struct {
-  Word length;
-  Place type;
-} Array;
-typedef struct {
-  Byte params;
-  Byte handlers;
-  Place result;
-  Place text;
-  Place paramlist;
-} Function;
-typedef struct {
-  Place base;
-  Place qualifier;
-} Predicate;
-
-typedef struct {
-  Character contents;
-} Symbol;
-
-typedef struct {
-  enum {byte, word, range, array, collection, type, predicate, function} kind;
-  Place data;
-} Unit;
-
-
 
 void* Read();
 void *Compute(void *program);
