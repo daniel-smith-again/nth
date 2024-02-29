@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Nth HyperDoc</title>
+<meta name="description" content="The Nth HyperDoc is the official standard documentation for the Nth Programming Language.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a id="next" href="contents.html">&#x261b;</a>
+<a id="prev" href="glossary.html">&#x261a;</a>
+<img id="cover-icon" src="icon.svg">
+<h1 id="title-page">The<br><i>n</i><sup>th</sup> Programming Language<br>HyperDoc</h1>
+<form onsubmit="return Search(true);" >
+<input id="searchbar" type="text" autocomplete="off" placeholder="Find a term..." onfocus="Show(event);">
+<button id="searchbutton">Go</button>
+</form>
+<ol id="results" style="overflow-y:auto;"></ol>
+<script>
+	function Show(e){
+		e.currentTarget.scrollIntoView();
+	}
+	function Search(f) {
+		const results = document.getElementById("results");
+		while (results.hasChildNodes()) {
+			results.removeChild(results.lastChild);
+		}
+		const search = (document.getElementById("searchbar").value).toLowerCase();
+		if (search == "") {return false;}
+		const pattern = new RegExp(search.split("").reduce((a,b) => {return a + b}), "i");
+		const dict = Object.keys(SearchTable);
+		var topcount = 0;
+		for (var i in dict) {
+			if (pattern.test(dict[i])) {
+				var l = document.createElement("li");
+				l.style.listStyle = "none";
+				var a = document.createElement("a");
+				if (f) {
+					window.location = SearchTable[dict[i]][1];
+					return false;
+				}
+				a.href = SearchTable[dict[i]][1];
+				a.appendChild(document.createTextNode(SearchTable[dict[i]][0]));
+				l.appendChild(a);
+				if (dict[i].startsWith(search)) {
+					results.insertBefore(l, results.childNodes[topcount]);
+					topcount = topcount + 1;
+				} 
+				else {
+					results.appendChild(l);
+				}
+			}
+		}
+	};
+	window.addEventListener("keyup", function(){
+		if (document.activeElement == document.getElementById("searchbar")) {
+			Search();
+		}
+	});
+	const SearchTable = {
+		"application":['"Application"', "terms.html#Application"],
+		"arithmetic":["Arithmetic","arithmetic.html"],
+		"binding":['"Binding"',"terms.html#Binding"],
+		"blank":['"Blank"', "terms.html#Blank"],
+		"character":['"Character"', "terms.html#Character"],
+		"collection":['"Collection"', "terms.html#Collection"],
+		"collections":["Collections","collections.html"],
+		"computer":['"Computer"', "terms.html#Computer"],
+		"data":["Data","data.html"],
+		"default":['"Default"',"terms.html#Default"],
+		"defaults":["Defaults","defaults.html"],
+		"digit":['"Digit"',"terms.html#Digit"],
+		"foreword":["Foreword","foreword.html"],
+		"environment":['"Environment"',"terms.html#Environment"],
+		"error":['"Error"',"terms.html#Error"],
+		"escape Sequence":['"Escape Sequence"',"terms.html#Escape-Sequence"],
+		"execute":['"Execute"',"terms.html#Execute"],
+		"evaluate":['"Evaluate"',"terms.html#Evaluate"],
+		"evaluation":["Evaluation","evaluation.html"],
+		"expression":['"Expression"',"terms.html#Expression"],
+		"field":['"Field"',"terms.html#Field"],
+		"function":['"Function"',"terms.html#Function"],
+		"functions":["Functions","functions.html"],
+		"glossary":["Glossary","glossary.html"],
+		"glyph":['"Glyph"',"terms.html#Glyph"],
+		"images":["Images","images.html"],
+		"implementation":['"Implementation"',"terms.html#Implementation"],
+		"member":['"Member"',"terms.html#Member"],
+		"operation":['"Operation"',"terms.html#Operation"],
+		"overview":["Overview","overview.html"],
+		"program":['"Program"',"terms.html#Program"],
+		"program model":['"Program Model"',"terms.html#Program-Model"],
+		"quote":['"Quote"',"terms.html#Quote"],
+		"rationale":["Rationale","rationale.html"],
+		"resource":['"Resource"',"terms.html#Resource"],
+		"semantics":['"Semantics"',"terms.html#Semantics"],
+		"source":['"Source"',"terms.html#Source"],
+		"storage":['"Storage"',"terms.html#Storage"],
+		"string":['"String"',"terms.html#String"],
+		"symbol":['"Symbol"',"terms.html#Symbol"],
+		"syntax":["Syntax","syntax.html"],
+		"table of contents":["Table of Contents","contents.html"],
+		"terms":["Terms","terms.html"],
+		"type":['"Type"',"terms.html#Type"],
+		"types":["Types","types.html"],
+	};
+</script>
+</body>
