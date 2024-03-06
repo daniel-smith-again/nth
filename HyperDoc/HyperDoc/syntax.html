@@ -23,7 +23,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <figcaption>The following grammar describes the formation of valid <i>n</i><sup>th</sup> <a href="terms.html#Syntax">syntax</a> in a <a href="terms.html#Source">source</a>.</figcaption>
 <table>
 <tr><td>Program &rarr; Expression | Atom</td></tr>
-<tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
+<tr><td>Expression &rarr; <code>(</code> <u>Atom</u> * <code>)</code></td></tr>
 <tr><td>Atom &rarr; Expression | Symbol | Number | String</td></tr>
 <tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
 <tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> * | <u>Sign</u> <a href="terms.html#Digit">Digit</a> * <code>.</code> <a href="terms.html#Digit">Digit</a> * | <u>Sign</u> <a href="terms.html#Digit">Digit</a> * <code>/</code> <a href="terms.html#Digit">Digit</a> *</td></tr>
@@ -41,5 +41,6 @@ Characters given in <span><code>monospace</code></span> represent themselves lit
 </figure>
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
 <p>The <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">collection</a> which represents a <a href="terms.html#Program">program</a>.</p>
+<p>A <a>Program Model</a> may be any <a>collection</a> but must additionally be <a href="terms.html#Judgement">judged</a> to be <a href="terms.html#Correct">correct</a> when given as a <a href="terms.html#Paramter">parameter</a> to the <code>compute</code> <a href="defaults.html#Expressions">default expression</a>.</p>
 <p>A <a href="terms.html#Program-Model">Program Model</a> is <a href="terms.html#Constraint">constrained</a> by the <a>type</a> <span><code>(Collection | (m -> compute m in This))</code></span> where a <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">Collection</a> which is determined to be <a href="terms.html#Correct">correct</a>.</p>
 </body>
