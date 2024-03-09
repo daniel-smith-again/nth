@@ -26,7 +26,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
 <tr><td>Atom &rarr; Expression | Symbol | Number | String</td></tr>
 <tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
-<tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> * | <u>Sign</u> <a href="terms.html#Digit">Digit</a> * <code>.</code> <a href="terms.html#Digit">Digit</a> * | <u>Sign</u> <a href="terms.html#Digit">Digit</a> * <code>/</code> <a href="terms.html#Digit">Digit</a> *</td></tr>
+<tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> *</tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
 <tr><td>Contents &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a></td></tr>
 <tr><td>Delimiter &rarr; <a>Blank</a> * | Program | String</td></tr>
@@ -38,5 +38,6 @@ The symbol, |, separates elements in a list.
 The symbol, *, denotes an element which may repeat one or more times where it occurs.
 Names which are <u>underlined</u> are optional.
 Characters given in <span><code>monospace</code></span> represent themselves literally.</p>
+</figure>
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
 </body>

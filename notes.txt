@@ -908,3 +908,40 @@ what does fib in my language look like?
 where n is 0 then 1
         is 1 then 1
         is Number then ((fib (n - 1)) + (fib (n - 2)))))
+
+string concatenation example
+
+in C
+char *concat (char *x, int Size_x, char *y, int Size_y) 
+{
+  char z = malloc(sizeof(char) * (Size_x + Size_y));
+  for (int n = 0; n < Size_x; n++)
+  {
+    z[n] = x[n];
+  }
+  for (int n = 0; n < Size_y; n++)
+  {
+    z[n + Size_x] = y[n];
+  }
+  return z;
+}
+
+char *msg = concat("Hello, ", 7 ,"World!", 6);
+
+in nth
+(concat = (first second ->
+(let z be (array Character ((# first) + (# second)))
+ and copyfirst be 
+     (n m -> 
+            if (n < (# first))
+            then (copyfirst (n + 1) (m _ n (first _ n)))
+            else m)
+ and copysecond be 
+     (n m ->
+            if (n < (# second))
+            then (copysecond (n + 1) (m _ (n + (# x)) (second _ n))
+            else m))
+ in 
+   (copysecond 1 (copyfirst 1 z)))))
+
+((msg : (Array Character)) = (concat "Hello, " "World!"))
