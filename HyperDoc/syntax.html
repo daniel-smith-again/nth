@@ -24,14 +24,16 @@ In general, characters in a source text must only be accepted as left-to-right o
 <table>
 <tr><td>Program &rarr; Expression | Atom</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
-<tr><td>Atom &rarr; Expression | Symbol | Number | String</td></tr>
+<tr><td>Atom &rarr; Expression | Symbol | Number | String | Quote</td></tr>
 <tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
 <tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> *</tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
+<tr><td>Quote &rarr; <code>'</code> Form</td></tr>
 <tr><td>Contents &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a></td></tr>
 <tr><td>Delimiter &rarr; <a>Blank</a> * | Program | String</td></tr>
 <tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
 <tr><td>Characters &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a> | <a href="terms.html#Blank">Blank</a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
+<tr><td>Form &rarr; Program | <code>''</code> Form | <code>'''</code> Form</td></tr>
 </table>
 <p>The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
 The symbol, |, separates elements in a list.
@@ -40,4 +42,22 @@ Names which are <u>underlined</u> are optional.
 Characters given in <span><code>monospace</code></span> represent themselves literally.</p>
 </figure>
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
+<p>The <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">collection</a> which corresponds to the deserialized <a href="terms.html#Source">source</a>.</p>
+<p>A <a>Program Model</a> is primarily used by <a>evaluation</a> as the cannonical representation of a <a>program</a>.</p>
+<h3><a href="#Constructing-Expressions" id="Constructing-Expressions">Constructing Expressions</a></h3>
+<p>The "Expression" <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to an <a href="terms.html#Expression">expression</a> in a <a href="terms.html#Program">program</a> and a <a href="terms.html#Collection">collection</a> in a <a href="terms.html#Program-Model">Program Model</a>.
+When an "Expression" <a href="terms.html#Syntax">syntax</a> element occurs in a <a href="terms.html#Source">source</a>, a corresponding <a href="terms.html#Collection">collection</a> shall be added in the <a href="terms.html#Program-Model">Program Model</a> representing the deserialization of that <a href="terms.html#Source">source</a>.</p>
+<figure>
+<figcaption>A <a href="terms.html#Source">source</a> containing an <a href="terms.html#Expression">expression</a> and corresponding <a href="terms.html#Program-Model">Program Model</a>.</figcaption>
+<p><code>
+(a b c)
+</code></p>
+<p><code>
+(collection 'a 'b 'c)
+</code></p>
+</figure>
+<h3><a href="#Constructing-Symbols" id="Constructing-Symbols">Constructing Symbols</a></h3>
+<h3><a href="#Constructing-Numbers" id="Constructing-Numbers">Constucting Numbers</a></h3>
+<h3><a href="#Constructing-Strings" id="Constructing-Strings">Constructing Strings</a></h3>
+<h3><a href="#Constructing-Qutoes" id="Constructing-Quotes">Constructing Qutoes</a></h3>
 </body>
