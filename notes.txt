@@ -945,3 +945,38 @@ in nth
    (copysecond 1 (copyfirst 1 z)))))
 
 ((msg : (Array Character)) = (concat "Hello, " "World!"))
+
+
+concat that uses delimited continuations
+
+(concat = ((first : String) (second : String) ->
+(let z be (String ((# first) + (# second)))
+ and copyloop be ((src : String) (dest : String) n ->
+  if (n < (# src)) 
+  then (copyloop src (dest _ n = (src _ n)) (n + 1))
+  else dest)
+ in 
+ with string-segment as 
+        ((continue : Function) (str : String) ->
+          (continue ((@ (@ str)) : (String (# first)))) ,
+          (continue ((@ (@ (str _ (# first)))) : (String (# second)))))
+     in (copyloop)
+
+ )))))
+
+
+
+void SaveFile(char* pathname, void *data, int length)
+{
+  file = fopen(pathname);
+  write(file, data, length);
+}
+
+(SaveFile = ((pathname : String) (data : Place) (format : Type) ->
+  (with fopen as ((contd : Function) (filepath : String) ->
+  (file = ((System . Open) ((System . HomeDir) + filepath))),
+  (contd file),
+  ((System . Close) file))
+  in 
+  ((System . Write) (fopen pathname) ((@ data) : format))
+)))
