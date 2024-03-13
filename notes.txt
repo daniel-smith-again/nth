@@ -980,3 +980,23 @@ void SaveFile(char* pathname, void *data, int length)
   in 
   ((System . Write) (fopen pathname) ((@ data) : format))
 )))
+
+
+
+do I even need equality assignment?
+
+(let the String x be "Hello, World!" in
+ print x)
+
+(let x : String = "Hello, World!" in
+ print x)
+
+How would I structure that?
+I have optional stuff.
+I would do 
+'(let '''bindings in '''body)
+where bindings is the grammar and keywords.
+and bindings follow the type
+(Symbol + 'be + *)
+(Program + 'be + *)
+('the * Symbol 'be *)
