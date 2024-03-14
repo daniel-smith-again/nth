@@ -981,22 +981,33 @@ void SaveFile(char* pathname, void *data, int length)
   ((System . Write) (fopen pathname) ((@ data) : format))
 )))
 
+Keep equality assignment.
+Keep definition.
+You need all three.
 
+Create a binding in a new delimited scope.
+Create a binding in the current lexical scope.
+Create a binding in the current top level.
 
-do I even need equality assignment?
+Is equality assignment limited to the sequence scope or is it limited to the 
+current lexical scope?
+Lets say
+(f = (x -> 
+((a = (f x)),
+ (b = (g a)),
+ (c = (h b))),
+()
+)
 
-(let the String x be "Hello, World!" in
- print x)
-
-(let x : String = "Hello, World!" in
- print x)
-
-How would I structure that?
-I have optional stuff.
-I would do 
-'(let '''bindings in '''body)
-where bindings is the grammar and keywords.
-and bindings follow the type
-(Symbol + 'be + *)
-(Program + 'be + *)
-('the * Symbol 'be *)
+what about 
+(let m be k in (n = (f m)))
+where does n create its binding?
+It creates it in the current lexical scope.
+What about corecursion like 
+((f = (x -> g x)),
+ (g = (x -> f x)))
+This technically doesn't work.
+What if it should work?
+What if you're in a lexical context and you do that?
+You assign stuff.
+Do you search the lexical context for bindings?
