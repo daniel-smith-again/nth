@@ -1011,3 +1011,12 @@ What if it should work?
 What if you're in a lexical context and you do that?
 You assign stuff.
 Do you search the lexical context for bindings?
+My syntax should be 
+(let 
+x = 1
+y = 2
+z = 3
+in
+x + y + z)
+
+(let x = 1 y = 2 z = 3 in x + y + z)
