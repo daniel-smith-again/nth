@@ -1020,3 +1020,8 @@ in
 x + y + z)
 
 (let x = 1 y = 2 z = 3 in x + y + z)
+
+so my let syntax uses equality assignment?
+yes.
+The advantage of let is that you also have a clear distinction between before the binding and after.
+let also allows you to easily reason about recursive binding since all the symbols are up front.

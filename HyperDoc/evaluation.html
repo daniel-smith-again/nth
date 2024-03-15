@@ -12,8 +12,13 @@
 
 <h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
 <p><a>Evaluation</a> is the abstract process of replacing <a>Program Model</a> components with their corresponding semantic <a href="terms.html#Reduce">reductions</a>.</p>
-<h2><a href="#Rewriting" id="Rewriting">Rewriting</a></h2>
 <h2><a href="#Reduction" id="Reduction">Reduction</a></h2>
+<p>Given a <a href="terms.html#Program">program</a> which is comprised of at least one <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Reduce">reduced</a> according to the <a href="terms.html#Semantics">semantics</a> associated with that <a href="terms.html#Expression">expression</a>.</p>
+<p>An <a href="terms.html#Expression">expression</a> may only be <a href="terms.html#Reduce">reduced</a> if it is a <a href="defaults.html#Expressions">default expression</a>.</p>
+<p>An <a href="terms.html#Expression">expression</a> which is not a <a href="defaults.html#Expressions">default expression</a> may be <a href="terms.html#Rewrite">rewritten</a> if it can be accepted by a <a href="terms.html#Transform">transform</a>.</p>
+<p>An <a>expression</a> which can be <a href="terms.html#Reduce">reduced</a> will consist of <a href="terms.html#Keyword">keywords</a>, <a href="terms.html#Identifier">identifiers</a>, and other <a href="terms.html#Expression">expressions</a>.</p>
+<p>An <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Reduce">reduced</a> in every case by the <a href="terms.html#Value">vlaue</a> <a href="terms.html#Binding">bound</a> to it in the <a href="terms.html#Scope">scope</a>.</p>
+<h2><a href="#Rewriting" id="Rewriting">Rewriting</a></h2>
 <h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 <h2><a>Bindings</a></h2>
 <h3><a href="#Definition" id="Definition">Definition</a></h3>
