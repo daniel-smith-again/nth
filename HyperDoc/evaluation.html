@@ -12,13 +12,36 @@
 
 <h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
 <p><a>Evaluation</a> is the abstract process of replacing <a>Program Model</a> components with their corresponding semantic <a href="terms.html#Reduce">reductions</a>.</p>
+<p>All <a href="Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> are comprised of <a href="terms.html#Expression">expressions</a> and <a href="terms.html#Data">data</a>.
+<a href="terms.html#Data">Data</a> will always <a href="terms.html#Evaluate">evaluate</a> to itself as if no <a href="terms.html#Evaluate">evaluation</a> had taken place.
+<a href="terms.html#Expression">Expressions</a> are <a href="terms.html#Evaluate">evaluated</a> by first <a href="terms.html#Rewrite">rewriting</a> and then <a href="terms.html#Reduce">reduction</a>.
+<a href="terms.html#Evaluate">Evaluation</a> will always yield a <a href="terms.html#Data">data</a> result when completed.</p>
+<h2><a href="#Rewriting" id="Rewriting">Rewriting</a></h2>
+<p>An <a href="terms.html#Expression">expression</a> which is being <a href="terms.html#Evaluate">evaluated</a> must first be <a href="terms.html#Rewrite">rewritten</a>.</p>
+<p>An <a href="terms.html#Expression">expression</a> is <a href="terms.html#Rewrite">rewritten</a> by testing it against the <a href="terms.html#Type">type</a> <a href="terms.html#Constraint">constraining</a> the <a href="terms.html#Parameter">parameter</a> of a <a href="terms.html#Transform">transform</a>.
+If the <a href="terms.html#Expression">expression</a> is an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Constraint">constraint</a>, then the <a href="terms.html#Transform">transform</a> is <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.
+If there are no <a href="terms.html#Transform">transforms</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> stage of <a href="terms.html#Evaluate">evaluation</a> is complete.</p>
+<p>If a <a href="terms.html#Transform">transform</a> is applied to an <a href="terms.html#Expression">expression</a>, the <a href="terms.html#Expression">expression</a> will be replaced with result of the <a href="terms.html#Application">application</a>.</p>
+<p>If the result of a <a href="terms.html#Transform">transform</a> <a>application</a> is <span><code>_</code></span>, then the <a href="terms.html#Expression">expression</a> will be removed from the <a href="terms.html#Program">program</a> and <a href="terms.html#Discard">discarded</a>.</p>
+<p>Given an <a href="terms.html#Expression">expression</a> which is a possible <a href="terms.html#Parameter">parameter</a> to more than one <a href="terms.html#Transform">transform</a>, the <a href="terms.html#Transform">transform</a> which is a <a href="terms.html#Subtype">subtype</a> of every other <a href="terms.html#Constraint">constraint</a> will be <a href="terms.html#Application">applied</a>.</p>
+<figure>
+<figcaption>An example of the <a href="terms.html#Subtype">subtype</a> <a href="terms.html#Constraint">constraint</a> being chosen from multiple possible <a href="terms.html#Transform">transforms</a>.</figcaption>
+<p><code>
+(define '(a ''(x)) f)<br>
+(define '(a ''(x) c) g)<br>
+(a b c)
+</code></p>
+<p>In this example, two <a href="terms.html#Transform">transforms</a> are defined, one using a <a href="terms.html#Function">function</a> <span><code>f</code></span> and the other using a <a href="terms.html#Function">function</a> <span><code>g</code></span>.
+The <a href="terms.html#Transform">transform</a> using <span><code>g</code></span> is the smallest <a href="terms.html#Constraint">constraint</a> and thus is <a href="terms.html#Application">applied</a> to the <a href="terms.html#Program">program</a> <span><code>(a b c)</code></span>.</p>
+</figure>
 <h2><a href="#Reduction" id="Reduction">Reduction</a></h2>
 <p>Given a <a href="terms.html#Program">program</a> which is comprised of at least one <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Reduce">reduced</a> according to the <a href="terms.html#Semantics">semantics</a> associated with that <a href="terms.html#Expression">expression</a>.</p>
+<p>A <a>program</a> consisting of only <a href="terms.html#Data">data</a>, a <a href="terms.html#Symbol">symbol</a>, <a href="terms.html#Number">number</a>, <a href="terms.html#String">string</a>, or <a href="terms.html#Quote">quote</a>, will always <a href="terms.html#Reduce">reduce</a> to that <a href="terms.html#Data">data</a>.
+Thus no <a href="terms.html#Resource">resources</a> should be used when <a href="terms.html#Evaluate">evaluating</a> <a href="terms.html#Data">data</a>.</p>
 <p>An <a href="terms.html#Expression">expression</a> may only be <a href="terms.html#Reduce">reduced</a> if it is a <a href="defaults.html#Expressions">default expression</a>.</p>
 <p>An <a href="terms.html#Expression">expression</a> which is not a <a href="defaults.html#Expressions">default expression</a> may be <a href="terms.html#Rewrite">rewritten</a> if it can be accepted by a <a href="terms.html#Transform">transform</a>.</p>
 <p>An <a>expression</a> which can be <a href="terms.html#Reduce">reduced</a> will consist of <a href="terms.html#Keyword">keywords</a>, <a href="terms.html#Identifier">identifiers</a>, and other <a href="terms.html#Expression">expressions</a>.</p>
-<p>An <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Reduce">reduced</a> in every case by the <a href="terms.html#Value">vlaue</a> <a href="terms.html#Binding">bound</a> to it in the <a href="terms.html#Scope">scope</a>.</p>
-<h2><a href="#Rewriting" id="Rewriting">Rewriting</a></h2>
+<p>An <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Reduce">reduced</a> in every case by the <a href="terms.html#Value">value</a> <a href="terms.html#Binding">bound</a> to it in the <a href="terms.html#Scope">scope</a>.</p>
 <h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
 <h2><a>Bindings</a></h2>
 <h3><a href="#Definition" id="Definition">Definition</a></h3>
