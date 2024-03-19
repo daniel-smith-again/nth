@@ -48,10 +48,37 @@ Thus no <a href="terms.html#Resource">resources</a> should be used when <a href=
 <p>A single <a href="terms.html#Context">context</a> will only ever be used when <a href="terms.html#Resolve">resolving</a> an <a href="terms.html#Identifier">identifier</a>.
 At any given point during <a href="terms.html#Evaluate">evaluation</a>, the current <a href="terms.html#Context">context</a> to be used is referred to as the <a href="terms.html#Scope">scope</a>.</p>
 <p>The <a href="terms.html#Semantics">semantics</a> of some <a href="defaults.html#Expressions">default expressions</a> may create, <a href="terms.html#Discard">discard</a>, or move <a href="terms.html#Context">contexts</a>.</p>
-<p>The <a href="terms.html#Binding">bindings</a> which are present in a <a href="terms.html#Context">context</a> are the <a href="terms.html#Bindings">bindings</a> which are established by the <a href="defaults.html#Expressions">default expressions</a> which create <a href="terms.html#Binding">bindings</a>.</p>
+<p>The <a href="terms.html#Binding">bindings</a> which must be included in a <a href="terms.html#Scope">scope</a> are directly correlated to the outer <a href="terms.html#Expression">expressions</a> which have created <a href="terms.html#Binding">bindings</a> before <a href="terms.html#Evaluate">evaluating</a> their nested <a href="terms.html#Expression">expressions</a>.</p>
+<p>If an <a href="terms.html#Identifier">identifier</a> is given in a <a href="defaults.html#Expressions">default expression</a> which was not previously <a href="terms.html#Binding">bound</a> in an outer <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 <h2><a>Bindings</a></h2>
 <h3><a href="#Definition" id="Definition">Definition</a></h3>
+<p>The <a>default expression</a>, Definition, will create a <a>binding</a> in the <a href="terms.html#Top-Level">Top Level</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Definition.</figcaption>
+<p><code>
+('(define ''Symbol ''*) -> (let (_ &#x1d456; &#x1d463;) = (& _ 1) in '(&#x1d553; ''&#x1d456; ''&#x1d463;)))<br>
+('(define ''Function) -> (let (_ &#x1d461;) = (& _ 1) in '(&#x1d53d; ''&#x1d461;)))
+</code></p>
+<p>There are two <a href="terms.html#Transform">transforms</a> which <a href="terms.html#Implement">implement</a> Definition.</p>
+<p>The first will create a <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Top-Level">top level</a> using the <a href="terms.html#Symbol">symbol</a>, &#x1d456; as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a>, &#x1d463; as the <a href="terms.html#Value">value</a>.
+The <a href="terms.html#Function">function</a>, &#x1d553;, fulfills this behavior and is <a href="terms.html#Implementation">implementation dependent</a>.</p>
+<p>The second will add a <a>transform</a>, &#x1d461; to the <a>top level</a>. 
+The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavior and is <a href="terms.html#Implementation">implementation dependent</a>.</p>
+</figure>
 <h3><a href="#Let" id="Let">Let</a></h3>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Let.</figcaption>
+<p><code>
+('(let<br>
+'''((type '(''Program = ''*) '(''Symbol : ''*)) ;)<br>
+in '''Program) -> &#x1d542;)
+</code></p>
+<p>Let will create some number of <a href="terms.html#Binding">bindings</a> according to the sequences, <span><code>'(''Program = ''*)</code></span> and <span><code>'(''Symbol : ''*)</code></span>.
+These <a href="terms.html#Bindings">bindings</a> will be established in a new <a href="terms.html#Context">context</a> which is used to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Program">program</a> following the <a href="terms.html#Keyword">keyword</a>, <span><code>in</code></span>.</p>
+</figure>
+<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>=</code></span> will create a <a href="terms.html#Binding">binding</a> using the <a href="terms.html#Program">program</a> preceding the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Value">value</a>.</p>
+<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>:</code></span> will create a <a href="terms.html#Constraint">constraint</a> treating the <a href="terms.html#Symbol">symbol</a> preceding the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Type">type</a> following the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Constraint">constraint</a>.</p>
+<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>=</code></span> may be given an <a href="terms.html#Expression">expression</a> instead of a <a href="terms.html#Symbol">symbol</a> in which case the <a href="terms.html#Data">data</a> being used as the <a href="terms.html#Value">value</a> will be destructured according to the formation of the <a href="terms.html#Expression">expression</a>.</p>
 <h2><a>Control Expressions</a></h2>
 <h3><a href="#Application" id="Application">Application</a></h3>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
