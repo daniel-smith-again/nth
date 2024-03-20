@@ -94,8 +94,16 @@ let (_ m * (_ : 'in) n) = (& _ 1)<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 in compute n in (&#x1d543; m))
 </code></p>
-<p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a> and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
+<p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a>, and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
+<p>In a Let <a>expression</a>, <span><code>m</code></span> is referred to as the "declarations" component and <span><code>n</code></span> is referred to as the "body".</p>
 </figure>
+<p>The declarations component of a Let <a>expression</a> are formed according to the following sequences...</p>
+<ul>
+<li>Variable Bind: <span><code>'(''Symbol = ''Program)</code></span></li>
+<li>Deconstructing Bind: <span><code>'(''Expression = ''Collection)</code></span></li>
+<li>Symbolic Bind: <span><code>'(''Symbol : ''Program)</code></span></li>
+</ul>
+
 <h2><a>Control Expressions</a></h2>
 <h3><a href="#Application" id="Application">Application</a></h3>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
