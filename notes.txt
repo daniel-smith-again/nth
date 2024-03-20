@@ -1025,3 +1025,77 @@ so my let syntax uses equality assignment?
 yes.
 The advantage of let is that you also have a clear distinction between before the binding and after.
 let also allows you to easily reason about recursive binding since all the symbols are up front.
+
+
+What forms of let do I have?
+(let x = 1 in ...)
+(let x : t in ...)
+(let (x y) = '(a b) in ...)
+what does (let x : t) do?
+It creates a type constraint.
+what about 
+(let x : t = n)
+that's the same as 
+(let (x : t) = n in ...)
+what happens if I do
+(let m = (collection (f x) (g x) (h x))
+     x = (k m) 
+ in ...)
+now I have an unsolvable recursive thing.
+So recursion is only useful in functions.
+So I want 
+(let 
+    f = (x -> g x)
+    g = (x -> f x) in ...)
+where f and g are recursive functions.
+This will absolutely loop infinitely.
+How is this recursion different than 
+(let 
+    f = ((collection 1 2) + g)
+    g = ((collection 3 4) + f
+ in ...)
+What I'm saying is 
+(f : Function , g : Function , 
+ f = (x -> g x) , g = (x -> f x))
+I solve recursion by early constraint, late binding.
+I really just want 
+(f = (x -> g x), g = (x -> f x))
+(f x = (g x) , g x = (f x))
+
+
+
+so sequences are different than let binding.
+is equality binding part of a sequence?
+no.
+so I have no let binding.
+what about destructuring binding?
+
+I have (m = (collection 1 2 3 4 5))
+and I want to do 
+(let (a b c d e) = m in a + b + c + d + e)
+A function is 
+(x -> x)
+
+I add a constraint by doing (x : t).
+I make recursion by declaring constraints first.
+(f : ((A) -> B), 
+ g : ((K) -> L), 
+ f = (x -> g x),
+ g = (x -> f x))
+This lets me do inline binding and stuff.
+Temporary results.
+
+(x = (1 + (y = (5 + 3))))
+now I have x and y.
+
+f = (x -> y = (x + 1), z = (y + 2))
+
+do I still have let?
+maybe I have something else like 
+(a b c d e f) == (collection 1 2 3 4 5)
+or what about a slice?
+((from 2 to 4) (collection 1 2 3 4 5))
+I mean if I have 
+(a = ((from 1 to 100) ; 10000))
+then a slice of a would be 
+((a' : ((? (a _ 1)) ; 877)) = (@ (@ a _ 39)))

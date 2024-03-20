@@ -65,20 +65,37 @@ The <a href="terms.html#Function">function</a>, &#x1d553;, fulfills this behavio
 <p>The second will add a <a>transform</a>, &#x1d461; to the <a>top level</a>. 
 The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavior and is <a href="terms.html#Implementation">implementation dependent</a>.</p>
 </figure>
+<p>Definition will not change the <a href="terms.html#Image">image</a> which is the current <a href="terms.html#Top-Level">top level</a>.</p>
+<p>The <a href="terms.html#Binding">binding</a> established by Definition cannot be included in any <a href="terms.html#Scope">scope</a> until the Definition <a href="terms.html#Expression">expression</a> has been <a href="terms.html#Evaluate">evaluated</a>.</p>
+<h3><a href="#Assignment" id="Assignment">Assignment</a></h3>
+<p>Assignment is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Assignment.</figcaption>
+<p><code>
+('(''Symbol = ''Program) -><br>
+&emsp;let (m _ n) = (& _ 1)<br>
+&emsp;in<br>
+&emsp;&emsp;&emsp;'(&#x1d559; ''m ''n)) 
+</code></p>
+<p>where &#x1d559; is an <a href="terms.html#Implementation">implementation defined</a> <a href="terms.html#Operation">operation</a> which establishes the <a href="terms.html#Binding">binding</a>.</p>
+</figure>
+<p>Assignment cannot <a href="terms.html#Shadow">shadow</a> an existing <a href="terms.html#Binding">binding</a>. 
+If the <a href="terms.html#Symbol">symbol</a> given to Assignment as the <a href="terms.html#Identifier">identifier</a> is already used by an existing <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<p>Given multiple <a href="terms.html#Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> in a single <a href="terms.html#Scope">scope</a>, an Assignment <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Evaluate">evaluated</a> in the order in which the <a href="terms.html#Identifier">identifier</a> it <a href="terms.html#Binding">binds</a> occurs.</p>
 <h3><a href="#Let" id="Let">Let</a></h3>
+<p>Let is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Context">context</a>, establish some <a href="terms.html#Bindings">bindings</a> in that <a href="terms.html#Context">context</a>, and then use that <a href="terms.html#Context">context</a> as the <a href="terms.html#Scope">scope</a> to <a href="terms.html#Evaluate">evaluate</a> an <a href="terms.html#Expression">expression</a>.</p>
 <figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Let.</figcaption>
 <p><code>
-('(let<br>
-'''((type '(''Program = ''*) '(''Symbol : ''*)) ;)<br>
-in '''Program) -> &#x1d542;)
+('(let '''(Program ;)<br>
+&emsp;&emsp;&emsp;in '''(Program ;)) -><br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+let (_ m * (_ : 'in) n) = (& _ 1)<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+in compute n in (&#x1d543; m))
 </code></p>
-<p>Let will create some number of <a href="terms.html#Binding">bindings</a> according to the sequences, <span><code>'(''Program = ''*)</code></span> and <span><code>'(''Symbol : ''*)</code></span>.
-These <a href="terms.html#Bindings">bindings</a> will be established in a new <a href="terms.html#Context">context</a> which is used to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Program">program</a> following the <a href="terms.html#Keyword">keyword</a>, <span><code>in</code></span>.</p>
+<p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a> and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
 </figure>
-<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>=</code></span> will create a <a href="terms.html#Binding">binding</a> using the <a href="terms.html#Program">program</a> preceding the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> following the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Value">value</a>.</p>
-<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>:</code></span> will create a <a href="terms.html#Constraint">constraint</a> treating the <a href="terms.html#Symbol">symbol</a> preceding the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Type">type</a> following the <a href="terms.html#Keyword">keyword</a> as the <a href="terms.html#Constraint">constraint</a>.</p>
-<p>The sequence denoted by the <a href="terms.html#Keyword">keyword</a>, <span><code>=</code></span> may be given an <a href="terms.html#Expression">expression</a> instead of a <a href="terms.html#Symbol">symbol</a> in which case the <a href="terms.html#Data">data</a> being used as the <a href="terms.html#Value">value</a> will be destructured according to the formation of the <a href="terms.html#Expression">expression</a>.</p>
 <h2><a>Control Expressions</a></h2>
 <h3><a href="#Application" id="Application">Application</a></h3>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
