@@ -12,7 +12,6 @@ p, h1, figure, figcaption, li, dl, details{width:69%;max-width:80ch;margin-left:
 ol, ul, dl{width:fit-content;margin-left:auto;margin-right:auto;text-align:center;}
 body > a{display:block;height:0;}
 h1{font-size:calc(var(--scale) * 3);border-bottom:solid 0.2ch var(--fg);border-radius:0;}
-
 #title-page{height:34vh;border:none;}
 p{text-align:justify-all;}
 code{color:var(--lfg);font-family:monospace;font-size:calc(var(--scale) * 0.5);}
@@ -32,7 +31,8 @@ details[open] > summary{border-bottom:0.2ch solid var(--fg);text-align:left;padd
 details[open] {padding:1ch;width:fit-content;}
 details[open] > p{max-width:50ch;}
 h2{padding-top:1ch;font-size:calc(var(--scale) * 2);width:69%;margin-left:auto;margin-right:auto;text-align:center;border-bottom:0.2ch none var(--fg);}
-h3{padding-top:3ch;font-size:calc(var(--scale) * 1.5);width:69%;margin-left:auto;margin-right:auto;text-align:center;}
+h3{padding-top:3ch;font-size:calc(var(--scale) * 1.5);width:31%;margin-left:auto;margin-right:auto;text-align:center;border-bottom:0.2ch solid var(--fg);}
+h4{padding-top:3ch;font-size:calc(var(--scale) * 1);width:69%;margin-left:auto;margin-right:auto;text-align:center;}
 p > a, details > a, figcaption > a, td > a, li > a{color:var(--link);}
 a:active, a:hover, a:link, a:visited {border:none;}
 mtable{line-height:1;}

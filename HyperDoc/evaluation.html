@@ -90,20 +90,65 @@ If the <a href="terms.html#Symbol">symbol</a> given to Assignment as the <a href
 ('(let '''(Program ;)<br>
 &emsp;&emsp;&emsp;in '''(Program ;)) -><br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-let (_ m * (_ : 'in) n) = (& _ 1)<br>
+let (_ m * 'in n *) = (& _ 1)<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 in compute n in (&#x1d543; m))
 </code></p>
 <p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a>, and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
 <p>In a Let <a>expression</a>, <span><code>m</code></span> is referred to as the "declarations" component and <span><code>n</code></span> is referred to as the "body".</p>
 </figure>
-<p>The declarations component of a Let <a>expression</a> are formed according to the following sequences...</p>
+<p>The body of a Let <a>expression</a> is not required to be nested within its own <a>expression</a>. 
+As presented in <a href="#Fig-">Figure _</a>, any <a href="terms.html#Expression">expression</a> component following the <a href="terms.html#Keyword">keyword</a>, <span><code>in</code></span> is treated as a <a href="terms.html#Component">component</a> of a single <a href="terms.html#Expression">expression</a> constructed using a Deconstructing Bind.</p>
+<p>The declarations component of a Let <a>expression</a> is formed according to the following sequences...</p>
 <ul>
 <li>Variable Bind: <span><code>'(''Symbol = ''Program)</code></span></li>
 <li>Deconstructing Bind: <span><code>'(''Expression = ''Collection)</code></span></li>
 <li>Symbolic Bind: <span><code>'(''Symbol : ''Program)</code></span></li>
 </ul>
-
+<h4><a href="#Variable-Bind" id="Variable-Bind">Variable Bind</a></h4>
+<p>A Variable Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a <a href="terms.html#Binding">binding</a> to the Let <a href="terms.html#Scope">scope</a> such that the <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Value">value</a>.</p>
+<h4><a href="#Deconstructing-Bind" id="Deconstructing-Bind">Deconstructing Bind</a></h4>
+<p>A Deconstructing Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a number of <a href="terms.html#Binding">bindings</a> to the Let <a href="terms.html#Scope">scope</a> which are <a href="terms.html#Field">fields</a> in the <a href="terms.html#Collection">collection</a> to the right of the <a href="terms.html#Keyword">keyword</a>.</p>
+<p>The <a href="terms.html#Identifier">identifiers</a> for the <a href="terms.html#Binding">bindings</a> created by a Deconstructing Bind are derived from the <a href="terms.html#Symbol">symbols</a> included in the <a href="terms.html#Program">program</a> to the left of the <a href="terms.html#Keyword">keyword</a> according to the following rules...</p>
+<ul>
+<li>An <a href="terms.html#Expression">expression</a> corresponds to a <a href="terms.html#Collection">collection</a>.</li>
+<li>A <a href="terms.html#Symbol">symbol</a> corresponds to an <a href="terms.html#Identifer">identifier</a> where the <a href="terms.html#Value">value</a> is the <a href="terms.html#Field">field</a> at the <a href="terms.html#Index">index</a> equivalent to the numerical order in which the <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Symbol">symbol</a> occurs in the <a href="terms.html#Program">program</a>.</li>
+<li>The <a href="terms.html#Keyword">keyword</a>, <span><code>*</code></span> corresponds to a <a href="terms.html#Collection">collection</a> of multiple <a href="terms.html#Fields">fields</a> constructed by the Deconstructing Bind process.
+The first <a>field</a> in the new <a>collection</a> corresponds to the <a>field</a> at the <a>index</a> equivalent to the numerical order in which the <a href="terms.html#Identifer">identifier</a> <a href="terms.html#Symbol">symbol</a> preceding the <a href="terms.html#Keyword">keyword</a> occurred in the <a href="terms.html#Program">program</a>.</li>
+<li>Any <a href="terms.html#Data">data</a> is considered an <a href="terms.html#Error">error</a> unless it occurs directly following the <span><code>*</code></span> <a href="terms.html#Keyword">keyword</a>, in which case the <a href="terms.html#Collection">collection</a> constructed by the <span><code>*</code></span> <a>keyword</a> will contain all <a>fields</a> in the <a>collection</a> beginning with the <a>field</a> at the corresponding <a>index</a> and ending with the first <a>field</a> which is a <a>subtype</a> of the <a>data</a>.
+Additionally, it is considered an <a>error</a> if the <a>collection</a> does not contain a <a>field</a> which is a <a>subtype</a> of the <a>data</a>.</li>
+<li>The <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span> will "claim" one or more <a href="terms.html#Field">fields</a> the <a href="terms.html#Collection">collection</a> as if it were a <a href="terms.html#Symbol">symbol</a>, but those <a href="terms.html#Field">fields</a> will not be <a href="terms.html#Binding">bound</a> and will not be accessible in the Let <a href="terms.html#Scope">scope</a> as <a href="terms.html#Value">values</a>.</li>
+</ul>
+<p>A Deconstructing Bind is not required to consume every <a>field</a> in a <a>collection</a>.
+If a <a href="terms.html#Collection">collection</a> contains a greater number of <a href="terms.html#Field">fields</a> than what is consumed by the Deconstructing Bind, those <a href="terms.html#Field">fields</a> are skipped as if they were consumed by the <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span></p>
+<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<h4><a href="#Symbolic-Bind" id="Symbolic-Bind">Symbolic Bind</a></h4>
+<p>A Symbolic Bind will establish an <a>identifier</a> in the Let <a>scope</a> which is <a>constrained</a>, but has no <a>value</a>.
+The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Constraining">constraining</a> <a href="terms.html#Type">type</a> such that a Symbolic Bind sequence, <span><code>x : T</code></span>, establishes a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Identifier">identifier</a> in an identical manner to the <a href="terms.html#Expression">expression</a>, <span><code>(x : T)</code></span>.</p>
+<figure>
+<figcaption>The following are examples of <a>bindings</a> established by declarations in Let <a>expressions</a>.</figcaption>
+<p><code>
+(let x = 1 y = 3 in x + y)
+</code></p>
+<p>Where <span><code>x</code></span> is <a href="terms.html#Binding">bound</a> to <span><code>1</code></span> and <span><code>y</code></span> is <a href="terms.html#Binding">bound</a> to <span><code>2</code></span> and the body is <span><code>x + y</code></span> which will <a href="terms.html#Evaluate">evaluate</a> to <span><code>3</code></span></p>
+<br>
+<p><code>
+(let x : Number in x + x)
+</code></p>
+<p>Where <span><code>x</code></span> is <a href="terms.html#Constraint">constrained</a> to the <a href="terms.html#Type">type</a> <span><code>Number</code></span> and the body is <span><code>x + x</code></span> which will <a href="terms.html#Evaluate">evaluate</a> to <span><code>Number</code></span>.</p>
+<br>
+<p><code>
+(let (_ * 3 a * 6 (b c) _ ((m n))) =<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;(collection 1 2 3 4 5 6<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection "x" "y")<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"z"<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection (collection 'k 'l) 'h 'i) 'j)<br> 
+&emsp;in<br>
+&emsp;&emsp;&emsp;&emsp;a + (collection b c m n))
+</code></p>
+<p>Where a Deconstructing Bind creates the <a>identifiers</a>, <span><code>a b c m n</code></span>, and the body <a>evaluates</a> to 
+<span><code>(collection 4 5 6 "x" "y" 'k 'l)</code></span></p>
+</figure>
 <h2><a>Control Expressions</a></h2>
 <h3><a href="#Application" id="Application">Application</a></h3>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
