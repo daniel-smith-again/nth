@@ -165,6 +165,7 @@ If a nested deconstructing <a href="terms.html#Expression">expression</a> is giv
 <p>A Deconstructing Bind is not required to consume every <a>field</a> in a <a>collection</a>.
 If a <a href="terms.html#Collection">collection</a> contains a greater number of <a href="terms.html#Field">fields</a> than what is consumed by the Deconstructing Bind, those <a href="terms.html#Field">fields</a> are skipped as if they were consumed by the <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span></p>
 <p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.</p>
 <h4><a href="#Symbolic-Bind" id="Symbolic-Bind">Symbolic Bind</a></h4>
 <p>A Symbolic Bind will establish an <a>identifier</a> in the Let <a>scope</a> which is <a>constrained</a>, but has no <a>value</a>.
 The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Constraining">constraining</a> <a href="terms.html#Type">type</a> such that a Symbolic Bind sequence, <span><code>x : T</code></span>, establishes a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Identifier">identifier</a> in an identical manner to the <a href="terms.html#Expression">expression</a>, <span><code>(x : T)</code></span>.</p>
@@ -379,8 +380,7 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 	The <a href="terms.html#Number">number</a> must be an <a href="terms.html#Instance">instance</a> of <code>Natural</code>.</li>
 	<li>The <a href="terms.html#Expression">expression</a> given to destructure a <a href="terms.html#Collection">collection</a> must not be <a href="terms.html#Evaluate">evaluated</a>.
 	All <a href="terms.html#Program-Model">Program Model</a> components of the <a href="terms.html#Expression">expression</a> shall be interpreted as destructuring commands according to this list of cases.</li>
-	</ul>
-	
+	</ul>	
 	<h2><a href="#Control" id="Control">Control Expressions</a></h2>
 	<p>There are a number of <a href="defaults.html#Expressions">default expressions</a> which do not correspond to <a href="terms.html#Operation">operations</a>, but instead affect how a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a>, in other words, they control the "flow" of evaluation. They are...</p>
 	<ul>
@@ -390,7 +390,6 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 	<li>quotation</li>
 	<li>computation</li>
 	</ul>
-	
 	<h3><a href="#Sequences" id="Sequences">Sequences</a></h3>
 	<a href="#Fig-7" id="Fig-7">Figure 7</a><figure>
 	<figcaption>The <a href="terms.html#Type">type</a> of the <a href="terms.html#Transform">transform</a> which implements Sequencing.</figcaption>
