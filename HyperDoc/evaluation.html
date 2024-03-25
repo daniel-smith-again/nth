@@ -124,7 +124,7 @@ The <a href="terms.html#Context">context</a> that Let establishes as the <a href
 ('(let '''(array Program)<br>
 &emsp;&emsp;&emsp;in '''(array Program)) -><br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-let (_ m  'in n *) = (& _ 1)<br>
+let (_ m * (_ : 'in) n *) = (& _ 1)<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 in compute n in (&#x1d543; m))
 </code></p>
@@ -165,10 +165,12 @@ If a nested deconstructing <a href="terms.html#Expression">expression</a> is giv
 <p>A Deconstructing Bind is not required to consume every <a>field</a> in a <a>collection</a>.
 If a <a href="terms.html#Collection">collection</a> contains a greater number of <a href="terms.html#Field">fields</a> than what is consumed by the Deconstructing Bind, those <a href="terms.html#Field">fields</a> are skipped as if they were consumed by the <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span></p>
 <p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
-<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.</p>
+<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.
+The <a href="terms.html#Binding">binding</a> <a href="terms.html#Expression">expression</a> in a Deconstructing Bind sequence effectively corresponds to a <a href="terms.html#Collection">collection</a> <a href="terms.html#Supertype">supertype</a> which the destructured <a href="terms.html#Collection">collection</a> must be an <a href="terms.html#Instance">instance</a> to avoid <a href="terms.html#Error">error</a>.</p>
 <h4><a href="#Symbolic-Bind" id="Symbolic-Bind">Symbolic Bind</a></h4>
-<p>A Symbolic Bind will establish an <a>identifier</a> in the Let <a>scope</a> which is <a>constrained</a>, but has no <a>value</a>.
+<p>A Symbolic Bind will establish an <a href="terms.html#Identifier">identifier</a> in the Let <a href="terms.html#Scope">scope</a> which is <a href="terms.html#Constraint">constrained</a>, but has no <a href="terms.html#Value">value</a>.
 The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Constraining">constraining</a> <a href="terms.html#Type">type</a> such that a Symbolic Bind sequence, <span><code>x : T</code></span>, establishes a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Identifier">identifier</a> in an identical manner to the <a href="terms.html#Expression">expression</a>, <span><code>(x : T)</code></span>.</p>
+<p>A Symbolic Bind must always <a>evaluate</a> the Let body using <a href="types.html#Abstract-Evaluation">Abstract Evaluation</a></p>
 <h4><a href="#Examples-of-Let-Expressions" id="Examples-of-Let-Expressions">Examples of Let Expressions</a></h4>
 <figure>
 <figcaption>The following are examples of <a>bindings</a> established by declarations in Let <a>expressions</a>.</figcaption>
@@ -183,7 +185,9 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 <p>Where <span><code>x</code></span> is <a href="terms.html#Constraint">constrained</a> to the <a href="terms.html#Type">type</a> <span><code>Number</code></span> and the body is <span><code>x + x</code></span> which will <a href="terms.html#Evaluate">evaluate</a> to <span><code>Number</code></span>.</p>
 <br>
 <p><code>
-(let (_ * 3 a * 6 (b c) _ ((m n))) =<br>
+(let ((_ : 3)<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(a : ((array *) +<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection 6))) (b c) _ ((m n))) =<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;(collection 1 2 3 4 5 6<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection "x" "y")<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"z"<br>
@@ -203,10 +207,31 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 <p><code>
 ('(''Function '''(array *)) -> *)
 </code></p>
-<p>Where the result of the <a href="terms.html#Transform">transform</a> is unspecified due to Application being the most primitive <a href="terms.html#Expression">expression</a>.</p>
+<p>Where the result of the <a href="terms.html#Transform">transform</a> is unspecified due to Application being <a href="terms.html#Rewrite">un-rewritable</a> to a more primitive <a href="terms.html#Expression">expression</a> <a href="terms.html#Expression">expression</a>.</p>
 </figure>
-<p>An Application <a>expression</a> will be <a>evaluated</a> by <a>resolving</a> the first <a>field</a> of the <a>expression</a> as a</p>
+<p>Given an Application <a href="terms.html#Expression">expression</a>, the first <a href="terms.html#Field">field</a> must <a href="terms.html#Resolve">resolve</a> to a <a href="terms.html#Function">function</a>.
+The following <a href="terms.html#Field">fields</a> may <a href="terms.html#Resolve">resolve</a> to anything, and must be used as <a href="terms.html#Parameter">parameters</a> in the order in which they occur as <a href="terms.html#Field">fields</a> in the <a href="terms.html#Expression">expression</a>.</p>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
+<p>The <a href="defaults.html#Expression">default expression</a>, Sequence, will <a href="terms.html#Evaluate">evaluate</a> multiple <a href="terms.html#Expression">expressions</a> in the order of their occurrence, in a single, newly created <a href="terms.html#Scope">scope</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Sequencing.</figcaption>
+<p><code>
+('(''Program , '''Program) -><br>
+&emsp;(let (First * (_ : ',) Rest *) = (& _ 1)<br>
+&emsp;&emsp;in<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&#x1d54a; First Rest))
+</code></p>
+<p>where the <a href="terms.html#Keyword">keyword</a>, <span><code>,</code></span> will be used to delimite multiple <a href="terms.html#Expression">expressions</a> where the <a href="terms.html#Expression">expression</a> preceding the <a href="terms.html#Keyword">keyword</a> must be completely <a href="terms.html#Evaluate">evaluated</a> before the <a href="terms.html#Program">program</a> following the <a href="terms.html#Keyword">keyword</a>.
+The <a href="terms.html#Operation">operation</a>, &#x1d54a; is <a href="terms.html#Implementation">implementation dependent</a> and will enforce the order of <a href="terms.html#Evaluate">evaluation</a>.
+It is required to assume that &#x1d54a; is recursive such that any further <span><code>,</code></span> <a href="terms.html#Keyword">keywords</a> occurring in the <a href="terms.html#Expression">expression</a> bound by <span><code>Rest</code></span> will be ordered and <a href="terms.html#Evaluate">evaluated</a> within the same <a href="terms.html#Context">context</a> created by the initial engagement of the <a href="terms.html#Operation">operation</a>.</p>
+</figure>
+<p>The result of <a href="terms.html#Evaluate">evaluating</a> a Sequence must be the result of <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">expression</a> where the last <a href="terms.html#Expression">expression</a> is one which is not followed by another <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.</p>
+<p>It is considered an <a href="terms.html#Error">error</a> if a <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a> is not followed by an <a href="terms.html#Expression">expression</a>.</p>
+<p>As presented in <a>Figure _</a>, a Sequence <a href="terms.html#Expression">expression</a> will group <a href="terms.html#Field">fields</a> into separate <a href="terms.html#Expression">expressions</a> where each <a href="terms.html#Expression">expression</a> includes all <a href="terms.html#Field">fields</a> up to the next <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.
+This is such that</p>
+<p><code>(f x , g y , h z)</code></p> 
+<p>is synonymous to</p>
+<p><code>((f x), (g y), (h z))</code>.</p>
 <h3><a href="#Branching" id="Branching">Branching</a></h3>
 <h3><a href="#Inversion" id="Inversion">Inversion</a></h3>
 
