@@ -1099,3 +1099,26 @@ I mean if I have
 (a = ((from 1 to 100) ; 10000))
 then a slice of a would be 
 ((a' : ((? (a _ 1)) ; 877)) = (@ (@ a _ 39)))
+
+
+what is my deconstructing bind syntax?
+I can have symbols and nil correspond to fields in a collection
+(a b (_ c)) = (collection 1 2 (collection 3 4))
+a = 1, b = 2, c = 4
+
+If I want to copy an array, I have to do something like 
+(a *) 
+which binds a to every index in the collection.
+
+I can delimit a by adding a constraint.
+((a : (array * 5)) *) where a can only contain 5 indicies from the collection.
+
+
+What if I had a collection, M, and I wanted to take the first and last thing?
+(a (_ : ((# M) - 2)) b) = M
+that gives me the first and last things.
+How am I allowed to constrain nil? 
+because it's not being treated as nil in this context, it's a placeholder symbol that says not to create an actual binding.
+How to destructure a let expression?
+
+(let (_ m * (_ : 'in) n *) = (& _ 1))
