@@ -17,8 +17,8 @@ p{text-align:justify-all;}
 code{color:var(--lfg);font-family:monospace;font-size:calc(var(--scale) * 0.5);}
 figure{border:solid 0.2ch var(--fg);display:block;}
 figcaption{text-align:center;border-bottom:solid 0.2ch var(--fg);border-radius:0;margin-bottom:1ch;}
-figure > p code {text-align:left;width:fit-content;margin-left:auto;margin-right:auto;display:block;}
-figure > p span code {display:inline;}
+p code {text-align:left;width:fit-content;margin-left:auto;margin-right:auto;display:block;}
+p span code {display:inline;}
 hr{color:var(--fg);border-style:solid;border-width:0.2ch;border-top-style:none;width:69%;}
 a{text-decoration:none;color:inherit;padding:none;display:inline;}
 li{text-align:left;}

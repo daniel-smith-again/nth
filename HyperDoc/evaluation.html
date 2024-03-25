@@ -63,8 +63,8 @@ At any given point during <a href="terms.html#Evaluate">evaluation</a>, the curr
 <figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Definition.</figcaption>
 <p><code>
-('(define ''Symbol ''*) -> (let (_ &#x1d456; &#x1d463;) = (& _ 1) in '(&#x1d553; ''&#x1d456; ''&#x1d463;)))<br>
-('(define ''Function) -> (let (_ &#x1d461;) = (& _ 1) in '(&#x1d53d; ''&#x1d461;)))
+('(define ''Symbol ''*) -> (let (_ &#x1d456; &#x1d463;) = (&amp; _ 1) in '(&#x1d553; ''&#x1d456; ''&#x1d463;)))<br>
+('(define ''Function) -> (let (_ &#x1d461;) = (&amp; _ 1) in '(&#x1d53d; ''&#x1d461;)))
 </code></p>
 <p>There are two <a href="terms.html#Transform">transforms</a> which <a href="terms.html#Implement">implement</a> Definition.</p>
 <p>The first will create a <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Top-Level">top level</a> using the <a href="terms.html#Symbol">symbol</a>, &#x1d456; as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a>, &#x1d463; as the <a href="terms.html#Value">value</a>.
@@ -80,7 +80,7 @@ The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavio
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Assignment.</figcaption>
 <p><code>
 ('(''Symbol = ''Program) -><br>
-&emsp;let (m _ n) = (& _ 1)<br>
+&emsp;let (m _ n) = (&amp; _ 1)<br>
 &emsp;in<br>
 &emsp;&emsp;&emsp;'(&#x1d559; ''m ''n)) 
 </code></p>
@@ -124,7 +124,7 @@ The <a href="terms.html#Context">context</a> that Let establishes as the <a href
 ('(let '''(array Program)<br>
 &emsp;&emsp;&emsp;in '''(array Program)) -><br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-let (_ m * (_ : 'in) n *) = (& _ 1)<br>
+let (_ m * (_ : 'in) n *) = (&amp; _ 1)<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 in compute n in (&#x1d543; m))
 </code></p>
@@ -217,7 +217,7 @@ The following <a href="terms.html#Field">fields</a> may <a href="terms.html#Reso
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Sequencing.</figcaption>
 <p><code>
 ('(''Program , '''Program) -><br>
-&emsp;(let (First * (_ : ',) Rest *) = (& _ 1)<br>
+&emsp;(let (First * (_ : ',) Rest *) = (&amp; _ 1)<br>
 &emsp;&emsp;in<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&#x1d54a; First Rest))
 </code></p>
@@ -231,8 +231,25 @@ It is required to assume that &#x1d54a; is recursive such that any further <span
 This is such that</p>
 <p><code>(f x , g y , h z)</code></p> 
 <p>is synonymous to</p>
-<p><code>((f x), (g y), (h z))</code>.</p>
+<p><code>((f x), (g y), (h z))</code></p>
+<p>A Sequence should have the same behavior as the function,</p>
+<p><code>(-> ? (# &amp;)<br>
+&emsp;&emsp;&emsp;&emsp;1 (&amp; _ 1)<br>
+&emsp;&emsp;&emsp;&emsp;Number (let (_ s *) = &amp;<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;in<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&amp; s))</code></p>
 <h3><a href="#Branching" id="Branching">Branching</a></h3>
+<p>The Branching <a href="defaults.html#Expressions">default expression</a> will chose one of a number of <a href="terms.html#Program">programs</a> to <a href="terms.html#Evalaute">evaluate</a> based on a <a href="terms.html#Boolean">boolean</a> <a>value</a> or <a href="terms.html#Instance">instance</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Branching.</figcaption>
+<p><code>
+('(? ''* '''(array Program)) -><br>
+&emsp;let (_ Cond Case *) = (&amp; _ 1)<br>
+&emsp;in<br>
+&emsp;&emsp;&emsp;&emsp;&#x1d568; Cond Case)
+</code></p>
+<p>Where &#x1d568; is an <a href="terms.html#Operator">operation</a> which checks the <a href="terms.html#Type">type</a> of <span><code>Cond</code></span> and <a href="terms.html#Evaluate">evaluates</a> one of the <a href="terms.html#Expression">expressions</a> which is a <a href="terms.html#Field">field</a> in <span><code>Case</code></span>.</p> 
+</figure>
 <h3><a href="#Inversion" id="Inversion">Inversion</a></h3>
 
 

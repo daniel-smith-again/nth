@@ -1122,3 +1122,17 @@ because it's not being treated as nil in this context, it's a placeholder symbol
 How to destructure a let expression?
 
 (let (_ m * (_ : 'in) n *) = (& _ 1))
+
+
+conditional syntax....
+
+if b then x
+if b then x else y
+? b x
+? b x y
+
+
+
+? b x
+? b x y
+? m a x b y c z
