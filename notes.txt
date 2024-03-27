@@ -1136,3 +1136,16 @@ if b then x else y
 ? b x
 ? b x y
 ? m a x b y c z
+
+
+assignment needs to create a binding, but must also be identical to simply giving the identifier.
+
+
+what to do with a nullary inversion?
+
+((h = (r x -> (r x) + 1) >> (h 1))
+
+this is the identity.
+(let h = (r x -> r x) 
+ in
+   h >> h 1)
