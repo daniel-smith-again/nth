@@ -9,8 +9,20 @@
 	<a id="prev" href="types.html">&#x261a;</a>
 	<a id="up" href="index.html">&centerdot;</a>
 
-	<h1><a href="#Functions" id="Functions">Functions</a></h1>
-	<p>A <a href="terms.html#Function">function</a> encapsulates a single stage of <a href="terms.html#Evaluate">evaluation</a>. <a href="terms.html#Application">Application</a> of a <a href="terms.html#Function">function</a> implies that that stage occurs during <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Program">program</a>.</p>
-	<p>All <a href="terms.html#Expression">expressions</a> in a <a href="terms.html#Program">program</a> ultimately correspond to the <a href="terms.html#Application">application</a> of some <a href="terms.html#Function">function</a>.</p>
-	
+<h1><a href="#Functions" id="Functions">Functions</a></h1>
+<p>A <a href="terms.html#Function">function</a> is <a href="terms.html#Data">data</a> that encapsulates a <a href="terms.html#Program">program</a> such that it can be arbitrarily <a href="terms.html#Evaluate">evaluated</a> as a discrete or intermediary part of a larger <a href="terms.html#Program">program</a>.</p>
+<h2><a href="#Constructing-Functions" id="Constructing-Functions">Constructing Functions</a></h2>
+<p>The <a href="defaults.html#Expressions">default expression</a> which constructs <a href="terms.html#Function">functions</a> will accept a list of <a href="terms.html#Symbol">symbols</a> and <a href="terms.html#Expression">expressions</a> referred to as Arguments followed by a <a href="terms.html#Program">program</a> referred to as the Body.</p>
+<p>The <a href="defaults.html#Expressions">default expression</a> for constructing <a href="terms.html#Function">functions</a> is called Lammbda.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Lambda.</figcaption>
+<p><code>
+('('''Program -> '''Program) -> Function)
+</code></p>
+</figure>
+<p>The number of Arguments in a given Lambda corresponds to the number of <a href="terms.html#Parameter">parameters</a> required to <a href="terms.html#Apply">apply</a> that <a href="terms.html#Function">function</a>.</p>
+<p>An Argument may either be a <a href="terms.html#Symbol">symbol</a> or an <a href="terms.html#Expression">expression</a>.
+If an Argument is a <a href="terms.html#Symbol">symbol</a>, it will be used as an <a href="terms.html#Identifier">identifier</a> to <a href="terms.html#Bind">bind</a> a <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Value">value</a>.
+If an Argument is an <a href="terms.html#Expression">expression</a>, it will be used as a <a href="terms.html#Constraint">constraint</a> on which <a href="terms.html#Value">values</a> are accepted as <a href="terms.html#Parameter">parameters</a> in an <a href="terms.html#Application">application</a>.</p>
+<h2><a href="#Function-Application" id="Function-Application">Function Application</a></h2>
 </body>

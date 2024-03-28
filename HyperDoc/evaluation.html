@@ -11,20 +11,20 @@
 
 
 <h1><a href="#Evaluation" id="Evaluation">Evaluation</a></h1>
-<p><a>Evaluation</a> is the abstract process of replacing <a>Program Model</a> components with their corresponding semantic <a href="terms.html#Reduce">reductions</a>.</p>
-<p>All <a href="Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> are comprised of <a href="terms.html#Expression">expressions</a> and <a href="terms.html#Data">data</a>.
+<a href="#1-1" id="1-1">1-1</a><p><a>Evaluation</a> is the abstract process of replacing <a>Program Model</a> components with their corresponding semantic <a href="terms.html#Reduce">reductions</a>.</p>
+<a href="#1-2" id="1-2">1-2</a><p>All <a href="Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> are comprised of <a href="terms.html#Expression">expressions</a> and <a href="terms.html#Data">data</a>.
 <a href="terms.html#Data">Data</a> will always <a href="terms.html#Evaluate">evaluate</a> to itself as if no <a href="terms.html#Evaluate">evaluation</a> had taken place.
 <a href="terms.html#Expression">Expressions</a> are <a href="terms.html#Evaluate">evaluated</a> by first <a href="terms.html#Rewrite">rewriting</a> and then <a href="terms.html#Reduce">reduction</a>.
 <a href="terms.html#Evaluate">Evaluation</a> will always yield a <a href="terms.html#Data">data</a> result when completed.</p>
 <h2><a href="#Rewriting" id="Rewriting">Rewriting</a></h2>
-<p>An <a href="terms.html#Expression">expression</a> which is being <a href="terms.html#Evaluate">evaluated</a> must first be <a href="terms.html#Rewrite">rewritten</a>.</p>
-<p>An <a href="terms.html#Expression">expression</a> is <a href="terms.html#Rewrite">rewritten</a> by testing it against the <a href="terms.html#Type">type</a> <a href="terms.html#Constraint">constraining</a> the <a href="terms.html#Parameter">parameter</a> of a <a href="terms.html#Transform">transform</a>.
+<a href="#2-1" id="2-1">2-1</a><p>An <a href="terms.html#Expression">expression</a> which is being <a href="terms.html#Evaluate">evaluated</a> must first be <a href="terms.html#Rewrite">rewritten</a>.</p>
+<a href="#2-2" id="2-2">2-2</a><p>An <a href="terms.html#Expression">expression</a> is <a href="terms.html#Rewrite">rewritten</a> by testing it against the <a href="terms.html#Type">type</a> <a href="terms.html#Constraint">constraining</a> the <a href="terms.html#Parameter">parameter</a> of a <a href="terms.html#Transform">transform</a>.
 If the <a href="terms.html#Expression">expression</a> is an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Constraint">constraint</a>, then the <a href="terms.html#Transform">transform</a> is <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>.
 If there are no <a href="terms.html#Transform">transforms</a> which can be <a href="terms.html#Application">applied</a> to the <a href="terms.html#Expression">expression</a>, then the <a href="terms.html#Rewrite">rewrite</a> stage of <a href="terms.html#Evaluate">evaluation</a> is complete.</p>
-<p>If a <a href="terms.html#Transform">transform</a> is applied to an <a href="terms.html#Expression">expression</a>, the <a href="terms.html#Expression">expression</a> will be replaced with result of the <a href="terms.html#Application">application</a>.</p>
-<p>If the result of a <a href="terms.html#Transform">transform</a> <a>application</a> is <span><code>_</code></span>, then the <a href="terms.html#Expression">expression</a> will be removed from the <a href="terms.html#Program">program</a> and <a href="terms.html#Discard">discarded</a>.</p>
-<p>Given an <a href="terms.html#Expression">expression</a> which is a possible <a href="terms.html#Parameter">parameter</a> to more than one <a href="terms.html#Transform">transform</a>, the <a href="terms.html#Transform">transform</a> which is a <a href="terms.html#Subtype">subtype</a> of every other <a href="terms.html#Constraint">constraint</a> will be <a href="terms.html#Application">applied</a>.</p>
-<figure>
+<a href="#2-3" id="2-3">2-3</a><p>If a <a href="terms.html#Transform">transform</a> is applied to an <a href="terms.html#Expression">expression</a>, the <a href="terms.html#Expression">expression</a> will be replaced with result of the <a href="terms.html#Application">application</a>.</p>
+<a href="#2-4" id="2-4">2-4</a><p>If the result of a <a href="terms.html#Transform">transform</a> <a>application</a> is <span><code>_</code></span>, then the <a href="terms.html#Expression">expression</a> will be removed from the <a href="terms.html#Program">program</a> and <a href="terms.html#Discard">discarded</a>.</p>
+<a href="#2-5" id="2-5">2-5</a><p>Given an <a href="terms.html#Expression">expression</a> which is a possible <a href="terms.html#Parameter">parameter</a> to more than one <a href="terms.html#Transform">transform</a>, the <a href="terms.html#Transform">transform</a> which is a <a href="terms.html#Subtype">subtype</a> of every other <a href="terms.html#Constraint">constraint</a> will be <a href="terms.html#Application">applied</a>.</p>
+<a href="#Fig-1" id="Fig-1">Figure 1</a><figure>
 <figcaption>An example of the <a href="terms.html#Subtype">subtype</a> <a href="terms.html#Constraint">constraint</a> being chosen from multiple possible <a href="terms.html#Transform">transforms</a>.</figcaption>
 <p><code>
 (define '(a ''(x)) f)<br>
@@ -35,32 +35,32 @@ If there are no <a href="terms.html#Transform">transforms</a> which can be <a hr
 The <a href="terms.html#Transform">transform</a> using <span><code>g</code></span> is the smallest <a href="terms.html#Constraint">constraint</a> and thus is <a href="terms.html#Application">applied</a> to the <a href="terms.html#Program">program</a> <span><code>(a b c)</code></span>.</p>
 </figure>
 <h2><a href="#Reduction" id="Reduction">Reduction</a></h2>
-<p>Given a <a href="terms.html#Program">program</a> which is comprised of at least one <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Reduce">reduced</a> according to the <a href="terms.html#Semantics">semantics</a> associated with that <a href="terms.html#Expression">expression</a>.</p>
-<p>A <a>program</a> consisting of only <a href="terms.html#Data">data</a>, a <a href="terms.html#Symbol">symbol</a>, <a href="terms.html#Number">number</a>, <a href="terms.html#String">string</a>, or <a href="terms.html#Quote">quote</a>, will always <a href="terms.html#Reduce">reduce</a> to that <a href="terms.html#Data">data</a>.
+<a href="#3-1" id="3-1">3-1</a><p>Given a <a href="terms.html#Program">program</a> which is comprised of at least one <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Reduce">reduced</a> according to the <a href="terms.html#Semantics">semantics</a> associated with that <a href="terms.html#Expression">expression</a>.</p>
+<a href="#3-2" id="3-2">3-2</a><p>A <a>program</a> consisting of only <a href="terms.html#Data">data</a>, a <a href="terms.html#Symbol">symbol</a>, <a href="terms.html#Number">number</a>, <a href="terms.html#String">string</a>, or <a href="terms.html#Quote">quote</a>, will always <a href="terms.html#Reduce">reduce</a> to that <a href="terms.html#Data">data</a>.
 Thus no <a href="terms.html#Resource">resources</a> should be used when <a href="terms.html#Evaluate">evaluating</a> <a href="terms.html#Data">data</a>.</p>
-<p>An <a href="terms.html#Expression">expression</a> may only be <a href="terms.html#Reduce">reduced</a> if it is a <a href="defaults.html#Expressions">default expression</a>.</p>
-<p>An <a href="terms.html#Expression">expression</a> which is not a <a href="defaults.html#Expressions">default expression</a> may be <a href="terms.html#Rewrite">rewritten</a> if it can be accepted by a <a href="terms.html#Transform">transform</a>.</p>
-<p>An <a>expression</a> which can be <a href="terms.html#Reduce">reduced</a> will consist of <a href="terms.html#Keyword">keywords</a>, <a href="terms.html#Identifier">identifiers</a>, and other <a href="terms.html#Expression">expressions</a>.</p>
-<p>An <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Reduce">reduced</a> in every case by the <a href="terms.html#Value">value</a> <a href="terms.html#Binding">bound</a> to it in the <a href="terms.html#Scope">scope</a>.</p>
+<a href="#3-3" id="3-3">3-3</a><p>An <a href="terms.html#Expression">expression</a> may only be <a href="terms.html#Reduce">reduced</a> if it is a <a href="defaults.html#Expressions">default expression</a>.</p>
+<a href="#3-4" id="3-4">3-4</a><p>An <a href="terms.html#Expression">expression</a> which is not a <a href="defaults.html#Expressions">default expression</a> may be <a href="terms.html#Rewrite">rewritten</a> if it can be accepted by a <a href="terms.html#Transform">transform</a>.</p>
+<a href="#3-5" id="3-5">3-5</a><p>An <a>expression</a> which can be <a href="terms.html#Reduce">reduced</a> will consist of <a href="terms.html#Keyword">keywords</a>, <a href="terms.html#Identifier">identifiers</a>, and other <a href="terms.html#Expression">expressions</a>.</p>
+<a href="#3-6" id="3-6">3-6</a><p>An <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Reduce">reduced</a> in every case by the <a href="terms.html#Value">value</a> <a href="terms.html#Binding">bound</a> to it in the <a href="terms.html#Scope">scope</a>.</p>
 <h3><a href="#Resolution" id="Resolution">Resolution</a></h3>
-<p>The <a href="terms.html#Semantics">semantics</a> with which an <a href="terms.html#Expression">expression</a> is <a href="terms.html#Reduce">reduced</a> may involve treating some <a href="terms.html#Field">fields</a> as <a href="terms.html#Value">values</a>.
+<a href="#4-1" id="4-1">4-1</a><p>The <a href="terms.html#Semantics">semantics</a> with which an <a href="terms.html#Expression">expression</a> is <a href="terms.html#Reduce">reduced</a> may involve treating some <a href="terms.html#Field">fields</a> as <a href="terms.html#Value">values</a>.
 If those <a href="terms.html#Field">fields</a> are not <a href="terms.html#Data">data</a>, but are instead <a href="terms.html#Program">programs</a>, then the process of <a href="terms.html#Resolve">resolution</a> will add additional <a href="terms.html#Evaluate">evaluations</a> in order to <a href="terms.html#Reduce">reduce</a> those <a href="terms.html#Field">fields</a> to <a href="terms.html#Data">data</a> before <a href="terms.html#Reduce">reducing</a> the actual <a href="terms.html#Expression">expression</a>.</p>
-<p>Given an <a href="terms.html#Expression">expression</a> which contains a <a href="terms.html#Field">field</a> that is another <a href="terms.html#Expression">expression</a>, and that <a href="terms.html#Field">field</a> is used as a <a href="terms.html#Value">value</a> when <a href="terms.html#Rewriting">rewriting</a> the <a href="terms.html#Expression">expression</a>, the process of <a href="terms.html#Rewriting">rewriting</a> the <a href="terms.html#Expression">expression</a> is deferred and then <a href="terms.html#Field">field</a> <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a> first.
+<a href="#4-2" id="4-2">4-2</a><p>Given an <a href="terms.html#Expression">expression</a> which contains a <a href="terms.html#Field">field</a> that is another <a href="terms.html#Expression">expression</a>, and that <a href="terms.html#Field">field</a> is used as a <a href="terms.html#Value">value</a> when <a href="terms.html#Rewriting">rewriting</a> the <a href="terms.html#Expression">expression</a>, the process of <a href="terms.html#Rewriting">rewriting</a> the <a href="terms.html#Expression">expression</a> is deferred and then <a href="terms.html#Field">field</a> <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a> first.
 Once <a href="terms.html#Evaluate">evaluation</a> of the <a href="terms.html#Field">field</a> <a href="terms.html#Expression">expression</a> has produced a result, the outer <a href="terms.html#Expression">expression</a> will be <a href="terms.html#Rewrite">rewritten</a> using the result as a <a href="terms.html#Value">value</a> in place of the <a href="terms.html#Field">field</a>.</p>
-<p>Given an <a href="terms.html#Expression">expression</a> which contains a <a href="terms.html#Field">field</a> that is a <a href="terms.html#Symbol">symbol</a>, and that <a href="terms.html#Field">field</a> is used as a <a href="terms.html#Value">value</a> when <a href="terms.html#Rewrite">rewriting</a> the <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Symbol">symbol</a> is assumed to be an <a href="terms.html#Identifier">identifier</a> and the process of <a href="terms.html#Rewrite">rewriting</a> the <a href="terms.html#Expression">expression</a> is deferred and then the <a href="terms.html#Scope">scope</a> is searched for a <a href="terms.html#Binding">binding</a> using that <a href="terms.html#Identifier">identifier</a>. 
+<a href="#4-3" id="4-3">4-3</a><p>Given an <a href="terms.html#Expression">expression</a> which contains a <a href="terms.html#Field">field</a> that is a <a href="terms.html#Symbol">symbol</a>, and that <a href="terms.html#Field">field</a> is used as a <a href="terms.html#Value">value</a> when <a href="terms.html#Rewrite">rewriting</a> the <a href="terms.html#Expression">expression</a>, that <a href="terms.html#Symbol">symbol</a> is assumed to be an <a href="terms.html#Identifier">identifier</a> and the process of <a href="terms.html#Rewrite">rewriting</a> the <a href="terms.html#Expression">expression</a> is deferred and then the <a href="terms.html#Scope">scope</a> is searched for a <a href="terms.html#Binding">binding</a> using that <a href="terms.html#Identifier">identifier</a>. 
 When the <a href="terms.html#Binding">binding</a> is found, the <a href="terms.html#Expression">expression</a> will be <a href="terms.html#Rewrite">rewritten</a> using the <a href="terms.html#Value">value</a> for that <a href="terms.html#Binding">binding</a> in place of the <a href="terms.html#Field">field</a>.</p>
 <h2><a href="#Contexts" id="Contexts">Contexts</a></h2>
-<p>A <a href="terms.html#Context">context</a> is a group of <a href="terms.html#Binding">bindings</a> which represents the <a href="terms.html#Value">values</a> which should be accessible to <a href="terms.html#Evaluate">evaluation</a> when attempting to <a href="terms.html#Resolve">resolve</a> an <a href="terms.html#Identifier">identifier</a>.</p>
-<p>Multiple <a href="terms.html#Context">contexts</a> may exists during <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Program">program</a>.</p>
-<p>A single <a href="terms.html#Context">context</a> will only ever be used when <a href="terms.html#Resolve">resolving</a> an <a href="terms.html#Identifier">identifier</a>.
+<a href="#5-1" id="5-1">5-1</a><p>A <a href="terms.html#Context">context</a> is a group of <a href="terms.html#Binding">bindings</a> which represents the <a href="terms.html#Value">values</a> which should be accessible to <a href="terms.html#Evaluate">evaluation</a> when attempting to <a href="terms.html#Resolve">resolve</a> an <a href="terms.html#Identifier">identifier</a>.</p>
+<a href="#5-2" id="5-2">5-2</a><p>Multiple <a href="terms.html#Context">contexts</a> may exists during <a href="terms.html#Evaluate">evaluation</a> of a <a href="terms.html#Program">program</a>.</p>
+<a href="#5-3" id="5-3">5-3</a><p>A single <a href="terms.html#Context">context</a> will only ever be used when <a href="terms.html#Resolve">resolving</a> an <a href="terms.html#Identifier">identifier</a>.
 At any given point during <a href="terms.html#Evaluate">evaluation</a>, the current <a href="terms.html#Context">context</a> to be used is referred to as the <a href="terms.html#Scope">scope</a>.</p>
-<p>The <a href="terms.html#Semantics">semantics</a> of some <a href="defaults.html#Expressions">default expressions</a> may create, <a href="terms.html#Discard">discard</a>, or move <a href="terms.html#Context">contexts</a>.</p>
-<p>The <a href="terms.html#Binding">bindings</a> which must be included in a <a href="terms.html#Scope">scope</a> are directly correlated to the outer <a href="terms.html#Expression">expressions</a> which have created <a href="terms.html#Binding">bindings</a> before <a href="terms.html#Evaluate">evaluating</a> their nested <a href="terms.html#Expression">expressions</a>.</p>
-<p>If an <a href="terms.html#Identifier">identifier</a> is given in a <a href="defaults.html#Expressions">default expression</a> which was not previously <a href="terms.html#Binding">bound</a> in an outer <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<a href="#5-4" id="5-4">5-4</a><p>The <a href="terms.html#Semantics">semantics</a> of some <a href="defaults.html#Expressions">default expressions</a> may create, <a href="terms.html#Discard">discard</a>, or move <a href="terms.html#Context">contexts</a>.</p>
+<a href="#5-5" id="5-5">5-5</a><p>The <a href="terms.html#Binding">bindings</a> which must be included in a <a href="terms.html#Scope">scope</a> are directly correlated to the outer <a href="terms.html#Expression">expressions</a> which have created <a href="terms.html#Binding">bindings</a> before <a href="terms.html#Evaluate">evaluating</a> their nested <a href="terms.html#Expression">expressions</a>.</p>
+<a href="#5-6" id="5-6">5-6</a><p>If an <a href="terms.html#Identifier">identifier</a> is given in a <a href="defaults.html#Expressions">default expression</a> which was not previously <a href="terms.html#Binding">bound</a> in an outer <a href="terms.html#Expression">expression</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 <h2><a>Bindings</a></h2>
 <h3><a href="#Definition" id="Definition">Definition</a></h3>
-<p>The <a>default expression</a>, Definition, will create a <a>binding</a> in the <a href="terms.html#Top-Level">Top Level</a>.</p>
-<figure>
+<a href="#6-1" id="6-1">6-1</a><p>The <a>default expression</a>, Definition, will create a <a>binding</a> in the <a href="terms.html#Top-Level">Top Level</a>.</p>
+<a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Definition.</figcaption>
 <p><code>
 ('(define ''Symbol ''*) -> (let (_ &#x1d456; &#x1d463;) = (&amp; _ 1) in '(&#x1d553; ''&#x1d456; ''&#x1d463;)))<br>
@@ -72,11 +72,11 @@ The <a href="terms.html#Function">function</a>, &#x1d553;, fulfills this behavio
 <p>The second will add a <a>transform</a>, &#x1d461; to the <a>top level</a>. 
 The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavior and is <a href="terms.html#Implementation">implementation dependent</a>.</p>
 </figure>
-<p>Definition will not change the <a href="terms.html#Image">image</a> which is the current <a href="terms.html#Top-Level">top level</a>.</p>
-<p>The <a href="terms.html#Binding">binding</a> established by Definition cannot be included in any <a href="terms.html#Scope">scope</a> until the Definition <a href="terms.html#Expression">expression</a> has been <a href="terms.html#Evaluate">evaluated</a>.</p>
+<a href="#6-2" id="6-2">6-2</a><p>Definition will not change the <a href="terms.html#Image">image</a> which is the current <a href="terms.html#Top-Level">top level</a>.</p>
+<a href="#6-3" id="6-3">6-3</a><p>The <a href="terms.html#Binding">binding</a> established by Definition cannot be included in any <a href="terms.html#Scope">scope</a> until the Definition <a href="terms.html#Expression">expression</a> has been <a href="terms.html#Evaluate">evaluated</a>.</p>
 <h3><a href="#Assignment" id="Assignment">Assignment</a></h3>
-<p>Assignment is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>.</p>
-<figure>
+<a href="#7-1" id="7-1">7-1</a><p>Assignment is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>.</p>
+<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Assignment.</figcaption>
 <p><code>
 ('(''Symbol = ''Program) -><br>
@@ -86,17 +86,17 @@ The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavio
 </code></p>
 <p>where &#x1d559; is an <a href="terms.html#Implementation">implementation defined</a> <a href="terms.html#Operation">operation</a> which establishes the <a href="terms.html#Binding">binding</a>.</p>
 </figure>
-<p>Assignment cannot <a href="terms.html#Shadow">shadow</a> an existing <a href="terms.html#Binding">binding</a>. 
+<a href="#7-2" id="7-2">7-2</a><p>Assignment cannot <a href="terms.html#Shadow">shadow</a> an existing <a href="terms.html#Binding">binding</a>. 
 If the <a href="terms.html#Symbol">symbol</a> given to Assignment as the <a href="terms.html#Identifier">identifier</a> is already used by an existing <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
-<p>Assignment may be <a href="terms.html#Resolved">resolved</a> as an <a href="terms.html#Identifier">identifier</a>.
+<a href="#7-3" id="7-3">7-3</a><p>Assignment may be <a href="terms.html#Resolved">resolved</a> as an <a href="terms.html#Identifier">identifier</a>.
 When an Assignment <a href="terms.html#Expression">expression</a> appears as a <a href="terms.html#Field">field</a> which must be <a href="terms.html#Resolve">resolved</a>, it must be <a href="terms.html#Evaluated">evaluated</a>, but may be treated as a <a href="terms.html#Symbol">symbol</a> such that
 <code>(1 + (x = 2))</code>
 is <a>evaluated</a> as 
 <code>(let x = 2 in (1 + x))</code></p>
-<p>Given multiple <a href="terms.html#Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> in a single <a href="terms.html#Scope">scope</a>, an Assignment <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Evaluate">evaluated</a> in the order in which the <a href="terms.html#Identifier">identifier</a> it <a href="terms.html#Binding">binds</a> first occurs.
+<a href="#7-4" id="7-4">7-4</a><p>Given multiple <a href="terms.html#Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> in a single <a href="terms.html#Scope">scope</a>, an Assignment <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Evaluate">evaluated</a> in the order in which the <a href="terms.html#Identifier">identifier</a> it <a href="terms.html#Binding">binds</a> first occurs.
 In general, an Assignment, <span><code>(x = a)</code></span> and the first occurrence of the <a href="terms.html#Identifier">identifier</a>, <span><code>x</code></span>, may be swapped such that the first occurrence of <span><code>x</code></span> is the Assignment <a href="terms.html#Expression">expression</a>.
 If the first occurrence of the <a href="terms.html#Identifer">identifier</a> is not in the same <a href="terms.html#Scope">scope</a> as the Assignment, they cannot be swapped.</p>
-<figure>
+<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
 <figcaption>An example of when Assignment may "swapped" or <a href="terms.html#Evaluate">evaluated</a> in a different order.</figcaption>
 <p><code>
 (k = z + 1<br>
@@ -121,9 +121,9 @@ If the first occurrence of the <a href="terms.html#Identifer">identifier</a> is 
 </code></p>
 </figure>
 <h3><a href="#Let" id="Let">Let</a></h3>
-<p>Let is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Context">context</a>, establish some <a href="terms.html#Bindings">bindings</a> in that <a href="terms.html#Context">context</a>, and then use that <a href="terms.html#Context">context</a> as the <a href="terms.html#Scope">scope</a> to <a href="terms.html#Evaluate">evaluate</a> an <a href="terms.html#Expression">expression</a>.
+<a href="#8-1" id="8-1">8-1</a><p>Let is a <a href="defaults.html#Expressions">default expression</a> which will create a new <a href="terms.html#Context">context</a>, establish some <a href="terms.html#Bindings">bindings</a> in that <a href="terms.html#Context">context</a>, and then use that <a href="terms.html#Context">context</a> as the <a href="terms.html#Scope">scope</a> to <a href="terms.html#Evaluate">evaluate</a> an <a href="terms.html#Expression">expression</a>.
 The <a href="terms.html#Context">context</a> that Let establishes as the <a href="terms.html#Scope">scope</a> is referred to as the Let <a href="terms.html#Scope">scope</a>.</p>
-<figure>
+<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Let.</figcaption>
 <p><code>
 ('(let '''(array Program)<br>
@@ -136,21 +136,21 @@ in compute n in (&#x1d543; m))
 <p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a>, and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
 <p>In a Let <a>expression</a>, <span><code>m</code></span> is referred to as the "declarations" component and <span><code>n</code></span> is referred to as the "body".</p>
 </figure>
-<p>The body of a Let <a>expression</a> is not required to be nested within its own <a>expression</a>. 
-As presented in <a href="#Fig-">Figure _</a>, any <a href="terms.html#Program">program</a> component following the <a href="terms.html#Keyword">keyword</a>, <span><code>in</code></span> is treated as a <a href="terms.html#Component">component</a> of a single <a href="terms.html#Expression">expression</a> constructed using a Deconstructing Bind.</p>
-<p>The result of <a href="terms.html#Evaluate">evaluating</a> a Let <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> the body in the Let <a href="terms.html#Scope">scope</a>.</p>
-<p>The declarations component of a Let <a>expression</a> is formed according to the following sequences...</p>
+<a href="#8-2" id="8-2">8-2</a><p>The body of a Let <a href="terms.html#Expression">expression</a> is not required to be nested within its own <a>expression</a>. 
+As presented in <a href="#Fig-5">Figure 5</a>, any <a href="terms.html#Program">program</a> component following the <a href="terms.html#Keyword">keyword</a>, <span><code>in</code></span> is treated as a <a href="terms.html#Component">component</a> of a single <a href="terms.html#Expression">expression</a> constructed using a Deconstructing Bind.</p>
+<a href="#8-3" id="8-3">8-3</a><p>The result of <a href="terms.html#Evaluate">evaluating</a> a Let <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> the body in the Let <a href="terms.html#Scope">scope</a>.</p>
+<a href="#8-4" id="8-4">8-4</a><p>The declarations component of a Let <a>expression</a> is formed according to the following sequences...</p>
 <ul>
 <li>Variable Bind: <span><code>'(''Symbol = ''Program)</code></span></li>
 <li>Deconstructing Bind: <span><code>'(''Expression = ''Collection)</code></span></li>
 <li>Symbolic Bind: <span><code>'(''Symbol : ''Program)</code></span></li>
 </ul>
 <h4><a href="#Variable-Bind" id="Variable-Bind">Variable Bind</a></h4>
-<p>A Variable Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a <a href="terms.html#Binding">binding</a> to the Let <a href="terms.html#Scope">scope</a> such that the <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Value">value</a>.</p>
+<a href="#9-1" id="9-1">9-1</a><p>A Variable Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a <a href="terms.html#Binding">binding</a> to the Let <a href="terms.html#Scope">scope</a> such that the <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Value">value</a>.</p>
 <h4><a href="#Deconstructing-Bind" id="Deconstructing-Bind">Deconstructing Bind</a></h4>
-<p>A Deconstructing Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a number of <a href="terms.html#Binding">bindings</a> to the Let <a href="terms.html#Scope">scope</a> which are <a href="terms.html#Field">fields</a> in the <a href="terms.html#Collection">collection</a> to the right of the <a href="terms.html#Keyword">keyword</a>.</p>
-<p>The <a href="terms.html#Identifier">identifiers</a> used in a Deconstructing Bind are taken from the <a href="terms.html#Expression">expression</a> given on the left of the <a href="terms.html#Keyword">keyword</a>.</p>
-<p>Each <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Binding">bound</a> to one or more <a href="terms.html#Index">indicies</a> from the destructured <a href="terms.html#Collection">collection</a> according to the following rules...</p>
+<a href="#10-1" id="10-1">10-1</a><p>A Deconstructing Bind sequence in a Let <a href="terms.html#Expression">expression</a> will add a number of <a href="terms.html#Binding">bindings</a> to the Let <a href="terms.html#Scope">scope</a> which are <a href="terms.html#Field">fields</a> in the <a href="terms.html#Collection">collection</a> to the right of the <a href="terms.html#Keyword">keyword</a>.</p>
+<a href="#10-2" id="10-2">10-2</a><p>The <a href="terms.html#Identifier">identifiers</a> used in a Deconstructing Bind are taken from the <a href="terms.html#Expression">expression</a> given on the left of the <a href="terms.html#Keyword">keyword</a>.</p>
+<a href="#10-3" id="10-3">10-3</a><p>Each <a href="terms.html#Identifier">identifier</a> is <a href="terms.html#Binding">bound</a> to one or more <a href="terms.html#Index">indicies</a> from the destructured <a href="terms.html#Collection">collection</a> according to the following rules...</p>
 <ul>
 <li>A <a href="terms.html#Symbol">symbol</a> is <a href="terms.html#Binding">bound</a> as the <a href="terms.html#Identifier">identifier</a> to the <a href="terms.html#Field">field</a> at the <a href="terms.html#Index">index</a> equivalent to the order in which the <a href="terms.html#Symbol">symbol</a> occurred in the <a href="terms.html#Expression">expression</a>.
 The first <a href="terms.html#Symbol">symbol</a> or <span><code>_</code></span> must always correspond to the first <a href="terms.html#Index">index</a> (<span><code>1</code></span>), with each additional <a href="terms.html#Symbol">symbol</a> or <span><code>_</code></span> corresponding to a consecutively higher <a href="terms.html#Index">index</a>.</li>
@@ -167,17 +167,17 @@ A <a href="terms.html#Symbol">symbol</a> or <span><code>_</code></span> with a <
 The <a href="terms.html#Expression">expression</a> nested inside the deconstructing <a href="terms.html#Expression">expression</a> will be treated as another deconstructing <a href="terms.html#Expression">expression</a> corresponding to the <a href="terms.html#Index">indicies</a> in the nested <a href="terms.html#Collection">collection</a>.
 If a nested deconstructing <a href="terms.html#Expression">expression</a> is given, and the <a href="terms.html#Field">field</a> at the corresponding <a href="terms.html#Index">index</a> is not a nested <a href="terms.html#Collection">collection</a>, then the first <a href="terms.html#Collection">collection</a> at a higher <a href="terms.html#Index">index</a> will be used, where any previous <a href="terms.html#Field">fields</a> are unclaimed (and available for <a href="terms.html#Binding">binding</a> by a previous <a href="terms.html#Symbol">symbol</a>).</li>
 </ul>
-<p>A Deconstructing Bind is not required to consume every <a>field</a> in a <a>collection</a>.
+<a href="#10-4" id="10-4">10-4</a><p>A Deconstructing Bind is not required to consume every <a>field</a> in a <a>collection</a>.
 If a <a href="terms.html#Collection">collection</a> contains a greater number of <a href="terms.html#Field">fields</a> than what is consumed by the Deconstructing Bind, those <a href="terms.html#Field">fields</a> are skipped as if they were consumed by the <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span></p>
-<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
-<p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.
+<a href="#10-5" id="10-5">10-5</a><p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<a href="#10-6" id="10-6">10-6</a><p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.
 The <a href="terms.html#Binding">binding</a> <a href="terms.html#Expression">expression</a> in a Deconstructing Bind sequence effectively corresponds to a <a href="terms.html#Collection">collection</a> <a href="terms.html#Supertype">supertype</a> which the destructured <a href="terms.html#Collection">collection</a> must be an <a href="terms.html#Instance">instance</a> to avoid <a href="terms.html#Error">error</a>.</p>
 <h4><a href="#Symbolic-Bind" id="Symbolic-Bind">Symbolic Bind</a></h4>
-<p>A Symbolic Bind will establish an <a href="terms.html#Identifier">identifier</a> in the Let <a href="terms.html#Scope">scope</a> which is <a href="terms.html#Constraint">constrained</a>, but has no <a href="terms.html#Value">value</a>.
+<a href="#11-1" id="11-1">11-1</a><p>A Symbolic Bind will establish an <a href="terms.html#Identifier">identifier</a> in the Let <a href="terms.html#Scope">scope</a> which is <a href="terms.html#Constraint">constrained</a>, but has no <a href="terms.html#Value">value</a>.
 The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Constraining">constraining</a> <a href="terms.html#Type">type</a> such that a Symbolic Bind sequence, <span><code>x : T</code></span>, establishes a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Identifier">identifier</a> in an identical manner to the <a href="terms.html#Expression">expression</a>, <span><code>(x : T)</code></span>.</p>
-<p>A Symbolic Bind must always <a>evaluate</a> the Let body using <a href="types.html#Abstract-Evaluation">Abstract Evaluation</a></p>
+<a href="#11-2" id="11-2">11-2</a><p>A Symbolic Bind must always <a>evaluate</a> the Let body using <a href="types.html#Abstract-Evaluation">Abstract Evaluation</a></p>
 <h4><a href="#Examples-of-Let-Expressions" id="Examples-of-Let-Expressions">Examples of Let Expressions</a></h4>
-<figure>
+<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 <figcaption>The following are examples of <a>bindings</a> established by declarations in Let <a>expressions</a>.</figcaption>
 <p><code>
 (let x = 1 y = 3 in x + y)
@@ -205,21 +205,21 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 </figure>
 <h2><a>Control Expressions</a></h2>
 <h3><a href="#Application" id="Application">Application</a></h3>
-<p>Application is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Application">apply</a> a <a href="terms.html#Function">function</a> to some <a href="terms.html#Parameter">parameters</a>.</p>
-<p>Application directly corresponds to the <a href="terms.html#Application">application</a> <a href="terms.html#Operation">operation</a>.</p>
-<figure>
+<a href="#12-1" id="12-1">12-1</a><p>Application is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Application">apply</a> a <a href="terms.html#Function">function</a> to some <a href="terms.html#Parameter">parameters</a>.</p>
+<a href="#12-2" id="12-2">12-2</a><p>Application directly corresponds to the <a href="terms.html#Application">application</a> <a href="terms.html#Operation">operation</a>.</p>
+<a href="#Fig-7" id="Fig-7">Figure 7</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Application.</figcaption>
 <p><code>
 ('(''Function '''(array *)) -> *)
 </code></p>
 <p>Where the result of the <a href="terms.html#Transform">transform</a> is unspecified due to Application being <a href="terms.html#Rewrite">un-rewritable</a> to a more primitive <a href="terms.html#Expression">expression</a> <a href="terms.html#Expression">expression</a>.</p>
 </figure>
-<p>Given an Application <a href="terms.html#Expression">expression</a>, the first <a href="terms.html#Field">field</a> must <a href="terms.html#Resolve">resolve</a> to a <a href="terms.html#Function">function</a>.
+<a href="#12-3" id="12-3">12-3</a><p>Given an Application <a href="terms.html#Expression">expression</a>, the first <a href="terms.html#Field">field</a> must <a href="terms.html#Resolve">resolve</a> to a <a href="terms.html#Function">function</a>.
 The following <a href="terms.html#Field">fields</a> may <a href="terms.html#Resolve">resolve</a> to anything, and must be used as <a href="terms.html#Parameter">parameters</a> in the order in which they occur as <a href="terms.html#Field">fields</a> in the <a href="terms.html#Expression">expression</a>.</p>
-<p>The <a href="terms.html#Field">fields</a> in an Application <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Resolve">resolved</a> in a consecutive order beginning with the <a href="terms.html#Field">field</a> at the smallest <a href="terms.html#Index">index</a> and continuing to the <a href="terms.html#Field">field</a> with the largest <a href="terms.html#Index">index</a> (the last <a href="terms.html#Field">field</a>).</p>
+<a href="#12-4" id="12-4">12-4</a><p>The <a href="terms.html#Field">fields</a> in an Application <a href="terms.html#Expression">expression</a> must be <a href="terms.html#Resolve">resolved</a> in a consecutive order beginning with the <a href="terms.html#Field">field</a> at the smallest <a href="terms.html#Index">index</a> and continuing to the <a href="terms.html#Field">field</a> with the largest <a href="terms.html#Index">index</a> (the last <a href="terms.html#Field">field</a>).</p>
 <h3><a href="#Sequencing" id="Sequencing">Sequencing</a></h3>
-<p>The <a href="defaults.html#Expression">default expression</a>, Sequence, will <a href="terms.html#Evaluate">evaluate</a> multiple <a href="terms.html#Expression">expressions</a> in the order of their occurrence, in a single, newly created <a href="terms.html#Scope">scope</a>.</p>
-<figure>
+<a href="#13-1" id="13-1">13-1</a><p>The <a href="defaults.html#Expression">default expression</a>, Sequence, will <a href="terms.html#Evaluate">evaluate</a> multiple <a href="terms.html#Expression">expressions</a> in the order of their occurrence, in a single, newly created <a href="terms.html#Scope">scope</a>.</p>
+<a href="#Fig-8" id="Fig-8">Figure 8</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Sequencing.</figcaption>
 <p><code>
 ('(''Program , '''Program) -><br>
@@ -231,9 +231,9 @@ The following <a href="terms.html#Field">fields</a> may <a href="terms.html#Reso
 The <a href="terms.html#Operation">operation</a>, &#x1d54a; is <a href="terms.html#Implementation">implementation dependent</a> and will enforce the order of <a href="terms.html#Evaluate">evaluation</a>.
 It is required to assume that &#x1d54a; is recursive such that any further <span><code>,</code></span> <a href="terms.html#Keyword">keywords</a> occurring in the <a href="terms.html#Expression">expression</a> bound by <span><code>Rest</code></span> will be ordered and <a href="terms.html#Evaluate">evaluated</a> within the same <a href="terms.html#Context">context</a> created by the initial engagement of the <a href="terms.html#Operation">operation</a>.</p>
 </figure>
-<p>The result of <a href="terms.html#Evaluate">evaluating</a> a Sequence must be the result of <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">expression</a> where the last <a href="terms.html#Expression">expression</a> is one which is not followed by another <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.</p>
-<p>It is considered an <a href="terms.html#Error">error</a> if a <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a> is not followed by an <a href="terms.html#Expression">expression</a>.</p>
-<p>As presented in <a>Figure _</a>, a Sequence <a href="terms.html#Expression">expression</a> will group <a href="terms.html#Field">fields</a> into separate <a href="terms.html#Expression">expressions</a> where each <a href="terms.html#Expression">expression</a> includes all <a href="terms.html#Field">fields</a> up to the next <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.
+<a href="#13-2" id="13-2">13-2</a><p>The result of <a href="terms.html#Evaluate">evaluating</a> a Sequence must be the result of <a href="terms.html#Evaluate">evaluating</a> the last <a href="terms.html#Expression">expression</a> where the last <a href="terms.html#Expression">expression</a> is one which is not followed by another <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.</p>
+<a href="#13-3" id="13-3">13-3</a><p>It is considered an <a href="terms.html#Error">error</a> if a <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a> is not followed by an <a href="terms.html#Expression">expression</a>.</p>
+<a href="#13-4" id="13-4">13-4</a><p>As presented in <a href="#Fig-8">Figure 8</a>, a Sequence <a href="terms.html#Expression">expression</a> will group <a href="terms.html#Field">fields</a> into separate <a href="terms.html#Expression">expressions</a> where each <a href="terms.html#Expression">expression</a> includes all <a href="terms.html#Field">fields</a> up to the next <span><code>,</code></span> <a href="terms.html#Keyword">keyword</a>.
 This is such that</p>
 <p><code>(f x , g y , h z)</code></p> 
 <p>is synonymous to</p>
@@ -249,8 +249,8 @@ This is such that</p>
 <p>will have the same result as</p>
 <p><code>(&#x1d6f7; 1 2 3 4 5)</code></p>
 <h3><a href="#Branching" id="Branching">Branching</a></h3>
-<p>The Branching <a href="defaults.html#Expressions">default expression</a> will chose one of a number of <a href="terms.html#Program">programs</a> to <a href="terms.html#Evalaute">evaluate</a> based on a <a href="terms.html#Boolean">boolean</a> <a>value</a> or <a href="terms.html#Instance">instance</a>.</p>
-<figure>
+<a href="#14-1" id="14-1">14-1</a><p>The Branching <a href="defaults.html#Expressions">default expression</a> will chose one of a number of <a href="terms.html#Program">programs</a> to <a href="terms.html#Evalaute">evaluate</a> based on a <a href="terms.html#Boolean">boolean</a> <a>value</a> or <a href="terms.html#Instance">instance</a>.</p>
+<a href="#Fig-9" id="Fig-9">Figure 9</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Branching.</figcaption>
 <p><code>
 ('(? ''* '''(array Program)) -><br>
@@ -261,18 +261,18 @@ This is such that</p>
 <p>Where &#x1d568; is an <a href="terms.html#Operator">operation</a> which checks the <a href="terms.html#Type">type</a> of <span><code>Condition</code></span> and <a href="terms.html#Evaluate">evaluates</a> one of the <a href="terms.html#Expression">expressions</a> which is a <a href="terms.html#Field">field</a> in <span><code>Case</code></span>.</p>
 <p>A Branch <a href="terms.html#Expression">expression</a> can be separated into two components, a "Condition", which is a <a href="terms.html#Value">value</a> which causes the <a href="terms.html#Evaluate">evaluation</a> of an <a href="terms.html#Expression">expression</a>, and a "Case", which is an <a href="terms.html#Expression">expression</a> which may be <a href="terms.html#Evaluate">evaluated</a>.</p> 
 </figure>
-<p>A Branch <a href="terms.html#Expression">expression</a> may only ever <a href="terms.html#Evaluate">evaluate</a> one Case.</p>
-<p>The result of a Branch <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> a Case.</p>
-<p>A Condition is either a single <a href="terms.html#Expression">expression</a> or a sequenced of a <a href="terms.html#Value">value</a> following an <a href="terms.html#Expression">expression</a>.
+<a href="#14-2" id="14-2">14-2</a><p>A Branch <a href="terms.html#Expression">expression</a> may only ever <a href="terms.html#Evaluate">evaluate</a> one Case.</p>
+<a href="#14-3" id="14-3">14-3</a><p>The result of a Branch <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> a Case.</p>
+<a href="#14-4" id="14-4">14-4</a><p>A Condition is either a single <a href="terms.html#Expression">expression</a> or a sequenced of a <a href="terms.html#Value">value</a> following an <a href="terms.html#Expression">expression</a>.
 A Condition must always be a <a>value</a> followed by an <a href="terms.html#Expression">expression</a> unless the Condition <a href="terms.html#Value">value</a> is a <a href="terms.html#Boolean">Boolean</a>.</p>
-<p>A Case is chosen by a Branch according to a <a>supertype</a> relation to the Condition...</p>
+<a href="#14-5" id="14-5">14-5</a><p>A Case is chosen by a Branch according to a <a>supertype</a> relation to the Condition...</p>
 <ul>
 <li>If the Condition is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Value">value</a> prefix in a Case, then that Case must be <a href="terms.html#Evaluate">evaluated</a>.</li>
 <li>If the <a>value</a> of the Condition is <span><code>true</code></span>, then the first Case following the Condition must be <a>evaluated</a>.</li>
 <li>If the <a>value</a> of the Condition is <span><code>false</code></span>, then the second Case following the Condition must be <a>evaluated</a>.</li>
 <li>If the <a>value</a> of the Condition is <span><code>false</code></span>, and only one Case is given in the Branch, then the result of that Branch is <span><code>_</code></span>.</li>
 </ul>
-<p>If no Case <a>value</a> is a <a>supertype</a> of the Condition, then the sum of every Case <a>value</a> must result in a <a>supertype</a> such that given,</p>
+<a href="#14-6" id="14-6">14-6</a><p>If no Case <a>value</a> is a <a>supertype</a> of the Condition, then the sum of every Case <a>value</a> must result in a <a>supertype</a> such that given,</p>
 <p><code>
 ((&#x1d6dc; = (type a b c d)),<br>
 &emsp;(&#x1d6d6; = (type a c)),<br>
@@ -288,8 +288,8 @@ where
 <code>((&#x1d6d6; + &#x1d6d3;) = &#x1d6dc;)</code>
 </p>
 <h3><a href="#Inversion" id="Inversion">Inversion</a></h3>
-<p>Inversion is a <a href="defaults.html#Expressions">default expression</a> which allows the order in which a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a> to be decided by one or more arbitrary <a href="terms.html#Function">functions</a>, thus "inverting" the normal order of <a href="terms.html#Evaluate">evaluation</a>.</p>
-<figure>
+<a href="#15-1" id="15-1">15-1</a><p>Inversion is a <a href="defaults.html#Expressions">default expression</a> which allows the order in which a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a> to be decided by one or more arbitrary <a href="terms.html#Function">functions</a>, thus "inverting" the normal order of <a href="terms.html#Evaluate">evaluation</a>.</p>
+<a href="#Fig-10" id="Fig-10">Figure 10</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Inversion.</figcaption>
 <p><code>
 ('((Handlers : (array Symbol)) * (_ : '>>) Body *) -> *)
@@ -297,18 +297,18 @@ where
 </code></p>
 <p>Note that there are two <a href="terms.html#Transform">transforms</a> provided, depending on whether the <a href="terms.html#Handler">handlers</a> are listed before or after the Body.</p>
 </figure>
-<p>An Inversion consists of two components, a Body, which is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a> and a list of <a href="terms.html#Handler">handlers</a>, which are the functions which facilitate the inverted <a href="terms.html#Evaluate">evaluation</a> order.</p>
-<p>The <a href="terms.html#Handler">handler</a> list is a sequence of <a href="terms.html#Symbol">symbols</a> which must <a href="terms.html#Resolve">resolve</a> to a <a href="terms.html#Function">function</a> or a <a href="terms.html#Collection">collection</a> of named <a href="terms.html#Field">fields</a> where each <a href="terms.html#Field">field</a> is a <a href="terms.html#Function">function</a>.
+<a href="#15-2" id="15-2">15-2</a><p>An Inversion consists of two components, a Body, which is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a> and a list of <a href="terms.html#Handler">handlers</a>, which are the functions which facilitate the inverted <a href="terms.html#Evaluate">evaluation</a> order.</p>
+<a href="#15-3" id="15-3">15-3</a><p>The <a href="terms.html#Handler">handler</a> list is a sequence of <a href="terms.html#Symbol">symbols</a> which must <a href="terms.html#Resolve">resolve</a> to a <a href="terms.html#Function">function</a> or a <a href="terms.html#Collection">collection</a> of named <a href="terms.html#Field">fields</a> where each <a href="terms.html#Field">field</a> is a <a href="terms.html#Function">function</a>.
 The <a href="terms.html#Identifier">identifiers</a> which <a href="terms.html#Binding">bind</a> either a <a href="terms.html#Function">function</a> or a <a href="terms.html#Field">field</a> which is a <a href="terms.html#Function">function</a> are included in a new <a href="terms.html#Scope">scope</a> which is used to <a href="terms.html#Evaluate">evaluate</a> the <a href="terms.html#Body">body</a> of the Inversion.</p>
-<p>A <a href="terms.html#Function">function</a> which is used as a <a href="terms.html#Handler">handler</a> must be a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Function">function</a> <span><code>((* -> *) -> *)</code></span>.</p>
-<p>When a <a href="terms.html#Handler">handler</a> is <a href="terms.html#Application">applied</a> in the Body of an Inversion, the first <a href="terms.html#Parameter">parameter</a> must be a <a href="terms.html#Continuation">continuation</a> corresponding to a <a href="terms.html#Program">program</a> which is the Body where the <a href="terms.html#Field">field</a> corresponding to the <a href="terms.html#Application">application</a> of that <a href="terms.html#Handler">handler</a> is a <a href="terms.html#Paramter">parameter</a> of the <a href="terms.html#Continuation">continuation</a> given as a <a href="terms.html#Parameter">parameter</a> to the <a href="terms.html#Handler">handler</a>.</p>
-<p>The result of an Inversion <a>expression</a> may be one of the following...</p>
+<a href="#15-4" id="15-4">15-4</a><p>A <a href="terms.html#Function">function</a> which is used as a <a href="terms.html#Handler">handler</a> must be a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Function">function</a> <span><code>((* -> *) -> *)</code></span>.</p>
+<a href="#15-5" id="15-5">15-5</a><p>When a <a href="terms.html#Handler">handler</a> is <a href="terms.html#Application">applied</a> in the Body of an Inversion, the first <a href="terms.html#Parameter">parameter</a> must be a <a href="terms.html#Continuation">continuation</a> corresponding to a <a href="terms.html#Program">program</a> which is the Body where the <a href="terms.html#Field">field</a> corresponding to the <a href="terms.html#Application">application</a> of that <a href="terms.html#Handler">handler</a> is a <a href="terms.html#Paramter">parameter</a> of the <a href="terms.html#Continuation">continuation</a> given as a <a href="terms.html#Parameter">parameter</a> to the <a href="terms.html#Handler">handler</a>.</p>
+<a href="#15-6" id="15-6">15-6</a><p>The result of an Inversion <a>expression</a> may be one of the following...</p>
 <ul>
 <li>The result of the Body when the Body does not contain an <a href="terms.html#Application">application</a> of a <a href="terms.html#Handler">handler</a>.</li>
 <li>The result of a <a href="terms.html#Handler">handler</a> Body when the Inversion Body <a href="terms.html#Application">applies</a> that <a href="terms.html#Handler">handler</a> and the <a href="terms.html#Handler">handler</a> Body does not contain a <a href="terms.html#Continuation">containuation</a> <a href="terms.html#Application">application</a> as the <a href="terms.html#Tail">tail</a>.</li>
 <li>The result of a <a href="terms.html#Continuation">continuation</a> <a href="terms.html#Application">application</a> when the Inversion Body <a href="terms.html#Application">applies</a> a <a href="terms.html#Handler">handler</a> and then that <a href="terms.html#Handler">handler</a> Body <a href="terms.html#Application">applies</a> a <a href="terms.html#Continuation">continuation</a> as the <a href="terms.html#Tail">tail</a>.</li>
 </ul>
-<figure>
+<a href="Fig-11" id="Fig-11">Figure 11</a><figure>
 <figcaption>The following are examples of how Inversion affects the order of <a href="terms.html#Evaluate">evaluation</a> using a number of addition <a href="terms.html#Operation">operations</a>.</figcaption>
 <p>Given the following three <a href="terms.html#Handler">handlers</a>,
 <code>
@@ -340,4 +340,13 @@ is <a href="terms.html#Evaluate">evaluated</a> in the same order as
 <code>(((1 + 1) + 1) + 3)</code>
 </p>
 </figure>
+<h3><a href="#Compute" id="Compute">Compute</a></h3>
+<a href="#16-1" id="16-1">16-1</a><p>Compute is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Evaluate">evaluate</a> a <a href="terms.html#Program-Model">Program Model</a>.</p>
+<a href="#Fig-12" id="Fig-12">Figure 12</a><figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Compute.</figcaption>
+<p><code>
+('(compute ''Program in ''Image) -> *)
+</code></p>
+</figure>
+<a href="#16-2" id="16-2">16-2</a><p>The result of Compute is the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Program-Model">Program Model</a> as a <a href="terms.html#Program">program</a>, using the <a href="terms.html#Image">image</a> as the <a href="terms.html#Top-Level">Top Level</a> during <a href="terms.html#Evaluate">evaluation</a>.</p>
 </body>
