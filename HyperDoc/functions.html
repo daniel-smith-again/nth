@@ -29,9 +29,29 @@ is <a>evaluated</a> identically to
 <p>An Argument may either be a <a href="terms.html#Symbol">symbol</a> or an <a href="terms.html#Expression">expression</a>.
 If an Argument is a <a href="terms.html#Symbol">symbol</a>, it will be used as an <a href="terms.html#Identifier">identifier</a> to <a href="terms.html#Bind">bind</a> a <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Value">value</a>.
 If an Argument is an <a href="terms.html#Expression">expression</a>, it will be used as a <a href="terms.html#Constraint">constraint</a> on which <a href="terms.html#Value">values</a> are accepted as <a href="terms.html#Parameter">parameters</a> in an <a href="terms.html#Application">application</a>.</p>
-<h2><a href="#Closures" id="Closures">Closures</a></h2>
-<p>A Lambda <a href="terms.html#Expression">expression</a> will partially preserve the <a href="terms.html#Scope">scope</a> it was <a href="terms.html#Evaluate">evaluated</a> in.
-The resulting <a href="terms.html#Context">context</a> is referred to as a <a href="terms.html#Closure">closure</a>.</p>
-<p>A Lambda will create a <a>closure</a></p>
+<p>Lambda will create a <a href="terms.html#Context">context</a> which is used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the Body.
+This <a>context</a> is referred to as the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a>.</p>
 <h2><a href="#Function-Application" id="Function-Application">Function Application</a></h2>
+<p><a href="terms.html#Application">Application</a> will <a href="terms.html#Binding">bind</a> <a href="terms.html#Parameter">parameters</a> as <a href="terms.html#Value">values</a> using the Arguments as <a href="terms.html#Identifier">identifiers</a> if the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a> was constructed with any Arguments are <a href="terms.html#Symbol">symbols</a>.</p>
+<p>If an Argument is used as an <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> a <a href="terms.html#Parameter">parameter</a>, and the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> includes a <a href="terms.html#Closure">closure</a> with the same <a href="terms.html#Identifier">identifier</a> as the Argument <a href="terms.html#Binding">binding</a>, then the Argument <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> the <a href="terms.html#Closure">closure</a>.</p>
+<p><a href="terms.html#Parameter">Parameters</a> are <a href="terms.html#Binding">bound</a> in the order in which they are listed in the Application <a href="terms.html#Expression">expression</a>. 
+Thus, given a <a href="terms.html#Function">function</a>,
+<code>(f = (a b c -> collection a b c))</code>
+and an Application,
+<code>(f 'p 'q 'r)</code>
+<span><code>a</code></span> <a href="terms.html#Binding">binds</a> <span><code>'p</code></span>, 
+<span><code>b</code></span> <a href="terms.html#Binding">binds</a> <span><code>'q</code></span>,
+and <span><code>c</code></span> <a href="terms.html#Binding">binds</a> <span><code>'r</code></span>
+such that the result of the Application is <span><code>(collection 'p 'q 'r)</code></span>. 
+</p>
+<p>The result of a <a href="terms.html#Function">function</a> <a href="terms.html#Application">application</a> is the result of <a href="terms.html#Evaluate">evaluating</a> the Body in the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a>.</p>
+<h2><a href="#Fixed-Point" id="Fixed-Point">Fixed Point</a></h2>
+<p><a href="terms.html#Function">Function</a> <a href="terms.html#Application">application</a> will automatically establish a <a href="terms.html#Binding">binding</a> using <span><code>&</code></span> as the <a href="terms.html#Identifier">identifier</a>.
+This <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> any Arguments using the same <a href="terms.html#Symbol">symbol</a>.
+This <a href="terms.html#Binding">binding</a> is referred to as a Fixed Point.</p>
+<p>A Fixed Point will <a href="terms.html#Binding">bind</a> two <a href="terms.html#Value">values</a>, the <a href="terms.html#Function">function</a> which was <a href="terms.html#Application">applied</a> and a <a href="terms.html#Collection">collection</a> containing every <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Field">field</a> where the <a href="terms.html#Index">index</a> of each <a href="terms.html#Field">field</a> is the order in which the <a href="terms.html#Parameter">parameter</a> occurred in the Application <a href="terms.html#Expression">expression</a>.
+This <a href="terms.html#Binding">binding</a> is established in the form of a <a href="terms.html#Constraint">constraint</a> such that
+<code>(& : (type Function Collection))</code>
+where the <span><code>Function</code></span> <a href="terms.html#Instance">instance</a> is the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a>
+and the <span><code>Collection</code></span> <a href="terms.html#Instance">instance</a> is the <a href="terms.html#Collection">collection</a> containing each <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Field">field</a>.</p>
 </body>
