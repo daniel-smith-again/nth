@@ -30,7 +30,15 @@ is <a>evaluated</a> identically to
 If an Argument is a <a href="terms.html#Symbol">symbol</a>, it will be used as an <a href="terms.html#Identifier">identifier</a> to <a href="terms.html#Bind">bind</a> a <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Value">value</a>.
 If an Argument is an <a href="terms.html#Expression">expression</a>, it will be used as a <a href="terms.html#Constraint">constraint</a> on which <a href="terms.html#Value">values</a> are accepted as <a href="terms.html#Parameter">parameters</a> in an <a href="terms.html#Application">application</a>.</p>
 <p>Lambda will create a <a href="terms.html#Context">context</a> which is used as the <a href="terms.html#Scope">scope</a> when <a href="terms.html#Evaluate">evaluating</a> the Body.
-This <a>context</a> is referred to as the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a>.</p>
+This <a href="terms.html#Context">context</a> is referred to as the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a>.</p>
+<p>If an Argument is an <a href="terms.html#Expression">expression</a>, and thus a <a href="terms.html#Constraint">constraint</a> in the <a href="terms.html#Function">function</a>, that <a href="terms.html#Constraint">constraint</a> will be a part of the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> such that,
+<code>((1 + 1) -> (& _ 1) + 1)</code>
+is <a href="terms.html#Semantics">semantically</a> identical to
+<code>(x -> (x : (1 + 1)) + 1)</code></p>
+<p>If an Argument is a <a href="terms.html#Symbol">symbol</a>, but that <a href="terms.html#Symbol">symbol</a> is inside an <a href="terms.html#Assertion">assertion</a>, the <a href="terms.html#Constraint">constraint</a> created by that <a href="terms.html#Assertion">assertion</a> will be a part of the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> such that,
+<code>((x : T) -> x)</code>
+is <a href="terms.html#Semantics">semantically</a> indentical to
+<code>(x -> (x : T))</code></p>
 <h2><a href="#Function-Application" id="Function-Application">Function Application</a></h2>
 <p><a href="terms.html#Application">Application</a> will <a href="terms.html#Binding">bind</a> <a href="terms.html#Parameter">parameters</a> as <a href="terms.html#Value">values</a> using the Arguments as <a href="terms.html#Identifier">identifiers</a> if the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a> was constructed with any Arguments are <a href="terms.html#Symbol">symbols</a>.</p>
 <p>If an Argument is used as an <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> a <a href="terms.html#Parameter">parameter</a>, and the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> includes a <a href="terms.html#Closure">closure</a> with the same <a href="terms.html#Identifier">identifier</a> as the Argument <a href="terms.html#Binding">binding</a>, then the Argument <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> the <a href="terms.html#Closure">closure</a>.</p>
@@ -45,6 +53,16 @@ and <span><code>c</code></span> <a href="terms.html#Binding">binds</a> <span><co
 such that the result of the Application is <span><code>(collection 'p 'q 'r)</code></span>. 
 </p>
 <p>The result of a <a href="terms.html#Function">function</a> <a href="terms.html#Application">application</a> is the result of <a href="terms.html#Evaluate">evaluating</a> the Body in the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a>.</p>
+
+<h3><a href="#Tail-Reduction" id="Tail-Reduction">Tail Reduction</a></h3>
+<p>Normally, the result of an <a href="terms.html#Application">application</a> is the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Body">body</a>. 
+However, if the <a href="terms.html#Tail">tail</a> of the <a href="terms.html#Body">body</a> is an <a href="terms.html#Applicatoin">application</a>, the result of the former <a href="terms.html#Application">application</a> is the latter <a href="terms.html#Applicatoin">application</a> such that
+<code>(x -> (y -> y + 2) x + 1)</code>
+is indentical to 
+<code>(y -> (y + 1) + 2)</code>
+The significance of this relationship is that the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> of the former <a href="terms.html#Application">application</a> may be immediately <a href="terms.html#Discard">discarded</a> at the point when the latter <a href="terms.html#Application">application</a>, as the <a href="terms.html#Tail">tail</a>, is <a href="terms.html#Evaluate">evaluated</a>, 
+conversely to non-<a href="terms.html#Tail">tail</a> <a href="terms.html#Application">applications</a> where the <a href="terms.html#Scope">scope</a> of each <a href="terms.html#Application">application</a> cannot be <a href="terms.html#Discard">discarded</a> until the <a href="terms.html#Tail">tail</a> of each following <a href="terms.html#Application">application</a> is <a href="terms.html#Evaluate">evaluated</a>.</p>
+
 <h2><a href="#Fixed-Point" id="Fixed-Point">Fixed Point</a></h2>
 <p><a href="terms.html#Function">Function</a> <a href="terms.html#Application">application</a> will automatically establish a <a href="terms.html#Binding">binding</a> using <span><code>&</code></span> as the <a href="terms.html#Identifier">identifier</a>.
 This <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> any Arguments using the same <a href="terms.html#Symbol">symbol</a>.
@@ -54,4 +72,7 @@ This <a href="terms.html#Binding">binding</a> is established in the form of a <a
 <code>(& : (type Function Collection))</code>
 where the <span><code>Function</code></span> <a href="terms.html#Instance">instance</a> is the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a>
 and the <span><code>Collection</code></span> <a href="terms.html#Instance">instance</a> is the <a href="terms.html#Collection">collection</a> containing each <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Field">field</a>.</p>
+<h2><a href="#Function-Functions" id="Function-Functions">Function Functions</a></h2>
+<h3><a href="#Parameters" id="Parameters">Parameters</a></h3>
+<h3><a href="#Result" id="Result">Result</a></h3>
 </body>

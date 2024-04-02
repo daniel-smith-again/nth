@@ -73,7 +73,7 @@ and <math><mi>n</mi></math> is the number of <a href="terms.html#Digit">digits</
 <h3><a href="#Constructing-Qutoes" id="Constructing-Quotes">Constructing Qutoes</a></h3>
 <p>A <a href="terms.html#Quote">quote</a> corresponds to the "Quote" <a href="terms.html#Syntax">syntax</a> as given in <a href="#Fig-1">Figure 1</a>.
 It will construct a <a href="terms.html#Program-Model">Program Model</a> which is then exposed as <a href="terms.html#Data">data</a>.</p>
-<p>Anywhere within <a>quoted</a> <a>syntax</a>, an unquote or requote <a>synatx</a> can occur. 
+<p>Anywhere within <a href="terms.html#Quote">quoted</a> <a href="terms.html#Syntax">syntax</a>, an unquote or requote <a href="terms.html#Syntax">synatx</a> can occur. 
 Unquote and requote correspond to the <code>''</code> and <code>'''</code> prefixes as described in the "Form" <a href="terms.html#Sytax">syntax</a> in <a href="#Fig-1">Figure 1</a>.</p>
 <p>The unquote <a href="terms.html#Syntax">syntax</a> will force the <a href="terms.html#Syntax">syntax</a> it prefixes to be <a href="terms.html#Evaluate">evaluated</a> and the result will replace the unquote <a href="terms.html#Syntax">syntax</a> and its nested <a href="terms.html#Syntax">syntax</a> as <a href="terms.html#Data">data</a> in the <a href="terms.html#Program-Model">Program Model</a>.</p>
 <p>The requote <a href="terms.html#Syntax">syntax</a> behaves identically to the unquote <a href="terms.html#Syntax">syntax</a> except in the case where the result of the <a href="terms.html#Evaluate">evaluation</a> is an <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Collection">collection</a>.
@@ -89,9 +89,14 @@ In this case, the requote <a href="terms.html#Syntax">syntax</a> and its nested 
 </ul>
 <h2><a href="#Syntax-Functions" id="Syntax-Functions">Syntax Functions</a></h2>
 <h3><a href="#Read" id="Read">Read</a></h3>
-<p>The <a href="defaults.html#Functions">default function</a> <code>read</code> will accept a single parameter which is a <a href="terms.html#Source">source</a>, or no parameters in which case it will pull <a href="terms.html#Character">characters</a> from the <a href="defaults.html#Session">session input</a>.
+<p>The <a href="defaults.html#Functions">default function</a> <span><code>read</code></span> will accept a single parameter which is a <a href="terms.html#Source">source</a>, or no parameters in which case it will pull <a href="terms.html#Character">characters</a> from the <a href="defaults.html#Session">session input</a>.
 It will then return a <a href="terms.html#Program-Model">Program Model</a> corresponding to the <a href="terms.html#Source">source</a> used as input.</p>
 <h3><a href="#Format" id="Format">Format</a></h3>
-<p>The <a href="defaults.html#Functions">default function</a> <code>format</code> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
+<p>The <a href="defaults.html#Functions">default function</a> <span><code>format</code></span> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
 It will generate a <a href="terms.html#Source">source</a> which encodes that <a href="terms.html#Parameter">parameter</a>.</p>
+<h3><a href="#Symbol" id="Symbol">Symbol</a></h3>
+<p>The <a href="defaults.html#Functions">default function</a> <span><code>symbol</code></span> will accept no <a href="terms.html#Parameter">parameters</a>.
+It will generate a new <a href="terms.html#Symbol">symbol</a> which is unique to every <a href="terms.html#Symbol">symbol</a> being used as an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and is distinct from any previous <a href="terms.html#Symbol">symbol</a> resulting from <a href="terms.html#Application">applying</a> this <a href="terms.html#Function">function</a>.
+This is such that for any <span><code>(s : &#x1d544;)</code></span> where &#x1d544; is a <a href="terms.html#Type">type</a> such that every <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and every <a href="terms.html#Symbol">symbol</a> resulting from <span><code>symbol</code></span> is a <a href="terms.html#Member">member</a>,
+<code>(let s : &#x1d544; in (symbol) = s)</code> must always <a href="terms.html#Evaluate">evaluate</a> to <span><code>false</code></span> given any <a href="terms.html#Application">application</a> of <span><code>symbol</code></span>.</p>
 </body>

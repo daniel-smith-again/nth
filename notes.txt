@@ -1149,3 +1149,30 @@ this is the identity.
 (let h = (r x -> r x) 
  in
    h >> h 1)
+
+
+
+I want to define enums/sum types where I have 
+(define a (type nil))
+(define b (type nil))
+(define c (type nil))
+which works, but I want a shorthand such that
+(define K (type a b c)) will create the former as well as the relations
+(a : K)
+(b : K)
+(c : K)
+
+I also have 
+(m ~ a) which is a datatype.
+
+I want to be able to define a bunch of stuff.
+
+(define K 
+        | a 
+        | b 
+        | c 
+        | m K)
+that last one is 
+(m : ((x : K) -> 'm-K ~ x))
+so that is 
+(define K | a | m K | n K K -> m b)
