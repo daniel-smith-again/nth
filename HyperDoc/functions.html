@@ -74,5 +74,19 @@ where the <span><code>Function</code></span> <a href="terms.html#Instance">insta
 and the <span><code>Collection</code></span> <a href="terms.html#Instance">instance</a> is the <a href="terms.html#Collection">collection</a> containing each <a href="terms.html#Parameter">parameter</a> as a <a href="terms.html#Field">field</a>.</p>
 <h2><a href="#Function-Functions" id="Function-Functions">Function Functions</a></h2>
 <h3><a href="#Parameters" id="Parameters">Parameters</a></h3>
+<p>The <a href="defaults.html#Functions">default function</a> <span><code>parameters</code></span> will accept a <a href="terms.html#Function">function</a> as a single <a href="terms.html#Parameter">parameter</a>.
+<a href="terms.html#Application">Applying</a> <span><code>parameters</code></span> to a <a href="terms.html#Function">function</a> will result in a <a href="terms.html#Collection">collection</a> where each <a href="terms.html#Field">field</a> contains a <a href="terms.html#Type">type</a> corresponding to the <a href="terms.html#Type">type</a> <a href="terms.html#Constraining">constraining</a> the corresponding <a href="terms.html#Parameter">parameter</a>.
+Additionally, a <a href="terms.html#Parameter">parameter</a> which is a <a href="terms.html#Symbol">symbol</a> Argument will be used as the <a href="terms.html#Identifier">identifier</a> to name the <a href="terms.html#Field">field</a>.</p>
+<p>The <a href="terms.html#Collection">collection</a> resulting from <span><code>parameters</code></span> must contain <a href="terms.html#Field">fields</a> at <a href="terms.html#Index">indicies</a> in the order in which the corresponding Arguments are arranged in the <a href="terms.html#Function">function</a>.
+This is such that the result of
+<code>(parameters (x y z -> *))</code>
+is 
+<code>(collection (x = *) (y = *) (z = *))</code>
+and the result of 
+<code>(parameters ((m : P) (N : Q) (k : r) -> h))</code>
+is 
+<code>(collection (m = P) (N = Q) (k = r))</code></p>
 <h3><a href="#Result" id="Result">Result</a></h3>
+<p>The <a href="defaults.html#Functions">default function</a> <span><code>result</code></span> will accept a <a href="terms.html#Function">function</a> as a single <a href="terms.html#Parameter">parameter</a>.
+The result of <a href="terms.html#Application">applying</a> <span><code>result</code></span> to a <a href="terms.html#Function">function</a> will be the <a href="terms.html#Type">type</a> which <a href="terms.html#Constraint">constrains</a> the result of the <a href="terms.html#Function">function</a>.</p>
 </body>

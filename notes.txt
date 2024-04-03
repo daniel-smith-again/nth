@@ -1175,4 +1175,23 @@ I want to be able to define a bunch of stuff.
 that last one is 
 (m : ((x : K) -> 'm-K ~ x))
 so that is 
-(define K | a | m K | n K K -> m b)
+
+this (define K | a | m K | n K K -> m b)
+is the same as
+(let K : Type in
+ (define a (type))
+ (define m (K -> K ~ (collection (& _ 1))))
+ (define n (K K -> ))
+
+
+what are my operations on collections?
+
+(let x = (collection 1 2 3)
+     y = (collection (a = 4) (b = 5) (c = 6))
+ in
+    x + y,
+    x - y,
+    # x,
+    x _ 1,
+    y . a,
+    )
