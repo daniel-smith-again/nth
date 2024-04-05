@@ -5,45 +5,32 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<a id="next" href="glossary.html">&#x261b;</a>
-	<a id="prev" href="images.html">&#x261a;</a>
-	<a id="up" href="index.html">&centerdot;</a>
+<a id="next" href="glossary.html">&#x261b;</a>
+<a id="prev" href="images.html">&#x261a;</a>
+<a id="up" href="index.html">&centerdot;</a>
 
-	<h1><a href="#Defaults" id="Defaults">Defaults</a></h1>
-	<h2><a href="#Expressions" id="Expressions">Expressions</a></h2>
-	<p><a href="terms.html#Expression">Expressions</a> which are provided by <a href="terms.html#Default">default</a> are <a href="terms.html#Implementation">implemented</a> as <a href="terms.html#Transform">transforms</a>, but in an <a href="foreword.html#2-4">implementation defined</a> manner.</p>
-	<p><a href="#Expressions">Default expressions</a> must be <a href="terms.html#Correct">correct</a> according to the <a href="terms.html#Transform">transform</a> <a href="terms.html#Types">types</a> provided for each <a href="#Expressions">default expression</a>.</p>
-	<p>The <a href="terms.html#Expression">expressions</a> given below are provided by the <a href="terms.html#Default">default</a> <a href="terms.html#Image">image</a> as if they were <a href="terms.html#Binding">bound</a> in an <a href="terms.html#Image">image</a> using a <a href="evaluation.html#Definition-Expression">definition expression</a>.</p>
-	<p>The <a href="terms.html#Function">function</a> representing the <a href="terms.html#Transform">transform</a> which <a href="terms.html#Rewrite">rewrites</a> a <a href="terms.html#Default">default</a> <a href="terms.html#Expression">expression</a> is <a href="foreword.html#2-4">implementation dependent</a>.</p>
-	
-	
+<h1><a href="#Defaults" id="Defaults">Defaults</a></h1>
+<h2><a href="#Expressions" id="Expressions">Expressions</a></h2>
+<p><a href="terms.html#Expression">Expressions</a> which are provided by <a href="terms.html#Default">default</a> are <a href="terms.html#Implementation">implemented</a> as <a href="terms.html#Transform">transforms</a>, but in an <a href="foreword.html#2-4">implementation defined</a> manner.</p>
+<p><a href="#Expressions">Default expressions</a> must be <a href="terms.html#Correct">correct</a> according to the <a href="terms.html#Transform">transform</a> <a href="terms.html#Types">types</a> provided for each <a href="#Expressions">default expression</a>.</p>
+<p>The <a href="terms.html#Expression">expressions</a> given below are provided by the <a href="terms.html#Default">default</a> <a href="terms.html#Image">image</a> as if they were <a href="terms.html#Binding">bound</a> in an <a href="terms.html#Image">image</a> using a <a href="evaluation.html#Definition-Expression">definition expression</a>.</p>
+<p>The <a href="terms.html#Function">function</a> representing the <a href="terms.html#Transform">transform</a> which <a href="terms.html#Rewrite">rewrites</a> a <a href="terms.html#Default">default</a> <a href="terms.html#Expression">expression</a> is <a href="foreword.html#2-4">implementation dependent</a>.</p>
 
 
-	<h2><a href="#Functions" id="Functions">Functions</a></h2>
-	
-	<h2 href="#Types" id="Types">Types</h2>
-	<dl>
-	<dt>Any</dt>
-	<dt>Nil</dt>
-	<dt>Unit</dt>
-	<dt>Type</dt>
-	<dt>Judgement</dt>
-	<dt>Success</dt>
-	<dt>Failure</dt>
-	<dt>Boolean</dt>
-	<dt>Number</dt>
-	<dt>Rational</dt>
-	<dt>Integer</dt>
-	<dt>Natural</dt>
-	<dt>Byte</dt>
-	<dt>Word</dt>
-	<dt>Place</dt>
-	<dt>Vector</dt>
-	<dt>String</dt>
-	<dt>Collection</dt>
-	<dt>Function</dt>
-	<dt>Symbol</dt>
-	<dt>Expression</dt>
-	<dt>Program</dt>
-	</dl>
+
+
+<h2><a href="#Functions" id="Functions">Functions</a></h2>
+
+<h2 href="#Types" id="Types">Types</h2>
+<dl>
+<dt>Any</dt>
+<dt>Nil</dt>
+<dt>Unit</dt>
+<dt>Type</dt>
+<dt>Scalar</dt>
+<dd>
+The <a href="terms.html#Type">type</a> <span><code>Scalar</code></span> must be the <a href="terms.html#Supertype">supertype</a> of any form of <a>data</a> corresponding to some <a href="terms.html#Implementation">implementation dependent</a> format for storing information in the <a href="terms.html#Environment">environment</a>.
+For example, the <a>type</a> <a>Word</a> corresponds to a format which must be provided by the <a>environment</a>, but the <a>type</a> <a>function</a> corresponds to an abstract form of information specific to <i>n</i><sup>th</sup>.
+</dd>
+</dl>
 </body>
