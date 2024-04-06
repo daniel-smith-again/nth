@@ -55,7 +55,24 @@ It must be greater than the maximum <a href="terms.html#Value">value</a> of a <a
 </code></p>
 </figure>
 <h2><a href="#Characters" id="Characters">Characters</a></h2>
+<p>The <a href="terms.html#Character">Character</a> is a <a href="terms.html#Range">range</a> which specifically corresponds to a text encoding.
+The text encoding correspondence is <a href="terms.html#Implementation">implementation dependent</a>.</p>
+<p>A <a href="terms.html#Character">Character</a> will contain a numerical <a href="terms.html#Value">value</a> of a <a href="terms.html#Range">range</a> such that a <a href="terms.html#Character">Character</a> corresponds to <span><code>(from 0 to &#x3c8;)</code></span>.</p>
+<p>The maximum possible <a href="terms.html#Value">value</a>, &#x3c8;, which a <a href="terms.html#Character">Character</a> may contain corresponds to the number of <a href="overview.html#Normative-References">Unicode&reg;</a> code points.</p>
+<h3><a href="#Character-Constructor" id="Character-Constructor">Character Constructor</a></h3>
+<p>The Character Constructor is a <a href="defaults.html#Functions">default function</a> which accepts a single <a href="terms.html#Parameter">parameter</a> which is either a <a href="terms.html#Range">range</a> or a <a href="terms.html#String">string</a>.</p>
+<p>The result of <a href="terms.html#Application">applying</a> the Character Constructor will be a <a href="terms.html#Character">Character</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to <math><mi>n</mi><mi>mod</mi><mi>&#x3c8;</mi></math> where <math><mi>n</mi></math> is the <a href="terms.html#Range">range</a> <a href="terms.html#Parameter">parameter</a>, or it will be the code point corresponding to the <a href="terms.html#Character">Character</a> at the first <a href="terms.html#Index">index</a> in the <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of the Character Constructor must conform to.</figcaption>
+<p><code>
+(character : ((type Range String) -> Character))
+</code></p>
+</figure>
 <h2><a href="#Places" id="Places">Places</a></h2>
+<p>The <a href="terms.html#Place">Place</a> corresponds to a unique <a href="terms.html#Value">value</a> representing the location of a <a href="terms.html#Unit">unit</a> in the <a href="terms.html#Environment">environment</a>.</p>
+<p>A <a href="terms.html#Place">place</a> does not store a numerical <a href="terms.html#Value">value</a> and does not correspond to a <a href="terms.html#Range">range</a>.</p>
+<p>A <a href="terms.html#Place">place</a> must be able to represent a number of unique values up to the number of individual <a href="terms.html#Byte">bytes</a> which can be set in the <a href="terms.html#Environment">environment</a>.</p>
+
 <h2><a href="#Arrays" id="Arrays">Arrays</a></h2>
 <h2><a href="#Ranges" id="Ranges">Ranges</a></h2>
 <h2><a href="#Datatypes" id="Datatypes">Datatypes</a></h2>
