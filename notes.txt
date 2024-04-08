@@ -1195,3 +1195,11 @@ what are my operations on collections?
     x _ 1,
     y . a,
     )
+
+
+can I seriously overload all the pointer operations into one operator?
+
+(x = (byte 2),
+ y : Byte,
+ z = (@ x),
+ y = (@ z))
