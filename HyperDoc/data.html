@@ -97,7 +97,23 @@ The <a href="defaults.html#Functions">default function</a> Dereference, <a href=
 </figure>
 <p>It is considered an <a href="terms.html#Error">error</a> if the <a href="terms.html#Size">size</a> of the Dereferenced <a href="terms.html#Unit">unit</a> cannot be derived from the <a href="terms.html#Constraint">constraint</a> on the result of the Dereference <a href="terms.html#Application">application</a>.</p>
 <h2><a href="#Arrays" id="Arrays">Arrays</a></h2>
-<p>The <a href="terms.html#Array">Array</a> is a <a href="terms.html#Data">data</a> form which will store some number of <a href="terms.html#Unit">units</a> which must all be <a href="terms.html#Instance">instances</a> of a single <a href="terms.html#Type">type</a>.</p>
+<p>The <a href="terms.html#Array">Array</a> is a <a href="terms.html#Data">data</a> form which will store some number of <a href="terms.html#Unit">units</a> which must all be <a href="terms.html#Instance">instances</a> of a single <a href="terms.html#Type">type</a>.
+A <a href="terms.html#Unit">unit</a> which is a component of an <a href="terms.html#Array">Array</a> is referred to as an <a href="terms.html#Element">element</a>.
+The <a href="terms.html#Type">type</a> which all <a href="terms.html#Element">elements</a> must be an <a href="terms.html#Instance">instance</a> of is referred to as the <a href="terms.html#Order">order</a>.
+The number of <a href="terms.html#Element">elements</a> contained in the <a href="terms.html#Array">Array</a> is referred to as the <a href="terms.html#Cardinality">cardinality</a>.</p>
+<p>Because an <a href="terms.html#Array">Array</a> contains <a href="terms.html#Fields">fields</a>, it is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Collection">Collection</a>.
+However, it is a distinct form of <a href="terms.html#Data">data</a> and does not require support for all the <a href="terms.html#Operation">operations</a> which are allowed on <a href="terms.html#Collection">Collections</a>.</p>
+<h3><a href="#Array-Constructor" id="Array-Constructor">Array Constructor</a></h3>
+<p>The Array Constructor is a <a href="defaults.html#Functions">default function</a> which takes one or two <a href="terms.html#Parameter">parameters</a> which are a <a href="terms.html#Type">type</a> or a <a href="terms.html#Type">type</a> and a <a href="terms.html#Range">range</a> respectively.
+<a href="terms.html#Application">Applying</a> an Array Constructor to a <a href="terms.html#Type">type</a> will result in an <a href="terms.html#Array">Array</a> with an <a href="terms.html#Order">order</a> <a href="terms.html#Equal">equal</a> to the <a href="terms.html#Parameter">parameter</a>, which is the <a href="terms.html#Supertype">supertype</a> of any <a href="terms.html#Array">Array</a> with an <a href="terms.html#Equivalence">equivalent</a> <a href="terms.html#Order">order</a> and a definite <a href="terms.html#Cardinality">cardinality</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of the Array Constructor must conform to.</figcaption>
+<p><code>
+(array : (type (* -> Array) (* (Range) -> Array)))
+</code></p>
+</figure>
+<p>The <a href="terms.html#Collection">collection</a> <a href="terms.html#Operation">operation</a>, <a href="collections.html#Subscript">Subscript</a> will also support <a href="terms.html#Array">Arrays</a>.
+The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="terms.html#Array">Array</a> with an indefinite <a href="terms.html#Cardinality">cardinality</a> will be the <a href="terms.html#Order">order</a> of that <a href="terms.html#Array">Array</a>.</p>
 <h2><a href="#Ranges" id="Ranges">Ranges</a></h2>
 <h2><a href="#Datatypes" id="Datatypes">Datatypes</a></h2>
 <h2><a href="#Symbols" id="Symbols">Symbols</a></h2>
