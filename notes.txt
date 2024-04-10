@@ -1219,3 +1219,4 @@ You just say
 stupid.
 get rid of datatypes.
 if you want to tag things and have both persist during runtime, use a collection.
+yeah if I'm talking about refinement types, then tagging the type is the job of a qualified type.
