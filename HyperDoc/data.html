@@ -28,11 +28,14 @@ Thus, <a href="terms.html#Evaluate">evaluating</a> a <a href="terms.html#Program
 <h2><a href="#Booleans" id="Booleans">Booleans</a></h2>
 <p>The <a href="terms.html#Boolean">Boolean</a> is a form of <a href="terms.html#Data">data</a> that corresponds to a <a href="terms.html#Value">value</a> in binary logic.</p>
 <p>The <a href="terms.html#Symbol">symbols</a>, <span><code>true</code></span> and <span><code>false</code></span> correspond to <a href="terms.html#Boolean">boolean</a> 1 and 0 respectively.</p>
+<p>All <a href="terms.html#Value">values</a> which are <span><code>true</code></span> are <a href="terms.html#Equivalence">equivalent</a>.</p>
+<p>All <a href="terms.html#Value">values</a> which are <span><code>false</code></span> are <a href="terms.html#Equivalence">equivalent</a>.</p>
 <h2><a href="#Bytes" id="Bytes">Bytes</a></h2>
 <p>The <a href="terms.html#Byte">Byte</a> corresponds to the smallest unit of storage which can be set in the <a href="terms.html#Environment">environment</a>.</p>
 <p>A <a href="terms.html#Byte">Byte</a> will contain a numerical <a href="terms.html#Value">value</a> of a <a href="terms.html#Range">range</a> such that a <a href="terms.html#Byte">Byte</a> corresponds to <span><code>(from 0 to &#x3b7;)</code></span>.</p>
 <p>The maximum possible <a href="terms.html#Value">value</a>, &#x3b7;, which a <a href="terms.html#Byte">Byte</a> may contain corresponds to the enumeration of the number of ways in which information can be arranged within a single <a href="terms.html#Byte">Byte</a> in the <a href="terms.html#Environment">environment</a>.
 For example, in an <a href="terms.html#Environment">environment</a> where the smallest unit of storage is eight bits, <a href="terms.html#Byte">Byte</a> would be defined as <span><code>(from 0 to (2 ^ 8))</code></span>.</p>
+<p>Any two <a href="terms.html#Byte">Bytes</a> which contain identical numerical <a href="terms.html#Value">values</a> are <a href="terms.html#Equivalence">equivalent</a>.</p>
 <h3><a href="#Byte-Constructor" id="Byte-Constructor">Byte Constructor</a></h3>
 <p>The Byte Constructor is a <a href="defaults.html#Functions">default function</a> which accepts a single <a href="terms.html#Range">range</a> <a href="terms.html#Parameter">parameter</a>.</p>
 <p>The result of <a href="terms.html#Application">applying</a> the Byte Constructor to a <a href="terms.html#Range">range</a> will be a <a href="terms.html#Byte">Byte</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to <math><mrow><mi>n</mi><mi>mod</mi><mi>&#x3b7;</mi></mrow></math> where <math><mi>n</mi></math> is the <a href="terms.html#Range">range</a> <a href="terms.html#Parameter">parameter</a>.</p>
@@ -47,6 +50,7 @@ For example, in an <a href="terms.html#Environment">environment</a> where the sm
 <p>A <a href="terms.html#Word">Word</a> will contain a numerical <a href="terms.html#Value">value</a> of a <a href="terms.html#Range">range</a> such that a <a href="terms.html#Word">Word</a> correpsonds to <span><code>(from 0 to &#x3c6;)</code></span>.</p>
 <p>The maximum possible <a href="terms.html#Value">value</a>, &#x3c6;, which a <a href="terms.html#Word">Word</a> may contain corresponds to the enumeration of the number of ways in which information can be arranged within a single <a href="terms.html#Word">Word</a> in the <a href="terms.html#Environment">environment</a>.
 It must be greater than the maximum <a href="terms.html#Value">value</a> of a <a href="terms.html#Byte">Byte</a>.</p>
+<p>Any two <a href="terms.html#Word">Words</a> which contain identical numerical <a href="terms.html#Value">values</a> are <a href="terms.html#Equivalence">equivalent</a>.</p>
 <h3><a href="#Word-Constructor" id="Word-Constructor">Word Constructor</a></h3>
 <p>The Word Constructor is a <a href="defaults.html#Functions">default function</a> which accepts a single <a href="terms.html#Range">range</a> <a href="terms.html#Parameter">parameter</a>.</p>
 <p>The result of <a href="terms.html#Application">applying</a> the Word Constructor to a <a href="terms.html#Range">range</a> will be a <a href="terms.html#Word">Word</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to <math><mrow><mi>n</mi><mi>mod</mi><mi>&#x3c6;</mi></mrow></math> where <math><mi>n</mi></math> is the <a href="terms.html#Range">range</a> <a href="terms.html#Paramter">parameter</a>.</p>
@@ -61,6 +65,7 @@ It must be greater than the maximum <a href="terms.html#Value">value</a> of a <a
 The text encoding correspondence is <a href="terms.html#Implementation">implementation dependent</a>.</p>
 <p>A <a href="terms.html#Character">Character</a> will contain a numerical <a href="terms.html#Value">value</a> of a <a href="terms.html#Range">range</a> such that a <a href="terms.html#Character">Character</a> corresponds to <span><code>(from 0 to &#x3c8;)</code></span>.</p>
 <p>The maximum possible <a href="terms.html#Value">value</a>, &#x3c8;, which a <a href="terms.html#Character">Character</a> may contain corresponds to the number of <a href="overview.html#Normative-References">Unicode&reg;</a> code points.</p>
+<p>Any two <a href="terms.html#Character">Characters</a> which contain identical code points are <a href="terms.html#Equivalence">equivalent</a>.</p>
 <h3><a href="#Character-Constructor" id="Character-Constructor">Character Constructor</a></h3>
 <p>The Character Constructor is a <a href="defaults.html#Functions">default function</a> which accepts a single <a href="terms.html#Parameter">parameter</a> which is either a <a href="terms.html#Range">range</a> or a <a href="terms.html#String">string</a>.</p>
 <p>The result of <a href="terms.html#Application">applying</a> the Character Constructor will be a <a href="terms.html#Character">Character</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to <math><mi>n</mi><mi>mod</mi><mi>&#x3c8;</mi></math> where <math><mi>n</mi></math> is the <a href="terms.html#Range">range</a> <a href="terms.html#Parameter">parameter</a>, or it will be the code point corresponding to the <a href="terms.html#Character">Character</a> at the first <a href="terms.html#Index">index</a> in the <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.</p>
@@ -105,6 +110,7 @@ The <a href="terms.html#Type">type</a> which all <a href="terms.html#Element">el
 The number of <a href="terms.html#Element">elements</a> contained in the <a href="terms.html#Array">Array</a> is referred to as the <a href="terms.html#Cardinality">cardinality</a>.</p>
 <p>Because an <a href="terms.html#Array">Array</a> contains <a href="terms.html#Fields">fields</a>, it is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Collection">Collection</a>.
 However, it is a distinct form of <a href="terms.html#Data">data</a> and does not require support for all the <a href="terms.html#Operation">operations</a> which are allowed on <a href="terms.html#Collection">Collections</a>.</p>
+<p>Any two <a href="terms.html#Array">Arrays</a> are <a href="terms.html#Equivalence">equivalent</a> where the <a href="terms.html#Order">order</a> and <a href="terms.html#Cardinality">cardinality</a> are <a href="terms.html#Equivalence">equivalent</a>, and the <a href="terms.html#Value">values</a> of like <a href="terms.html#Index">indicies</a> are each <a href="terms.html#Equivalence">equivalent</a>.</p>
 <h3><a href="#Array-Constructor" id="Array-Constructor">Array Constructor</a></h3>
 <p>The Array Constructor is a <a href="defaults.html#Functions">default function</a> which takes one or two <a href="terms.html#Parameter">parameters</a> which are a <a href="terms.html#Type">type</a> or a <a href="terms.html#Type">type</a> and a <a href="terms.html#Range">range</a> respectively.
 <a href="terms.html#Application">Applying</a> an Array Constructor to a <a href="terms.html#Type">type</a> will result in an <a href="terms.html#Array">Array</a> with an <a href="terms.html#Order">order</a> <a href="terms.html#Equal">equal</a> to the <a href="terms.html#Parameter">parameter</a>, which is the <a href="terms.html#Supertype">supertype</a> of any <a href="terms.html#Array">Array</a> with an <a href="terms.html#Equivalence">equivalent</a> <a href="terms.html#Order">order</a> and a definite <a href="terms.html#Cardinality">cardinality</a>.</p>
@@ -122,6 +128,8 @@ The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="term
 <p>The <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> for a <a href="terms.html#Number">number</a> must be the <a href="terms.html#Value">value</a> with the least magnitude relative to the integers.
 In other words, the <a href="terms.html#Value">value</a> which is closest to zero.
 For example, the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from 8 to 37)</code></span> is <span><code>8</code></span> and the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from -394 to 87362)</code></span> is <span><code>0</code></span></p>
+<p>Any two <a href="terms.html#Number">Numbers</a> are <a href="terms.html#Equivalence">equivalent</a> if the <a href="terms.html#Value">values</a> they each hold are <a href="terms.html#Equivalence">equivalent</a> relative to the integers.
+For example <span><code>(5 = 5)</code></span> and <span><code>((27 : (from -378 to 900)) = (27 : (from 15 to 28)))</code></span> both result in <span><code>true</code></span></p>
 <h3><a href="#Number-Constructor" id="Number-Constructor">Number Constructor</a></h3>
 <p>The Number Constructor is a <a href="defaults.html#Expression">default expression</a> which will construct a <a href="terms.html#Number">number</a> using two <a href="terms.html#Number">numbers</a> as the minimum and maximum bounds.</p>
 <figure>
@@ -142,6 +150,7 @@ and the second <a href="terms.html#Field">field</a> is the <a href="terms.html#N
 <p><a href="terms.html#Symbol">Symbols</a> are a form of <a href="terms.html#Data">data</a> derived from a <a href="terms.html#Source">source</a> which represent unique abstract <a href="terms.html#Value">values</a>.</p>
 <p>A <a href="terms.html#Symbol">symbol</a> is constructed by <a href="terms.html#Quote">quoting</a> a <a href="terms.html#Program">program</a> which consists of only a <a href="terms.html#Symbol">symbol</a>.
 For example, <span><code>'abracadabra</code></span> constructs a <a href="terms.html#Symbol">symbol</a>.</p>
+<p>A <a href="terms.html#Symbol">Symbol</a> is only <a href="terms.html#Equivalence">equivalent</a> to itself.</p>
 <h3><a href="#Symbol" id="Symbol">Symbol</a></h3>
 <p>The <a href="defaults.html#Functions">default function</a>, <span><code>symbol</code></span> accepts a single parameter which is either a <a href="terms.html#Symbol">symbol</a> or a <a href="terms.html#String">string</a>.
 <a href="terms.html#Application">Applying</a> this <a href="terms.html#Function">function</a> to a <a href="terms.html#Symbol">symbol</a> will result in the <a href="terms.html#String">string</a> corresponding to the <a href="terms.html#Source">source</a> from which the <a href="terms.html#Symbol">symbol</a> was derived.
@@ -163,4 +172,15 @@ For example, <span><code>'abracadabra</code></span> constructs a <a href="terms.
 </code></p>
 </figure>
 <h3><a href="#Comparison" id="Comparison">Comparison</a></h3>
+<p>Comparison is a <a href="defaults.html#Expressions">default expression</a> which will observe the <a href="terms.html#Equivalence">equivalence</a> of two <a href="terms.html#Unit">units</a> and will result in a <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Value">value</a> confirming or denying <a href="terms.html#Equivalence">equivalence</a>.</p>
+<p>Two <a href="terms.html#Unit">units</a> cannot be <a href="terms.html#Equivalence">equivalent</a> if they are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Comparison</figcaption>
+<p><code>
+('(''* = ''*) -> let (a _ b) = (& _ 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'(&#x3be; a b))
+</code></p>
+<p>where &#x3be; is an <a href="terms.html#Implementation">implementation dependent</a> <a href="terms.html#Function">function</a> which observes <a href="terms.html#Equivalence">equivalence</a> of two <a href="terms.html#Parameter">parameters</a>.</p>
+</figure>
 </body>
