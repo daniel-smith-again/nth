@@ -1203,3 +1203,19 @@ can I seriously overload all the pointer operations into one operator?
  y : Byte,
  z = (@ x),
  y = (@ z))
+
+what are datatypes?
+they are a way to "index" data arbitrarily.
+What's the difference between 
+
+(k : (A ~ B))
+and 
+(k : (B | *))
+so nothing.
+there's nothing different about these.
+the latter example is still an arbitrary refinement of B, but you don't need to tag it with data.
+You just say 
+(B : k) and now you have an instance of k.
+stupid.
+get rid of datatypes.
+if you want to tag things and have both persist during runtime, use a collection.

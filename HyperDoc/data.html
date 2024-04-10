@@ -26,6 +26,8 @@ Thus, <a href="terms.html#Evaluate">evaluating</a> a <a href="terms.html#Program
 </ul>
 
 <h2><a href="#Booleans" id="Booleans">Booleans</a></h2>
+<p>The <a href="terms.html#Boolean">Boolean</a> is a form of <a href="terms.html#Data">data</a> that corresponds to a <a href="terms.html#Value">value</a> in binary logic.</p>
+<p>The <a href="terms.html#Symbol">symbols</a>, <span><code>true</code></span> and <span><code>false</code></span> correspond to <a href="terms.html#Boolean">boolean</a> 1 and 0 respectively.</p>
 <h2><a href="#Bytes" id="Bytes">Bytes</a></h2>
 <p>The <a href="terms.html#Byte">Byte</a> corresponds to the smallest unit of storage which can be set in the <a href="terms.html#Environment">environment</a>.</p>
 <p>A <a href="terms.html#Byte">Byte</a> will contain a numerical <a href="terms.html#Value">value</a> of a <a href="terms.html#Range">range</a> such that a <a href="terms.html#Byte">Byte</a> corresponds to <span><code>(from 0 to &#x3b7;)</code></span>.</p>
@@ -114,9 +116,42 @@ However, it is a distinct form of <a href="terms.html#Data">data</a> and does no
 </figure>
 <p>The <a href="terms.html#Collection">collection</a> <a href="terms.html#Operation">operation</a>, <a href="collections.html#Subscript">Subscript</a> will also support <a href="terms.html#Array">Arrays</a>.
 The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="terms.html#Array">Array</a> with an indefinite <a href="terms.html#Cardinality">cardinality</a> will be the <a href="terms.html#Order">order</a> of that <a href="terms.html#Array">Array</a>.</p>
-<h2><a href="#Ranges" id="Ranges">Ranges</a></h2>
-<h2><a href="#Datatypes" id="Datatypes">Datatypes</a></h2>
+<h2><a href="#Numbers" id="Numbers">Numbers</a></h2>
+<p>A <a href="terms.html#Number">Number</a> is a form of <a href="terms.html#Data">data</a> which contains a numerical <a href="terms.html#Value">value</a> within an arbitrary fixed range over the integers.</p>
+<p>The <a href="terms.html#Value">value</a> stored by a <a href="terms.html#Number">Number</a> cannot exceed the minimum or maximum for that <a href="terms.html#Number">number</a>.</p>
+<p>The <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> for a <a href="terms.html#Number">number</a> must be the <a href="terms.html#Value">value</a> with the least magnitude relative to the integers.
+In other words, the <a href="terms.html#Value">value</a> which is closest to zero.
+For example, the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from 8 to 37)</code></span> is <span><code>8</code></span> and the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from -394 to 87362)</code></span> is <span><code>0</code></span></p>
+<h3><a href="#Number-Constructor" id="Number-Constructor">Number Constructor</a></h3>
+<p>The Number Constructor is a <a href="defaults.html#Expression">default expression</a> which will construct a <a href="terms.html#Number">number</a> using two <a href="terms.html#Number">numbers</a> as the minimum and maximum bounds.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the Number Constructor.</figcaption>
+<p><code>('(from ''Number to ''Number) -> Number)</code></p>
+</figure>
+<h3><a href="#Bounds" id="Bounds">Bounds</a></h3>
+<p>The <a href="defaults.html#Functions">default function</a> Bounds will accept a single <a href="terms.html#Parameter">parameter</a> which must be a <a href="terms.html#Number">number</a>.
+<a href="terms.html#Application">Applying</a> Bounds to a <a href="terms.html#Number">number</a> will result in a <a href="terms.html#Collection">collection</a> 
+where the first <a href="terms.html#Field">field</a> is the <a href="terms.html#Number">number</a> corresponding to the minimum <a href="terms.html#Value">value</a> for the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a>
+and the second <a href="terms.html#Field">field</a> is the <a href="terms.html#Number">number</a> corresponding to the maximum <a href="terms.html#Value">value</a> for the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a>.</p>
+<p>The <a>collection</a> resulting from <a>applying</a> Bounds will <a>bind</a> the first <a>field</a> to <span><code>min</code></span> and the second field to <span><code>max</code></span>.</p>
+<figure>
+<figcaption>The <a>function</a> <a>type</a> which an <a>implementation</a> of Bounds must conform to.</figcaption>
+<p><code>(bounds : (Number -> (collection (min = Number) (max = Number)))</code></p>
+</figure>
 <h2><a href="#Symbols" id="Symbols">Symbols</a></h2>
+<p><a href="terms.html#Symbol">Symbols</a> are a form of <a href="terms.html#Data">data</a> derived from a <a href="terms.html#Source">source</a> which represent unique abstract <a href="terms.html#Value">values</a>.</p>
+<p>A <a href="terms.html#Symbol">symbol</a> is constructed by <a href="terms.html#Quote">quoting</a> a <a href="terms.html#Program">program</a> which consists of only a <a href="terms.html#Symbol">symbol</a>.
+For example, <span><code>'abracadabra</code></span> constructs a <a href="terms.html#Symbol">symbol</a>.</p>
+<h3><a href="#Symbol" id="Symbol">Symbol</a></h3>
+<p>The <a href="defaults.html#Functions">default function</a>, <span><code>symbol</code></span> accepts a single parameter which is either a <a href="terms.html#Symbol">symbol</a> or a <a href="terms.html#String">string</a>.
+<a href="terms.html#Application">Applying</a> this <a href="terms.html#Function">function</a> to a <a href="terms.html#Symbol">symbol</a> will result in the <a href="terms.html#String">string</a> corresponding to the <a href="terms.html#Source">source</a> from which the <a href="terms.html#Symbol">symbol</a> was derived.
+<a href="terms.html#Application">Applying</a> this <a href="terms.html#Function">function</a> to a <a href="terms.html#String">string</a> will result in the <a href="terms.html#Symbol">symbol</a> which would be derived from that <a href="terms.html#String">string</a> if it were a <a href="terms.html#Source">source</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of Symbol must conform to.</figcaption>
+<p><code>
+(symbol : (type ((Symbol) -> String) ((String) -> Symbol)))
+</code></p>
+</figure>
 <h2><a href="#Data-Operations" id="Data-Operations">Data Operations</a></h2>
 <h3><a href="#Size" id="Size">Size</a></h3>
 <p>Size is a <a href="defaults.html#Functions">default function</a>, <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Identifier">identifier</a> <span><code>##</code></span>, which accepts a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
@@ -127,4 +162,5 @@ The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="term
 (## : (* -> Word))
 </code></p>
 </figure>
+<h3><a href="#Comparison" id="Comparison">Comparison</a></h3>
 </body>
