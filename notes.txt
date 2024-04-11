@@ -1220,3 +1220,15 @@ stupid.
 get rid of datatypes.
 if you want to tag things and have both persist during runtime, use a collection.
 yeah if I'm talking about refinement types, then tagging the type is the job of a qualified type.
+
+how to do named fields in a collection?
+
+(collection <a 1> <b 2> <c 3>)
+(collection a = 1 b = 2 c = 3)
+(collection (a 1)(b 2)(c 3))
+(collection (a)(b)(c)(d))
+(collection a = 1 b = 2 c = 3)
+(collection a . 1 b . 2 c . 3)
+(collection a . 1
+            b . 2
+            c . 3))
