@@ -11,47 +11,53 @@
 
 <h1><a href="#Collections" id="Collections">Collections</a></h1>
 <p>A <a href="terms.html#Collection">collection</a> is a form of composite <a href="terms.html#Data">data</a> which appears as a single <a href="terms.html#Unit">unit</a>, but is also deconstructible into components.</p>
-<p>A <a href="terms.html#Collection">collection</a> is comprised of <a href="terms.html#Field">fields</a> which are ordered according to numerical <a href="terms.html#Index">index</a> values.</p>
-<p>A <a href="terms.html#Collection">collection</a> contains a <a href="terms.html#Context">context</a> such that a <a href="terms.html#Field">field</a> may be <a href="terms.html#Binding">bound</a> by an <a href="terms.html#Identifier">identifier</a>.</p>
+<p>A <a href="terms.html#Collection">collection</a> is comprised of <a href="terms.html#Field">fields</a> which are ordered according to numerical <a href="terms.html#Index">index</a> values.
+The first <a href="terms.html#Field">field</a> corresponds to an <a href="terms.html#Index">index</a> of <span><code>1</code></span> and each following <a href="terms.html#Field">field</a> corresponds to consecutively increasing <a href="terms.html#Index">index</a> <a href="terms.html#Value">values</a>.</p>
+<p>A <a href="terms.html#Collection">collection</a> contains a <a href="terms.html#Context">context</a> such that a <a href="terms.html#Field">field</a> may be <a href="terms.html#Binding">bound</a> by an <a href="terms.html#Identifier">identifier</a>.
+An <a href="terms.html#Identifier">identifier</a> which <a href="terms.html#Binding">binds</a> a <a href="terms.html#Field">field</a> in this <a href="terms.html#Context">context</a> is referred to as a <a href="terms.html#Label">label</a>.</p>
 <h2><a href="#Constructing-Collections" id="Constructing-Collections">Constructing Collections</a></h2>
-<p>The Collection Constructor is a <a href="defaults.html#Expressions">default expression</a> which will construct a <a href="terms.html#Collection">collection</a> by resolving <a href="terms.html#Field">fields</a> in the <a href="terms.html#Expression">expression</a> as <a href="terms.html#Field">fields</a> in the <a href="terms.html#Collection">collection</a>.</p>
-<figure>
-<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the Collection Constructor.</figcaption>
-<p><code>
-('(collection '''Program) -> Collection)
-</code></p>
-<p>where a number of <a href="terms.html#Program">program</a> components follow the <a href="terms.html#Keyword">keyword</a> <span><code>collection</code></span>.</p>
-</figure>
-<p>The sequence of <a href="terms.html#Program">program</a> components following the <a href="terms.html#Keyword">keyword</a> <span><code>collection</code></span> are either a <a href="terms.html#Symbol">symbol</a>, <a href="terms.html#Expression">expression</a>, or a sub-sequence of the form <span><code>'(''Symbol . ''Program)</code></span> which is referred to as a Key.
-If a <a href="terms.html#Symbol">symbol</a> occurs in the sequence, it is <a href="terms.html#Resolve">resolved</a> as an <a href="terms.html#Identifier">identifier</a> and corresponds to a <a href="terms.html#Field">field</a> containing the <a href="terms.html#Resolve">resolved</a> <a href="terms.html#Value">value</a>.
-If an <a href="terms.html#Expression">expression</a> occurs in the sequence, it is <a href="terms.html#Evaluate">evaluated</a> and the result is used as the <a href="terms.html#Value">value</a> in a <a href="terms.html#Field">field</a>.
-If a Key occurs in the sequence, it corresponds to a single <a href="terms.html#Field">field</a> where the <a href="terms.html#Symbol">symbol</a> preceding the <span><code>.</code></span> <a href="terms.html#Keyword">keyword</a> is used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Program">program</a> following the <a href="terms.html#Keyword">keyword</a> is <a href="terms.html#Evaluate">evaluated</a> and the result used as the <a href="terms.html#Value">value</a> for the <a href="terms.html#Binding">binding</a> and for that <a href="terms.html#Field">field</a>.</p>
-<p>The Collection Constructor will perform any <a href="terms.html#Evaluate">evaluation</a> in a new <a href="terms.html#Scope">scope</a> which will contain any <a href="terms.html#Binding">bindings</a> created by Key sequences.
-<a href="terms.html#Binding">Bindings</a> which do not <a href="terms.html#Binding">bind</a> a <a href="terms.html#Field">field</a> as a <a href="terms.html#Value">value</a> will be <a href="terms.html#Discard">discarded</a> when the Collection Constructor <a href="terms.html#Expression">expression</a> is <a href="terms.html#Reduce">reduced</a>.</p>
+<p>The Collection Constructor is a <a href="defaults.html#Expression">default expression</a> which will result in a new <a href="terms.html#Collection">collection</a>.</p>
+<p>The Collection Constructor <a href="terms.html#Expression">expression</a> follows the same form and rules as a <a href="evaluation.html#Sequencing">Sequence</a>, however, the result of each <a href="terms.html#Step">step</a> is taken as a <a href="terms.html#Field">field</a> <a href="terms.html#Value">value</a> and any <a href="terms.html#Binding">bindings</a> in the <a href="terms.html#Scope">scope</a> are used as <a href="terms.html#Label">labels</a>.</p>
+<p>Each <a href="terms.html#Step">step</a> corresponds to an <a href="terms.html#Index">index</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to the order in which the <a href="terms.html#Step">step</a> occurs.
+This is such that the lowest <a href="terms.html#Index">index</a> will be <span><code>1</code></span> and the highest <a href="terms.html#Index">index</a> will be <a href="terms.html#Equivalence">equal</a> to the number of <a href="terms.html#Step">steps</a> in the Collection Constructor.</p>
+<p><a href="terms.html#Binding">Bindings</a> which do not <a href="terms.html#Binding">bind</a> a <a href="terms.html#Field">field</a> are <a href="terms.html#Discard">discarded</a> once the Collection Constructor is <a href="terms.html#Reduce">reduced</a>.</p>
+<p>A Collection Constructor is made distinct from a <a href="evaluation.html#Sequencing">Sequence</a> by the inclusion of the <a href="terms.html#Keyword">keyword</a> <span><code>collection</code></span> as the first <a href="terms.html#Field">field</a> in the Collection Constructor <a href="terms.html#Expression">expression</a>.</p>
 <figure>
 <figcaption>The following are examples of the Collection Constructor and the results of <a href="terms.html#Evaluate">evaluating</a> it.</figcaption>
 <p><code>
-(collection 1 2 3 4)
+(collection 1 , 2 , 3 , 4)
 </code>
-results in <math><mrow><mo>{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>}</mo></mrow></math></p>
+results in <math><mrow><mo>&#x27ea;</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>&#x27eb;</mo></mrow></math></p>
 <p><code>
-(collection a . 'a b . 'b c . 'c)
+(collection a = 'a , b = 'b , c = 'c)
 </code>
 results in 
-<math><mrow><mo>{</mo>
+<math><mrow><mo>&#x27ea;</mo>
 <mi>a</mi><mo>:</mo><mi>'a</mi><mo>,</mo><mspace width="0.5em"/>
 <mi>b</mi><mo>:</mo><mi>'b</mi><mo>,</mo><mspace width="0.5em"/>
 <mi>c</mi><mo>:</mo><mi>'c</mi>
-<mo>}</mo></mrow></math></p>
+<mo>&#x27eb;</mo></mrow></math></p>
 <p><code>
-(let y = 1 z = 3 in 
-collection x . 2 (y + x) z . (z + y))
+(let y = 1 z = 3 in
+(collection x = 2 , y + x , z = (z + y)))
 </code>results in 
-<math><mrow><mo>{</mo>
+<math><mrow><mo>&#x27ea;</mo>
 <mi>x</mi><mo>:</mo><mn>2</mn><mo>,</mo><mspace width="0.5em"/>
 <mn>3</mn><mo>,</mo><mspace width="0.5em"/>
 <mi>z</mi><mo>:</mo><mn>4</mn>
-<mo>}</mo></mrow></math></p>
+<mo>&#x27eb;</mo></mrow></math></p>
+<p><code>
+(collection a = (1 - (b = 1)))
+</code>results in
+<math><mrow><mo>&#x27ea;</mo>
+<mi>a</mi><mo>:</mo><mn>0</mn>
+<mo>&#x27eb;</mo></mrow></math>
+where the <a href="terms.html#Identifier">identifier</a>, <span><code>b</code></span> is <a href="terms.html#Discard">discarded</a> as it does not <a href="terms.html#Binding">bind</a> a <a href="terms.html#Field">field</a>.</p>
+<p><i>The results of a Collection Constructor are expressed using the classical notation for records expressed as 
+<math><mrow><mo>&#x27ea;</mo><mi>field</mi><mo>,</mo><mspace width="0.2em"/>
+ <mi>label</mi><mo>:</mo><mi>field</mi><mo>,</mo><mo>...</mo>
+<mo>&#x27eb;</mo></mrow></math>
+</i></p>
 </figure>
 <h2><a href="#Collection-Expressions" id="Collection-Expressions">Collection Expressions</a></h2>
 <h3><a>Subscript</a></h3>
@@ -63,7 +69,7 @@ collection x . 2 (y + x) z . (z + y))
 </code></p>
 </figure>
 <h3><a>Extract</a></h3>
-<p>Extract is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> <a href="terms.html#Binding">bound</a> with an <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Equivalence">equal</a> to a <a href="terms.html#Symbol">symbol</a>.</p>
+<p>Extract is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> using a <a href="terms.html#Label">label</a> <a href="terms.html#Equivalence">equivalent</a> to a <a href="terms.html#Symbol">symbol</a>.</p>
 <figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transfrom">transform</a> which <a href="terms.html#Implementation">implements</a> Extract.</figcaption>
 <p><code>
@@ -71,7 +77,51 @@ collection x . 2 (y + x) z . (z + y))
 </code></p>
 </figure>
 <h3><a>Combine</a></h3>
+<p>Combine is a <a href="defaults.html#Expressions">default expression</a> which will concatenate two <a href="terms.html#Collection">collections</a>, resulting in a new <a href="terms.html#Collection">collection</a> containing all the <a href="terms.html#Field">fields</a> of the first two.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Combine.</figcaption>
+<p><code>
+('(''Collection + ''Collection) -><br>
+&nbsp;let (a _ b) = (&amp; _ 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Collection |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m -> (# m) = ((# a) + (# b)))))
+</code></p>
+<p>Combine will result in a <a href="terms.html#Collection">collection</a> where the <a href="terms.html#Field">fields</a> from <span><code>a</code></span> and <span><code>b</code></span> must be in the same order as they were in their original <a href="terms.html#Collection">collections</a>.
+Additionally, the <a href="terms.html#Field">fields</a> originating from <span><code>b</code></span> must be at <a href="terms.html#Index">indicies</a> which are greater than the <a href="terms.html#Index">index</a> of the last <a href="terms.html#Field">field</a> from <span><code>a</code></span>.
+This is such that the <a href="terms.html#Expression">expression</a>, <code>((collection 1 , 2 , 3) + (collection 4 , 5 , 6))</code> 
+results in <code>(collection 1 , 2 , 3 , 4 , 5 , 6)</code></p>
+</figure>
+<p>Given two <a href="terms.html#Collection">collections</a> in a Combine <a href="terms.html#Expression">expression</a> where both <a href="terms.html#Collection">collections</a> have an identical <a href="terms.html#Label">label</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 <h3><a>Remove</a></h3>
+<p>Remove is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Discard">discard</a> <a href="terms.html#Field">fields</a> from one <a href="terms.html#Collection">collection</a> according to the <a href="terms.html#Subtype">subtype</a> relation of the <a href="terms.html#Field">field</a> in another <a href="terms.html#Collection">collection</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Remove.</figcaption>
+<p><code>
+('(''Collection - ''Collection) -><br>
+&nbsp;(let (a _ b) = (&amp; _ 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Collection |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m -> ((# m) &gt;= 0) /\ ((# m) &lt;= a))))
+</code></p>
+<p>Remove will result in a <a href="terms.html#Collection">collection</a> containing the <a href="terms.html#Field">fields</a> of <span><code>a</code></span> which are not <a href="terms.html#Subtype">subtypes</a> of any <a href="terms.html#Field">field</a> in <span><code>b</code></span>.</p>
+</figure>
 <h3><a>Identify</a></h3>
+<p>Identify is a <a href="defaults.html#Expression">default expression</a> which will provide <a href="terms.html#Index">index</a> for a <a href="terms.html#Label">label</a> or the <a href="terms.html#Label">label</a> for an <a href="terms.html#Index">index</a> if it exists.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Identify.</figcaption>
+<p><code>
+('(''Collection ~ ''(type Symbol Number)) -> (type Symbol Number _))
+</code></p>
+</figure>
+<p>Given an Identify <a href="terms.html#Expression">expression</a> where the <a href="terms.html#Collection">collection</a> does not have a corresponding <a href="terms.html#Label">label</a> or <a href="terms.html#Index">index</a>, the result of Identify will be <span><code>_</code></span>.</p>
 <h3><a>Cardinality</a></h3>
+<p>Cardinality is a <a href="defaults.html#Expression">default expression</a> which will result in a <a href="terms.html#Number">number</a> corresponding to the count of the <a href="terms.html#Field">fields</a> in a <a href="terms.html#Collection">collection</a>.
+In other words, Cardinality will result in the <a href="terms.html#Number">number</a> <a href="terms.html#Equal">equal</a> to the highest <a href="terms.html#Index">index</a> for that <a href="terms.html#Collection">collection</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Cardinality.</figcaption>
+<p><code>
+('(# ''Collection) -> Number)
+</code></p>
+</figure>
 </body>
