@@ -94,7 +94,7 @@ void *Read()
 {
   char *Buffer;
   Int BufferSize;
-  Int BufferLength;
+  Int BufferLength = 0;
   Int Pos;
   Int Offset;
   void *program;
@@ -176,7 +176,7 @@ void *Read()
   }
   program = malloc(0);
   program = Construct();
-  return program ;
+  return program;
 }
 
 void *Compute(void *program)
