@@ -9,6 +9,28 @@
 	<a id="prev" href="data.html">&#x261a;</a>
 	<a id="up" href="index.html">&centerdot;</a>
 
+
+
+
+<h1><a href="#Types" id="Types">Types</a></h1>
+<p><a href="terms.html#Type">Types</a> provide the means to specify <a href="terms.html#Constraint">constraints</a> on a <a href="terms.html#Program">program</a>.</p>
+<p>There are two forms of <a href="terms.html#Type">types</a>: <a href="terms.html#Enumeration">enumeration</a> and <a href="terms.html#Refinement">refinement</a>.</p>
+<p>Each <a href="terms.html#Type">type</a> is <a href="terms.html#Equivalence">equivalent</a> to itself.</p>
+<p>No two <a href="terms.html#Type">types</a> can be <a href="terms.html#Equivalence">equivalent</a>.</p>
+<p>A <a href="terms.html#Unit">unit</a> is an <a href="terms.html#Instance">instance</a> of an <a href="terms.html#Enumeration">enumeration</a> if it is <a href="terms.html#Equivalence">equal</a> to a <a href="terms.html#Member">member</a>.</p>
+<p>A <a href="terms.html#Unit">unit</a> is an <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Refinement">refinement</a> if <a href="terms.html#Application">applying</a> the <a href="terms.html#Predicate">predicate</a> with the <a href="terms.html#Unit">unit</a> as a <a href="terms.html#Parameter">parameter</a> results in a <span><code>Success</code></span> <a href="terms.html#Judgement">judgement</a>.</p>
+<h2><a href="#Enumeration-Constructor" id="Enumeration-Constructor">Enumeration Constructor</a></h2>
+<p>The Enumeration Constructor is a <a href="defaults.html#Expression">default expression</a> that will create a <a href="terms.html#Type">type</a> which is an <a href="terms.html#Enumeration">enumeration</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> the Enumeration Constructor.</figcaption>
+<p><code>
+('(type '''Program) -&gt; Type)
+</code></p>
+</figure>
+<p>An Enumeration Constructor will <a href="terms.html#Resolve">resolve</a> each <a href="terms.html#Field">field</a> of the <a href="terms.html#Expression">expression</a> following the <a href="terms.html#Keyword">keyword</a> <span><code>type</code></span>.
+Each result of a <a href="terms.html#Resolution">resolution</a> is taken as a <a href="terms.html#Member">member</a> of the <a href="terms.html#Enumeration">enumeration</a>.</p>
+<h2><a href="#Refinement-Constructor" id="Refinement-Constructor">Refinement Constructor</a></h2>
+<p>The Refinement Constructor is a <a href="defaults.html#Expression">default expression</a> that creates a <a href="terms.html#Type">type</a> which is a <a href="terms.html#Refinement">refinement</a>.</p>
 	<h1><a href="#Types" id="Types">Types</a></h1>
 	<p><a href="terms.html#Type">Types</a> provide a means of specifying <a href="terms.html#Constraint">constraints</a> on a program and to some extent, the intent of that program.</p>
 	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "enumerated" and "qualified".</p>
