@@ -39,6 +39,10 @@ is <a href="terms.html#Semantics">semantically</a> identical to
 <code>((x : T) -> x)</code>
 is <a href="terms.html#Semantics">semantically</a> indentical to
 <code>(x -> (x : T))</code></p>
+<h3><a href="#Function-Closures" id="Function-Closures">Function Closures</a></h3>
+<p>A <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> may create a <a href="terms.html#Closure">closure</a>, however, the <a href="terms.html#Closure">closures</a> cannot be <a href="terms.html#Discard">discarded</a> until the <a href="terms.html#Function">function</a> is <a href="terms.html#Discard">discarded</a>. 
+This differs from normal <a href="terms.html#Semantics">semantics</a> where a <a href="terms.html#Closure">closure</a> is <a href="terms.html#Discard">discarded</a> when it's <a href="terms.html#Context">context</a> is <a href="terms.html#Discard">discarded</a>.</p>
+
 <h2><a href="#Function-Application" id="Function-Application">Function Application</a></h2>
 <p><a href="terms.html#Application">Application</a> will <a href="terms.html#Binding">bind</a> <a href="terms.html#Parameter">parameters</a> as <a href="terms.html#Value">values</a> using the Arguments as <a href="terms.html#Identifier">identifiers</a> if the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a> was constructed with any Arguments are <a href="terms.html#Symbol">symbols</a>.</p>
 <p>If an Argument is used as an <a href="terms.html#Identifier">identifier</a> <a href="terms.html#Binding">binding</a> a <a href="terms.html#Parameter">parameter</a>, and the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> includes a <a href="terms.html#Closure">closure</a> with the same <a href="terms.html#Identifier">identifier</a> as the Argument <a href="terms.html#Binding">binding</a>, then the Argument <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> the <a href="terms.html#Closure">closure</a>.</p>
@@ -62,7 +66,6 @@ is indentical to
 <code>(y -> (y + 1) + 2)</code>
 The significance of this relationship is that the <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> of the former <a href="terms.html#Application">application</a> may be immediately <a href="terms.html#Discard">discarded</a> at the point when the latter <a href="terms.html#Application">application</a>, as the <a href="terms.html#Tail">tail</a>, is <a href="terms.html#Evaluate">evaluated</a>, 
 conversely to non-<a href="terms.html#Tail">tail</a> <a href="terms.html#Application">applications</a> where the <a href="terms.html#Scope">scope</a> of each <a href="terms.html#Application">application</a> cannot be <a href="terms.html#Discard">discarded</a> until the <a href="terms.html#Tail">tail</a> of each following <a href="terms.html#Application">application</a> is <a href="terms.html#Evaluate">evaluated</a>.</p>
-
 <h2><a href="#Fixed-Point" id="Fixed-Point">Fixed Point</a></h2>
 <p><a href="terms.html#Function">Function</a> <a href="terms.html#Application">application</a> will automatically establish a <a href="terms.html#Binding">binding</a> using <span><code>&</code></span> as the <a href="terms.html#Identifier">identifier</a>.
 This <a href="terms.html#Binding">binding</a> will <a href="terms.html#Shadow">shadow</a> any Arguments using the same <a href="terms.html#Symbol">symbol</a>.

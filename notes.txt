@@ -1238,3 +1238,18 @@ then I can use rem to get the remainder out of the structure.
 
 what types are subtypes. is it a transitive relationship?
 a < b < c therefore a < c
+Yes 
+
+
+can a closure close over something so that it persists without naming it?
+yes.
+
+
+(let x = 1 in (define f (n -> n + x)))
+here, x is bound.
+what about two things using the same binding?
+
+(let x = 1 in 
+(define f (n -> x + n)),
+(define g (m -> x + m)))
+yes, both these bindings of x point to the same x.
