@@ -22,14 +22,222 @@
 <li>absolute value</li>
 <li>exponentiation</li>
 <li>root</li>
+<li>Conjunction</li>
+<li>Disjunction</li>
+<li>Negation</li>
 </ul>
-<h2><a href="#Addition" id="Addition">Addition</a></h2>
-<h2><a href="#Subtraction" id="Subtraction">Subtraction</a></h2>
-<h2><a href="#Multiplication" id="Multiplication">Multiplication</a></h2>
-<h2><a href="#Division" id="Division">Division</a></h2>
-<h2><a href="#Remainder" id="Remainder">Remainder</a></h2>
-<h2><a href="#Modulus" id="Modulus">Modulus</a></h2>
-<h2><a href="#Absolute-Value" id="Absolute-Value">Absolute Value</a></h2>
-<h2><a href="#Exponentiation" id="Exponentiation">Exponentiation</a></h2>
-<h2><a>Root</a></h2>
+<p>Arithmetic <a href="terms.html#Operation">operations</a> will produce different results depending on the <a href="terms.html#Data">data</a> involved in the operation.</p>
+<p>Arithmetic over <a href="terms.html#Number">numbers</a> will always result in a <a href="terms.html#Number">number</a> with the least minimum and greatest maximum boundaries.
+Given <span><code>(let x : (from 0 to 2) y : (from -4 to -1) in (x = 1) + (y = -3))</code></span>, the result will be <span><code>(-2 : (from -4 to 2))</code></span>.</p>
+<p>Arithmetic over <a>Words</a> and <a>Byte</a> is modular by the maximum <a>value</a> respectively.
+For example, if the maximum <a>value</a> of a <a>byte</a> is <span><code>20</code></span> then 
+<span><code>(let x = (byte 15) y = (byte 15) in x + y)</code></span> results in <span><code>10</code></span>.</p>
+<h2><a href="#Numerical-Arithmetic" id="Numerical-Arithmetic">Numerical Arithmetic</a></h2>
+<h3><a href="#Addition" id="Addition">Addition</a></h3>
+<p>Addition is a <a href="defaults.html#Expressions">default expression</a> that will perform numerical addition on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to a addition must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Addition.</figcaption>
+<p><code>
+('(''(type Byte Word Number) + ''(type Byte Word Number)) -><br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical addition on <a>Bytes</a>, <a>Words</a>, and <a>Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to addition are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+<h3><a href="#Subtraction" id="Subtraction">Subtraction</a></h3>
+<p>Subtraction is a <a href="defaults.html#Expressions">default expression</a> which will perform numerical subtraction on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to subtraction must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Subtraction.</figcaption>
+<p><code>
+('(''(type Byte Word Number) - ''(type Byte Word Number)) -><br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical subtraction on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to subtraction are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+<h3><a href="#Multiplication" id="Multiplication">Multiplication</a></h3>
+<p>Multiplication is a <a href="defaults.html#Expressions">default expression</a> which will perform numerical multiplication on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to multiplication must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Multiplication.</figcaption>
+<p><code>
+('(''(type Byte Word Number) * ''(type Byte Word Number)) -&gt;<br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical multiplication on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to multiplication are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+
+<h3><a href="#Division" id="Division">Division</a></h3>
+<p>Division is a <a>default expression</a> which will perform numerical division on the <a>values</a> contained in either a <a>Byte</a>, <a>Word</a>, or <a>Number</a>.</p>
+<p>The result of division is a <a>collection</a> containing the quotient and the remainder which must be an <a>instance</a> of <span><code>(collection quotient = (type Byte Word Number) , remainder = (type Byte Word Number))</code></span>.</p>
+<figure>
+<figcaption>The <a>type</a> of <a>transform</a> which <a>implements</a> Division</figcaption>
+<p><code>
+('(''(type Byte Word Number) / ''((type Byte Word Number) | (n -&gt; n &gt; 0))) -&gt;<br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical division on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>If the <a href="terms.html#Constraint">constraint</a> on the result of division is a <a href="terms.html#Subtype">subtype</a> of <span><code>(type Byte Word Number)</code></span>, then the first <a href="terms.html#Field">field</a> of the resulting <a href="terms.html#Collection">collection</a> must be used as the result of the division.
+This is such that the result of <span><code>(1 + (7 / 3))</code></span> is <span><code>3</code></span> but the result of <span><code>((collection _) + (7 / 3))</code></span> is <span><code>(collection quotient = 2 , remainder = 1)</code></span></p>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to division are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+<h3><a href="#Remainder" id="Remainder">Remainder</a></h3>
+<p>Remainder is a <a href="defaults.html#Expressions">default expression</a> which accepts a result from division and will <a href="collections.html#Extract">extract</a> the <a href="terms.html#Field">field</a> containing the remainder <a href="terms.html#Value">value</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Remainder.</figcaption>
+<p><code>
+('(rem ''&#x1d563;) -> '(''(&amp; _ 1 _ 2) . remainder))
+</code>where &#x1d563; is an <a href="terms.html#Instance">instance</a> of the <a href="terms.html#Collection">collection</a> resulting from a division.</p>
+</figure>
+<h3><a href="#Modulus" id="Modulus">Modulus</a></h3>
+<p>Modulus is a <a href="defaults.html#Expressions">default expression</a> which will perform numeric modulo on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to modulus must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Modulus.</figcaption>
+<p><code>
+('(''(type Byte Word Number) Mod ''((type Byte Word Number) | (n -&gt; n &gt; 0))) -><br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical modulo on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to modulo are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+
+<h3><a href="#Absolute-Value" id="Absolute-Value">Absolute Value</a></h3>
+<p>Absolute value is a <a href="defaults.html#Expressions">default expression</a> which will result in the absolute value of any <a href="terms.html#Number">number</a> given as a <a href="terms.html#Parameter">parameter</a>.</p>
+<figure>
+<figcaption>The <a>type</a> of <a>transform</a> which <a>implements</a> Absolute Value.</figcaption>
+<p><code>
+((type '(| ''Number |) '(abs ''Number)) -&gt; '(&#x1d55c; ''(&amp; _ 1 _ 2)))
+</code>where &#x1d55c; is the <a href="terms.html#Operation">operation</a> which performs the absolute value.</p>
+</figure>
+<h3><a href="#Exponentiation" id="Exponentiation">Exponentiation</a></h3>
+<p>Exponentiation is a <a href="defaults.html#Expressions">default expression</a> which will perform numerical exponentiation on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to exponentiation must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<p>The first <a href="terms.html#Value">value</a> will be the base and the second <a href="terms.html#Value">value</a> will be the power.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Exponentiation.</figcaption>
+<p><code>
+('(''(type Byte Word Number) ^ ''((type Byte Word Number) | (n -&gt; n &gt; -1))) -&gt;<br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform numerical exponentiation on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to subtraction are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+
+<h3><a href="#Root" id="Root">Root</a></h3>
+<p>Root is a <a href="defaults.html#Expressions">default expression</a> which will perform numerical n<sup>th</sup> root on the <a href="terms.html#Value">values</a> contained in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a>.</p>
+<p>The <a href="terms.html#Parameter">parameters</a> to root must be <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a>.</p>
+<p>The first <a href="terms.html#Value">value</a> is the index and the second <a href="terms.html#Value">value</a> is the radicand.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Root.</figcaption>
+<p><code>
+('(''((type Byte Word Number) | (n -&gt; n &gt; 1)) -/ ''(type Byte Word Number)) -&gt;<br>
+&nbsp;let (x _ y) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;? (collection x , y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Byte , Byte) '(&#x1d561; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Word , Word) '(&#x1d562; ''x ''y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(collection Number , Number) '(&#x1d563; ''x ''y))
+</code>
+where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation">operations</a> which perform n<sup>th</sup> root on <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, and <a href="terms.html#Number">Numbers</a> respectively.</p>
+</figure>
+<p>It is considered an <a href="terms.html#Error">error</a> if the two <a href="terms.html#Parameter">parameters</a> to root are not <a href="terms.html#Instance">instances</a> of the same <a href="terms.html#Type">type</a> except when two <a href="terms.html#Number">numbers</a> are provided as <a href="terms.html#Parameter">parameters</a> in which case they must only be <a href="terms.html#Instance">instances</a> of <span><code>Number</code></span>.</p>
+
+<h2><a href="#Boolean-Arithmetic" id="Boolean-Arithmetic">Boolean Arithmetic</a></h2>
+<p>Boolean Arithmetic is a class of three <a href="defaults.html#Expressions">default expressions</a> which correspond to boolean arithmetic in classical logic.</p>
+<h3><a href="#Conjunction" id="Conjunction">Conjunction</a></h3>
+<p>Conjunction will perform logical conjunction on two <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Value">values</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Conjunction</figcaption>
+<p><code>
+((type '(''Boolean /\ ''Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'(''Boolean and ''Boolean)) -&gt; Boolean)
+</code></p>
+</figure>
+<h3><a href="#Disjunction" id="Disjunction">Disjunction</a></h3>
+<p>Disjunction will perform logical disjunction on two <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Value">values</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Disjunction.</figcaption>
+<p><code>
+((type '(''Boolean \/ ''Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'(''Boolean or ''Boolean)) -&gt; Boolean)
+</code></p>
+</figure>
+<h3><a href="#Negation" id="Negation">Negation</a></h3>
+<p>Negation will perform logical negation on a <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Value">value</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Negation.</figcaption>
+<p><code>
+((type '(- ''Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'(not ''Boolean)) -&gt; Boolean)
+</code></p>
+</figure>
+<h2><a href="#Combined-Arithmetic" id="Combined-Arithmetic">Combined Arithmetic</a></h2>
+<p>Combined Arithmetic is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Rewrite">rewrite</a> an arithmetic expression formed using the arithmetic <a href="terms.html#Expression">expressions</a> above according to the order of operation in classic mathematics.</p>
+<p>Combined Arithmetic accepts any <a href="terms.html#Expression">expression</a> where all <a href="terms.html#Field">fields</a> are arithmetic <a>keywords</a> or one of <a href="terms.html#Byte">Bytes</a>, <a href="terms.html#Word">Words</a>, or <a href="terms.html#Number">Numbers</a>.</p>
+<p>Combined Arithmetic will <a>rewrite</a> <a>expressions</a> such that arithmetic is performed according to the following order of operations...</p>
+<ol>
+<li>absolute value</li>
+<li>exponentiation and root</li>
+<li>multiplication, division, modulus, and remainder</li>
+<li>addition and subtraction</li>
+</ol>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Combined Arithmetic.</figcaption>
+<p><code>
+((Program | (p -&gt; &#x1d556; p) -&gt; (type Byte Word Number))
+</code> where &#x1d556; is a <a href="terms.html#Function">function</a> which decides if an <a href="terms.html#Expression">expression</a> is a Combined Arithmetic <a href="terms.html#Expression">expression</a>.</p>
+</figure>
+<figure>
+<figcaption>The following are examples of how Combined Arithmetic <a href="terms.html#Rewrite">rewrites</a> <a href="terms.html#Expression">expressions</a>.</figcaption>
+<p><code>(1 + 3 * abs 4 -/ 9 ^ 8)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>(1 + (3 * (((abs 4) -/ 9) ^ 8)))</code></p>
+<p><code>5 * | 1 + 364823 mod -367 | - 6 ^ 98)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>((5 * (abs (1 + (364823 mod -367)))) - (6 ^ 98))</code></p>
+</figure>
+<h2><a href="#Combined-Boolean-Arithmetic" id="Combined-Boolean-Arithmetic">Combined Boolean Arithmetic</a></h2>
+<p>Combined Boolean Arithmetic is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Rewrite">rewrite</a> a <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Expression">expression</a> formed using <a href="terms.html#Boolean">boolean</a> <a href="terms.html#Value">values</a> and the <a href="terms.html#Keyword">keywords</a> for the Boolean Arithmetic.</p>
+<p>Combined Boolean Arithmetic will <a href="terms.html#Rewrite">rewrite</a> <a href="terms.html#Expression">expressions</a> such that the <a href="terms.html#Boolean">boolean</a> operations are performed in order of occurrence.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Combined Boolean Arithmetic.</figcaption>
+<p><code>
+((Program | (p -&gt; &#x1d556; p)) -&gt; Boolean)
+</code>where &#x1d556; is a <a href="terms.html#Function">function</a> which decides if an <a href="terms.html#Expression">expression</a> is a Combined Boolean Arithmetic <a href="terms.html#Expression">expression</a>.</p>
+</figure>
+<figure>
+<figcaption>The following are examples of how Combined Boolean Arithmetic <a href="terms.html#Rewrite">rewrites</a> <a href="terms.html#Expression">expressions</a>.</figcaption>
+<p><code>(true and false or not true)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>(true and (false or (not true)))</code></p>
+<p><code>(not true and true or false)</code> is <a href="terms.html#Rewrite">rewritten</a> as <code>(not (true and (true or false)))</code></p>
+</figure>
 </body>

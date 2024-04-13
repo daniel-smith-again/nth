@@ -1233,3 +1233,5 @@ how to do named fields in a collection?
             b . 2
             c . 3))
 
+I divide two numbers I get the quotient and the remainder.
+then I can use rem to get the remainder out of the structure.

@@ -124,14 +124,19 @@ However, it is a distinct form of <a href="terms.html#Data">data</a> and does no
 The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="terms.html#Array">Array</a> with an indefinite <a href="terms.html#Cardinality">cardinality</a> will be the <a href="terms.html#Order">order</a> of that <a href="terms.html#Array">Array</a>.</p>
 <h2><a href="#Numbers" id="Numbers">Numbers</a></h2>
 <p>A <a href="terms.html#Number">Number</a> is a form of <a href="terms.html#Data">data</a> which contains a numerical <a href="terms.html#Value">value</a> within an arbitrary fixed range over the integers.</p>
-<p>The <a href="terms.html#Value">value</a> stored by a <a href="terms.html#Number">Number</a> cannot exceed the minimum or maximum for that <a href="terms.html#Number">number</a>.</p>
+<p>The <a href="terms.html#Value">value</a> stored by a <a href="terms.html#Number">Number</a> cannot exceed the minimum or maximum for that <a href="terms.html#Number">number</a>.
+Given a <a href="terms.html#Value">value</a> to be stored by a <a href="terms.html#Number">number</a> which exceeds a boundary, the <a href="terms.html#Number">number</a> will "saturate".
+In other words, the <a href="terms.html#Value">value</a> stored by the <a href="terms.html#Number">number</a> will be the minimum or maximum <a href="terms.html#Value">value</a>, whichever is closest to the excessive <a href="terms.html#Value">value</a>.
+This is such that <span><code>((100000 : (from -10 to 10)) = 10)</code></span>.</p>
 <p>The <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> for a <a href="terms.html#Number">number</a> must be the <a href="terms.html#Value">value</a> with the least magnitude relative to the integers.
 In other words, the <a href="terms.html#Value">value</a> which is closest to zero.
-For example, the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from 8 to 37)</code></span> is <span><code>8</code></span> and the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from -394 to 87362)</code></span> is <span><code>0</code></span></p>
+For example, the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from 8 to 37)</code></span> is <span><code>8</code></span> and the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from -394 to 87362)</code></span> is <span><code>0</code></span>.
+This is such that the <a>value</a> of <span><code>n</code></span> in <span><code>(x : (from -394 to 87362))</code></span> is <span><code>0</code></span>.</p>
 <p>Any two <a href="terms.html#Number">Numbers</a> are <a href="terms.html#Equivalence">equivalent</a> if the <a href="terms.html#Value">values</a> they each hold are <a href="terms.html#Equivalence">equivalent</a> relative to the integers.
 For example <span><code>(5 = 5)</code></span> and <span><code>((27 : (from -378 to 900)) = (27 : (from 15 to 28)))</code></span> both result in <span><code>true</code></span></p>
 <h3><a href="#Number-Constructor" id="Number-Constructor">Number Constructor</a></h3>
-<p>The Number Constructor is a <a href="defaults.html#Expression">default expression</a> which will construct a <a href="terms.html#Number">number</a> using two <a href="terms.html#Number">numbers</a> as the minimum and maximum bounds.</p>
+<p>The Number Constructor is a <a href="defaults.html#Expression">default expression</a> which will construct a <a href="terms.html#Number">number</a> using two <a href="terms.html#Number">numbers</a> as the minimum and maximum bounds.
+The first <a href="terms.html#Number">number</a> must always be less than the second <a href="terms.html#Number">number</a> relative to the integers.</p>
 <figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> the Number Constructor.</figcaption>
 <p><code>('(from ''Number to ''Number) -> Number)</code></p>
