@@ -81,6 +81,26 @@ and &#x1d553; will result in the <a href="terms.html#Type">type</a> <a href="ter
 </figure>
 <p>The <a href="terms.html#Type">type</a> recognized as the <a href="terms.html#Constraint">constraint</a> must be relative to the <a href="terms.html#Scope">scope</a> where the Derive from Instance <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a>.</p>
 <h2><a href="#Constraints" id="Constraints">Constraints</a></h2>
+<p>A <a href="terms.html#Constraint">constraint</a> implies that there are certain structural properties which a <a href="terms.html#Program">program</a> must exhibit.</p>
+<p>Given a <a href="terms.html#Program">program</a> and a <a href="terms.html#Constraint">constraint</a>, that <a href="terms.html#Program">program</a> may either satisfy the <a href="terms.html#Constraint">constraint</a>, leading to the <a href="terms.html#Program">program</a> being <a href="terms.html#Evaluate">evaluated</a>, or violate it, leading to an <a href="terms.html#Error">error</a>.</p>
+<h3><a href="#Assertion" id="Assertion">Assertion</a></h3>
+<p>A <a href="terms.html#Constraint">constraint</a> is established via the <a href="defaults.html#Expressions">default expression</a>, Assertion.</p>
+<p>Assertion will accept an <a href="terms.html#Identifier">identifier</a> or <a href="terms.html#Program">program</a> and a <a href="terms.html#Type">type</a>.
+It will establish a <a href="terms.html#Constraint">constraint</a> such that the <a href="terms.html#Value">value</a> <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Identifier">identifier</a> or the result of <a href="terms.html#Evaluate">evaluating</a> the <a href="terms.html#Program">program</a> must be an <a href="terms.html#Instance">instance</a> of that <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a>type</a> of <a>transform</a> which <a>implements</a> Assertion.</figcaption>
+<p><code>
+('(''Program : ''Type) -&gt; &#x1d54e; (&amp; _ 1))
+</code>where &#x1d54e; establishes the <a href="terms.html#Constraint">constraint</a> and engages the <a href="terms.html#Implementation">implementation's</a> mechanism for proof of satisfiability.</p>
+</figure>
+<p>The result of an <a href="terms.html#Assertion">assertion</a> will always be the <a href="terms.html#Program">program</a> or <a href="terms.html#Identifier">identifier</a> which is <a href="terms.html#Constraint">constrained</a>.</p>
+<p>The <a href="terms.html#Constraint">constraint</a> established by an <a href="terms.html#Assertion">assertion</a> is relative to the <a href="terms.html#Context">context</a> in which the <a href="terms.html#Constraint">constrained</a> entity is <a href="terms.html#Instantiate">instantiated</a>.
+Additionally, a <a>constraint</a> does not apply outside of the <a>context</a> where the <a>assertion</a> was <a>evaluated</a>.</p>
+<h2><a href="#Correctness" id="Correctness">Correctness</a></h2>
+<p>A <a href="terms.html#Program">program</a> may only be <a href="terms.html#Evaluate">evaluated</a> if it is <a href="terms.html#Correct">correct</a>.</p>
+<p>A <a href="terms.html#Program">program</a> is <a href="terms.html#Correct">correct</a> if it satisfies all <a href="terms.html#Constraint">constraints</a>.
+A <a href="terms.html#Implementation">conforming implementation</a> must prove that a <a href="terms.html#Program">program</a> satisfies all <a href="terms.html#Constraint">constraints</a>. 
+The method of proof is <a href="terms.html#Implementation">implementation dependent</a>.</p>
 
 
 	<h1><a href="#Types" id="Types">Types</a></h1>
