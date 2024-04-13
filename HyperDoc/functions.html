@@ -42,6 +42,20 @@ is <a href="terms.html#Semantics">semantically</a> indentical to
 <h3><a href="#Function-Closures" id="Function-Closures">Function Closures</a></h3>
 <p>A <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> may create a <a href="terms.html#Closure">closure</a>, however, the <a href="terms.html#Closure">closures</a> cannot be <a href="terms.html#Discard">discarded</a> until the <a href="terms.html#Function">function</a> is <a href="terms.html#Discard">discarded</a>. 
 This differs from normal <a href="terms.html#Semantics">semantics</a> where a <a href="terms.html#Closure">closure</a> is <a href="terms.html#Discard">discarded</a> when it's <a href="terms.html#Context">context</a> is <a href="terms.html#Discard">discarded</a>.</p>
+<p>A <a href="terms.html#Function">function</a> <a href="terms.html#Body">body</a> may <a href="terms.html#Application">apply</a> a <a href="terms.html#Handler">handler</a> which is <a href="terms.html#Discard">discarded</a> before the <a href="terms.html#Function">function</a> is ever <a href="terms.html#Application">applied</a>.
+In this case the <a href="terms.html#Handler">handler</a> <a href="terms.html#Function">function</a> cannot be copied according to normal <a href="terms.html#Closure">closure</a> <a href="terms.html#Semantics">semantics</a>.
+The <a href="terms.html#Function">function</a> <a href="terms.html#Application">application</a> is required to be inside an <a href="evaluation.html#Inversion">Inversion</a> <a href="terms.html#Scope">scope</a> where a <a href="terms.html#Handler">handler</a>, which must be a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Discard">discarded</a> <a href="terms.html#Handler">handler</a>, is <a href="terms.html#Binding">bound</a> to an <a href="terms.html#Equivalence">equivalent</a> <a href="terms.html#Identifier">identifier</a>.</p>
+<figure>
+<figcaption>An example of how a <a href="terms.html#Function">function</a> <a href="terms.html#Scope">scope</a> <a href="terms.html#Closure">closes</a> over a <a href="terms.html#Handler">handler</a>.</figcaption>
+<p><code>
+(define f<br>
+&nbsp;((k = (r n -> r n))<br>
+&nbsp;&nbsp;&nbsp;>><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(x -> k x)))<br>
+((f 1) <<<br>
+&nbsp;(k = (a b -> a (b + 1))))
+</code>where the result is <span><code>2</code></span>, rather than <span><code>1</code></span> because the second <a href="terms.html#Handler">handler</a> is being <a href="terms.html#Application">applied</a> since the first was <a href="terms.html#Discard">discarded</a>.</p>
+</figure>
 
 <h2><a href="#Function-Application" id="Function-Application">Function Application</a></h2>
 <p><a href="terms.html#Application">Application</a> will <a href="terms.html#Binding">bind</a> <a href="terms.html#Parameter">parameters</a> as <a href="terms.html#Value">values</a> using the Arguments as <a href="terms.html#Identifier">identifiers</a> if the <a href="terms.html#Function">function</a> being <a href="terms.html#Application">applied</a> was constructed with any Arguments are <a href="terms.html#Symbol">symbols</a>.</p>
