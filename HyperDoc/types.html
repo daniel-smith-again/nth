@@ -31,6 +31,57 @@
 Each result of a <a href="terms.html#Resolution">resolution</a> is taken as a <a href="terms.html#Member">member</a> of the <a href="terms.html#Enumeration">enumeration</a>.</p>
 <h2><a href="#Refinement-Constructor" id="Refinement-Constructor">Refinement Constructor</a></h2>
 <p>The Refinement Constructor is a <a href="defaults.html#Expression">default expression</a> that creates a <a href="terms.html#Type">type</a> which is a <a href="terms.html#Refinement">refinement</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> the Refinement Constructor.</figcaption>
+<p><code>
+('(''Type | ''Function) -&gt; let (base _ predicate) = (&amp; _ 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(&#x1d565; base predicate) : Refinement)
+</code> where <span><code>base</code></span> is the <a href="terms.html#Base">base</a>, <span><code>predicate</code></span> is the <a href="terms.html#Predicate">predicate</a>, and &#x1d565; is the <a href="terms.html#Operation">operation</a> which creates the <a href="terms.html#Refinement">refinement</a>.</p>
+</figure>
+<h2><a href="#Type-Arithmetic" id="Type-Arithmetic">Type Arithmetic</a></h2>
+<h3><a>Combine</a></h3>
+<p>Combine is a <a href="defaults.html#Expressions">default expression</a> which will create a <a href="terms.html#Type">type</a> using the <a href="terms.html#Member">members</a> and <a href="terms.html#Predicate">predicates</a> of the two <a href="terms.html#Paramter">parameters</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Combine.</figcaption>
+<p><code>
+('(''Type + ''Type) -&gt; Type)
+</code></p>
+</figure>
+<p>Combine will create a <a href="terms.html#Type">type</a> which is a <a href="terms.html#Supertype">supertype</a> of the two <a href="terms.html#Parameter">parameter</a> <a href="terms.html#Type">types</a> such that
+<span><code>((type a b) + (k | (n -> f n)))</code></span> results in <span><code>(type a b (k | (n -&gt; f n)))</code></span>.</p>
+<h3><a href="#Remove" id="Remove">Remove</a></h3>
+<p>Remove is a <a href="defaults.html#Expressions">default expression</a> that will create a <a href="terms.html#Type">type</a> with all the <a href="terms.html#Member">members</a> of the first <a href="terms.html#Parameter">parameter</a> and no <a href="terms.html#Member">members</a> which are <a href="terms.html#Instance">instances</a> of the second <a href="terms.html#Parameter">parameter</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Remove.</figcaption>
+<p><code>
+('(''Enumeration - ''Type) -&gt; Type)
+</code> where <a href="terms.html#Member">members</a> of the <a href="terms.html#Enumeration">enumeration</a> are removed if they are <a href="terms.html#Instance">instances</a> of the <a href="terms.html#Type">type</a>.</p>
+</figure>
+<p>The initial <a href="terms.html#Type">type</a> <a href="terms.html#Parameter">parameter</a> must be an <a href="terms.html#Enumeration">enumeration</a> otherwise it is considered an <a href="terms.html#Error">error</a>.</p>
+<h3><a href="#Derive-from-Instance" id="Derive-from-Instance">Derive from Instance</a></h3>
+<p>The <a href="defaults.html#Expressions">default expression</a> Derive from Instance will result in the <a href="terms.html#Type">type</a> which <a href="terms.html#Constraint">constrains</a> a <a href="terms.html#Value">value</a> or an <a href="terms.html#Identifier">identifier</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Derive from Instance.</figcaption>
+<p><code>
+('(? ''Program) -&gt; let (_ t) = (&amp; _ 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symbol (&#x1d552; t)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression (&#x1d553; t))
+</code></p>
+</figure>
+
+
+
+
 	<h1><a href="#Types" id="Types">Types</a></h1>
 	<p><a href="terms.html#Type">Types</a> provide a means of specifying <a href="terms.html#Constraint">constraints</a> on a program and to some extent, the intent of that program.</p>
 	<p>There are two forms of <a>types</a> provided by <i>n</i><sup>th</sup>: "enumerated" and "qualified".</p>

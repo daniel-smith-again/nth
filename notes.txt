@@ -1235,3 +1235,6 @@ how to do named fields in a collection?
 
 I divide two numbers I get the quotient and the remainder.
 then I can use rem to get the remainder out of the structure.
+
+what types are subtypes. is it a transitive relationship?
+a < b < c therefore a < c
