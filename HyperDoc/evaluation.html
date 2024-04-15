@@ -27,8 +27,8 @@ If there are no <a href="terms.html#Transform">transforms</a> which can be <a hr
 <a href="#Fig-1" id="Fig-1">Figure 1</a><figure>
 <figcaption>An example of the <a href="terms.html#Subtype">subtype</a> <a href="terms.html#Constraint">constraint</a> being chosen from multiple possible <a href="terms.html#Transform">transforms</a>.</figcaption>
 <p><code>
-(define '(a ''(x)) f)<br>
-(define '(a ''(x) c) g)<br>
+(define ('(a ''(x)) -&gt; f))<br>
+(define ('(a ''(x) c) -&gt; g))<br>
 (a b c)
 </code></p>
 <p>In this example, two <a href="terms.html#Transform">transforms</a> are defined, one using a <a href="terms.html#Function">function</a> <span><code>f</code></span> and the other using a <a href="terms.html#Function">function</a> <span><code>g</code></span>.
