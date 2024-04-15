@@ -54,7 +54,7 @@
 <body onload="CheckEmbed();">
 <p id="Help" onmouseover="ShowHelp();">?
 	<div id="Help-Contents" onclick="HideHelp();"></div>
-	<div id="KeyCommands" style="height:32ch;overflow-y:scroll;padding-top:0;">
+	<div id="KeyCommands" style="height:52ch;overflow-y:scroll;padding-top:0;">
 		<h3>Keyboard Commands</h3>
 		<table>
 			<style>table{font-size:calc((1vh + 1vw) * 0.6)}td{padding:0.5ch;text-align:right;border-right:solid thin var(--fg);}td + td{border-right:none;border-left:solid thin var(--fg);text-align:left;}</style>
@@ -119,7 +119,7 @@ async function ShowHelp() {
 	R.style.left = Rp.left + 'px';
 	E.style.top = Ep.bottom + 'px';
 	E.style.left = Ep.x + (Ep.width * 0.32) + 'px';
-	K.style.top = '7ch';
+	K.style.top = '20vh';
 	K.style.right = '13ch';
 	T.style.top = '2ch';
 	T.style.left = Tp.left - T.getBoundingClientRect().width + 'px';
@@ -134,7 +134,7 @@ function HideHelp() {
 }
 </script>
 <div id='Header' style="transition:all 0.2s;width:25%;position:fixed;top:120vh;opacity:0;right:0;">
-	<p style="border-bottom:medium solid var(--fg);margin:0;">The <i>n</i><sup>th</sup> Reference Implementation</p>
+	<p style="border-bottom:medium solid var(--fg);margin:0;">The <a href="index.html" style="color:var(--fg);text-decoration:none;"><i>n</i><sup>th</sup></a> Reference Implementation</p>
 	<p style="margin:0;">
 		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
 		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
@@ -143,7 +143,7 @@ function HideHelp() {
 </div>
 
 <h-cursor>
-	<div id="Result">Result: <span></span></div>
+	<div id="Result">Fake Result: <span></span></div>
 	<p id="info" style="width:32ch;">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
 </h-cursor>
 <v-cursor>
@@ -257,12 +257,6 @@ function StructureEditorInput(key) {
 			case '(':
 				if (!key.repeat) {InsertExp('nth-expression');}
 				break;
-			case '{':
-				if (!key.repeat) {InsertExp('nth-exp-collection');}
-				break;
-			case '[':
-				if (!key.repeat) {InsertExp('nth-exp-type');}
-				break;
 			case '\'':
 				if (!key.repeat) {InsertExp('nth-exp-quote');}
 				else {
@@ -321,12 +315,6 @@ function StructureEditorInput(key) {
 			case '(':
 				if (!key.repeat) {InsertExp('nth-expression');}
 				break;
-			case '{':
-				if (!key.repeat) {InsertExp('nth-exp-collection');}
-				break;
-			case '[':
-				if (!key.repeat) {InsertExp('nth-exp-type');}
-				break;
 			case '\'':
 				if (!key.repeat) {InsertExp('nth-exp-quote');}
 				else {
@@ -334,17 +322,8 @@ function StructureEditorInput(key) {
 					else InsertExp('nth-exp-tquote');
 				}
 				break;
-			case '}':
-				if (!key.repeat) {CloseCollection(); EditExpression();}
-				break;
-			case ']':
-				if (!key.repeat) {CloseType(); EditExpression();}
-				break;
 			case ')':
 				if (!key.repeat) {CloseExpression(); EditExpression();}
-				break;
-			case ',':
-				if (!key.repeat) {InsertSequence();}
 				break;
 			case '"':
 				if (!key.repeat) {InsertString(); StringInput = true;}
@@ -864,12 +843,6 @@ function CodeToString (n, s) {
 			case 'NTH-EXPRESSION': 
 				s += '(' + CodeToString(n.childNodes[x], null) + ')';
 				break;
-			case 'NTH-EXP-COLLECTION': 
-				s += '{' + CodeToString(n.childNodes[x], null) + '}';
-				break;
-			case 'NTH-EXP-TYPE': 
-				s += '[' + CodeToString(n.childNodes[x], null) + ']';
-				break;
 			case 'NTH-EXP-QUOTE': 
 				s += '\'' + CodeToString(n.childNodes[x], null);
 				break;
@@ -878,9 +851,6 @@ function CodeToString (n, s) {
 				break;
 			case 'NTH-EXP-TQUOTE':
 				s += '\'\'\'' + CodeToString(n.childNodes[x], null);
-				break;
-			case 'NTH-COMMA':
-				s += ', ';
 				break;
 			case 'BR':
 				s += '\n';
@@ -932,19 +902,7 @@ function ParseFile (F, p, n) {
 				n = n.lastChild;
 				n.cursor = 0;
 				break;
-			case '{':
-				n.appendChild(document.createElement('nth-exp-collection'));
-				n = n.lastChild;
-				n.cursor = 0;
-				break;
-			case '[':
-				n.appendChild(document.createElement('nth-exp-type'));
-				n = n.lastChild;
-				n.cursor = 0;
-				break;
 			case ')':
-			case '}':
-			case ']':
 				n.cursor = n.childNodes.length;
 				n = n.parentElement;
 				if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
@@ -977,15 +935,6 @@ function ParseFile (F, p, n) {
 				}
 				n.appendChild(document.createElement('nth-string'));
 				n = n.lastChild;
-				break;
-			case ',':
-				if (n.tagName == 'NTH-SYMBOL') {
-					n = n.parentElement;
-					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
-						n = n.parentElement;
-				}
-				n.appendChild(document.createElement('nth-comma'));
-				n.lastChild.appendChild(document.createTextNode(','));
 				break;
 			case '\n':
 				if (n.tagName == 'NTH-SYMBOL') {
