@@ -242,7 +242,7 @@ where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation"
 </figure>
 <h2><a href="#Comparison" id="Comparison">Comparison</a></h2>
 <p>Any two numerical <a href="terms.html#Value">values</a> stored in either a <a href="terms.html#Byte">Byte</a>, <a href="terms.html#Word">Word</a>, or <a href="terms.html#Number">Number</a> may be compared.</p>
-<p>The comparison <a>operations</a> are as follows...</p>
+<p>The comparison <a href="terms.html#Operation">operations</a> are as follows...</p>
 <ul>
 <li>inequality</li>
 <li>greater than</li>
@@ -250,4 +250,86 @@ where &#x1d561;, &#x1d562;, and &#x1d563; are the <a href="terms.html#Operation"
 <li>less than</li>
 <li>less or equal</li>
 </ul>
+<p>Comparison <a href="terms.html#Operation">operations</a> will result in a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> according to the numerical ordering of two <a href="terms.html#Parameter">parameters</a>.
+The order of the two <a href="terms.html#Parameter">parameters</a> must be tested similarly to the following <a href="terms.html#Program">program</a> given in <a>Figure _</a>.
+All five comparison <a href="terms.html#Operation">operations</a> are defined according to this <a href="terms.html#Program">program</a>.</p>
+<figure>
+<figcaption>A <a href="#Program">program</a> which tests the numerical ordering of two <a href="terms.html#Parameter">parameters</a>.</figcaption>
+<p><code>
+(define &#x1d568;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a b -> let c = (a - b)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+? c <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0 'equivalent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(from 1 to (c . bounds . max)) 'greater<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(from (c . bounds . min) to -1) 'lesser<br>
+))
+
+</code></p>
+</figure>
+<h3><a id="Inequality" href="#Inequality">Inequality</a></h3>
+<p>Inequality will result in <span><code>true</code></span> if the <a href="terms.html#Parameter">parameters</a> are not <a href="terms.html#Equivalence">equivalent</a> and <span><code>false</code></span> otherwise.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Inequaliity.</figcaption>
+<p><code>
+('(''(type Byte Word Number) /= ''(type Byte Word Number)) -><br>
+&nbsp;let ((a _ b)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(? ((&#x1d568; ''a ''b) = 'equivalent) false true)
+)
+</code></p>
+</figure>
+<h3><a id="Greater" href="#Greater">Greater</a></h3>
+<p>Greater will result in <span><code>true</code></span> if the first <a href="terms.html#Parameter">parameter</a> is greater than the second <a href="#Parameter">parameter</a> and <span><code>false</code></span> otherwise.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Greater.</figcaption>
+<p><code>
+('(''(type Byte Word Number) /= ''(type Byte Word Number)) -><br>
+&nbsp;let ((a _ b)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(? ((&#x1d568; ''a ''b) = 'greater) true false)
+)
+</code></p>
+</figure>
+<h3><a id="Greater-or-Equal" href="#Greater-or-Equal">Greater or Equal</a></h3>
+<p>Greater or Equal will result in <span><code>true</code></span> if the first <a href="terms.html#Parameter">parameter</a> is greater than or <a href="terms.html#Equivalence">equivalent</a> to the second <a href="#Parameter">parameter</a> and <span><code>false</code></span> otherwise.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Greater or Equal.</figcaption>
+<p><code>
+('(''(type Byte Word Number) /= ''(type Byte Word Number)) -><br>
+&nbsp;let ((a _ b)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(? (let m = (&#x1d568; ''a ''b) in ((m) = 'greater) or ((m) = 'equivalent))) true false)
+)
+</code></p>
+</figure>
+<h3><a id="Less" href="#Less">Less</a></h3>
+<p>Less will result in <span><code>true</code></span> if the first <a href="terms.html#Parameter">parameter</a> is less than the second <a href="#Parameter">parameter</a> and <span><code>false</code></span> otherwise.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Less.</figcaption>
+<p><code>
+('(''(type Byte Word Number) /= ''(type Byte Word Number)) -><br>
+&nbsp;let ((a _ b)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(? ((&#x1d568; ''a ''b) = 'lesser) true false)
+)
+</code></p>
+</figure>
+<h3><a id="Less-or-Equal" href="#Less-or-Equal">Less or Equal</a></h3>
+<p>Less or Equal will result in <span><code>true</code></span> if the first <a href="terms.html#Parameter">parameter</a> is less than or <a href="terms.html#Equivalence">equivalent</a> to the second <a href="#Parameter">parameter</a> and <span><code>false</code></span> otherwise.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Less or Equal.</figcaption>
+<p><code>
+('(''(type Byte Word Number) /= ''(type Byte Word Number)) -><br>
+&nbsp;let ((a _ b)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(? (let m = (&#x1d568; ''a ''b) in ((m) = 'lesser) or ((m) = 'equivalent))) true false)
+)
+</code></p>
+</figure>
 </body>

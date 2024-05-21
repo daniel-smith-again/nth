@@ -1253,3 +1253,27 @@ what about two things using the same binding?
 (define f (n -> x + n)),
 (define g (m -> x + m)))
 yes, both these bindings of x point to the same x.
+
+
+
+In Haskell...
+  class TypeOf a where
+    typeOf :: a -> String
+  instance TypeOf Bool where
+    typeOf _ = "Bool"
+  instance TypeOf Char where
+    typeOf _ = "Char"
+  instance (TypeOf a, TypeOf b) => TypeOf (a, b) where
+    typeOf(a, b) = "(" ++ typeOf a ++ "' " ++ typeOf b ++ ")"
+|> typeOf (True, 'a')
+   "(Bool, Char)"
+
+In nth...
+  (define TypeOf (-> String))
+  (define (typeOf : TypeOf) 
+    (type
+      ((Boolean) -> "Boolean")
+      ((Character) -> "Character")
+      (a b -> "\(typeOf a), \(typeOf b)")))
+|> (typeOf True "a")
+   "(Boolean, Character)"
