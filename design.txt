@@ -1,0 +1,25 @@
+Nth Programming Environment
+Design Documentation
+
+What is the programming environment?
+It's GDB and GCC combined with a custom linking loader.
+Basically you can start a session and build up an executable dynamically.
+Then, at any point, you can detach and have a valid executable.
+You can bring in other native objects as well.
+You can also attatch to any compatible running process and start modifying it.
+
+What does my compiler compile?
+A subset of the language.
+It's all function calls.
+
+* Addition
+* Subtraction
+
+
+how can I do a letrec?
+
+(let 
+      is-even : ((Number) -> Number)
+      is-odd  : ((Number) -> Number)
+      is-even = (n -> ((n) = 0) or ((n)))
+)

@@ -16,7 +16,66 @@
 <p>The correspondence between a <a>collection</a> and an <a>image</a> is such that a <a>field</a> with a <a>label</a> corresponds to a <a>binding</a> in a <a>context</a>.
 A <a href="terms.html#Field">field</a> with no <a href="terms.html#Label">label</a> containing a <a href="terms.html#Function">function</a> which is an <a href="terms.html#Instance">instance</a> of <span><code>(Program -&gt; *)</code></span> corresponds to a <a href="terms.html#Transform">transform</a>.</p>
 <h2><a href="#Image-Operations" id="Image-Operations">Image Operations</a></h2>
+<p>All <a href="terms.html#Operation">operations</a> on <a href="terms.html#Image">images</a> are <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Identifier">identifier</a>, <span><code>!</code></span>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">types</a> <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Image">image</a> <a href="terms.html#Operation">operator</a>, <span><code>!</code></span>.</figcaption>
+<p><code>
+(define ! (type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+((String) -> Image)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+((String) (Image) -> _)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+((Image) -> _)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(_ -> _)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+((String) (Function) -> _)<br>
+&nbsp;))
+</code></p>
+<p>For the purposes of this document, the abstract names which refer to the <a href="terms.html#Image">image</a> <a href="terms.html#Operation">operations</a> are, in descending order,<br>
+Load,<br>
+Store,<br>
+Open,<br>
+Leave,<br>
+and Export
+</p>
+</figure>
+<h3>Load</h3>
+<p>The Load <a href="terms.html#Operation">operation</a> accepts a <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a> which represents the location of a stored <a href="terms.html#Image">image</a>.</p>
+<p>Load will locate the stored <a href="terms.html#Image">image</a>, <a href="terms.html#Instantiate">instantiate</a> it, and produce it as a result.</p>
+<p>If the location specified by the <a href="terms.html#String">string</a> is not an <a href="terms.html#Image">image</a>, or there is no corresponding location, Load will result in <a href="terms.html#Nil">Nil</a>.</p>
+<h3>Store</h3>
+<p>The Store <a href="terms.html#Operation">operation</a> accepts a <a href="terms.html#String">string</a> and an <a href="terms.html#Image">image</a> as <a href="terms.html#Parameter">parameters</a>.
+It will save the <a href="terms.html#Image">image</a> at the location corresponding to the <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.</p>
+<p>If there is no corresponding location, the <a href="terms.html#Operation">operation</a> will have no effect.</p>
+<h3>Open</h3>
+<p>The Open <a href="terms.html#Operation">operation</a> accepts a single <a href="terms.html#Image">image</a> <a href="terms.html#Parameter">parameter</a> which it will set as the <a href="terms.html#Top-Level">Top Level</a>.</p>
+<p>In the case that the <a href="terms.html#Top-Level">Top Level</a> has a <a href="terms.html#Binding">binding</a> to itself, <a href="terms.html#Execute">executing</a> Open using that <a href="terms.html#Binding">binding</a> will have no effect on the <a href="terms.html#Top-Level">Top Level</a>.</p>
+<p>In the case that the <a href="terms.html#Image">image</a> being Opened does not have a <a href="terms.html#Duration">duration</a> tied to the <a href="terms.html#Top-Level">Top Level</a>, its <a href="terms.html#Duration">duration</a> must be at least for the period where it is the <a href="terms.html#Top-Level">Top Level</a>.</p>
+<h3>Leave</h3>
+<h3>Export</h3>
 <h2><a href="#Transforms" id="Transforms">Transforms</a></h2>
 <p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Function">function</a> which is <a href="terms.html#Application">applied</a> to a <a href="terms.html#Program">program</a> to <a href="terms.html#Rewrite">rewrite</a> it.</p>
 <p>Given a <a href="terms.html#Program">program</a>, any number of <a href="terms.html#Transform">transforms</a> may be <a href="terms.html#Application">applied</a> in succession until a <a href="defaults.html#Expression">default expression</a> results.</p>
+<h2>Describe</h2>
+<p>Describe is a <a href="defaults.html#Functions">default function</a> which accepts either a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>, or a <a href="terms.html#String">string</a> and another <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.</p>
+<p>If given a single <a href="terms.html#Parameter">parameter</a>, Describe will result in a <a href="terms.html#String">string</a>.
+If given two <a href="terms.html#Parameter">parameters</a>, it will result in the <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.</p>
+<figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Function">function</a> which <a href="terms.html#Implementation">implements</a> Describe.</figcaption>
+<p><code>
+(describe : (type<br>
+&nbsp;((&#x3b5; : Any) (String) -> &#x3b5;)<br>
+&nbsp;(&#x3b5; -> String)<br>
+))
+</code></p>
+</figure>
+<p>Describe will maintain a list of key-value pairs stored in the <a href="terms.html#Top-Level">Top Level</a> where each pair is established by the <a href="terms.html#Application">application</a> of Describe with two <a href="terms.html#Parameter">parameters</a>.
+For each pair, the key corresponds to the first <a href="terms.html#Parameter">parameter</a> and the value corresponds to the second.</p>
+<p>When Describe is <a href="terms.html#Application">applied</a> with one <a href="terms.html#Parameter">parameter</a>, it will search the list for a pair with a key that is <a href="terms.html#Equivalence">equivalent</a> to the <a href="terms.html#Parameter">parameter</a>.
+If one is found, then the <a href="terms.html#String">string</a> value for that pair is provided as the result.
+If the list does not contain a matching key, the list of each outer <a href="terms.html#Image">image</a> is searched in succession until a key is found.
+If no matching keys exist in any lists, the result will be <a href="terms.html#Nil">Nil</a>.</p>
+<h2>Print</h2>
 </body>
