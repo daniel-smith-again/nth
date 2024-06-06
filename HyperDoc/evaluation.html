@@ -94,18 +94,13 @@ The <a href="terms.html#Function ">function</a>, &#x1d53d; fulfills this behavio
 ('(''Symbol = ''Program) -><br>
 &emsp;let (m _ n) = (&amp; _ 1)<br>
 &emsp;in<br>
-&emsp;&emsp;&emsp; (&#x1d559; m n), ' ''m) 
+&emsp;&emsp;&emsp; (&#x1d559; m n), ' ''n)
 </code></p>
 <p>where &#x1d559; is an <a href="terms.html#Implementation">implementation defined</a> <a href="terms.html#Operation">operation</a> which establishes the <a href="terms.html#Binding">binding</a>.</p>
 </figure>
 <a href="#8-2" id="8-2">8-2</a><p>Assignment cannot <a href="terms.html#Shadow">shadow</a> an existing <a href="terms.html#Binding">binding</a>. 
 If the <a href="terms.html#Symbol">symbol</a> given to Assignment as the <a href="terms.html#Identifier">identifier</a> is already used by an existing <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Scope">scope</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
-<a href="#8-3" id="8-3">8-3</a><p>Assignment may be <a href="terms.html#Resolved">resolved</a> as an <a href="terms.html#Identifier">identifier</a>.
-When an Assignment <a href="terms.html#Expression">expression</a> appears as a <a href="terms.html#Field">field</a> which must be <a href="terms.html#Resolve">resolved</a>, it must be <a href="terms.html#Evaluated">evaluated</a>, but may be treated as a <a href="terms.html#Symbol">symbol</a> such that
-<code>(1 + (x = 2))</code>
-is <a>evaluated</a> as 
-<code>(let x = 2 in (1 + x))</code></p>
-<a href="#8-4" id="8-4">8-4</a><p>Given multiple <a href="terms.html#Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> in a single <a href="terms.html#Scope">scope</a>, an Assignment <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Evaluate">evaluated</a> in the order in which the <a href="terms.html#Identifier">identifier</a> it <a href="terms.html#Binding">binds</a> first occurs.
+<a href="#8-3" id="8-3">8-3</a><p>Given multiple <a href="terms.html#Program">programs</a> which are <a href="terms.html#Evaluate">evaluated</a> in a single <a href="terms.html#Scope">scope</a>, an Assignment <a href="terms.html#Expression">expression</a> may be <a href="terms.html#Evaluate">evaluated</a> in the order in which the <a href="terms.html#Identifier">identifier</a> it <a href="terms.html#Binding">binds</a> first occurs.
 In general, an Assignment, <span><code>(x = a)</code></span> and the first occurrence of the <a href="terms.html#Identifier">identifier</a>, <span><code>x</code></span>, may be swapped such that the first occurrence of <span><code>x</code></span> is the Assignment <a href="terms.html#Expression">expression</a>.
 If the first occurrence of the <a href="terms.html#Identifer">identifier</a> is not in the same <a href="terms.html#Scope">scope</a> as the Assignment, they cannot be swapped.</p>
 <a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
