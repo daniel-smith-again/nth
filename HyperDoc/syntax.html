@@ -24,7 +24,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <table>
 <tr><td>Program &rarr; Expression | Atom</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
-<tr><td>Atom &rarr; Expression | Symbol | Number | String | Quote</td></tr>
+<tr><td>Atom &rarr; Program | Symbol | Number | String | Quote</td></tr>
 <tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
 <tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> *</tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
@@ -33,7 +33,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <tr><td>Delimiter &rarr; <a>Blank</a> * | Program | String</td></tr>
 <tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
 <tr><td>Characters &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a> | <a href="terms.html#Blank">Blank</a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
-<tr><td>Form &rarr; Program | <code>''</code> Form | <code>'''</code> Form</td></tr>
+<tr><td>Form &rarr; Program | <code>'</code> Form | <code>''</code> Form</td></tr>
 </table>
 <p>The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
 The symbol, |, separates elements in a list.
@@ -42,12 +42,12 @@ Names which are <u>underlined</u> are optional.
 Characters given in <span><code>monospace</code></span> represent themselves literally.</p>
 </figure>
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
-<p>The <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">collection</a> which corresponds to the deserialized <a href="terms.html#Source">source</a>.</p>
-<p>A <a>Program Model</a> is primarily used by <a>evaluation</a> as the cannonical representation of a <a>program</a>.</p>
+<a href="#2-1" id="2-1">2-1</a><p>The <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">collection</a> which corresponds to the deserialized <a href="terms.html#Source">source</a>.</p>
+<a href="#2-2" id="2-2">2-2</a><p>A <a>Program Model</a> is primarily used by <a>evaluation</a> as the cannonical representation of a <a>program</a>.</p>
 <h3><a href="#Constructing-Expressions" id="Constructing-Expressions">Constructing Expressions</a></h3>
-<p>The "Expression" <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to an <a href="terms.html#Expression">expression</a> in a <a href="terms.html#Program">program</a> and a <a href="terms.html#Collection">collection</a> in a <a href="terms.html#Program-Model">Program Model</a>.
+<a href="#3-1" id="3-1">3-1</a><p>The "Expression" <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to an <a href="terms.html#Expression">expression</a> in a <a href="terms.html#Program">program</a> and a <a href="terms.html#Collection">collection</a> in a <a href="terms.html#Program-Model">Program Model</a>.
 When an "Expression" <a href="terms.html#Syntax">syntax</a> element occurs in a <a href="terms.html#Source">source</a>, a corresponding <a href="terms.html#Collection">collection</a> shall be added in the <a href="terms.html#Program-Model">Program Model</a> representing the deserialization of that <a href="terms.html#Source">source</a>.</p>
-<figure>
+<a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
 <figcaption>A <a href="terms.html#Source">source</a> containing an <a href="terms.html#Expression">expression</a> and corresponding <a href="terms.html#Program-Model">Program Model</a>.</figcaption>
 <p><code>
 (a b c)
@@ -57,28 +57,31 @@ When an "Expression" <a href="terms.html#Syntax">syntax</a> element occurs in a 
 </code></p>
 </figure>
 <h3><a href="#Constructing-Symbols" id="Constructing-Symbols">Constructing Symbols</a></h3>
-<p>A <a href="terms.html#Symbol">symbol</a> is a unique <a href="terms.html#Value">value</a> identified by the sequence of <a href="terms.html#Character">characters</a> that occur in a <a href="terms.html#Source">source</a> according to the "Symbol" <a href="terms.html#Syntax">syntax</a> described in <a href="#Fig-1">Figure 1</a>.</p>
+<a href="#4-1" id="4-1">4-1</a><p>A <a href="terms.html#Symbol">symbol</a> is a unique <a href="terms.html#Value">value</a> identified by the sequence of <a href="terms.html#Character">characters</a> that occur in a <a href="terms.html#Source">source</a> according to the "Symbol" <a href="terms.html#Syntax">syntax</a> described in <a href="#Fig-1">Figure 1</a>.</p>
 <h3><a href="#Constructing-Numbers" id="Constructing-Numbers">Constucting Numbers</a></h3>
-<p>A <a href="terms.html#Number">number</a> is constructed by converting the whole, decimal notation described in the "Number" <a href="terms.html#Syntax">syntax</a> given in <a href="#Fig-1">Figure 1</a> to some <a href="terms.html#Implementation">implementation dependent</a> <a href="terms.html#Scalar">scalar</a> <a href="terms.html#Value">value</a>.</p>
-<p>A <a href="terms.html#Number">number</a> as it occurs in a <a href="terms.html#Source">source</a> corresponds to a <a href="data.html#Ranges">range</a> <a href="terms.html#Value">value</a>.
+<a href="#5-1" id="5-1">5-1</a><p>A <a href="terms.html#Number">number</a> is constructed by converting the whole, decimal notation described in the "Number" <a href="terms.html#Syntax">syntax</a> given in <a href="#Fig-1">Figure 1</a> to some <a href="terms.html#Implementation">implementation dependent</a> <a href="terms.html#Scalar">scalar</a> <a href="terms.html#Value">value</a>.</p>
+<a href="#5-2" id="5-2">5-2</a><p>A <a href="terms.html#Number">number</a> as it occurs in a <a href="terms.html#Source">source</a> corresponds to a <a href="data.html#Ranges">range</a> <a href="terms.html#Value">value</a>.
 The <a href="terms.html#Range">range</a> <a href="terms.html#Value">value</a> is decided by the sequence of <a href="terms.html#Digit">digits</a> occuring in the <a href="terms.html#Syntax">syntax</a>.
 The leftmost <a href="terms.html#Digit">digit</a> corresponds to <math><mrow><mi>k</mi><mi>x</mi><msup><mn>10</mn><mi>n</mi></msup></mrow></math> where 
 <math><mi>k</mi></math> is <math><mn>1</mn></math> when the leftmost <a href="terms.html#Character">character</a> is <span><code>+</code></span> or a <a href="terms.html#Digit">digit</a> and <math><mn>-1</mn></math> when the leftmost <a href="terms.html#Character">character</a> is a <span><code>-</code></span>,
 and <math><mi>n</mi></math> is the number of <a href="terms.html#Digit">digits</a> preceding the rightmost <a href="terms.html#Digit">digit</a>.</p>
-<p>The <a href="terms.html#Range">range</a> which is constructed to contain the <a href="terms.html#Number">number</a> must be the least number of <a href="terms.html#Byte">bytes</a> required to hold the <a href="terms.html#Value">value</a> such that a <a href="terms.html#Range">range</a>, &#x1d563;, conforms to the <a href="terms.html#Constraint">constraint</a>, <span><code>(&#x1d563; : (within &#x1d55e;))</code></span> where &#x1d55e; is the least number of <a href="terms.html#Byte">bytes</a>.</p>
+<a href="#5-3" id="5-3">5-3</a><p>The <a href="terms.html#Range">range</a> which is constructed to contain the <a href="terms.html#Number">number</a> must be the least number of <a href="terms.html#Byte">bytes</a> required to hold the <a href="terms.html#Value">value</a> such that a <a href="terms.html#Range">range</a>, &#x1d563;, conforms to the <a href="terms.html#Constraint">constraint</a>, <span><code>(&#x1d563; : (within &#x1d55e;))</code></span> where &#x1d55e; is the least number of <a href="terms.html#Byte">bytes</a>.</p>
 <h3><a href="#Constructing-Strings" id="Constructing-Strings">Constructing Strings</a></h3>
-<p>A <a href="terms.html#String">string</a> corresponds to <span><code>(array Character &#x1d55f;)</code></span> where &#x1d55f; is the number of <a href="terms.html#Character">characters</a> occurring between the two double quotes as described by the "String" <a href="terms.html#Syntax">syntax</a> in <a href="#Fig-1">Figure 1</a>.</p>
-<p>The backward slash will force the slash or double quote <a href="terms.html#Character">character</a> following it to be included as a <a href="terms.html#Character">character</a> in the <a href="terms.html#Array">array</a>.</p>
-<p>If an "Expression" <a href="terms.html#Syntax">syntax</a> follows a backward slash, the corresponding <a href="terms.html#Expression">expression</a> will be <a href="terms.html#Evaluate">evaluated</a> and the result will be converted to a <a href="terms.html#String">string</a> using the <a href="defaults.html#Functions">default function</a>, <span><code>format</code></span> and will be inserted into the <a href="terms.html#String">string</a>, replacing the backward slash and the "Expression" <a href="terms.html#Syntax">syntax</a>.</p>
+<a href="#6-1" id="6-1">6-1</a><p>A <a href="terms.html#String">string</a> corresponds to <span><code>(array Character &#x1d55f;)</code></span> where &#x1d55f; is the number of <a href="terms.html#Character">characters</a> occurring between the two double quotes as described by the "String" <a href="terms.html#Syntax">syntax</a> in <a href="#Fig-1">Figure 1</a>.</p>
+<a href="#6-2" id="6-2">6-2</a><p>The backward slash will force the slash or double quote <a href="terms.html#Character">character</a> following it to be included as a <a href="terms.html#Character">character</a> in the <a href="terms.html#Array">array</a>.</p>
+<a href="#6-3" id="6-3">6-3</a><p>If an "Expression" <a href="terms.html#Syntax">syntax</a> follows a backward slash, the corresponding <a href="terms.html#Expression">expression</a> will be <a href="terms.html#Evaluate">evaluated</a> and the result will be converted to a <a href="terms.html#String">string</a> using the <a href="defaults.html#Functions">default function</a>, <span><code>format</code></span> and will be inserted into the <a href="terms.html#String">string</a>, replacing the backward slash and the "Expression" <a href="terms.html#Syntax">syntax</a>.</p>
 <h3><a href="#Constructing-Qutoes" id="Constructing-Quotes">Constructing Qutoes</a></h3>
-<p>A <a href="terms.html#Quote">quote</a> corresponds to the "Quote" <a href="terms.html#Syntax">syntax</a> as given in <a href="#Fig-1">Figure 1</a>.
+<a href="#7-1" id="7-1">7-1</a><p>A <a href="terms.html#Quote">quote</a> corresponds to the "Quote" <a href="terms.html#Syntax">syntax</a> as given in <a href="#Fig-1">Figure 1</a>.
 It will construct a <a href="terms.html#Program-Model">Program Model</a> which is then exposed as <a href="terms.html#Data">data</a>.</p>
-<p>Anywhere within <a href="terms.html#Quote">quoted</a> <a href="terms.html#Syntax">syntax</a>, an unquote or requote <a href="terms.html#Syntax">synatx</a> can occur. 
+<a href="#7-2" id="7-2">7-2</a><p>Anywhere within <a href="terms.html#Quote">quoted</a> <a href="terms.html#Syntax">syntax</a>, an unquote or requote <a href="terms.html#Syntax">synatx</a> can occur. 
 Unquote and requote correspond to the <span><code>''</code></span> and <span><code>'''</code></span> prefixes as described in the "Form" <a href="terms.html#Sytax">syntax</a> in <a href="#Fig-1">Figure 1</a>.</p>
-<p>The unquote <a href="terms.html#Syntax">syntax</a> will force the <a href="terms.html#Syntax">syntax</a> it prefixes to be <a href="terms.html#Evaluate">evaluated</a> and the result will replace the unquote <a href="terms.html#Syntax">syntax</a> and its nested <a href="terms.html#Syntax">syntax</a> as <a href="terms.html#Data">data</a> in the <a href="terms.html#Program-Model">Program Model</a>.</p>
-<p>The requote <a href="terms.html#Syntax">syntax</a> behaves identically to the unquote <a href="terms.html#Syntax">syntax</a> except in the case where the result of the <a href="terms.html#Evaluate">evaluation</a> is an <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Collection">collection</a>.
+<a href="#7-3" id="7-3">7-3</a><p>It is considered an <a href="terms.html#Error">error</a> if an unquote or requote syntax occurs outside of a <a href="terms.html#Quote">quote</a> <a href="terms.html#Syntax">syntax</a>.</p>
+<a href="#7-4" id="7-4">7-4</a><p>The unquote <a href="terms.html#Syntax">syntax</a> will force the <a href="terms.html#Syntax">syntax</a> it prefixes to be <a href="terms.html#Evaluate">evaluated</a> and the result will replace the unquote <a href="terms.html#Syntax">syntax</a> and its nested <a href="terms.html#Syntax">syntax</a> as <a href="terms.html#Data">data</a> in the <a href="terms.html#Program-Model">Program Model</a>.</p>
+<a href="#7-5" id="7-5">7-5</a><p>The requote <a href="terms.html#Syntax">syntax</a> behaves identically to the unquote <a href="terms.html#Syntax">syntax</a> except in the case where the result of the <a href="terms.html#Evaluate">evaluation</a> is an <a href="terms.html#Instance">instance</a> of a <a href="terms.html#Collection">collection</a>.
 In this case, the requote <a href="terms.html#Syntax">syntax</a> and its nested <a href="terms.html#Syntax">syntax</a> will be replaced with the <a href="terms.html#Field">fields</a> in the result, ordered by <a href="terms.html#Index">index</a>, as <a href="terms.html#Data">data</a> in the <a href="terms.html#Program-Model">Program Model</a>.</p>
-<p>The <a>Program Model</a> is formed according to the following associations...</p>
+<a href="#7-6" id="7-6">7-6</a><p>A <a href="terms.html#Quote">quote</a> nested within another <a href="terms.html#Quote">quote</a> cannot defer the <a href="terms.html#Evaluation">evaluation</a> of any unquote and requote <a href="terms.html#Syntax">syntax</a> which is nested within the nested <a href="terms.html#Quote">quote</a>.
+Given a <a href="terms.html#Quote">quote</a> which contains nested <a href="terms.html#Quote">quote</a> <a href="terms.html#Syntax">syntax</a>, any unquote and requote expressions will be <a href="terms.html#Evalutate">evaluated</a> as part of the outermost <a href="terms.html#Qutoe">quote</a>.</p>
+<a href="#7-7" id="7-7">7-7</a><p>The <a href="terms.html#Program-Model">Program Model</a> is formed according to the following associations...</p>
 <ul>
   <li>"Expression" <a href="terms.html#Syntax">syntax</a> will construct a <a href="terms.html#Collection">collection</a> containing each "Atom" <a href="terms.html#Syntax">syntax</a> as a <a href="terms.html#Field">field</a>.</li>
   <li>An "Atom" which is an "Expression" will construct a nested <a href="terms.html#Collection">collection</a> as a <a href="terms.html#Field">field</a> in the <a href="terms.html#Collection">collection</a> corresponding to the outer "Expression" <a href="terms.html#Syntax">syntax</a>.</li>
@@ -89,29 +92,29 @@ In this case, the requote <a href="terms.html#Syntax">syntax</a> and its nested 
 </ul>
 <h2><a href="#Syntax-Functions" id="Syntax-Functions">Syntax Functions</a></h2>
 <h3><a href="#Read" id="Read">Read</a></h3>
-<p>The <a href="defaults.html#Functions">default function</a> <span><code>read</code></span> will accept a single parameter which is a <a href="terms.html#Source">source</a>, or no parameters in which case it will pull <a href="terms.html#Character">characters</a> from the <a href="defaults.html#Session">session input</a>.
+<a href="#8-1" id="8-1">8-1</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>read</code></span>  will pull <a href="terms.html#Character">characters</a> from the <a href="terms.html#Session">session input</a>.
 It will then return a <a href="terms.html#Program-Model">Program Model</a> corresponding to the <a href="terms.html#Source">source</a> used as input.</p>
-<figure>
+<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>read</code></span> must conform to.</figcaption>
 <p><code>
 (read : (_ -> Program))
 </code></p>
 </figure>
 <h3><a href="#Format" id="Format">Format</a></h3>
-<p>The <a href="defaults.html#Functions">default function</a> <span><code>format</code></span> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
+<a href="#9-1" id="9-1">9-1</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>format</code></span> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
 It will generate a <a href="terms.html#Source">source</a> which encodes that <a href="terms.html#Parameter">parameter</a>.</p>
-<figure>
+<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>format</code></span> must conform to.</figcaption>
 <p><code>
 (format : (* -> String))
 </code></p>
 </figure>
 <h3><a href="#Symbol" id="Symbol">Symbol</a></h3>
-<p>The <a href="defaults.html#Functions">default function</a> <span><code>symbol</code></span> will accept no <a href="terms.html#Parameter">parameters</a>.
+<a href="#10-1">10-1</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>symbol</code></span> will accept no <a href="terms.html#Parameter">parameters</a>.
 It will generate a new <a href="terms.html#Symbol">symbol</a> which is unique to every <a href="terms.html#Symbol">symbol</a> being used as an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and is distinct from any previous <a href="terms.html#Symbol">symbol</a> resulting from <a href="terms.html#Application">applying</a> this <a href="terms.html#Function">function</a>.
 This is such that for any <span><code>(s : &#x1d544;)</code></span> where &#x1d544; is a <a href="terms.html#Type">type</a> such that every <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and every <a href="terms.html#Symbol">symbol</a> resulting from <span><code>symbol</code></span> is a <a href="terms.html#Member">member</a>,
 <code>(let s : &#x1d544; in (symbol) = s)</code> must always <a href="terms.html#Evaluate">evaluate</a> to <span><code>false</code></span> given any <a href="terms.html#Application">application</a> of <span><code>symbol</code></span>.</p>
-<figure>
+<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>symbol</code></span> must conform to.</figcaption>
 <p><code>
 (symbol : (_ -> Symbol))

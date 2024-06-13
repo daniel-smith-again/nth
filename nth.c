@@ -59,27 +59,31 @@ typedef void* Any;
 /****************************** String Routines *******************************/
 
 typedef struct {                        //----------------String----------------
-  enum {reference, self} origin;       // if string is a slice then reference
-                                        // otherwise origin  
   Nat length;
-
   unsigned char* contents;              // assumes ASCII but will transparently 
                                         // handle utf-8 encoding as long as
                                         // your system also handles it.
                                         // i.e. ASCII->ASCII or UTF-8 -> UTF-8
 } String;
 
-String join (String a, String b);       //Creates a new string
+String* join (String* a, String* b);    //Creates a new string
 
-String slice (String s,                 //String Slice
-              Nat start, 
-              Nat end);    
-                                        //References the old string.
+Nil drop_string(String* s);              //deletes a string
 
-String bounce (Slice s);                //Slice->String
-                                        //Copies a slice into a new string
+/****************************** Number Routines *******************************/
 
-Nil drop_string(String s);              //deletes a string
+typedef struct {                        //----------------Number----------------
+  Nat size;                             // the number of bytes
+  unsigned char* digits;                // array of bytes
+} Number;
+
+/**************************** Collection Routines *****************************/
+
+typedef struct {                        //--------------Collection--------------
+  Nat cardinality;                      // number of fields
+  char** bindings;                      // pointers to field names
+  Any fields;                           // pointers to field data
+} Collection;
 
 /************************* Memory Allocation Routines *************************/
 
@@ -91,7 +95,7 @@ Nil drop(Any data);                     //--------------Deallocate--------------
 
 /******************************* Shell Routines *******************************/
 
-String Read();
+String* Read();
 Any Compile();
 Any Compute(Any program);
 
@@ -106,25 +110,47 @@ int main() {
 Any take(Nat size) { return malloc(size); }
 Nil drop(Any data) { if (data != 0 && data != NULL) free(data); }
 
-String join (String a, String b)
+String* join (String* a, String* b)
 {
   String *s = take(sizeof(String));
-  s.type = self, s.length = a.length + b.length, s.contents = take(s.length);
-  for (int i = 0; i < a.length; i++)
-    s.contents[i] = a.contents[i];
-  for (int i = 0; i < b.length; i++)
-    s.contents[a.length + i] = b.contents[i];
+  s->length = a->length + b->length, s->contents = take(s->length);
+  for (int i = 0; i < a->length; i++)
+    s->contents[i] = a->contents[i];
+  for (int i = 0; i < b->length; i++)
+    s->contents[a->length + i] = b->contents[i];
   return s;
 }
 
-String slice (String s, Nat start, Nat end)
+Nil drop_string(String* s)
 {
-  String *l = take(sizeof(String));
-  l.type = reference;
-  return l;
+  drop(s->contents), drop(s);
 }
 
-Nil String⨉(String s)
+#include <stdio.h>
+String* Read_nth_symbol()
 {
-  if (s.origin == self) drop(s.contents), drop(s);
+
+}
+String* Read_nth_expression()
+{
+
+}
+String* Read_nth_quote()
+{
+
+}
+
+String* Read() 
+{
+  char c = getchar();
+  switch (c) {
+    case '(':
+    break;
+    case ')': 
+    break;
+    case '\'': 
+    break;
+    case '"':
+    break;
+  }
 }

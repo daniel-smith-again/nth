@@ -23,3 +23,26 @@ how can I do a letrec?
       is-odd  : ((Number) -> Number)
       is-even = (n -> ((n) = 0) or ((n)))
 )
+
+
+My minimal language should provide everything that doesn't require an algorithm.
+(No, I'm not excluding the compiler.)
+This means that the basic image should have a system image that supports 
+everything you could call from the system.
+On every system everywhere, all programs have to link to the OS objects to 
+do anything.
+I can literally do a (describe System) and get all the stuff available.
+Good idea! Now, how to make this portable between systems...
+Ideally all the standard stuff would be portable and you would just conditionally do things depending on the functions available.
+What about making drivers though.
+What if you want to export an image which is a driver?
+I get convenience by paying in portability.
+The problem is linking.
+gcc does it fine.
+I don't want a self-modifying driver that engages a compilation routine in the kernel either though.
+So I'm back to importing various dll files as modules.
+You would think I could just define an image with the appropriate functions and be able to export a driver though.
+Actually, I'm forgetting that if I have a user-mode, I can create whatever I want to export drivers.
+I have full access to the executable code.
+All I need is basic userland access and from there I can do whatever I want.
+I can import executables and start chaining them.

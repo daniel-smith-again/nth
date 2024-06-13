@@ -30,7 +30,7 @@ A <a href="terms.html#Field">field</a> with no <a href="terms.html#Label">label<
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 (_ -> _)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-((String) (Function) -> _)<br>
+((String) -> _)<br>
 &nbsp;))
 </code></p>
 <p>For the purposes of this document, the abstract names which refer to the <a href="terms.html#Image">image</a> <a href="terms.html#Operation">operations</a> are, in descending order,<br>
@@ -54,7 +54,13 @@ It will save the <a href="terms.html#Image">image</a> at the location correspond
 <p>In the case that the <a href="terms.html#Top-Level">Top Level</a> has a <a href="terms.html#Binding">binding</a> to itself, <a href="terms.html#Execute">executing</a> Open using that <a href="terms.html#Binding">binding</a> will have no effect on the <a href="terms.html#Top-Level">Top Level</a>.</p>
 <p>In the case that the <a href="terms.html#Image">image</a> being Opened does not have a <a href="terms.html#Duration">duration</a> tied to the <a href="terms.html#Top-Level">Top Level</a>, its <a href="terms.html#Duration">duration</a> must be at least for the period where it is the <a href="terms.html#Top-Level">Top Level</a>.</p>
 <h3>Leave</h3>
+<p>The Leave <a href="terms.html#Operation">operation</a> accepts no parameters and will set the <a href="terms.html#Top-Level">Top Level</a> to the <a href="terms.html#Image">image</a> which was the previous <a href="terms.html#Top-Level">Top Level</a>.
+If no previous <a href="terms.html#Top-Level">Top Level</a> exists, the <a href="terms.html#Session">session</a> will exit.</p>
 <h3>Export</h3>
+<p>The Export <a href="terms.html#Operation">operation</a> minimally accepts a <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.
+It use the <a href="terms.html#Top-Level">Top Level</a> to create a stored object of some <a href="terms.html#Implementation">implementation defined</a> format at the location specified by the <a href="terms.html#Parameter">parameter</a>.</p>
+<p>Export may accept additional <a href="terms.html#Implementation">implementation defined</a> <a href="terms.html#Parameter">parameters</a> for the purposes of supporting various object formats.</p>
+<p>The <a href="#Load">Load</a> <a href="terms.html#Operation">operation</a> must support all formats supported by Export such that Exported <a href="terms.html#Image">images</a> may be <a href="terms.html#Instantiate">instantiated</a> in some capacity as if they were <a href="#Store">Stored</a> <a href="terms.html#Image">images</a>.</p>
 <h2><a href="#Transforms" id="Transforms">Transforms</a></h2>
 <p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Function">function</a> which is <a href="terms.html#Application">applied</a> to a <a href="terms.html#Program">program</a> to <a href="terms.html#Rewrite">rewrite</a> it.</p>
 <p>Given a <a href="terms.html#Program">program</a>, any number of <a href="terms.html#Transform">transforms</a> may be <a href="terms.html#Application">applied</a> in succession until a <a href="defaults.html#Expression">default expression</a> results.</p>

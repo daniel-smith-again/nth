@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8'>
+<title>Nth HyperDoc</title>
+<style>
+	:root{
+		--fg:rgb(0, 37, 33);
+		--bg:rgb(238, 232, 221);
+		--hg:rgb(65, 153, 144);
+		--hl:rgb(89, 22, 22);
+	}
+	body{font-size:calc((1vw + 1vh) * 0.8);font-family:serif;color:var(--fg);background-color:var(--bg);}
+	[contenteditable]{outline:0px none transparent;}
+	[tabindex]{outline:0px none transparent;}
+	h-cursor{height:0px;width:5ch;border-bottom:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
+	v-cursor{height:5ch;width:0px;border-left:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
+	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:69%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;cursor:default;}
+	nth-view *{margin:0;}
+	nth-expression, nth-exp-collection, nth-exp-type, nth-exp-quote, nth-exp-dquote, nth-exp-tquote
+	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid var(--hg);border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
+	
+	nth-expression{padding:0.1ch;}
+	nth-exp-collection{border:0.2ch dashed var(--hg);padding:0.1ch;}
+	nth-exp-type{border:0.2ch dotted var(--hg);padding:0.1ch;}
+	nth-exp-collection, nth-exp-type {border-color:var(--hl);}
+	nth-exp-quote{background-color:var(--hg);border:0.2ch solid var(--hg);padding:0.1ch;}
+	nth-exp-quote *{color:var(--bg);border-color:var(--fg);}
+	nth-exp-dquote{background-color:var(--bg);}
+	nth-exp-dquote *{color:var(--fg);border-color:var(--fg);}
+	nth-exp-tquote{background-color:var(--bg);}
+	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
+	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:top;}
+	nth-symbol + *, nth-string + *{margin-left:1ch;}
+	nth-symbol + nth-comma, nth-symbol + nth-tab, nth-string + nth-comma, br + nth-symbol, br + nth-string {margin-left:0;}
+	* + nth-symbol, * + nth-string{margin-left:1ch;}
+	nth-tab{background-color:var(--hg);opacity:0.2;border-radius:1ch;}
+	nth-string{border-style:none;}
+	nth-string::before{content:'"';}
+	nth-string::after{content:'"';}
+	#Result {font-family:serif;position:relative;top:-2ch;left:1ch;overflow-x:auto;overflow-y:hidden;height:2ch;width:40ch;}
+	v-cursor{padding:0;top:150vw;transition-delay:0.2s;}
+	h-cursor{transition-delay:0.2s;}
+	v-cursor #state{position:relative;top:3ch;border-radius:1ch;width:fit-content;background-color:none;padding-top:1ch;transition:all 0.2s;}
+	#Help{border-radius:1ch;width:1ch;margin:0;padding:1ch;position:absolute;top:0;left:0;z-index:99;transition:all 0.2s;}
+	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
+	#The-Result, #The-Expression, #KeyCommands, #Top-Icons{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
+	#KeyCommands{display:block;position:absolute;width:25ch;z-index:20;left:calc(100vw - 30ch);top:-500vh;transition:all 0.2s;transition-delay:0.1s;}
+	#UploadCode{cursor:pointer;}
+	#UploadCode #CodeOpen{display:none;}
+	#UploadCode:hover #CodeClosed{display:none;}
+	#UploadCode:hover #CodeOpen{display:inline;}
+</style>
+</head>
+<body onload="CheckEmbed();">
+<p id="Help" onmouseover="ShowHelp();">?
+	<div id="Help-Contents" onclick="HideHelp();"></div>
+	<div id="KeyCommands" style="height:52ch;overflow-y:scroll;padding-top:0;">
+		<h3>Keyboard Commands</h3>
+		<table>
+			<style>table{font-size:calc((1vh + 1vw) * 0.6)}td{padding:0.5ch;text-align:right;border-right:solid thin var(--fg);}td + td{border-right:none;border-left:solid thin var(--fg);text-align:left;}</style>
+			<tr><th>Key</th><th>Effect</th></tr>
+			<tr><th colspan="2">Expression Mode</th></tr>
+			<tr><td>[A-z0-9]</td><td>Append to a symbol</td></tr>
+			<tr><td>Spacebar</td><td>Insert a new symbol</td></tr>
+			<tr><td>Spacebar (held)</td><td>Move the cursor forward</td></tr>
+			<tr><td>Spacebar + Shift</td><td>Put a yanked expression</td></tr>
+			<tr><td>Backspace</td><td>Clear/Delete the symbol</td></tr>
+			<tr><td>Backspace (held)</td><td>Move the cursor back</td></tr>
+			<tr><td>Enter</td><td>Line break</td></tr>
+			<tr><td>Enter (held)</td><td>Exit Expression Mode</td></tr>
+			<tr><td>Escape</td><td>Exit Expression Mode</td></tr>
+			<tr><td>&leftarrow;/&rightarrow;</td><td>Move cursor</td></tr>
+			<tr><td>(</td><td>Insert an expression</td></tr>
+			<tr><td>)</td><td>Exit Expression Mode</td></tr>
+			<tr><td>,</td><td>Insert sequencer</td></tr>
+			<tr><td>"</td><td>Begin/End string data</td></tr>
+			<tr><th colspan="2">Structure Mode</th></tr>
+			<tr><td>Spacebar</td><td>Next expression</td></tr>
+			<tr><td>Spacebar (held)</td><td>Move inside expression</td></tr>
+			<tr><td>Spacebar + Shift</td><td>Put a yanked expression</td></tr>
+			<tr><td>Backspace</td><td>Previous expression</td></tr>
+			<tr><td>Backspace (held)</td><td>Move outside expression</td></tr>
+			<tr><td>Backspace + Shift</td><td>Delete expression</td></tr>
+			<tr><td>Enter</td><td>Enter Expression Mode</td></tr>
+			<tr><td>Enter (held)</td><td>Insert an expression</td></tr>
+			<tr><td>Enter + Shift</td><td>Yank an expression</td></tr>
+			<tr><td>Escape</td><td>Move outside expression</td></tr>
+			<tr><td>(</td><td>Insert an expression</td></tr>
+			<tr><td>&leftarrow;/&rightarrow;</td><td>Move cursor</td></tr>
+			<tr><td>&uparrow;/&downarrow;</td><td>Move between levels</td></tr>
+		</table>
+	</div>
+	<div id="The-Result">The result from evaluating the expression gets printed here.<br>&downarrow;</div>
+	<div id="The-Expression">&uparrow;<br>This is the program code that you edit.</div>
+	<div id="Top-Icons" style="width:fit-content;padding-top:none;"><span style="float:right;">&rightarrow;</span><br>&#128427; Save your code to text<br>&#128448; Open text as code<br>&#x27be; Embed your code in a link</div>
+</p>
+<p style="position:absolute;bottom:0;left:0;width:1ch;height:1ch;cursor:pointer;" onclick="InvertTheme();">&#x25d0;</p>
+<script>
+function InvertTheme() {
+	var root = document.querySelector(':root');
+	var s = getComputedStyle(root);
+	var fg = s.getPropertyValue('--fg');
+	var bg = s.getPropertyValue('--bg');
+	root.style.setProperty('--fg', bg);
+	root.style.setProperty('--bg', fg);
+}
+async function ShowHelp() {
+	var H = document.getElementById('Help-Contents');
+	var Rp = document.getElementById('Result').getBoundingClientRect();
+	var R = document.getElementById('The-Result');
+	var Ep = editor.getBoundingClientRect();
+	var E = document.getElementById('The-Expression');
+	var K = document.getElementById('KeyCommands');
+	var T = document.getElementById('Top-Icons');
+	var Tp = document.getElementById('Header').getBoundingClientRect();
+
+	H.style.top = '0';
+	R.style.top = Rp.top - (Math.floor(R.getBoundingClientRect().height))+ 'px';
+	R.style.left = Rp.left + 'px';
+	E.style.top = Ep.bottom + 'px';
+	E.style.left = Ep.x + (Ep.width * 0.32) + 'px';
+	K.style.top = '20vh';
+	K.style.right = '13ch';
+	T.style.top = '2ch';
+	T.style.left = Tp.left - T.getBoundingClientRect().width + 'px';
+}
+function HideHelp() {
+	document.getElementById('Help-Contents').style.top = '-100vh';
+	document.getElementById('The-Result').style.left = '-100vw';
+	document.getElementById('The-Expression').style.left = '-100vw';
+	document.getElementById('Top-Icons').style.left = '-100vw';
+	var K = document.getElementById('KeyCommands');
+	K.style.top = '-100vh';
+}
+</script>
+<div id='Header' style="transition:all 0.2s;width:25%;position:fixed;top:120vh;opacity:0;right:0;">
+	<p style="border-bottom:medium solid var(--fg);margin:0;">The <a href="index.html" style="color:var(--fg);text-decoration:none;"><i>n</i><sup>th</sup></a> Reference Implementation</p>
+	<p style="margin:0;">
+		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
+		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
+		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);"><a id="CodeLinkIcon" href="" style="text-decoration:none;color:var(--fg);">&#x27be;</a></span>
+	</p>
+</div>
+
+<h-cursor>
+	<div id="Result">Fake Result: <span></span></div>
+	<p id="info" style="width:32ch;">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
+</h-cursor>
+<v-cursor>
+<div id="state">
+	<p style="font-size:calc(1vh + 1vw);margin:1ch;position:relative;top:0;left:0;padding:0;margin:0;"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span></p>
+	<p>Expression Info</p>
+	<p>Auto-complete suggestion</p>
+	
+</div></v-cursor>
+<nth-view contenteditable="true" autofocus="true" spellcheck="false"><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
+</body>
+<script>
+var editor = document.getElementsByTagName('nth-view')[0];
+editor.autocapitalize = 'off';
+editor.focus();
+var expression = editor.firstChild;
+expression.cursor = 1;
+editor.onkeyup = StructureEditorInput;
+editor.onclick = MouseClick;
+editor.onpaste = (e) => {e.preventDefault();}
+document.onclick = MouseClick;
+var Mode = true;
+var CharacterEscape = false;
+var StringInput = false;
+editor.onkeydown = KeyHold;
+var Ignore = null;
+var Buffer = null;
+var hcursor = document.getElementsByTagName('h-cursor')[0];
+var vcursor = document.getElementsByTagName('v-cursor')[0];
+DisplayCursor();
+document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
+hcursor.style.transitionDelay = '0s';
+vcursor.style.transitionDelay = '0s';
+
+function CheckEmbed () {
+	u = new URLSearchParams(document.location.search);
+	if (u.get('embedsrc')) {
+		editor.replaceChildren();
+		s = u.get('embedsrc');
+		ParseFile(s, 0, editor);
+	}
+}
+
+function StructureEditorInput(key) {
+	if (key.isComposing || key.keyCode === 229) {return;}
+	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
+	key.preventDefault();
+	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
+	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
+	else if (CharacterEscape) {
+		if (key.key.length == 1) {
+			AppendToSymbol(key.key);
+			CharacterEscape = false;
+		}
+	}
+	else if (StringInput) {
+		switch(key.key) {
+			case 'ArrowLeft':
+				PrevSymbol();
+				break;
+			case 'ArrowRight':
+				NextSymbol();
+				break;
+			case 'Backspace':
+				if (!key.repeat) {DeleteSymbol();}
+				StringInput = false;
+				break;
+			case '"':
+				StringInput = false;
+				CursorForward();
+				break;
+			case '\\':
+				CharacterEscape = true;
+				AppendToSymbol(key.key);
+				break;
+			default:
+				if (key.key.length == 1)
+					AppendToSymbol(key.key);
+				break;
+		}
+	}
+	else {
+		if (Mode) switch (key.key) {
+			case 'Enter':
+				if (!key.repeat) {
+					if (key.shiftKey) LiftExpression();
+					else EditExpression();
+				}
+				else {InsertExp('nth-expression');}
+				break;
+			case ' ':
+				if (!key.repeat) {
+					if (key.shiftKey) PutExpression();
+					else NextExpression();
+				}
+				else {InnerExpression();}
+				break;
+			case 'Escape':
+				OuterExpression();
+				break;
+			case 'Backspace':
+				if (!key.repeat) {
+					if (!key.shiftKey) {PrevExpression();}
+					else {DeleteNode();}
+				}
+				else {OuterExpression();}
+				break;
+			case 'Delete':
+				DeleteNode();
+				break;
+			case '(':
+				if (!key.repeat) {InsertExp('nth-expression');}
+				break;
+			case '\'':
+				if (!key.repeat) {InsertExp('nth-exp-quote');}
+				else {
+					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
+					else InsertExp('nth-exp-tquote');
+				}
+				break;
+			case 'ArrowLeft':
+				PrevExpression();
+				break;
+			case 'ArrowRight':
+				NextExpression();
+				break;
+			case 'ArrowUp':
+				OuterExpression();
+				break;
+			case 'ArrowDown':
+				InnerExpression();
+				break;
+			default: {return;}
+		}
+		else switch (key.key) {
+			case ' ':
+				if (!key.repeat) {
+					if (key.shiftKey) {PutExpression();}
+					else if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING') {
+						StringInput = true;
+						AppendToSymbol(key.key);
+					}
+					else {
+						InsertSymbol();
+					}
+				}
+				else {NextSymbol();}
+				break;
+			case 'Backspace':
+				if (!key.repeat) {DeleteSymbol();}
+				else{PrevSymbol();}
+				break;
+			case 'Enter':
+				if (!key.repeat) {InsertLineBreak();}
+				else {CloseExpression();}
+				break;
+			case 'Tab':
+				Indent();
+				break;
+			case 'Escape':
+				CloseExpression();
+				break;
+			case 'ArrowLeft':
+				PrevSymbol();
+				break;
+			case 'ArrowRight':
+				NextSymbol();
+				break;
+			case '(':
+				if (!key.repeat) {InsertExp('nth-expression');}
+				break;
+			case '\'':
+				if (!key.repeat) {InsertExp('nth-exp-quote');}
+				else {
+					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
+					else InsertExp('nth-exp-tquote');
+				}
+				break;
+			case ')':
+				if (!key.repeat) {CloseExpression(); EditExpression();}
+				break;
+			case '"':
+				if (!key.repeat) {InsertString(); StringInput = true;}
+				break;
+			default: 
+				if (key.key.length == 1) {
+					if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING')
+						StringInput = true;
+					AppendToSymbol(key.key);
+				}
+				break;
+		}
+	}
+	if (key.repeat && Mode) switch(key.key) {
+		case 'ArrowLeft':
+		case 'ArrowRight':
+		case 'ArrowUp':
+		case 'ArrowDown':
+			break;
+		default:
+			Ignore = key.key;
+			break;
+	}
+	else if (key.repeat && !Mode) switch(key.key) {
+		case 'ArrowLeft':
+		case 'ArrowRight':
+		case 'ArrowUp':
+		case 'ArrowDown':
+		case 'Tab':
+			break;
+		default:
+			Ignore = key.key;
+			break;
+	}
+	
+}
+function MouseClick (e) {
+	e.preventDefault();
+	if (e.target.tagName.startsWith('NTH-S')) {
+		e.stopPropagation();
+		expression.style.boxShadow = 'none';
+		expression = e.target.parentElement;
+		expression.cursor = 1;
+		for (var x in expression.childNodes) {
+			if (expression.childNodes[x] == e.target) {
+				expression.cursor = Number(expression.cursor) + Number(x);
+				break;
+			}
+		}
+		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+		DisplayCursor();
+		EditExpression();
+	}
+	else editor.focus();
+}
+function KeyHold(key) {
+	if (key.isComposing || key.keyCode === 229) {return;}
+	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
+	key.preventDefault();
+	if (key.repeat && key.key != 'Shift' && key.key != 'Control') {
+		editor.onkeyup(key);
+	}
+}
+function DisplayCursor () {
+	var pos = null;
+	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
+		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
+		vcursor.style.top = pos.y + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
+		pos = expression.lastChild.getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
+		vcursor.style.top = pos.y + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	else {
+		pos = expression.getBoundingClientRect();
+		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
+		vcursor.style.left = pos.x - 3 + 'px';
+		vcursor.style.top = pos.y - 3 + 'px';
+		hcursor.style.width = pos.x + pos.width + 'px';
+		hcursor.style.top = pos.y + pos.height + 'px';
+	}
+	var bottom = editor.getBoundingClientRect();
+	var state = document.getElementById('state');
+	var res = document.getElementById('Result');
+	var info = document.getElementById('info');
+	res.style.width = bottom.left * 0.9 + 'px';
+	info.style.width = bottom.left - 7 + 'px';
+	state.style.top = (bottom.bottom - pos.y ) + 'px';
+	state.style.width = window.innerWidth - pos.x - 50 + 'px'
+	state.style.height = (window.innerHeight - pos.y) - (pos.height) - (bottom.bottom - pos.y) + 'px';
+}
+function CursorForward () {
+	if (expression.cursor < expression.childNodes.length) {
+		expression.cursor ++;
+	}
+	DisplayCursor();
+}
+function CursorBack () {
+	if (expression.cursor > 0) {
+		expression.cursor --;
+	}
+	DisplayCursor();
+}
+function AppendToSymbol (c) {
+	if (! (expression.childNodes.length > 0)) {
+		InsertSymbol();
+	}
+	if (expression.cursor == 0) {
+		InsertSymbol();
+	}
+	var sym = expression.childNodes[expression.cursor - 1];
+	if (sym.tagName.startsWith('NTH-S')) {
+		if (c == ' ')
+			sym.textContent += '\xa0';
+		else
+			sym.textContent += c;
+	}
+	DisplayCursor();
+}
+function InsertExp(type) {
+	if (type == 'nth-exp-dquote' || type == 'nth-exp-tquote') {
+		var check = expression;
+		while (check.tagName != 'NTH-EXP-QUOTE') {
+			if (check.parentElement.tagName == 'NTH-VIEW') {
+				console.log('no prior quote')
+				return;
+			} 
+			else check = check.parentElement;
+		}
+		if (check.tagName != 'NTH-EXP-QUOTE') {console.log("also no prior quote"); return;}
+	}
+	if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
+		if (expression.childNodes.length == 1) return;
+	}
+	var temp = document.createElement(type);
+	temp.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+	temp.cursor = 0;
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor == 0) {
+			expression.insertBefore(temp, expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			expression.appendChild(temp);
+		}
+		else {
+			expression.insertBefore(temp, expression.childNodes[expression.cursor]);
+		}
+	}
+	else {
+		expression.appendChild(temp);
+	}
+	CursorForward();
+	expression.style.boxShadow = 'none';
+	expression = temp;
+	Mode = false;
+	document.getElementById('EditorMode').textContent = '\u25c9';
+}
+function InsertSymbol () {
+	var sym = document.createElement('nth-symbol');
+	if (expression.childNodes.length > 0) {
+		if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
+			if (expression.childNodes.length == 1) return;
+		}
+
+		if (expression.cursor == 0) {
+			expression.insertBefore(sym, expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			if (expression.lastChild.tagName.startsWith('NTH-S') && expression.lastChild.textContent.length == 0) {
+				return;
+			} else {
+				expression.appendChild(sym);
+			}
+		}
+		else {
+			if (expression.childNodes[expression.cursor].tagName != 'NTH-TAB') {
+				expression.insertBefore(sym, expression.childNodes[expression.cursor])
+			}
+		}
+	}
+	else {
+		expression.appendChild(sym);
+	}
+	CursorForward();
+}
+function InsertString() {
+	var sym = document.createElement('nth-string');
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor == 0) {
+			expression.insertBefore(sym, expression.firstChild);
+		}
+		else if (expression.cursor == expression.childNodes.length) {
+			expression.appendChild(sym);
+		}
+		else {
+			expression.insertBefore(sym, expression.childNodes[expression.cursor]);
+		}
+	}
+	else {
+		expression.appendChild(sym);
+	}
+	CursorForward();
+}
+function InsertLineBreak () {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			if (expression.cursor == expression.childNodes.length) {
+				expression.appendChild(document.createElement('br'));
+			}
+			else {
+				expression.insertBefore(document.createElement('br'), expression.childNodes[expression.cursor]);
+			}
+			CursorForward();
+		}
+	}
+}
+function InsertSequence() {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			if (expression.childNodes[expression.cursor - 1].tagName != 'NTH-COMMA') {
+				if (expression.cursor == expression.childNodes.length) {
+					expression.appendChild(document.createElement('nth-comma'));
+					expression.lastChild.appendChild(document.createTextNode(','));
+					CursorForward();
+				}
+				else {
+					if (expression.childNodes[expression.cursor].tagName != 'NTH-COMMA') {
+						var temp = document.createElement('nth-comma');
+						temp.appendChild(document.createTextNode(','));
+						expression.insertBefore(temp, expression.childNodes[expression.cursor]);
+						CursorForward();
+					}
+				}
+			}
+		}
+	}
+}
+function Indent () {
+	if (expression.childNodes.length > 0 && expression.cursor > 0) {
+		var sym = expression.childNodes[expression.cursor - 1];
+		if (sym == expression.firstChild) {return;}
+		switch(sym.tagName) {
+			case 'BR': {
+				if (sym.nextSibling && sym.nextSibling.tagName == 'NTH-TAB') break;
+				var temp = document.createElement('nth-tab');
+				temp.appendChild(document.createTextNode('\xa0'));
+				if (expression.cursor == expression.childNodes.length) {
+					expression.appendChild(temp);
+				}
+				else {
+					expression.insertBefore(temp, expression.childNodes[expression.cursor]);
+				}
+				CursorForward();
+			} break;
+			case 'NTH-TAB': {
+				sym.textContent += '\xa0';
+				DisplayCursor();
+			} break;
+			default: {
+				if (expression.childNodes[expression.cursor - 2].tagName == 'BR') {
+					var temp = document.createElement('nth-tab');
+					temp.appendChild(document.createTextNode('\xa0'));
+					expression.insertBefore(temp, sym);
+				}
+			} break;
+		}
+	}
+}
+function DeleteSymbol () {
+	if (expression.childNodes.length > 0) {
+		if (expression.cursor > 0) {
+			var sym = expression.childNodes[expression.cursor - 1];
+			switch(sym.tagName) {
+				case 'NTH-SYMBOL':
+				case 'NTH-STRING':
+				case 'NTH-TAB':
+				{
+					if (sym.textContent.length > 0) {
+						sym.textContent = '';
+						DisplayCursor();
+					}
+					else {
+						sym.remove();
+						CursorBack();
+					}
+				} break;
+				case 'BR': 
+				{
+					if (sym.nextSibling)
+						if (sym.nextSibling.tagName == 'NTH-TAB')
+							sym.nextSibling.remove();
+				}
+				case 'NTH-COMMA':
+				{
+					sym.remove();
+					CursorBack();
+				} break;
+			}
+		}
+	}
+
+}
+function DeleteNode () {
+	if (expression.parentNode.tagName != 'NTH-VIEW') {
+		var temp = expression;
+		expression = expression.parentNode;
+		temp.remove();
+		CursorBack();
+		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+	}
+	else {
+		expression.replaceChildren();
+		expression.cursor = 0;
+		DisplayCursor();
+	}
+
+}
+function NextSymbol () {
+	StringInput = false;
+	CursorForward();
+}
+function PrevSymbol () {
+	StringInput = false;
+	CursorBack();
+}
+function PrevExpression () {
+	var p = null;
+	if (expression.previousSibling) {
+		p = expression.previousSibling;
+		while (!(p.tagName.startsWith('NTH-EXP'))) {
+			if (p.previousSibling) {
+				p = p.previousSibling;
+			}
+			else {
+				break;
+			}
+		}
+		if (p.tagName.startsWith('NTH-EXP')) {
+			expression.style.boxShadow = 'none';
+			expression = p;
+			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+		}
+	}
+	DisplayCursor();
+}
+function NextExpression () {
+	var p = null;
+	if (expression.nextSibling) {
+		p = expression.nextSibling;
+		while (!(p.tagName.startsWith('NTH-EXP'))) {
+			if (p.nextSibling) {
+				p = p.nextSibling;
+			}
+			else {
+				break;
+			}
+		}
+		if (p.tagName.startsWith('NTH-EXP')) {
+			expression.style.boxShadow = 'none';
+			expression = p;
+			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+		}
+	}
+	DisplayCursor()
+}
+function OuterExpression () {
+	if (expression.parentNode.tagName != 'NTH-VIEW') {
+		var n = 0;
+		for (x in expression.parentNode.childNodes) {
+			if (expression.parentNode.childNodes[x] == expression) {
+				n = x;
+				break;
+			}
+		}
+		expression.style.boxShadow = 'none';
+		expression = expression.parentNode;
+		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+		expression.cursor = Number(n) + 1;
+	}
+	else {
+		expression.cursor = 0;
+		expression.style.boxShadow = 'none';
+	}
+	DisplayCursor();
+}
+function InnerExpression () {
+	if (expression.childNodes.length > 0) {
+		var temp = null;
+		if (expression.cursor > 0) 
+			temp = expression.childNodes[expression.cursor - 1];
+		else
+			temp = expression.firstChild;
+		var cursorinc = 0;
+		while (!temp.tagName.startsWith('NTH-EXP')) {
+			if (temp.nextSibling) {
+				temp = temp.nextSibling;
+				cursorinc ++;
+			}
+			else {
+				break;
+			}
+		}
+		if (temp.tagName.startsWith('NTH-EXP')) {
+			expression.cursor += cursorinc;
+			expression.style.boxShadow = 'none';
+			expression = temp;
+			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+		}
+		else {
+			while(!temp.tagName.startsWith('NTH-EXP')) {
+				if (temp.previousSibling) {
+					temp = temp.previousSibling;
+					cursorinc --;
+				}
+				else {
+					break;
+				}
+			}
+			if (temp.tagName.startsWith('NTH-EXP')) {
+				expression.cursor += cursorinc;
+				expression.style.boxShadow = 'none';
+				expression = temp;
+				expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+			}
+		}
+	}
+	DisplayCursor();
+}
+function CloseExpression () {
+	Mode = true;
+	document.getElementById('EditorMode').textContent = '\u25ce';
+	if (expression.parentElement.tagName != 'NTH-VIEW') {
+		expression.style.boxShadow = 'none';
+		expression = expression.parentElement;
+		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
+	}
+	DisplayCursor();
+	LinkCode();
+	Evaluate();
+}
+function CloseCollection () {
+	if (expression.tagName == 'NTH-EXP-COLLECTION') {
+		CloseExpression();
+	}
+}
+function CloseType () {
+	if (expression.tagName == 'NTH-EXP-TYPE') {
+		CloseExpression();
+	}
+}
+function EditExpression () {
+	expression.style.boxShadow ='0ch 0ch 3ch var(--fg)';
+	Mode = false;
+	document.getElementById('EditorMode').textContent = '\u25c9';
+	DisplayCursor();
+}
+function LiftExpression () {
+	if ((!Buffer) && expression.parentNode.tagName != 'NTH-VIEW') {
+		document.getElementById('Copied').textContent = '\u25a9';
+		Buffer = expression;
+		OuterExpression();
+		expression.removeChild(Buffer);
+		CursorBack();
+	}
+}
+function PutExpression () {
+	if (Buffer) {
+		document.getElementById('Copied').textContent = '\u25a2';
+		if (expression.childNodes.length > 0) {
+			if (expression.cursor == 0) {
+				expression.insertBefore(Buffer, expression.firstChild);
+			}
+			else if (expression.cursor == expression.childNodes.length) {
+				expression.appendChild(Buffer)
+			}
+			else {
+				expression.insertBefore(Buffer, expression.childNodes[expression.cursor])
+			}
+		}
+		else {
+			expression.appendChild(Buffer);
+		}
+		Buffer = null;
+		CursorForward();
+	}
+}
+function Evaluate () {
+	document.getElementById('Result').lastChild.textContent = Math.random().toString();
+}
+function ExportCode (n, s) {
+		var s = CodeToString(editor, '');
+		var code = new Blob([s], {type:'text/plain;charset=utf-8'});
+		var link = document.createElement('a');
+		link.href = URL.createObjectURL(code);
+		link.download = 'nth_source_code.txt';
+		link.click();
+		URL.revokeObjectURL(link.href);
+}
+function CodeToString (n, s) {
+	if (s == null) {s = '';}
+	for (var x in n.childNodes) {
+		switch(n.childNodes[x].tagName) {
+			case 'NTH-SYMBOL':
+				s += n.childNodes[x].textContent + ' '; 
+				break;
+			case 'NTH-STRING':
+				s += '"' + n.childNodes[x].textContent.replaceAll('\xa0', ' ') + '" ';
+				break;
+			case 'NTH-EXPRESSION': 
+				s += '(' + CodeToString(n.childNodes[x], null) + ')';
+				break;
+			case 'NTH-EXP-QUOTE': 
+				s += '\'' + CodeToString(n.childNodes[x], null);
+				break;
+			case 'NTH-EXP-DQUOTE':
+				s += '\'\'' + CodeToString(n.childNodes[x], null);
+				break;
+			case 'NTH-EXP-TQUOTE':
+				s += '\'\'\'' + CodeToString(n.childNodes[x], null);
+				break;
+			case 'BR':
+				s += '\n';
+				break;
+			case 'NTH-TAB':
+				for (var i = 0; i < n.childNodes[x].textContent.length; i ++) {
+					s += ' ';
+				}
+		}
+	}
+	return s;
+}
+function ImportCode () {
+	var open = document.createElement('input');
+	open.type = 'file';
+	open.addEventListener('change', 
+	() => {
+		var f = open.files[0];
+		var text = '';
+		f.text().then((contents) => {editor.innerHTML = '';ParseFile(contents, 0, editor)});
+	});
+	open.click();
+}
+function ParseFile (F, p, n) {
+	var string = false;
+	var tabspace = false;
+	for (p = 0; p < F.length; p++) {
+
+		if(tabspace && (F[p] != ' ')) 
+			{tabspace = false;}
+
+		if (string) switch(F[p]) {
+			case '"':
+				string = false;
+				n = n.parentElement;
+				if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
+					n = n.parentElement;
+				break;
+			case '\\':
+				n.textContent += F[p] + F[p++];
+				break;
+			default:
+				n.textContent += F[p];
+				break;
+		}
+		else switch(F[p]) {
+			case '(':
+				n.appendChild(document.createElement('nth-expression'));
+				n = n.lastChild;
+				n.cursor = 0;
+				break;
+			case ')':
+				n.cursor = n.childNodes.length;
+				n = n.parentElement;
+				if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+					n = n.parentElement;
+				break;
+			case '\'':
+				var temp = null;
+				if (n.tagName == 'NTH-SYMBOL') n = n.parentElement;
+				if (F[p + 1] == '\'' && F[p + 2] == '\'') {
+					temp = document.createElement('nth-exp-tquote');
+					p++;p++;
+				}
+				else if (F[p + 1] == '\'') {
+					temp = document.createElement('nth-exp-dquote');
+					p++;
+				}
+				else {
+					temp = document.createElement('nth-exp-quote')
+				}
+				temp.cursor = 1;
+				n.appendChild(temp);
+				n = n.lastChild;
+				break;
+			case '"':
+				string = true;
+				if (n.tagName == 'NTH-SYMBOL') {
+					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
+				n.appendChild(document.createElement('nth-string'));
+				n = n.lastChild;
+				break;
+			case '\n':
+				if (n.tagName == 'NTH-SYMBOL') {
+					n = n.parentElement;
+					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
+						n = n.parentElement;
+				}
+				n.appendChild(document.createElement('br'))
+				tabspace = true;
+				break;
+			case ' ':
+				if (tabspace) {
+					if (n.lastChild.tagName == 'NTH-TAB') {
+						n.lastChild.textContent += '\xa0'
+					}
+					else {
+						n.appendChild(document.createElement('nth-tab'));
+						n.lastChild.textContent += '\xa0';
+					}
+				}
+				else if (n.tagName == 'NTH-SYMBOL') {
+					n = n.parentElement;
+					if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
+						n = n.parentElement;
+				}
+				break;
+			default:
+				if (n.tagName == 'NTH-SYMBOL') {
+					n.textContent += F[p];
+				} 
+				else {
+					n.appendChild(document.createElement('nth-symbol'));
+					n = n.lastChild;
+					n.textContent += F[p]
+				}
+				break;
+		}
+	}
+	editor.firstChild.cursor = 1;
+	expression = editor.firstChild;
+	DisplayCursor();
+}
+
+function LinkCode () {
+	var src = CodeToString(editor, '');
+	var src_ = src	.replaceAll('\n', '%0A')
+			.replaceAll(' ', '%20');
+	var u = new URL(window.location);
+	u.search = '?embedsrc=' + src_;
+	var l = document.getElementById('CodeLinkIcon')
+	l.href = u.href;
+}
+</script>

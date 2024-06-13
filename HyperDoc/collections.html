@@ -102,7 +102,7 @@ results in <code>(collection 1 , 2 , 3 , 4 , 5 , 6)</code></p>
 &nbsp;(let (a _ b) = (&amp; _ 1)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;in<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Collection |<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m -> ((# m) &gt;= 0) /\ ((# m) &lt;= a))))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m -> (# m) &lt;= (# a)))))
 </code></p>
 <p>Remove will result in a <a href="terms.html#Collection">collection</a> containing the <a href="terms.html#Field">fields</a> of <span><code>a</code></span> which are not <a href="terms.html#Subtype">subtypes</a> of any <a href="terms.html#Field">field</a> in <span><code>b</code></span>.</p>
 </figure>
