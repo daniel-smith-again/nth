@@ -27,3 +27,37 @@ Integers are shared by everything.
 You can accomplish most stuff with just integers.
 If you want more, just add additional stuff on top of integers.
 Plus I have ranges which are static sized integers.
+
+
+
+(quicksort = ((list : Array) -> 
+ ? ((# list) > 1) 
+   (swap = (pv i j ->
+    ??
+      (((list _ i) < (list _ pv)) and (i < pv))
+      (swap pv (i + 1) j)
+      (((list _ j) > (list _ pv)) and (j > pv))
+      (swap pv i (j - 1))
+      (((list _ j) < (list _ pv)) and ((list _ i) < (list _ pv)))
+      (tmp = (list _ i),
+       list _ i (list _ j),
+       list _ j tmp,
+       swap pv i j),
+      (quicksort ((@ (@ (list _ 1))) : (Collection | 
+                 (c -> (? ((# c) = ((# list) - pv)) True))))),
+      (quicksort ((@ (@ (list _ (pivot _ 1)))) : (Collection | 
+                 (c -> (? ((# c) = ((# list) - pv)) True)))))))))
+
+
+
+(define quicksort ((list : Array) -> 
+
+? ((# list) > 1)
+  
+  (let swap = (pv i j ->
+  
+  
+
+  ))
+
+))

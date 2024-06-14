@@ -97,7 +97,7 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <tr><td>&#x2936</td><td>Insert a line break after the focused atom.</td></tr>
 <tr><td>Del</td><td>Delete the focused <a href="terms.html#Expression">expression</a>.</td></tr>
 <tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
-<tr><td>&Leftarrow;</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
+<tr><td>Backspace</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
 <tr><td>Tab</td><td>Create a pseudo-symbol with spaces for indentation.</td></tr>
 </table>
 </nth-help>
@@ -602,7 +602,7 @@ function structureToProgram(s)
 }
 function programToStructure(p)
 {
-
+  
 }
 function Eval(program)
 {
