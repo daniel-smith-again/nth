@@ -56,7 +56,7 @@ typedef signed long long int Int;
 typedef void Nil;
 typedef void* Any;
 
-/****************************** String Routines *******************************/
+/*                              String Routines                               */
 
 typedef struct {                        //----------------String----------------
   Nat length;
