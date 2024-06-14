@@ -75,8 +75,16 @@ This <a href="terms.html#Value">value</a> is shared by every <a href="terms.html
 <a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Definition.</figcaption>
 <p><code>
-('(define ''Symbol ''*) -> (let (_ &#x1d456; &#x1d463;) = (&amp; _ 1) in '(&#x1d553; ''&#x1d456; ''&#x1d463;)))<br>
-('(define ''Function) -> (let (_ &#x1d461;) = (&amp; _ 1) in '(&#x1d53d; ''&#x1d461;)))
+('(define ''Symbol ''*) -><br>
+&nbsp;let ((_ &#x1d456; &#x1d463;)) = &amp;<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(&#x1d553; ''&#x1d456; ''&#x1d463;))
+</code></p>
+<p><code>
+('(define ''Function) -><br>
+&nbsp;let (_ &#x1d461;) = (&amp; _ 1)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;'(&#x1d53d; ''&#x1d461;))
 </code></p>
 <p>There are two <a href="terms.html#Transform">transforms</a> which <a href="terms.html#Implement">implement</a> Definition.</p>
 <p>The first will create a <a href="terms.html#Binding">binding</a> in the <a href="terms.html#Top-Level">top level</a> using the <a href="terms.html#Symbol">symbol</a>, &#x1d456; as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a>, &#x1d463; as the <a href="terms.html#Value">value</a>.
@@ -134,11 +142,16 @@ The <a href="terms.html#Context">context</a> that Let establishes as the <a href
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Let.</figcaption>
 <p><code>
 ('(let '''(array Program)<br>
-&emsp;&emsp;&emsp;in '''(array Program)) -><br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-let (_ m * (_ : 'in) n *) = (&amp; _ 1)<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-in compute n in (&#x1d543; m))
+&nbsp;&nbsp;&nbsp;in &nbsp;'''(array Program)) -><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+let ((_ m * (_ : 'in) n *)) = &amp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+compute n in (&#x1d543; m))
 </code></p>
 <p>Where <span><code>m</code></span> is a sequence of <a href="terms.html#Symbol">symbols</a>, and <a href="terms.html#Expression">expressions</a> representing some <a href="terms.html#Binding">bindings</a> and <span><code>n</code></span> is a <a href="terms.html#Program">program</a> to be <a href="terms.html#Evaluate">evaluated</a>.</p>
 <p>In a Let <a>expression</a>, <span><code>m</code></span> is referred to as the "declarations" component and <span><code>n</code></span> is referred to as the "body".</p>

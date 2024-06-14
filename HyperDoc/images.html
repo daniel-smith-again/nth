@@ -24,6 +24,8 @@ A <a href="terms.html#Field">field</a> with no <a href="terms.html#Label">label<
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ((String) -> Image)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+((Symbol) -> Image)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ((String) (Image) -> _)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ((Image) -> _)<br>
@@ -35,28 +37,34 @@ A <a href="terms.html#Field">field</a> with no <a href="terms.html#Label">label<
 </code></p>
 <p>For the purposes of this document, the abstract names which refer to the <a href="terms.html#Image">image</a> <a href="terms.html#Operation">operations</a> are, in descending order,<br>
 Load,<br>
+Search,<br>
 Store,<br>
 Open,<br>
 Leave,<br>
 and Export
 </p>
 </figure>
-<h3>Load</h3>
+<h3><a href="#Load" id="Load">Load</a></h3>
 <p>The Load <a href="terms.html#Operation">operation</a> accepts a <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a> which represents the location of a stored <a href="terms.html#Image">image</a>.</p>
 <p>Load will locate the stored <a href="terms.html#Image">image</a>, <a href="terms.html#Instantiate">instantiate</a> it, and produce it as a result.</p>
 <p>If the location specified by the <a href="terms.html#String">string</a> is not an <a href="terms.html#Image">image</a>, or there is no corresponding location, Load will result in <a href="terms.html#Nil">Nil</a>.</p>
-<h3>Store</h3>
+<h3><a href="#Search" id="Search">Search</a></h3>
+<p>The Search <a href="terms.html#Operation">operation</a> accepts a <a href="terms.html#Symbol">symbol</a> <a href="terms.html#Parameter">parameter</a>.
+The <a href="terms.html#Source">source</a> encoding of the <a href="terms.html#Symbol">symbol</a> will be interpreted as the name of a <a href="#Store">stored</a> <a href="terms.html#Image">image</a> or <a href="#Export">exported</a> object at an indefinite location.
+If the <a href="terms.html#Image">image</a> or object can be located via search, it will be <a href="terms.html#Instantiate">instantiated</a> identically to the <a href="#Load">Load</a> <a href="terms.html#Operation">operation</a>.
+If nothing can be located, the <a href="terms.html#Operation">operation</a> will result in <span><code>_</code></span></p>
+<h3><a href="#Store" id="Store">Store</a></h3>
 <p>The Store <a href="terms.html#Operation">operation</a> accepts a <a href="terms.html#String">string</a> and an <a href="terms.html#Image">image</a> as <a href="terms.html#Parameter">parameters</a>.
 It will save the <a href="terms.html#Image">image</a> at the location corresponding to the <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.</p>
 <p>If there is no corresponding location, the <a href="terms.html#Operation">operation</a> will have no effect.</p>
-<h3>Open</h3>
+<h3><a href="#Open" id="Open">Open</a></h3>
 <p>The Open <a href="terms.html#Operation">operation</a> accepts a single <a href="terms.html#Image">image</a> <a href="terms.html#Parameter">parameter</a> which it will set as the <a href="terms.html#Top-Level">Top Level</a>.</p>
 <p>In the case that the <a href="terms.html#Top-Level">Top Level</a> has a <a href="terms.html#Binding">binding</a> to itself, <a href="terms.html#Execute">executing</a> Open using that <a href="terms.html#Binding">binding</a> will have no effect on the <a href="terms.html#Top-Level">Top Level</a>.</p>
 <p>In the case that the <a href="terms.html#Image">image</a> being Opened does not have a <a href="terms.html#Duration">duration</a> tied to the <a href="terms.html#Top-Level">Top Level</a>, its <a href="terms.html#Duration">duration</a> must be at least for the period where it is the <a href="terms.html#Top-Level">Top Level</a>.</p>
-<h3>Leave</h3>
+<h3><a href="#Leave" id="Leave">Leave</a></h3>
 <p>The Leave <a href="terms.html#Operation">operation</a> accepts no parameters and will set the <a href="terms.html#Top-Level">Top Level</a> to the <a href="terms.html#Image">image</a> which was the previous <a href="terms.html#Top-Level">Top Level</a>.
 If no previous <a href="terms.html#Top-Level">Top Level</a> exists, the <a href="terms.html#Session">session</a> will exit.</p>
-<h3>Export</h3>
+<h3><a href="#Export" id="Export">Export</a></h3>
 <p>The Export <a href="terms.html#Operation">operation</a> minimally accepts a <a href="terms.html#String">string</a> <a href="terms.html#Parameter">parameter</a>.
 It use the <a href="terms.html#Top-Level">Top Level</a> to create a stored object of some <a href="terms.html#Implementation">implementation defined</a> format at the location specified by the <a href="terms.html#Parameter">parameter</a>.</p>
 <p>Export may accept additional <a href="terms.html#Implementation">implementation defined</a> <a href="terms.html#Parameter">parameters</a> for the purposes of supporting various object formats.</p>
@@ -64,7 +72,7 @@ It use the <a href="terms.html#Top-Level">Top Level</a> to create a stored objec
 <h2><a href="#Transforms" id="Transforms">Transforms</a></h2>
 <p>A <a href="terms.html#Transform">transform</a> is a <a href="terms.html#Function">function</a> which is <a href="terms.html#Application">applied</a> to a <a href="terms.html#Program">program</a> to <a href="terms.html#Rewrite">rewrite</a> it.</p>
 <p>Given a <a href="terms.html#Program">program</a>, any number of <a href="terms.html#Transform">transforms</a> may be <a href="terms.html#Application">applied</a> in succession until a <a href="defaults.html#Expression">default expression</a> results.</p>
-<h2>Describe</h2>
+<h2><a href="#Describe" id="Describe">Describe</a></h2>
 <p>Describe is a <a href="defaults.html#Functions">default function</a> which accepts either a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>, or a <a href="terms.html#String">string</a> and another <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.</p>
 <p>If given a single <a href="terms.html#Parameter">parameter</a>, Describe will result in a <a href="terms.html#String">string</a>.
 If given two <a href="terms.html#Parameter">parameters</a>, it will result in the <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.</p>
@@ -83,5 +91,5 @@ For each pair, the key corresponds to the first <a href="terms.html#Parameter">p
 If one is found, then the <a href="terms.html#String">string</a> value for that pair is provided as the result.
 If the list does not contain a matching key, the list of each outer <a href="terms.html#Image">image</a> is searched in succession until a key is found.
 If no matching keys exist in any lists, the result will be <a href="terms.html#Nil">Nil</a>.</p>
-<h2>Print</h2>
+<h2><a href="#Display" id="Display">Display</a></h2>
 </body>

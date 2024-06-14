@@ -46,3 +46,5 @@ Actually, I'm forgetting that if I have a user-mode, I can create whatever I wan
 I have full access to the executable code.
 All I need is basic userland access and from there I can do whatever I want.
 I can import executables and start chaining them.
+
+
