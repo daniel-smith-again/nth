@@ -4,7 +4,7 @@
 	--lfg:rgb(0, 117, 105);
 	--dbg:rgb(212, 203, 191);
 	--link:rgb(89, 22, 22);
-	--scale:calc(12px + ((1vh + 1vw) * 0.7));
+	--scale:calc(16px + ((1vh + 1vw) * 0.5));
 }
 body{color:var(--fg);background-color:var(--bg);font-size:calc(var(--scale) * 0.7);padding-bottom:10ch;}
 #cover-icon{display:block;min-height:34vh;max-height:30ch;margin:auto;}

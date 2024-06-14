@@ -7,39 +7,100 @@
 body{padding:0;margin:0;}
 nth-area{display:block;width:90vw;height:90vh;margin:auto;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
-nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;}
+nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding-left:2ch;padding-right:2ch;}
 nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
 nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
 nth-footer{grid-area:bottom;}
-nth-help{position:absolute;display:none;top:10vh;left:3ch;width:calc(100vw - 6ch);height:calc(90vh - 2ch);margin:0;background-color:var(--bg);box-shadow:var(--fg) 0 0 13ch 2ch;z-index:10;}
+nth-help{position:absolute;display:none;top:7vh;left:3ch;width:calc(100vw - 6ch);height:calc(90vh - 2ch);margin:0;background-color:var(--bg);box-shadow:var(--fg) 0 0 13ch 2ch;z-index:10;border-radius:1ch;overflow-y:scroll;}
+nth-help > *{position:static;}
 help-button{display:inline-block;cursor:pointer;width:3ch;border-radius:0.5ch;}
 help-button:hover{background-color: var(--dbg);}
-close-help{display:inline-block;position:relative;top:1ch;left:1ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
+close-help{display:inline-block;position:absolute;top:1ch;left:1ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
 close-help:hover{background-color:var(--dbg);}
-nth-editor{display:grid;width:max-content;grid-template-areas: 'handle area' 'options area';position:absolute;font-family:monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;background-color:var(--bg);border-radius:1ch;}
+nth-editor{display:grid;width:max-content;grid-template-areas: 'handle area' 'options area';position:absolute;font-family:monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;background-color:var(--bg);border-radius:1ch;cursor:move;}
 nth-editor[active]{z-index:1;}
 nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
-nth-handle{cursor:pointer;width:1ch;height:1ch;border-radius:0.5ch;border:solid var(--fg) 0.2ch;line-height:2ch;text-align:center;grid-area:handle;display:grid;justify-content:flex-start;align-items:center;margin:0.2ch;}
-nth-editor[active] nth-handle{border-color:var(--lfg);}
+nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;}
+nth-editor[active] nth-handle{color:var(--lfg)}
 nth-editor[active] nth-options{color:var(--lfg);}
-nth-options{display:none;flex-flow:column nowrap;grid-area:options;justify-content:flex-start;transition:all 0.2s;background-color:var(--bg);color:var(--fg);box-shadow:var(--bg) 0 0 1ch;position:relative;top:2ch;left:-0.5ch;}
-nth-options *{display:grid;justify-content:center;align-items:center;width:2ch;height:2ch;line-height:2ch;border-radius:0.5ch;text-align:center;cursor:pointer;margin-left:0.2ch;margin-right:0.2ch;}
-nth-options *:hover{background-color:var(--dbg);}
-nth-editor[active] nth-handle:hover nth-options{display:flex;}
-nth-editor:hover nth-options{display:flex}
+nth-options{display:none;flex-flow:column nowrap;justify-content:flex-start;background-color:var(--bg);position:relative;top:0ch;box-shadow:var(--fg) 0 0 0.5ch;border-radius:0.5ch;}
+nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:center;width:2ch;height:2ch;line-height:2ch;border-radius:0.5ch;text-align:center;cursor:pointer;}
+nth-options > *:hover, nth-tools > *:hover{background-color:var(--dbg);}
+nth-manip{position:relative;}
+nth-tools{display:none;flex-flow:row nowrap;width:min-content;height:2ch;position:absolute;background-color:var(--bg);border-radius:0.5ch;top:0;left:2ch;box-shadow:var(--fg) 0 0 0.5ch;}
+nth-editor[active] nth-manip:hover nth-tools{display:flex;}
+nth-handle:hover nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.5);user-select:none;max-width:69vw;padding:0.2ch;}
-nth-symbol, nth-expression, nth-quote, nth-line{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border: none var(--bg) 0.2ch;border-radius:0.5ch;}
-nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;}
-nth-editor[active] nth-expression[active]{border:solid var(--lfg) 0.2ch;}
+nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border: none var(--bg) 0.2ch;border-radius:0.5ch;}
+nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;padding:0.1ch;transition:all 0.5s;}
+nth-editor[active] nth-expression[active]{border:none var(--lfg) 0.2ch;box-shadow: var(--fg) 0 0 0.5ch;}
 nth-expression > * + *{margin-left:1ch;}
-nth-expression > br + *, nth-symbol + nth-expression{margin-left:0ch;}
+nth-expression > br + *, nth-symbol[quote] + *{margin-left:0ch;}
 nth-editor[active] nth-symbol[active]{background-color:var(--dbg)}
-nth-symbol:empty{min-height:0;vertical-align:bottom;}
+nth-symbol{cursor:pointer;transition:all 0.5s;}
+nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
+nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);}
+nth-tooltip > *{position:absolute;z-index:100;visibility:hidden;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);}
+*:hover > nth-tooltip > *{visibility:visible;}
+nth-string{color:var(--lfg);transition:all 0.5s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}
+nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
+nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </style>
 </head>
 <body>
-<nth-header>The <i>n</i><sup>th</sup> Reference Implementation<br><help-button>?</help-button></nth-header>
-<nth-help><close-help>close</close-help></nth-help>
+<nth-header>The <i>n</i><sup>th</sup> Reference Implementation<br><a href="index.html" style="float:left;">&LeftArrow;</a><help-button style="float:right;">?</help-button></nth-header>
+<nth-help>
+<h2 style="margin-bottom:0;margin-top:0;">Help</h2>
+<close-help>X</close-help>
+<h3>The Interface</h3>
+<div style="width:69%;margin:auto;">
+<p>Mouse over the editor to learn about the interface.</p>
+<nth-editor active="true" style="position:static;margin:auto;">
+<nth-handle>
+<span>&#x25a9;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
+<nth-options style="display:flex;">
+<nth-run>&#x23f5;<nth-tooltip><p style="left:2ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
+<nth-step>&#x21dd;<nth-tooltip><p style="left:2ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
+<nth-manip>
+<span>&#x2699;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for working with multiple editor instances.</p></nth-tooltip></span>
+<nth-tools style="display:flex;">
+<nth-copy>&#x29c9;<nth-tooltip><p style="left:2ch;bottom:1ch;">Copy the current atom to the clipboard.</p></nth-tooltip></nth-copy>
+<nth-move>&#x25f0;<nth-tooltip><p style="left:2ch;bottom:1ch;">Cut the current atom to the clipboard.</p></nth-tooltip></nth-move>
+<nth-paste>&#x21f2;<nth-tooltip><p style="left:2ch;bottom:1ch;">Paste the atom in the clipboard by inserting it before the focused atom.</p></nth-tooltip></nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;<nth-tooltip><p style="left:2ch;bottom:1ch;">Close the editor and delete the <a href="terms.html#Expression">expression</a>.</p></nth-tooltip></nth-close>
+</nth-options>
+</nth-handle>
+<nth-code>
+<nth-expression><nth-symbol>let<nth-tooltip><p style="left:-5ch;bottom:1ch;">Your code always starts just to the right of the "handle".</p></nth-tooltip></nth-symbol>
+<nth-tooltip><p style="right:9ch;top:1ch;">Click and drag anywhere in the editor to move it.</p></nth-tooltip><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>x</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>1</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>y</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>2</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>z</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>3</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>in</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nth-symbol>
+<nth-expression active="true"><nth-tooltip><p style="left:3;top:2ch;">Focused <a href="terms.html#Expression">expressions</a> always raised from the rest of the code.</p></nth-tooltip>
+<nth-symbol>x</nth-symbol><nth-symbol>+</nth-symbol><nth-expression><nth-symbol>y</nth-symbol><nth-symbol>+</nth-symbol><nth-symbol active="true">z<nth-tooltip><p style="left:1ch;bottom:-1lh;">The current <a href="terms.html#Symbol">Symbol</a> has a darker background. Click on a <a href="terms.html#Symbol">Symbol</a> to focus on it.</p></nth-tooltip></nth-symbol></nth-expression></nth-expression>
+</nth-expression>
+</nth-code>
+</nth-editor>
+</div>
+<h3 style="margin-bottom:0;margin-top:0;">Controls</h3>
+<table style="text-align:center;">
+<tr><th>Input</th><th>Mapping</th></tr>
+<tr><td>&#x2328;</td><td>Append characters to a focused <a href="terms.html#Symbol">Symbol</a> or <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>&rightarrow;</td><td>Focus the next atom.</td></tr>
+<tr><td>&leftarrow;</td><td>Focus the previous atom.</td></tr>
+<tr><td>&downarrow;</td><td>If an <a href="terms.html#Expression">expression</a> is focused, move the focus into its atoms.<br>If a <a href="terms.html#String">String</a> is focused, edit the <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>&uparrow;</td><td>Move focus out of an <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>&#x2936</td><td>Insert a line break after the focused atom.</td></tr>
+<tr><td>Del</td><td>Delete the focused <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>&Leftarrow;</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
+<tr><td>Tab</td><td>Create a pseudo-symbol with spaces for indentation.</td></tr>
+</table>
+</nth-help>
 <nth-area>
 </nth-area>
 </body>
@@ -51,6 +112,7 @@ var closehelp = document.getElementsByTagName('close-help')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 active = null;
+document['clipboard'] = null;
 area.onclick = (e)=> 
 {
     if (area['clicklock']) {area['clicklock'] = false; return;}
@@ -63,26 +125,42 @@ area.onclick = (e)=>
     active = snippet
     snippet.innerHTML = 
     '<textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>\
-    <nth-handle>\
-    <nth-options><nth-run>&#x23f5;</nth-run><nth-step>&#x21dd;</nth-step><nth-close>&#x2a2f;</nth-close></nth-options>\
+    <nth-handle>&#x25a9;\
+      <nth-options>\
+        <nth-run>&#x23f5;</nth-run>\
+        <nth-step>&#x21dd;</nth-step>\
+        <nth-manip>&#x2699;\
+          <nth-tools>\
+            <nth-copy>&#x29c9;</nth-copy>\
+            <nth-move>&#x25f0</nth-move>\
+            <nth-paste>&#x21f2;</nth-paste>\
+          </nth-tools>\
+        </nth-manip>\
+        <nth-close>&#x2a2f;</nth-close>\
+      </nth-options>\
     </nth-handle>\
     <nth-code></nth-code>'
     snippet.lastChild['caret'] = null;
-    snippet.children[1].children[0].lastChild.onclick = (e) => {area.removeChild(snippet)}
+    snippet.children[1].children[0].children[0].onclick = Run
+    snippet.children[1].children[0].children[1].onclick = Rewrite
+    snippet.children[1].children[0].children[3].onclick = Close
+    snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
+    snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
+    snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
     snippet.style.top = String(e.clientY) + 'px'
     snippet.style.left = String(e.clientX) + 'px'
     snippet.onmousedown = dragCode
     area.appendChild(snippet)
 }
 
+function Close(e)
+{
+  area.removeChild(active)
+}
+
 function dragCode(e) 
 {
   e.preventDefault()
-  if (e.target.onclick)
-  {
-    e.target.click()
-    return
-  }
   area['clicklock'] = true;
   var snippet = e.currentTarget
   for (var x = 0; x < area.childElementCount; x++)
@@ -117,6 +195,14 @@ document.onkeydown = (e) => {
     active.caret['symbol'] = null;
     active.caret.setAttribute('active', 'true')
   }
+  if (document.activeElement.tagName == 'NTH-STRING') 
+  {
+    if (e.key == 'Escape') 
+    {
+      document.activeElement.blur()
+    }
+    return
+  }
   if (e.ctrlKey) return
   if (e.key.length == 1) {
     e.preventDefault()
@@ -129,6 +215,9 @@ document.onkeydown = (e) => {
       break;
       case ' ':
         insertSymbol()
+      break;
+      case '"':
+        insertString()
       break;
       default:
         insertCharacter(e.key)
@@ -163,8 +252,11 @@ document.onkeydown = (e) => {
         inwards()
       break
       case 'Escape':
-        active.removeAttribute('active')
-        active = null
+        if (active != null)
+        {
+          active.removeAttribute('active')
+          active = null
+        }
       break
     }
   }
@@ -172,28 +264,21 @@ document.onkeydown = (e) => {
 function insertCharacter(c) 
 {
   var caret = active.caret;
-  if (caret.symbol == null || caret.symbol.tagName == 'BR' || ( caret.symbol.textContent.length > 0 && !/\S/.test(caret.symbol.textContent)))
+  if (caret.symbol == null || caret.symbol.tagName == 'BR' || caret.symbol.tagName == 'NTH-EXPRESSION' || caret.symbol.tagName == 'NTH-STRING' || ( caret.symbol.textContent.length > 0 && !/\S/.test(caret.symbol.textContent)))
   {
     insertSymbol()
   }
   caret.symbol.textContent = caret.symbol.textContent + c
+  checkQuote(caret.symbol)
 }
 function insertSymbol() 
 {
   var caret = active.caret;
-  //if (caret.symbol && caret.symbol.tagName == 'NTH-SYMBOL' && caret.symbol.textContent == '') return
   var s = document.createElement('nth-symbol')
   s.appendChild(document.createTextNode(''))
   s.setAttribute('active', 'true')
-  s.onclick = (e) => {
-    active.caret.removeAttribute('active')
-    if (active.caret.symbol != null)
-      active.caret.symbol.removeAttribute('active')
-    active.caret = e.target.parentElement
-    active.caret.setAttribute('active', 'true')
-    active.caret.symbol = e.target
-    active.caret.symbol.setAttribute('active', 'true')
-  }
+  s.onclick = highlightSymbol
+  
   if (caret.symbol) caret.symbol.removeAttribute('active');
   if (caret.childElementCount == 0) 
   {
@@ -272,9 +357,10 @@ function backspace()
   var caret = active.caret
   if (caret.childElementCount > 0)
   {
-    if (caret.symbol.textContent.length > 0)
+    if (caret.symbol.textContent.length > 0 && caret.symbol.tagName != 'NTH-STRING')
     {
       caret.symbol.textContent = caret.symbol.textContent.slice(0, -1)
+      checkQuote(caret.symbol)
     }
     else 
     {
@@ -287,10 +373,17 @@ function backspace()
       }
       else
       {
-        if (caret.childElementCount == 0)
+        if (caret.symbol.nextSibling)
+        {
+          var temp = caret.symbol
+          active.caret.symbol = caret.symbol.nextSibling
+          active.caret.symbol.setAttribute('active', 'true')
+          caret.removeChild(temp)
+        }
+        else
         {
           caret.replaceChildren()
-          active.caret.symbol = null
+          active.caret.symbol = null;
         }
       }
     }
@@ -303,7 +396,12 @@ function removeExpression()
   var temp = caret
   if (caret.parentElement.tagName == 'NTH-EXPRESSION')
     active.caret = caret.parentElement
-  else return
+  else 
+  {
+    active.caret.replaceChildren()
+    active.caret.symbol = null
+    return
+  }
   if (temp.previousSibling) active.caret.symbol = temp.previousSibling
   else if (temp.nextSibling) active.caret.symbol = temp.nextSibling
   else active.caret.symbol = null
@@ -335,7 +433,8 @@ function backwards()
 function inwards() 
 {
  var caret = active.caret
- if (caret.symbol && caret.symbol.tagName == 'NTH-EXPRESSION')
+ if (caret.symbol == null) return
+ if (caret.symbol.tagName == 'NTH-EXPRESSION')
  {
   caret.removeAttribute('active')
   active.caret = caret.symbol
@@ -343,6 +442,8 @@ function inwards()
   if (active.caret.symbol != null)
     active.caret.symbol.setAttribute('active', 'true')
  }
+ else if (caret.symbol.tagName == 'NTH-STRING')
+  caret.symbol.click()
  
 }
 function outwards() 
@@ -358,5 +459,153 @@ function outwards()
     active.caret.symbol = temp
     active.caret.symbol.setAttribute('active', 'true')
   }
+}
+function highlightSymbol(e) 
+{
+  e.preventDefault()
+  var p = e.target
+  while (p.parentElement.tagName != 'NTH-EDITOR')
+    p = p.parentElement
+  p = p.parentElement
+  if (active != null && active != p) active.caret.removeAttribute('active')
+  active = p
+  if (active.caret != null) active.caret.removeAttribute('active')
+  if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
+  active.caret = e.target.parentElement;
+  active.caret.setAttribute('active', 'true')
+  active.caret.symbol = e.target
+  active.caret.symbol.setAttribute('active', 'true')
+}
+function checkQuote(s) 
+{
+  if (s.textContent == "'" ||
+      s.textContent == "''" ||
+      s.textContent == "'''")
+    s.setAttribute('quote', 'true')
+  else if (s.getAttribute('quote') != null)
+    s.removeAttribute('quote')
+}
+function Cut(e)
+{
+  e.stopImmediatePropagation();
+  if (active.caret == null) return;
+  document.clipboard = null;
+  document.clipboard = active.caret.symbol
+  document.clipboard.removeAttribute('active')
+  if (active.caret.childElementCount == 1) 
+    active.caret.symbol = null
+  else if (document.clipboard.previousSibling) 
+    active.caret.symbol = active.caret.previousSibling
+  else if (document.clipboard.nextSibling)
+    active.caret.symbol = active.caret.nextSibling
+  else
+    active.caret.symbol = null
+  active.caret.removeChild(document.clipboard);
+}
+function Copy(e)
+{
+  e.stopImmediatePropagation();
+  if (active.caret == null) return;
+  document.clipboard = null;
+  document.clipboard = active.caret.symbol.cloneNode(true)
+  if (document.clipboard.tagName == 'NTH-SYMBOL')
+    document.clipboard.onclick = highlightSymbol
+}
+function Paste(e)
+{
+  e.stopImmediatePropagation();
+  if (document.clipboard == null) return
+  if (active.caret == null)
+  {
+    active.lastChild.appendChild(document.clipboard)
+  }
+  else 
+  {
+    if (active.caret.symbol && active.caret.symbol.getAttribute('active'))
+      active.caret.symbol.removeAttribute('active');
+    if (active.caret.symbol && active.caret.symbol.nextSibling)
+    {
+      active.caret.insertBefore(document.clipboard, active.caret.symbol.nextSibling)
+      active.caret.symbol = active.caret.symbol.nextSibling
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+    else
+    {
+      active.caret.appendChild(document.clipboard)
+      active.caret.symbol = active.caret.lastChild
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+    document.clipboard = null;
+  }
+}
+function insertString()
+{
+  var caret = active.caret;
+  var s = document.createElement('nth-string')
+  s.contentEditable = true
+  s.autocapitalize = false
+  s.spellcheck = false
+  s.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+  s.setAttribute('active', 'true')
+  if (caret.symbol) caret.symbol.removeAttribute('active')
+  if (caret.childElementCount == 0) 
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.firstChild
+  }
+  else if (caret.symbol.nextSibling)
+  {
+    caret.insertBefore(s, caret.symbol.nextSibling)
+    caret.symbol = caret.symbol.nextSibling
+  }
+  else
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.lastChild
+  }
+}
+function Run(e)
+{
+  console.log(structureToProgram(active.lastChild.lastChild))
+  var r = document.createElement('nth-expression')
+  r.appendChild(document.createElement('nth-symbol'))
+  r.lastChild.appendChild(document.createTextNode('_'))
+  active.lastChild.replaceChildren(r)
+  active.caret = r
+  active.caret.setAttribute('active', 'true')
+  active.caret.symbol = r.lastChild
+  active.caret.symbol.setAttribute('active', 'true')
+}
+function Rewrite(e) 
+{
+}
+function structureToProgram(s) 
+{
+  switch(s.tagName) {
+    case 'NTH-EXPRESSION':
+      var p = '(' 
+      for (var x = 0; x < s.childElementCount; x++)
+        p += structureToProgram(s.children[x])
+      p += ')'
+      return p
+    break
+    case 'NTH-SYMBOL': 
+      return (s.innerText + (s.getAttribute('quote') ? ' ' : ''))
+    break
+    case 'NTH-STRING': 
+      return '"' + s.innerText.replaceAll(/\n/g, '\\(10)') + '" '
+    break
+    case 'BR': 
+      return '\n'
+    break
+  }
+}
+function programToStructure(p)
+{
+
+}
+function Eval(program)
+{
+
 }
 </script>
