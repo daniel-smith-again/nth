@@ -623,7 +623,7 @@ function structureToProgram(s)
       return (s.innerText + (s.getAttribute('quote') != null ? '' : ' '))
     break
     case 'NTH-STRING': 
-      return '"' + s.innerText.replace(/\n/g, '\\(10)').replace(/"/g, '\\"').replace(/\\/g, "\\\\") + '" '
+      return '"' + s.innerText.replace(/\n/g, '\\(10)') + '" '
     break
     case 'BR': 
       return '\n'
@@ -632,7 +632,25 @@ function structureToProgram(s)
 }
 function programToStructure(p)
 {
-  
+  var n = document.createElement('nth-expression')
+  function parse(i, s, n)  
+  {
+    switch(s[i])
+    {
+      case ' ': break
+      case '(': break
+      case ')': break
+      case '"':
+      
+      break
+      case '\\': 
+        if (s[i+1] == 'n')
+        {
+          n.appendChild(document.createElement('br'))
+        }
+      break
+    }
+  } 
 }
 function Eval(program)
 {
