@@ -7,7 +7,7 @@
 body{padding:0;margin:0;}
 nth-area{display:block;width:90vw;height:90vh;margin:auto;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
-nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding-left:2ch;padding-right:2ch;}
+nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding:1ch;padding-left:2ch;padding-right:2ch;}
 nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
 nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
 nth-footer{grid-area:bottom;}
@@ -58,18 +58,24 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-editor active="true" style="position:static;margin:auto;">
 <nth-handle>
 <span>&#x25a9;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
-<nth-options style="display:flex;">
+<nth-options>
 <nth-run>&#x23f5;<nth-tooltip><p style="left:2ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
 <nth-step>&#x21dd;<nth-tooltip><p style="left:2ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
 <nth-manip>
 <span>&#x2699;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for working with multiple editor instances.</p></nth-tooltip></span>
-<nth-tools style="display:flex;">
+<nth-tools>
 <nth-copy>&#x29c9;<nth-tooltip><p style="left:2ch;bottom:1ch;">Copy the current atom to the clipboard.</p></nth-tooltip></nth-copy>
-<nth-move>&#x25f0;<nth-tooltip><p style="left:2ch;bottom:1ch;">Cut the current atom to the clipboard.</p></nth-tooltip></nth-move>
+<nth-move>&#x25a3;<nth-tooltip><p style="left:2ch;bottom:1ch;">Cut the current atom to the clipboard.</p></nth-tooltip></nth-move>
 <nth-paste>&#x21f2;<nth-tooltip><p style="left:2ch;bottom:1ch;">Paste the atom in the clipboard by inserting it before the focused atom.</p></nth-tooltip></nth-paste>
 </nth-tools>
 </nth-manip>
-<nth-close>&#x2a2f;<nth-tooltip><p style="left:2ch;bottom:1ch;">Close the editor and delete the <a href="terms.html#Expression">expression</a>.</p></nth-tooltip></nth-close>
+<nth-manip><span>&#x21f5;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for handling the editor content.</p></nth-tooltip></span>
+<nth-tools>
+<nth-save>&#x27f1<nth-tooltip><p style="left:2ch;bottom:1ch;">Download the <a href="terms.html#Expression">expression</a> in the editor as <a href="terms.html#Source">source</a>.</p></nth-tooltip></nth-save>
+<nth-load>&#x27f0;<nth-tooltip><p style="left:2ch;bottom:1ch;">Upload a <a href="terms.html#Source">source</a> to be the <a href="terms.html#Expression">expression</a> in the editor.</p></nth-tooltip></nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;<nth-tooltip><p style="left:2ch;bottom:0;">Close the editor and delete the <a href="terms.html#Expression">expression</a>.</p></nth-tooltip></nth-close>
 </nth-options>
 </nth-handle>
 <nth-code>
@@ -104,9 +110,31 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-area>
 </nth-area>
 </body>
+<nth-editor id="editortemplate" hidden>
+  <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
+  <nth-handle>&#x25a9;
+    <nth-options>
+      <nth-run>&#x23f5;</nth-run>
+      <nth-step>&#x21dd;</nth-step>
+      <nth-manip>&#x2699;
+        <nth-tools>
+          <nth-copy>&#x29c9;</nth-copy>
+          <nth-move>&#x25a3</nth-move>
+          <nth-paste>&#x21f2;</nth-paste>
+        </nth-tools>
+      </nth-manip>
+      <nth-manip>&#x21f5;
+        <nth-tools>
+          <nth-save>&#x27f1</nth-save>
+          <nth-load>&#x27f0;</nth-load>
+        </nth-tools>
+      </nth-manip>
+      <nth-close>&#x2a2f;</nth-close>
+    </nth-options></nth-handle><nth-code></nth-code></nth-editor>
 <script>
 var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
+var editor = document.getElementById('editortemplate')
 var helpbutton = document.getElementsByTagName('help-button')[0]
 var closehelp = document.getElementsByTagName('close-help')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
@@ -118,35 +146,22 @@ area.onclick = (e)=>
     if (area['clicklock']) {area['clicklock'] = false; return;}
     if (e.target.tagName != 'NTH-AREA') return;
     e.preventDefault()
-    var snippet = document.createElement('nth-editor')
+    var snippet = editor.cloneNode(true)
     for (var x = 0; x < area.childElementCount; x++)
     area.children[x].removeAttribute('active')
     snippet.setAttribute('active', 'true')
+    snippet.id = null
     active = snippet
-    snippet.innerHTML = 
-    '<textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>\
-    <nth-handle>&#x25a9;\
-      <nth-options>\
-        <nth-run>&#x23f5;</nth-run>\
-        <nth-step>&#x21dd;</nth-step>\
-        <nth-manip>&#x2699;\
-          <nth-tools>\
-            <nth-copy>&#x29c9;</nth-copy>\
-            <nth-move>&#x25f0</nth-move>\
-            <nth-paste>&#x21f2;</nth-paste>\
-          </nth-tools>\
-        </nth-manip>\
-        <nth-close>&#x2a2f;</nth-close>\
-      </nth-options>\
-    </nth-handle>\
-    <nth-code></nth-code>'
+    console.log(snippet)
     snippet.lastChild['caret'] = null;
     snippet.children[1].children[0].children[0].onclick = Run
     snippet.children[1].children[0].children[1].onclick = Rewrite
-    snippet.children[1].children[0].children[3].onclick = Close
     snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
     snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
     snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
+    snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
+    snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
+    snippet.children[1].children[0].children[4].onclick = Close
     snippet.style.top = String(e.clientY) + 'px'
     snippet.style.left = String(e.clientX) + 'px'
     snippet.onmousedown = dragCode
@@ -564,6 +579,21 @@ function insertString()
     caret.symbol = caret.lastChild
   }
 }
+function saveCode(e)
+{
+  var p = structureToProgram(active.lastChild.lastChild)
+  var download = document.createElement('a')
+  download.setAttribute('href', 'data:text/plain;charset=utf8,' + encodeURIComponent(p))
+  download.setAttribute('download', 'nth-source.txt')
+  download.style.display = 'none'
+  document.body.appendChild(download)
+  download.click()
+  document.body.removeChild(download)
+}
+function loadCode(e)
+{
+
+}
 function Run(e)
 {
   console.log(structureToProgram(active.lastChild.lastChild))
@@ -590,10 +620,10 @@ function structureToProgram(s)
       return p
     break
     case 'NTH-SYMBOL': 
-      return (s.innerText + (s.getAttribute('quote') ? ' ' : ''))
+      return (s.innerText + (s.getAttribute('quote') != null ? '' : ' '))
     break
     case 'NTH-STRING': 
-      return '"' + s.innerText.replaceAll(/\n/g, '\\(10)') + '" '
+      return '"' + s.innerText.replace(/\n/g, '\\(10)').replace(/"/g, '\\"').replace(/\\/g, "\\\\") + '" '
     break
     case 'BR': 
       return '\n'
