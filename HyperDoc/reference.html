@@ -110,7 +110,7 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-area>
 </nth-area>
 </body>
-<nth-editor id="editortemplate" hidden>
+<nth-editor id="editortemplate" style="display:none;">
   <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
   <nth-handle>&#x25a9;
     <nth-options>
@@ -151,8 +151,8 @@ area.onclick = (e)=>
     area.children[x].removeAttribute('active')
     snippet.setAttribute('active', 'true')
     snippet.id = null
+    snippet.style.display = 'grid'
     active = snippet
-    console.log(snippet)
     snippet.lastChild['caret'] = null;
     snippet.children[1].children[0].children[0].onclick = Run
     snippet.children[1].children[0].children[1].onclick = Rewrite
@@ -279,7 +279,11 @@ document.onkeydown = (e) => {
 function insertCharacter(c) 
 {
   var caret = active.caret;
-  if (caret.symbol == null || caret.symbol.tagName == 'BR' || caret.symbol.tagName == 'NTH-EXPRESSION' || caret.symbol.tagName == 'NTH-STRING' || ( caret.symbol.textContent.length > 0 && !/\S/.test(caret.symbol.textContent)))
+  if (caret.symbol == null || 
+      caret.symbol.tagName == 'BR' || 
+      caret.symbol.tagName == 'NTH-EXPRESSION' || 
+      caret.symbol.tagName == 'NTH-STRING' || 
+      (caret.symbol.textContent.length > 0 && !/\S/.test(caret.symbol.textContent)))
   {
     insertSymbol()
   }
@@ -456,6 +460,11 @@ function inwards()
   active.caret.setAttribute('active', 'true')
   if (active.caret.symbol != null)
     active.caret.symbol.setAttribute('active', 'true')
+  else if (active.caret.childElementCount > 0)
+  {
+    active.caret.symbol = active.caret.children[0]
+    active.caret.symbol.setAttribute('active', 'true')
+  }
  }
  else if (caret.symbol.tagName == 'NTH-STRING')
   caret.symbol.click()
@@ -592,7 +601,28 @@ function saveCode(e)
 }
 function loadCode(e)
 {
-
+  var input = document.createElement('input')
+  input.type = 'file';
+  input.style.display = 'none'
+  console.log('loading code')
+  input.onchange = async (e) => 
+  {
+    console.log('file was inputted')
+    var file = input.files[0]
+    var program = await file.text()
+    console.log(program)
+    var e = programToStructure(program)
+    active.lastChild.replaceChildren(e)
+    active.caret = active.lastChild.children[0]
+    active.caret.setAttribute('active', 'true')
+    if (active.caret.childElementCount > 0)
+    {
+      active.caret.symbol = active.caret.children[0]
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+  }
+  document.body.appendChild(input)
+  input.click()
 }
 function Run(e)
 {
@@ -623,7 +653,7 @@ function structureToProgram(s)
       return (s.innerText + (s.getAttribute('quote') != null ? '' : ' '))
     break
     case 'NTH-STRING': 
-      return '"' + s.innerText.replace(/\n/g, '\\(10)') + '" '
+      return '"' + s.innerText + '" '
     break
     case 'BR': 
       return '\n'
@@ -632,25 +662,80 @@ function structureToProgram(s)
 }
 function programToStructure(p)
 {
-  var n = document.createElement('nth-expression')
-  function parse(i, s, n)  
+  var i = 0;
+  getChar = () => {var char = p[i];i++;return char;}
+  peekChar = () => {return p[i]}
+  function parse()  
   {
-    switch(s[i])
+    var expression
+    var c = getChar()
+    console.log('New Parse on ', c)
+    switch(c)
     {
-      case ' ': break
-      case '(': break
-      case ')': break
-      case '"':
-      
-      break
-      case '\\': 
-        if (s[i+1] == 'n')
+      case '(':
+        expression = document.createElement('nth-expression')
+        while (c = peekChar(), console.log(c), c != ')')
         {
-          n.appendChild(document.createElement('br'))
+          var temp = parse()
+          if (temp) expression.appendChild(temp)
         }
+        getChar()
+        return expression
       break
+      case '"':
+        expression = document.createElement('nth-string')
+        expression.contentEditable = true
+        expression.autocapitalize = false
+        expression.spellcheck = false
+        expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+        var stringcontent = ''
+
+        while (c = peekChar(), c != '"')
+        {
+          if (c == '\\')
+          {
+            stringcontent += c
+            getChar()
+            c = peekChar()
+          }
+          stringcontent += c
+          console.log(stringcontent)
+          getChar()
+        }
+        getChar()
+        expression.textContent = stringcontent
+        return expression
+      break
+      case '\n':
+        return document.createElement('br')
+      break
+      case ' ':
+        expression = document.createElement('nth-symbol')
+        while (c = peekChar(), c == ' ')
+          expression.textContent += '\u00a0', getChar()
+        if (expression.textContent.length > 0)
+          return expression
+        else
+          return null
+        break;
+      default:
+        expression = document.createElement('nth-symbol')
+        expression.onclick = highlightSymbol
+        expression.textContent = c
+        while (c = peekChar(), c != '(' && c != ')' && c != ' ')
+          expression.textContent += getChar()
+        var t = expression.textContent
+        if (t == "'" || t == "''" || t == "'''")
+        expression.setAttribute('quote', 'true')
+        return expression
     }
-  } 
+  }
+  var top
+  try {
+    top = parse ()
+  }
+  catch(e) {console.log(e);top = document.createElement('nth-expression')}
+  return top
 }
 function Eval(program)
 {
