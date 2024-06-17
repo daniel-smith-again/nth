@@ -20,7 +20,7 @@ close-help:hover{background-color:var(--dbg);}
 nth-editor{display:grid;width:max-content;grid-template-areas: 'handle area' 'options area';position:absolute;font-family:monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;background-color:var(--bg);border-radius:1ch;cursor:move;}
 nth-editor[active]{z-index:1;}
 nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
-nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;}
+nth-handle{cursor:move;width:2ch;height:2ch;font-size:calc(var(--scale) * 1);line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;}
 nth-editor[active] nth-handle{color:var(--lfg)}
 nth-editor[active] nth-options{color:var(--lfg);}
 nth-options{display:none;flex-flow:column nowrap;justify-content:flex-start;background-color:var(--bg);position:relative;top:0ch;box-shadow:var(--fg) 0 0 0.5ch;border-radius:0.5ch;}
@@ -31,12 +31,14 @@ nth-tools{display:none;flex-flow:row nowrap;width:min-content;height:2ch;positio
 nth-editor[active] nth-manip:hover nth-tools{display:flex;}
 nth-handle:hover nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.5);user-select:none;max-width:69vw;padding:0.2ch;}
-nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border: none var(--bg) 0.2ch;border-radius:0.5ch;}
-nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;padding:0.1ch;transition:all 0.5s;}
-nth-editor[active] nth-expression[active]{border:none var(--lfg) 0.2ch;box-shadow: var(--fg) 0 0 0.5ch;}
+nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;}
+nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.5s;}
+nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.5ch;}
 nth-expression > * + *{margin-left:1ch;}
-nth-expression > br + *, nth-symbol[quote] + *{margin-left:0ch;}
+nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0ch;}
 nth-editor[active] nth-symbol[active]{background-color:var(--dbg)}
+nth-editor[active] nth-expression[active] > nth-expression{background-image:none;}
+nth-expression[active]{background-image:none;}
 nth-symbol{cursor:pointer;transition:all 0.5s;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);}
@@ -59,8 +61,8 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-handle>
 <span>&#x25a9;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
 <nth-options>
-<nth-run>&#x23f5;<nth-tooltip><p style="left:2ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
-<nth-step>&#x21dd;<nth-tooltip><p style="left:2ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
+<nth-run>&#x23f5;<nth-tooltip><p style="left:3ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
+<nth-step>&#x21dd;<nth-tooltip><p style="left:3ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
 <nth-manip>
 <span>&#x2699;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for working with multiple editor instances.</p></nth-tooltip></span>
 <nth-tools>
@@ -112,7 +114,7 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </body>
 <nth-editor id="editortemplate" style="display:none;">
   <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
-  <nth-handle>&#x25a9;
+  <nth-handle><!--&#x25a9;-->&#x2b24;
     <nth-options>
       <nth-run>&#x23f5;</nth-run>
       <nth-step>&#x21dd;</nth-step>
@@ -153,7 +155,8 @@ area.onclick = (e)=>
     snippet.id = null
     snippet.style.display = 'grid'
     active = snippet
-    snippet.lastChild['caret'] = null;
+    snippet['caret'] = snippet.lastChild;
+    snippet.caret.symbol = null;
     snippet.children[1].children[0].children[0].onclick = Run
     snippet.children[1].children[0].children[1].onclick = Rewrite
     snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
@@ -204,12 +207,12 @@ function dragCode(e)
   document.onmouseup = stopmove
 }
 document.onkeydown = (e) => {
-  if (active.caret == null) {
-    active.lastChild.appendChild(document.createElement('nth-expression'))
-    active.caret = active.lastChild.lastChild
-    active.caret['symbol'] = null;
-    active.caret.setAttribute('active', 'true')
-  }
+  //if (active.caret == null) {
+  //  active.lastChild.appendChild(document.createElement('nth-expression'))
+  //  active.caret = active.lastChild.lastChild
+  //  active.caret['symbol'] = null;
+  //  active.caret.setAttribute('active', 'true')
+  //}
   if (document.activeElement.tagName == 'NTH-STRING') 
   {
     if (e.key == 'Escape') 
@@ -239,11 +242,14 @@ document.onkeydown = (e) => {
     }
   }
   else {
-    if (e.shiftKey) return
+    //if (e.shiftKey) return
     e.preventDefault();
     switch(e.key) {
-      case 'Enter': 
-        insertBreak()
+      case 'Enter':
+        if (e.shiftKey)
+          Run()
+        else
+          insertBreak()
       break
       case 'Tab':
         growTab()
@@ -283,16 +289,18 @@ function insertCharacter(c)
       caret.symbol.tagName == 'BR' || 
       caret.symbol.tagName == 'NTH-EXPRESSION' || 
       caret.symbol.tagName == 'NTH-STRING' || 
-      (caret.symbol.textContent.length > 0 && !/\S/.test(caret.symbol.textContent)))
+      caret.symbol.getAttribute('tab') != null)
   {
     insertSymbol()
   }
+  if (caret.symbol.tagName != 'NTH-SYMBOL') return
   caret.symbol.textContent = caret.symbol.textContent + c
   checkQuote(caret.symbol)
 }
 function insertSymbol() 
 {
   var caret = active.caret;
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
   var s = document.createElement('nth-symbol')
   s.appendChild(document.createTextNode(''))
   s.setAttribute('active', 'true')
@@ -318,6 +326,7 @@ function insertSymbol()
 function insertExpression() 
 {
   var caret = active.caret
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
   var e = document.createElement('nth-expression')
   e['symbol'] = null;
   e.setAttribute('active', 'true')
@@ -342,6 +351,7 @@ function insertExpression()
 function insertBreak() 
 {
   var caret = active.caret
+  if (caret.tagName == 'NTH-CODE') return
   var b = document.createElement('br')
   if (caret.childElementCount == 0) return
   else
@@ -363,8 +373,14 @@ function growTab()
   var caret = active.caret
   if (caret.symbol && caret.symbol.tagName == 'NTH-SYMBOL')
   {
-    if (!/\S/.test(caret.symbol.textContent))
+    if (caret.symbol.textContent == '')
+    {
       caret.symbol.textContent = caret.symbol.textContent + '\u00a0'
+      caret.symbol.setAttribute('tab', 'true')
+    }
+    else if (caret.symbol.getAttribute('tab') != null)
+      caret.symbol.textContent = caret.symbol.textContent + '\u00a0'
+
   }
   else
   {
@@ -380,6 +396,8 @@ function backspace()
     {
       caret.symbol.textContent = caret.symbol.textContent.slice(0, -1)
       checkQuote(caret.symbol)
+      if (caret.symbol.textContent.length == 0 && caret.symbol.getAttribute('tab') != null)
+        caret.symbol.removeAttribute('tab')
     }
     else 
     {
@@ -413,7 +431,7 @@ function removeExpression()
 {
   var caret = active.caret
   var temp = caret
-  if (caret.parentElement.tagName == 'NTH-EXPRESSION')
+  if (caret.parentElement.tagName == 'NTH-EXPRESSION' || caret.parentElement.tagName == 'NTH-CODE')
     active.caret = caret.parentElement
   else 
   {
@@ -474,7 +492,7 @@ function outwards()
 {
   var caret = active.caret
   var temp = caret
-  if (caret.parentElement && caret.parentElement.tagName == 'NTH-EXPRESSION')
+  if (caret.parentElement && (caret.parentElement.tagName == 'NTH-EXPRESSION' || caret.parentElement.tagName == 'NTH-CODE'))
   {
     caret.removeAttribute('active')
     if (caret.symbol != null) caret.symbol.removeAttribute('active')
@@ -565,6 +583,7 @@ function Paste(e)
 function insertString()
 {
   var caret = active.caret;
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
   var s = document.createElement('nth-string')
   s.contentEditable = true
   s.autocapitalize = false
@@ -604,16 +623,13 @@ function loadCode(e)
   var input = document.createElement('input')
   input.type = 'file';
   input.style.display = 'none'
-  console.log('loading code')
   input.onchange = async (e) => 
   {
-    console.log('file was inputted')
     var file = input.files[0]
     var program = await file.text()
-    console.log(program)
     var e = programToStructure(program)
     active.lastChild.replaceChildren(e)
-    active.caret = active.lastChild.children[0]
+    active.caret = active.lastChild
     active.caret.setAttribute('active', 'true')
     if (active.caret.childElementCount > 0)
     {
@@ -626,14 +642,12 @@ function loadCode(e)
 }
 function Run(e)
 {
-  console.log(structureToProgram(active.lastChild.lastChild))
-  var r = document.createElement('nth-expression')
-  r.appendChild(document.createElement('nth-symbol'))
-  r.lastChild.appendChild(document.createTextNode('_'))
+  if (active.lastChild.childElementCount == 0) return
+  var r = document.createElement('nth-symbol')
+  r.appendChild(document.createTextNode('_'))
   active.lastChild.replaceChildren(r)
-  active.caret = r
-  active.caret.setAttribute('active', 'true')
-  active.caret.symbol = r.lastChild
+  active.caret = active.lastChild
+  active.caret.symbol = r
   active.caret.symbol.setAttribute('active', 'true')
 }
 function Rewrite(e) 
@@ -645,12 +659,25 @@ function structureToProgram(s)
     case 'NTH-EXPRESSION':
       var p = '(' 
       for (var x = 0; x < s.childElementCount; x++)
+      {
         p += structureToProgram(s.children[x])
+        if (x < s.childElementCount - 1) 
+        {
+          if (s.children[x].tagName != 'NTH-TAB' &&
+              s.children[x].getAttribute('quote') == null &&
+              s.children[x].getAttribute('tab') == null &&
+              s.children[x].tagName != 'BR' &&
+              s.children[x + 1].tagName != 'BR')
+          {
+            p += ' '
+          }
+        }
+      }
       p += ')'
       return p
     break
     case 'NTH-SYMBOL': 
-      return (s.innerText + (s.getAttribute('quote') != null ? '' : ' '))
+      return s.innerText
     break
     case 'NTH-STRING': 
       return '"' + s.innerText + '" '
@@ -668,13 +695,13 @@ function programToStructure(p)
   function parse()  
   {
     var expression
-    var c = getChar()
-    console.log('New Parse on ', c)
+    var c = peekChar()
     switch(c)
     {
       case '(':
         expression = document.createElement('nth-expression')
-        while (c = peekChar(), console.log(c), c != ')')
+        c = getChar()
+        while (c = peekChar(), c != ')')
         {
           var temp = parse()
           if (temp) expression.appendChild(temp)
@@ -683,50 +710,57 @@ function programToStructure(p)
         return expression
       break
       case '"':
+        c = getChar()
         expression = document.createElement('nth-string')
         expression.contentEditable = true
         expression.autocapitalize = false
         expression.spellcheck = false
         expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
         var stringcontent = ''
-
         while (c = peekChar(), c != '"')
         {
+          if (c == '\t' || c == '\r') continue
           if (c == '\\')
+            stringcontent += c, getChar(), c = peekChar()
+          if (c == '\n')
           {
-            stringcontent += c
-            getChar()
-            c = peekChar()
+            expression.appendChild(document.createTextNode(stringcontent))
+            expression.appendChild(document.createElement('br'))
+            stringcontent = ''
           }
-          stringcontent += c
-          console.log(stringcontent)
-          getChar()
+          stringcontent += c, getChar()
         }
         getChar()
-        expression.textContent = stringcontent
+        expression.appendChild(document.createTextNode(stringcontent))
         return expression
       break
       case '\n':
-        return document.createElement('br')
+        c = getChar(), expression = document.createElement('br')
+        return expression
       break
       case ' ':
+      case '\u00a0':
+        c = getChar()
         expression = document.createElement('nth-symbol')
-        while (c = peekChar(), c == ' ')
+        expression.setAttribute('tab', 'true')
+        expression.textContent = '\u00a0';
+        while (c = peekChar(), c == ' ' || c == '\u00a0')
           expression.textContent += '\u00a0', getChar()
-        if (expression.textContent.length > 0)
-          return expression
-        else
-          return null
-        break;
+        if (expression.textContent.length > 1) return expression
+        else return null
+      break
+      case ')':
+        throw "Unexpected closing brace!"
+      break
       default:
+        c = getChar()
         expression = document.createElement('nth-symbol')
         expression.onclick = highlightSymbol
         expression.textContent = c
-        while (c = peekChar(), c != '(' && c != ')' && c != ' ')
+        while (c = peekChar(), c != '(' && c != ')' && c != ' ' && c != '\n')
           expression.textContent += getChar()
         var t = expression.textContent
-        if (t == "'" || t == "''" || t == "'''")
-        expression.setAttribute('quote', 'true')
+        checkQuote(expression)
         return expression
     }
   }
@@ -734,7 +768,7 @@ function programToStructure(p)
   try {
     top = parse ()
   }
-  catch(e) {console.log(e);top = document.createElement('nth-expression')}
+  catch(e) {console.log(e);top = document.createElement('nth-symbol').appendChild(document.createTextNode('_'))}
   return top
 }
 function Eval(program)
