@@ -12,10 +12,12 @@ nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
 nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
 nth-footer{grid-area:bottom;}
 nth-help{position:absolute;display:none;top:7vh;left:3ch;width:calc(100vw - 6ch);height:calc(90vh - 2ch);margin:0;background-color:var(--bg);box-shadow:var(--fg) 0 0 13ch 2ch;z-index:10;border-radius:1ch;overflow-y:scroll;}
+nth-help table tr{border-bottom:dotted var(--fg) 0.2ch;}
+nth-help table{border-collapse:collapse;}
 nth-help > *{position:static;}
 help-button{display:inline-block;cursor:pointer;width:3ch;border-radius:0.5ch;}
 help-button:hover{background-color: var(--dbg);}
-close-help{display:inline-block;position:absolute;top:1ch;left:1ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
+close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
 close-help:hover{background-color:var(--dbg);}
 nth-editor{display:grid;width:max-content;grid-template-areas: 'handle area' 'options area';position:absolute;font-family:monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;background-color:var(--bg);border-radius:1ch;cursor:move;}
 nth-editor[active]{z-index:1;}
@@ -54,12 +56,14 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-help>
 <h2 style="margin-bottom:0;margin-top:0;">Help</h2>
 <close-help>X</close-help>
+<div style="display:grid;grid-template-areas:'a b';grid-template-columns:40% auto;">
+<div>
 <h3>The Interface</h3>
-<div style="width:69%;margin:auto;">
+<div style="margin:auto;">
 <p>Mouse over the editor to learn about the interface.</p>
 <nth-editor active="true" style="position:static;margin:auto;">
 <nth-handle>
-<span>&#x25a9;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
+<span>&#x2b24;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
 <nth-options>
 <nth-run>&#x23f5;<nth-tooltip><p style="left:3ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
 <nth-step>&#x21dd;<nth-tooltip><p style="left:3ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
@@ -82,7 +86,7 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </nth-handle>
 <nth-code>
 <nth-expression><nth-symbol>let<nth-tooltip><p style="left:-5ch;bottom:1ch;">Your code always starts just to the right of the "handle".</p></nth-tooltip></nth-symbol>
-<nth-tooltip><p style="right:9ch;top:1ch;">Click and drag anywhere in the editor to move it.</p></nth-tooltip><br>
+<nth-tooltip><p style="right:1ch;top:5ch;">Click and drag anywhere in the editor to move it.</p></nth-tooltip><br>
 <nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>x</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>1</nth-symbol><br>
 <nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>y</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>2</nth-symbol><br>
 <nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>z</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>3</nth-symbol><br>
@@ -94,6 +98,8 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </nth-code>
 </nth-editor>
 </div>
+</div>
+<div>
 <h3 style="margin-bottom:0;margin-top:0;">Controls</h3>
 <table style="text-align:center;">
 <tr><th>Input</th><th>Mapping</th></tr>
@@ -107,7 +113,10 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
 <tr><td>Backspace</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
 <tr><td>Tab</td><td>Create a pseudo-symbol with spaces for indentation.</td></tr>
+<tr><td>Shift + &#x2936;</td><td><a href="terms.html#Evaluate">Evaluate</a> the <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Ctrl + X/C/V</td><td>Cut/Copy/Paste a focused atom.</td></tr>
 </table>
+</div></div>
 </nth-help>
 <nth-area>
 </nth-area>
@@ -207,12 +216,6 @@ function dragCode(e)
   document.onmouseup = stopmove
 }
 document.onkeydown = (e) => {
-  //if (active.caret == null) {
-  //  active.lastChild.appendChild(document.createElement('nth-expression'))
-  //  active.caret = active.lastChild.lastChild
-  //  active.caret['symbol'] = null;
-  //  active.caret.setAttribute('active', 'true')
-  //}
   if (document.activeElement.tagName == 'NTH-STRING') 
   {
     if (e.key == 'Escape') 
@@ -221,7 +224,23 @@ document.onkeydown = (e) => {
     }
     return
   }
-  if (e.ctrlKey) return
+  if (e.ctrlKey)
+  {
+    switch(e.key)
+    {
+      case 'c':
+        Copy(e)
+      break
+      case 'x':
+        Cut(e)
+      break
+      case 'v':
+        Paste(e)
+      break
+      default: return
+    }
+    return
+  }
   if (e.key.length == 1) {
     e.preventDefault()
     switch(e.key) {
