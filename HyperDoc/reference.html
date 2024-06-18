@@ -142,6 +142,7 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
       </nth-manip>
       <nth-close>&#x2a2f;</nth-close>
     </nth-options></nth-handle><nth-code></nth-code></nth-editor>
+<script src="nth.js" type="text/javascript"></script>
 <script>
 var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
@@ -228,15 +229,9 @@ document.onkeydown = (e) => {
   {
     switch(e.key)
     {
-      case 'c':
-        Copy(e)
-      break
-      case 'x':
-        Cut(e)
-      break
-      case 'v':
-        Paste(e)
-      break
+      case 'c': Copy(e); break
+      case 'x': Cut(e); break
+      case 'v': Paste(e); break
       default: return
     }
     return
@@ -244,60 +239,29 @@ document.onkeydown = (e) => {
   if (e.key.length == 1) {
     e.preventDefault()
     switch(e.key) {
-      case '(':
-        insertExpression()
-      break;
-      case ')':
-        outwards()
-      break;
-      case ' ':
-        insertSymbol()
-      break;
-      case '"':
-        insertString()
-      break;
-      default:
-        insertCharacter(e.key)
+      case '(': insertExpression(); break
+      case ')': outwards(); break
+      case ' ': insertSymbol(); break
+      case '"': insertString(); break
+      default: insertCharacter(e.key)
     }
   }
   else {
-    //if (e.shiftKey) return
     e.preventDefault();
     switch(e.key) {
       case 'Enter':
-        if (e.shiftKey)
-          Run()
-        else
-          insertBreak()
+        if (e.shiftKey) Run()
+        else insertBreak()
       break
-      case 'Tab':
-        growTab()
-      break
-      case 'Backspace': 
-        backspace()
-      break
-      case 'Delete':
-        removeExpression()
-      break
-      case 'ArrowRight':
-        forwards()
-      break
-      case 'ArrowLeft':
-        backwards()
-      break
-      case 'ArrowUp':
-        outwards()
-      break
-      case 'ArrowDown':
-        inwards()
-      break
-      case 'Escape':
-        if (active != null)
-        {
-          active.removeAttribute('active')
-          active = null
-        }
-      break
+      case 'Tab': growTab(); break
+      case 'Backspace': backspace(); break
+      case 'Delete': removeExpression(); break
+      case 'ArrowRight': forwards(); break
+      case 'ArrowLeft': backwards(); break
+      case 'ArrowUp': outwards(); break
+      case 'ArrowDown': inwards(); break
+      case 'Escape': if (active != null) 
+                        active.removeAttribute('active'), active = null; break
     }
   }
 }
@@ -463,6 +427,7 @@ function removeExpression()
   else active.caret.symbol = null
   temp.parentElement.removeChild(temp)
   active.caret.setAttribute('active', 'true')
+  if (active.caret.symbol) active.caret.symbol.setAttribute('active', 'true');
 }
 function forwards()
 {
@@ -795,5 +760,5 @@ function Eval(program)
 
 }
 
-import nth from 'nth.js'
+
 </script>
