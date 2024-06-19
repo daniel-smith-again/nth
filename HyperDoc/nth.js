@@ -64,7 +64,7 @@
 const nth = {
   nth: this,
   base: {},
-  toplevel: base,
+  toplevel: this.base,
   Init: function(){},
   Evaluate: function(){},
 }
