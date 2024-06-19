@@ -34,19 +34,19 @@ nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:activ
 nth-handle:hover nth-options, nth-handle:active nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.5);user-select:none;max-width:69vw;padding:0.2ch;}
 nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;}
-nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.5s;}
+nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.2s;}
 nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.5ch;}
 nth-expression > * + *{margin-left:1ch;}
 nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0ch;}
 nth-editor[active] nth-symbol[active]{background-color:var(--dbg)}
 nth-editor[active] nth-expression[active] > nth-expression{background-image:none;}
 nth-expression[active]{background-image:none;}
-nth-symbol{cursor:pointer;transition:all 0.5s;}
+nth-symbol{cursor:pointer;transition:all 0.2s;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);}
 nth-tooltip > *{position:absolute;z-index:100;visibility:hidden;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);}
 *:hover > nth-tooltip > *{visibility:visible;}
-nth-string{color:var(--lfg);transition:all 0.5s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}
+nth-string{color:var(--lfg);transition:all 0.2s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}
 nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </style>

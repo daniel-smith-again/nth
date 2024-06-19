@@ -1,0 +1,12 @@
+(define TotalOrd (* | (n ->
+((? (next n)) = TotalOrd) /\
+((leq n n) = true) /\
+((leq n (next n)) = true) /\
+(let
+   a : (next TotalOrd)
+   b : (next TotalOrd)
+in
+   ((leq a b) \/ (leq b a))
+\/
+   ((leq a b) /\ (leq b a) /\
+(eq a b)   /\ (eq b a))))))
