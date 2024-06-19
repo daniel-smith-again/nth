@@ -274,15 +274,22 @@ This is such that</p>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Branching.</figcaption>
 <p><code>
 ('(? ''* '''(array Program)) -><br>
-&emsp;let (_ Condition Case *) = (&amp; _ 1)<br>
+&emsp;let (_ Condition Cases *) = (&amp; _ 1)<br>
 &emsp;in<br>
-&emsp;&emsp;&emsp;&emsp;&#x1d568; Condition Case)
+&emsp;&emsp;&emsp;&emsp;&#x1d568; Condition Cases)
 </code></p>
-<p>Where &#x1d568; is an <a href="terms.html#Operator">operation</a> which checks the <a href="terms.html#Type">type</a> of <span><code>Condition</code></span> and <a href="terms.html#Evaluate">evaluates</a> one of the <a href="terms.html#Expression">expressions</a> which is a <a href="terms.html#Field">field</a> in <span><code>Case</code></span>.</p>
+<p>Where &#x1d568; is an <a href="terms.html#Operator">operation</a> which checks the <a href="terms.html#Type">type</a> of <span><code>Condition</code></span> and <a href="terms.html#Evaluate">evaluates</a> one of the <a href="terms.html#Expression">expressions</a> which is a <a href="terms.html#Field">field</a> in <span><code>Cases</code></span>.</p>
 <p>A Branch <a href="terms.html#Expression">expression</a> can be separated into two components, a "Condition", which is a <a href="terms.html#Value">value</a> which causes the <a href="terms.html#Evaluate">evaluation</a> of an <a href="terms.html#Expression">expression</a>, and a "Case", which is an <a href="terms.html#Expression">expression</a> which may be <a href="terms.html#Evaluate">evaluated</a>.</p> 
 </figure>
 <a href="#15-2" id="15-2">15-2</a><p>A Branch <a href="terms.html#Expression">expression</a> may only ever <a href="terms.html#Evaluate">evaluate</a> one Case.</p>
 <a href="#15-3" id="15-3">15-3</a><p>The result of a Branch <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> a Case.</p>
+<p>Each Case is a an un-nested sequence pair of two <a href="terms.html#Expression">expressions</a> where the first <a href="terms.html#Expression">expression</a> is used as the <a href="terms.html#Supertype">supertype</a> to compare to the Condition and the second is the <a href="terms.html#Expression">expression</a> to be <a href="terms.html#Evaluate">evaluated</a> as the result of the Branch.</p>
+<p>A Case may consist of only a single <a href="terms.html#Expression">expression</a> in the special case where the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and there are only two single-<a href="terms.html#Expression">expression</a> Cases provided in the Branch <a href="terms.html#Expression">expression</a>.</p>
+<p>The result of a Branch is decided in the following manner...</p>
+<ul>
+<li>If the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and one single-<a href="terms.html#Expression">expression</a> Case is provided, then the Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>true</code></span> and <span><code>_</code></span> is the result if the Condition is <span><code>false</code></span>.</li>
+<li>If the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and two single-<a href="terms.html#Expression">expression</a> Cases are provided, the first Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>true</code></span> and the second Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>false</code>.</span></li>
+</ul>
 <a href="#15-4" id="15-4">15-4</a><p>A Case is either a single <a href="terms.html#Expression">expression</a> or a sequence of a <a href="terms.html#Value">value</a> then an <a href="terms.html#Expression">expression</a>.
 If the Condition is not a <a href="terms.html#Boolean">Boolean</a>, then the Case must be a combination of a <a href="terms.html#Value">value</a> and an <a href="terms.html#Expression">expression</a>.</p>
 <a href="#15-5" id="15-5">15-5</a><p>A Case is chosen by a Branch according to a <a href="terms.html#Supertype">supertype</a> relation to the Condition...</p>
