@@ -283,37 +283,23 @@ This is such that</p>
 </figure>
 <a href="#15-2" id="15-2">15-2</a><p>A Branch <a href="terms.html#Expression">expression</a> may only ever <a href="terms.html#Evaluate">evaluate</a> one Case.</p>
 <a href="#15-3" id="15-3">15-3</a><p>The result of a Branch <a href="terms.html#Expression">expression</a> must be the result of <a href="terms.html#Evaluate">evaluating</a> a Case.</p>
-<p>Each Case is a an un-nested sequence pair of two <a href="terms.html#Expression">expressions</a> where the first <a href="terms.html#Expression">expression</a> is used as the <a href="terms.html#Supertype">supertype</a> to compare to the Condition and the second is the <a href="terms.html#Expression">expression</a> to be <a href="terms.html#Evaluate">evaluated</a> as the result of the Branch.</p>
+<p>Each Case is a an un-nested sequenced pair of two <a href="terms.html#Expression">expressions</a> where the first <a href="terms.html#Expression">expression</a> is used as the <a href="terms.html#Supertype">supertype</a> to compare to the Condition and the second is the <a href="terms.html#Expression">expression</a> to be <a href="terms.html#Evaluate">evaluated</a> as the result of the Branch.</p>
 <p>A Case may consist of only a single <a href="terms.html#Expression">expression</a> in the special case where the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and there are only two single-<a href="terms.html#Expression">expression</a> Cases provided in the Branch <a href="terms.html#Expression">expression</a>.</p>
-<p>The result of a Branch is decided in the following manner...</p>
+<p>A Branch may be formed in the following ways...</p>
 <ul>
-<li>If the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and one single-<a href="terms.html#Expression">expression</a> Case is provided, then the Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>true</code></span> and <span><code>_</code></span> is the result if the Condition is <span><code>false</code></span>.</li>
-<li>If the Condition is a <a href="terms.html#Boolean">Boolean</a> <a href="terms.html#Value">value</a> and two single-<a href="terms.html#Expression">expression</a> Cases are provided, the first Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>true</code></span> and the second Case is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>false</code>.</span></li>
+<li>A <a href="terms.html#Boolean">Boolean</a> Condition followed by a single <a href="terms.html#Expression">expression</a></li>
+<li>A <a href="terms.html#Boolean">Boolean</a> Condition followed by two <a href="terms.html#Expression">expressions</a>.</li>
+<li>A Condition of any <a href="terms.html#Type">type</a> followed by an even number of <a href="terms.html#Expressions">expressions</a> such that every two <a href="terms.html#Expression">expressions</a> correspond to a Case.</li>
 </ul>
-<a href="#15-4" id="15-4">15-4</a><p>A Case is either a single <a href="terms.html#Expression">expression</a> or a sequence of a <a href="terms.html#Value">value</a> then an <a href="terms.html#Expression">expression</a>.
-If the Condition is not a <a href="terms.html#Boolean">Boolean</a>, then the Case must be a combination of a <a href="terms.html#Value">value</a> and an <a href="terms.html#Expression">expression</a>.</p>
-<a href="#15-5" id="15-5">15-5</a><p>A Case is chosen by a Branch according to a <a href="terms.html#Supertype">supertype</a> relation to the Condition...</p>
-<ul>
-<li>If the Condition is a <a href="terms.html#Subtype">subtype</a> of the <a href="terms.html#Value">value</a> prefix in a Case, then that Case must be <a href="terms.html#Evaluate">evaluated</a>.</li>
-<li>If the <a href="terms.html#Value">value</a> of the Condition is <span><code>true</code></span>, then the first Case following the Condition must be <a href="terms.html#Evaluate">evaluated</a>.</li>
-<li>If the <a href="terms.html#Value">value</a> of the Condition is <span><code>false</code></span>, then the second Case following the Condition must be <a href="terms.html#Evaluate">evaluated</a>.</li>
-<li>If the <a href="terms.html#Value">value</a> of the Condition is <span><code>false</code></span>, and only one Case is given in the Branch, then the result of that Branch is <span><code>_</code></span>.</li>
-</ul>
-<a href="#15-6" id="15-6">15-6</a><p>If no Case <a href="terms.html#Value">value</a> is a <a href="terms.html#Supertype">supertype</a> of the Condition, then the sum of every Case <a href="terms.html#Value">value</a> must result in a <a href="terms.html#Supertype">supertype</a> such that given,</p>
-<p><code>
-((&#x1d6dc; = (type a b c d)),<br>
-&emsp;(&#x1d6d6; = (type a c)),<br>
-&emsp;(&#x1d6d3; = (type b d)))
-</code></p>
-<p>A Condition <a href="terms.html#Binding">bound</a> to &#x1d6b1; of the <a href="terms.html#Type">type</a> <span><code>&#x1d6dc;</code></span> such that <span><code>(&#x1d6b1; : &#x1d6dc;)</code></span> requires Case lists of either</p>
-<p><code>(? &#x1d6b1; a 'a b 'b c 'c d 'd)</code>
-where
-<code>((a + b + c + d) = &#x1d6dc;)</code></p>
-<p>or 
-<code>(? &#x1d6b1; &#x1d6d6; 'e &#x1d6d3; 'f)</code>
-where
-<code>((&#x1d6d6; + &#x1d6d3;) = &#x1d6dc;)</code>
-</p>
+<p>If a Branch consists of the first form listed in <a>clause</a>, the Case <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a> as the result only if the Condition is <span><code>true</code></span>.
+Otherwise, the result of the Branch is <span><code>_</code></span></p>
+<p>If a Branch consists of the second form listed in <a>clause</a>, the first Case <a href="terms.html#Expression">expression</a> is <a href="terms.html#Evaluate">evaluated</a> as the result when the Condition is <span><code>true</code></span>. 
+Otherwise the second Case is <a href="terms.html#Evaluate">evaluated</a> as the result.</p>
+<p>If a Branch consists of the third form listed in <a>clause</a>, the Case which the Branch will <a href="terms.html#Evaluate">evaluate</a> as the result is determined by comparing the Case <a href="terms.html#Value">value</a> to the Condition.
+If the Condition is <a href="terms.html#Equivalence">equal</a> to or a <a href="terms.html#Subtype">subtype</a> of the Case <a href="terms.html#Value">value</a>, then the <a href="terms.html#Expression">expression</a> for that Case is <a href="terms.html#Evaluate">evaluated</a> as the result.</p>
+<p>A Branch must guarantee that a Case will be <a href="terms.html#Evaluate">evaluated</a> for any possible Condition <a href="terms.html#Value">value</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.
+The only exception to this requirement is when a Branch consists of the first form listed in <a>clause</a>.</p>
+<p>A Branch must guarantee that no two Cases share the same <a href="terms.html#Subtype">subtypes</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.</p>
 <h3><a href="#Inversion" id="Inversion">Inversion</a></h3>
 <a href="#16-1" id="16-1">16-1</a><p>Inversion is a <a href="defaults.html#Expressions">default expression</a> which allows the order in which a <a href="terms.html#Program">program</a> is <a href="terms.html#Evaluate">evaluated</a> to be decided by one or more arbitrary <a href="terms.html#Function">functions</a>, thus "inverting" the normal order of <a href="terms.html#Evaluate">evaluation</a>.</p>
 <a href="#Fig-10" id="Fig-10">Figure 10</a><figure>
