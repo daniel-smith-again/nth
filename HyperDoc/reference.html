@@ -104,10 +104,11 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <table style="text-align:center;">
 <tr><th>Input</th><th>Mapping</th></tr>
 <tr><td>&#x2328;</td><td>Append characters to a focused <a href="terms.html#Symbol">Symbol</a> or <a href="terms.html#String">String</a>.</td></tr>
+<tr><td><code>(</code></td><td>Append a new <a href="terms.html#Expression">expression</a> and focus into it.</td></tr>
 <tr><td>&rightarrow;</td><td>Focus the next atom.</td></tr>
 <tr><td>&leftarrow;</td><td>Focus the previous atom.</td></tr>
 <tr><td>&downarrow;</td><td>If an <a href="terms.html#Expression">expression</a> is focused, move the focus into its atoms.<br>If a <a href="terms.html#String">String</a> is focused, edit the <a href="terms.html#String">String</a>.</td></tr>
-<tr><td>&uparrow;</td><td>Move focus out of an <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>&uparrow;<br><code>)</code></td><td>Move focus out of an <a href="terms.html#Expression">expression</a>.</td></tr>
 <tr><td>&#x2936</td><td>Insert a line break after the focused atom.</td></tr>
 <tr><td>Del</td><td>Delete the focused <a href="terms.html#Expression">expression</a>.</td></tr>
 <tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
