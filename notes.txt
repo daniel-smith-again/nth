@@ -47,17 +47,3 @@ Plus I have ranges which are static sized integers.
                  (c -> (? ((# c) = ((# list) - pv)) True))))),
       (quicksort ((@ (@ (list _ (pivot _ 1)))) : (Collection | 
                  (c -> (? ((# c) = ((# list) - pv)) True)))))))))
-
-
-
-(define quicksort ((list : Array) -> 
-
-? ((# list) > 1)
-  
-  (let swap = (pv i j ->
-  
-  
-
-  ))
-
-))

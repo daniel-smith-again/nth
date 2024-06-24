@@ -79,13 +79,13 @@ The text encoding correspondence is <a href="terms.html#Implementation">implemen
 <p>The <a href="terms.html#Place">Place</a> corresponds to a unique <a href="terms.html#Value">value</a> representing the location of a <a href="terms.html#Unit">unit</a> in the <a href="terms.html#Environment">environment</a>.</p>
 <p>A <a href="terms.html#Place">place</a> does not store a numerical <a href="terms.html#Value">value</a> and does not correspond to a <a href="terms.html#Range">range</a>.</p>
 <p>A <a href="terms.html#Place">place</a> must be able to represent a number of unique values up to the number of individual <a href="terms.html#Byte">bytes</a> which can be set in the <a href="terms.html#Environment">environment</a>.
-Each of these <a>values</a> must be distinct.</p>
+Each of these <a href="terms.html#Value">values</a> must be distinct.</p>
 <p>A <a href="terms.html#Place">Place</a> <a href="terms.html#Value">value</a> can only be <a href="terms.html#Equivalence">equivalent</a> to itself.</p>
 <h3><a href="#Referencing-Data" id="Referencing-Data">Referencing Data</a></h3>
 <p>Given an <a href="terms.html#Environment">environment</a>, there is only ever a finite number of possible <a href="terms.html#Place">Place</a> <a href="terms.html#Value">values</a>.
 Therefore a <a href="terms.html#Place">place</a> is not constructed, but derived from an <a href="terms.html#Instantiate">instantiated</a> <a href="terms.html#Unit">unit</a>.
 The <a href="defaults.html#Functions">default function</a> Reference, <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Identifier">identifier</a> <span><code>@</code></span> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
-<a href="terms.html#Application">Applying</a> Reference to anything will result in the <a href="terms.html#Place">Place</a> of the first <a>Byte</a> of the section of <a href="terms.html#Storage">storage</a> claimed by that <a href="terms.html#Parameter">parameter</a>.</p>
+<a href="terms.html#Application">Applying</a> Reference to anything will result in the <a href="terms.html#Place">Place</a> of the first <a href="terms.html#Byte">Byte</a> of the section of <a href="terms.html#Storage">storage</a> claimed by that <a href="terms.html#Parameter">parameter</a>.</p>
 <figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of Reference must conform to.</figcaption>
 <p><code>
@@ -131,7 +131,7 @@ This is such that <span><code>((100000 : (from -10 to 10)) = 10)</code></span>.<
 <p>The <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> for a <a href="terms.html#Number">number</a> must be the <a href="terms.html#Value">value</a> with the least magnitude relative to the integers.
 In other words, the <a href="terms.html#Value">value</a> which is closest to zero.
 For example, the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from 8 to 37)</code></span> is <span><code>8</code></span> and the <a href="terms.html#Default">default</a> <a href="terms.html#Value">value</a> of <span><code>(from -394 to 87362)</code></span> is <span><code>0</code></span>.
-This is such that the <a>value</a> of <span><code>n</code></span> in <span><code>(x : (from -394 to 87362))</code></span> is <span><code>0</code></span>.</p>
+This is such that the <a href="terms.html#Value">value</a> of <span><code>n</code></span> in <span><code>(x : (from -394 to 87362))</code></span> is <span><code>0</code></span>.</p>
 <p>Any two <a href="terms.html#Number">Numbers</a> are <a href="terms.html#Equivalence">equivalent</a> if the <a href="terms.html#Value">values</a> they each hold are <a href="terms.html#Equivalence">equivalent</a> relative to the integers.
 For example <span><code>(5 = 5)</code></span> and <span><code>((27 : (from -378 to 900)) = (27 : (from 15 to 28)))</code></span> both result in <span><code>true</code></span></p>
 <h3><a href="#Number-Constructor" id="Number-Constructor">Number Constructor</a></h3>
@@ -146,9 +146,9 @@ The first <a href="terms.html#Number">number</a> must always be less than the se
 <a href="terms.html#Application">Applying</a> Bounds to a <a href="terms.html#Number">number</a> will result in a <a href="terms.html#Collection">collection</a> 
 where the first <a href="terms.html#Field">field</a> is the <a href="terms.html#Number">number</a> corresponding to the minimum <a href="terms.html#Value">value</a> for the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a>
 and the second <a href="terms.html#Field">field</a> is the <a href="terms.html#Number">number</a> corresponding to the maximum <a href="terms.html#Value">value</a> for the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a>.</p>
-<p>The <a>collection</a> resulting from <a>applying</a> Bounds will <a>bind</a> the first <a>field</a> to <span><code>min</code></span> and the second field to <span><code>max</code></span>.</p>
+<p>The <a href="terms.html#Collection">collection</a> resulting from <a href="terms.html#Application">applying</a> Bounds will <a href="terms.html#Bind">bind</a> the first <a href="terms.html#Field">field</a> to <span><code>min</code></span> and the second field to <span><code>max</code></span>.</p>
 <figure>
-<figcaption>The <a>function</a> <a>type</a> which an <a>implementation</a> of Bounds must conform to.</figcaption>
+<figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of Bounds must conform to.</figcaption>
 <p><code>(bounds : (Number -> (collection (min = Number) (max = Number)))</code></p>
 </figure>
 <h2><a href="#Symbols" id="Symbols">Symbols</a></h2>

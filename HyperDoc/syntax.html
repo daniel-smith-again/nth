@@ -30,7 +30,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
 <tr><td>Quote &rarr; <code>'</code> Form</td></tr>
 <tr><td>Contents &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a></td></tr>
-<tr><td>Delimiter &rarr; <a>Blank</a> * | Program | String</td></tr>
+<tr><td>Delimiter &rarr; <a href="terms.html#Blank">Blank</a> * | Program | String</td></tr>
 <tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
 <tr><td>Characters &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a> | <a href="terms.html#Blank">Blank</a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> Expression</td></tr>
 <tr><td>Form &rarr; Program | <code>'</code> Form | <code>''</code> Form</td></tr>
@@ -43,7 +43,7 @@ Characters given in <span><code>monospace</code></span> represent themselves lit
 </figure>
 <h2><a href="#Program-Model" id="Program-Model">The Program Model</a></h2>
 <a href="#2-1" id="2-1">2-1</a><p>The <a href="terms.html#Program-Model">Program Model</a> is a <a href="terms.html#Collection">collection</a> which corresponds to the deserialized <a href="terms.html#Source">source</a>.</p>
-<a href="#2-2" id="2-2">2-2</a><p>A <a>Program Model</a> is primarily used by <a>evaluation</a> as the cannonical representation of a <a>program</a>.</p>
+<a href="#2-2" id="2-2">2-2</a><p>A <a href="terms.html#Program-Model">Program Model</a> is primarily used by <a href="terms.html#Evaluate">evaluation</a> as the cannonical representation of a <a href="terms.html#Program">program</a>.</p>
 <h3><a href="#Constructing-Expressions" id="Constructing-Expressions">Constructing Expressions</a></h3>
 <a href="#3-1" id="3-1">3-1</a><p>The "Expression" <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to an <a href="terms.html#Expression">expression</a> in a <a href="terms.html#Program">program</a> and a <a href="terms.html#Collection">collection</a> in a <a href="terms.html#Program-Model">Program Model</a>.
 When an "Expression" <a href="terms.html#Syntax">syntax</a> element occurs in a <a href="terms.html#Source">source</a>, a corresponding <a href="terms.html#Collection">collection</a> shall be added in the <a href="terms.html#Program-Model">Program Model</a> representing the deserialization of that <a href="terms.html#Source">source</a>.</p>
