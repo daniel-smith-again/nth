@@ -7,6 +7,7 @@
 body{padding:0;margin:0;}
 nth-area{display:block;width:90vw;height:90vh;margin:auto;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
+nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:absolute;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
 nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding:1ch;padding-left:2ch;padding-right:2ch;}
 nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
 nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
@@ -39,7 +40,7 @@ nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.5ch;}
 nth-expression > * + *{margin-left:1ch;}
 nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0ch;}
 nth-editor[active] nth-symbol[active]{background-color:var(--dbg)}
-nth-editor[active] nth-expression[active] > nth-expression{background-image:none;}
+nth-editor[active] nth-expression[active] > nth-expression{background-color:var(--dbg)}
 nth-expression[active]{background-image:none;}
 nth-symbol{cursor:pointer;transition:all 0.2s;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
@@ -119,30 +120,29 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </table>
 </div></div>
 </nth-help>
-<nth-area>
-</nth-area>
+<nth-area></nth-area>
 </body>
 <nth-editor id="editortemplate" style="display:none;">
-  <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
-  <nth-handle><!--&#x25a9;-->&#x2b24;
-    <nth-options>
-      <nth-run>&#x23f5;</nth-run>
-      <nth-step>&#x21dd;</nth-step>
-      <nth-manip>&#x2699;
-        <nth-tools>
-          <nth-copy>&#x29c9;</nth-copy>
-          <nth-move>&#x25a3</nth-move>
-          <nth-paste>&#x21f2;</nth-paste>
-        </nth-tools>
-      </nth-manip>
-      <nth-manip>&#x21f5;
-        <nth-tools>
-          <nth-save>&#x27f1</nth-save>
-          <nth-load>&#x27f0;</nth-load>
-        </nth-tools>
-      </nth-manip>
-      <nth-close>&#x2a2f;</nth-close>
-    </nth-options></nth-handle><nth-code></nth-code></nth-editor>
+<textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
+<nth-handle><!--&#x25a9;-->&#x2b24;
+<nth-options>
+<nth-run>&#x23f5;</nth-run>
+<nth-step>&#x21dd;</nth-step>
+<nth-manip>&#x2699;
+<nth-tools>
+<nth-copy>&#x29c9;</nth-copy>
+<nth-move>&#x25a3</nth-move>
+<nth-paste>&#x21f2;</nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-manip>&#x21f5;
+<nth-tools>
+<nth-save>&#x27f1</nth-save>
+<nth-load>&#x27f0;</nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;</nth-close>
+</nth-options></nth-handle><nth-code></nth-code></nth-editor>
 <script src="nth.js" type="text/javascript"></script>
 <script>
 var area = document.getElementsByTagName('nth-area')[0]
@@ -382,7 +382,7 @@ function backspace()
   var caret = active.caret
   if (caret.childElementCount > 0)
   {
-    if (caret.symbol.textContent.length > 0 && caret.symbol.tagName != 'NTH-STRING')
+    if (caret.symbol.tagName !== 'NTH-EXPRESSION' && caret.symbol.textContent.length > 0 && caret.symbol.tagName != 'NTH-STRING')
     {
       caret.symbol.textContent = caret.symbol.textContent.slice(0, -1)
       checkQuote(caret.symbol)
