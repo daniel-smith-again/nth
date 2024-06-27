@@ -68,7 +68,8 @@ typedef void* Any;
 
 /*                              String Routines                               */
 
-typedef struct {                        //----------------String----------------
+typedef struct                          //----------------String----------------
+{
   Nat length;
   unsigned char* contents;              // assumes ASCII but will transparently 
                                         // handle utf-8 encoding as long as
@@ -82,18 +83,68 @@ Nil drop_string(String* s);              //deletes a string
 
 /****************************** Number Routines *******************************/
 
-typedef struct {                        //----------------Number----------------
+typedef struct                          //----------------Number----------------
+{
   Nat size;                             // the number of bytes
   unsigned char* digits;                // array of bytes
 } Number;
 
+/******************************* Array Routines *******************************/
+
+typedef struct                          //----------------Array-----------------
+{
+  Nat cardinality;                      // number of fields
+  Any fields;                           // pointers to field data
+} Array;
+
 /**************************** Collection Routines *****************************/
 
-typedef struct {                        //--------------Collection--------------
-  Nat cardinality;                      // number of fields
-  char** bindings;                      // pointers to field names
-  Any fields;                           // pointers to field data
+typedef struct                          //--------------Collection--------------
+{
+  String* bindings;                      // pointers to field names
+  Array members;                        // A Collection is an Array supertype
 } Collection;
+
+/***************************** Function Routines ******************************/
+
+typedef struct
+{
+  Collection parameters;
+  String definition;
+} Function;
+
+/******************************* Type Routines ********************************/
+
+typedef struct
+{
+  enum
+  {
+    discrete,
+    continuous
+  } kind;
+  union
+  {
+    Collection c;
+    Function f;
+  }
+} Type;
+
+/******************************* Unit Routines ********************************/
+
+typedef struct
+{
+  enum 
+  {
+    string, 
+    number, 
+    array, 
+    collection
+  } instance;
+  union 
+  {
+
+  }
+} Unit;
 
 /************************* Memory Allocation Routines *************************/
 
@@ -112,7 +163,8 @@ Any Compute(Any program);
 /******************************* Image Routines *******************************/
 
 /*********************************** Entry ************************************/
-int main() {
+int main() 
+{
   return 0;
 }
 
@@ -137,18 +189,6 @@ Nil drop_string(String* s)
 }
 
 #include <stdio.h>
-String* Read_nth_symbol()
-{
-
-}
-String* Read_nth_expression()
-{
-
-}
-String* Read_nth_quote()
-{
-
-}
 
 String* Read() 
 {
