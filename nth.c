@@ -61,146 +61,46 @@
 
 *******************************************************************************/
 
-typedef unsigned long long int Nat;
-typedef signed long long int Int;
-typedef void Nil;
-typedef void* Any;
-
-/*                              String Routines                               */
-
-typedef struct                          //----------------String----------------
-{
-  Nat length;
-  unsigned char* contents;              // assumes ASCII but will transparently 
-                                        // handle utf-8 encoding as long as
-                                        // your system also handles it.
-                                        // i.e. ASCII->ASCII or UTF-8 -> UTF-8
-} String;
-
-String* join (String* a, String* b);    //Creates a new string
-
-Nil drop_string(String* s);              //deletes a string
-
-/****************************** Number Routines *******************************/
-
-typedef struct                          //----------------Number----------------
-{
-  Nat size;                             // the number of bytes
-  unsigned char* digits;                // array of bytes
-} Number;
-
-/******************************* Array Routines *******************************/
-
-typedef struct                          //----------------Array-----------------
-{
-  Nat cardinality;                      // number of fields
-  Any fields;                           // pointers to field data
-} Array;
-
-/**************************** Collection Routines *****************************/
-
-typedef struct                          //--------------Collection--------------
-{
-  String* bindings;                      // pointers to field names
-  Array members;                        // A Collection is an Array supertype
-} Collection;
-
-/***************************** Function Routines ******************************/
-
-typedef struct
-{
-  Collection parameters;
-  String definition;
-} Function;
-
-/******************************* Type Routines ********************************/
-
-typedef struct
-{
-  enum
-  {
-    discrete,
-    continuous
-  } kind;
-  union
-  {
-    Collection c;
-    Function f;
-  }
-} Type;
-
-/******************************* Unit Routines ********************************/
-
-typedef struct
-{
-  enum 
-  {
-    string, 
-    number, 
-    array, 
-    collection
-  } instance;
-  union 
-  {
-
-  }
-} Unit;
-
-/************************* Memory Allocation Routines *************************/
-
-Any take(Nat size);                     //---------------Allocate---------------
-                                        // just a wrapper for malloc for now
-
-Nil drop(Any data);                     //--------------Deallocate--------------
-                                        // just a wrapper for free for now
+#define BuffersMax 7
+#define BufferSegmentSize 1024
 
 /******************************* Shell Routines *******************************/
 
-String* Read();
-Any Compile();
-Any Compute(Any program);
+char* Buffer;
+unsigned int Buffer_length = 0;
+unsigned int Buffer_size = 0;
+char** recent_buffers;
+int recent_buffer_count;
+
+void Shell();
 
 /******************************* Image Routines *******************************/
 
 /*********************************** Entry ************************************/
 int main() 
 {
+  Shell();
   return 0;
 }
 
-#include <stdlib.h>
-Any take(Nat size) { return malloc(size); }
-Nil drop(Any data) { if (data != 0 && data != NULL) free(data); }
-
-String* join (String* a, String* b)
-{
-  String *s = take(sizeof(String));
-  s->length = a->length + b->length, s->contents = take(s->length);
-  for (int i = 0; i < a->length; i++)
-    s->contents[i] = a->contents[i];
-  for (int i = 0; i < b->length; i++)
-    s->contents[a->length + i] = b->contents[i];
-  return s;
-}
-
-Nil drop_string(String* s)
-{
-  drop(s->contents), drop(s);
-}
 
 #include <stdio.h>
-
-String* Read() 
+void Shell()
 {
-  char c = getchar();
-  switch (c) {
-    case '(':
-    break;
-    case ')': 
-    break;
-    case '\'': 
-    break;
-    case '"':
-    break;
+  int running = 1;
+  char c = 0;
+  while(running)
+  {
+    c = getchar();
+    switch(c)
+    {
+      case 27:                          // escape
+        goto End;
+        break;
+      default:
+        putchar(c);
+    }
   }
+  End:
+  return;
 }
