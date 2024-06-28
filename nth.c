@@ -61,10 +61,10 @@
 
 *******************************************************************************/
 
+#include <stdio.h>
+
 #define BuffersMax 7
 #define BufferSegmentSize 1024
-
-/******************************* Shell Routines *******************************/
 
 char* Buffer;
 unsigned int Buffer_length = 0;
@@ -74,7 +74,20 @@ int recent_buffer_count;
 
 void Shell();
 
-/******************************* Image Routines *******************************/
+typdef struct {
+  enum {symbol, string, number, expression, quote, unquote, requote} kind;
+  unsigned int size;
+  union
+  {
+    struct String {char *contents;};
+    struct Symbol {char *contents;};
+    struct Number {unsigned char* contents;};
+    struct Expression {void **fields;};
+    struct Quote {void *contents;};
+    struct Unquote {void *contents;};
+    struct Requote {void *contents;};
+  }
+} Program;
 
 /*********************************** Entry ************************************/
 int main() 
@@ -84,21 +97,33 @@ int main()
 }
 
 
-#include <stdio.h>
 void Shell()
 {
   int running = 1;
   char c = 0;
+  Program top, *p;
+  p = &top;
+  p->type = expression;
+  p->size = 0;
   while(running)
   {
-    c = getchar();
-    switch(c)
+    c = getchar()
+    switch(p->type)
     {
-      case 27:                          // escape
-        goto End;
-        break;
-      default:
-        putchar(c);
+      case symbol:
+      break;
+      case string:
+      break;
+      case number:
+      break;
+      case expression:
+      break;
+      case quote:
+      break;
+      case unquote:
+      break;
+      case requote:
+      break;
     }
   }
   End:
