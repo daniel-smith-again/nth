@@ -71,9 +71,9 @@ struct nth__program {
   unsigned int Size;
   union
   {
-    char* String;
-    char* Symbol;
-    char* Number;
+    unsigned int String;
+    unsigned int Symbol;
+    unsigned int Number;
     unsigned int *Expression;
   };
 };
@@ -137,11 +137,10 @@ char Peek()
 
 int IsSymbChar(char c)
 {
-  if (c != ' '
-  &&  c != '('
-  &&  c != ')'
-  &&  c != '"'
-  &&  c != '\n')
+  if (c <= ' '
+  ||  c == '('
+  ||  c == ')'
+  ||  c == '"')
     return 0;
   else
     return 1;
@@ -175,30 +174,35 @@ void PushAtom(unsigned int i, unsigned int atom)
 unsigned int Read()
 {
   Program *p;
-  char *tmp;
-  unsigned int tmp_size, i;
-  switch(Char())
+  char tmp;
+  unsigned int tmp_size, i, j;
+  switch(Peek())
   {
     case '(':
+      Char();
       i = NewProgram();
       p = FindProgram(i);
       p->Type = expression, p->Size = 0, p->Expression = malloc(0);
-      for (PushAtom(i, Read());; PushAtom(i, Read()))
-          {p = FindProgram(i);
-           if (p->Expression[p->Size-1] == 0) return -1;
-           else if (Peek() == ')') {Char(); return i;}}
-      break;
-    case ' ':
-      break;
-    case ')':
-      return -1;
+      for (;Peek() != ')';)
+      {
+        j = Read();
+        if (j != -1) {
+          PushAtom(i, j);
+        }
+      }
+      return i;
       break;
     default:
+      if (Peek() <= ' ') {Char(); return -1;}
       i = NewProgram();
       p = FindProgram(i);
-      p->Type = symbol, p->Size = 1, p->Symbol = &Buffer.b[Buffer.i-1];
-      for (;IsSymbChar(Peek());Char())
-      {p->Size++;}
+      p->Type = symbol, p->Size = 1, p->Symbol = Buffer.i-1;
+      for (;;)
+      {
+        if (IsSymbChar(Peek()))
+          p->Size++, Char();
+        else break;
+      }
       return i;
       break;
   }
@@ -209,15 +213,16 @@ void Print(Program *p)
   switch(p->Type)
   {
     case expression:
+     // printf("%i\n", p->Size);
       putchar('(');
       for (int i = 0; i < p->Size; i++)
-        Print(FindProgram(p->Expression[i])),
-        i < p->Size - 1 ? putchar(' ') : 0;
+        Print(FindProgram(p->Expression[i])), 0;
+        //i < p->Size - 1 ? putchar(' ') : 0;
       putchar(')');
       break;
     case symbol:
       for (int i = 0; i < p->Size; i++)
-        putchar(p->Symbol[i]);
+        putchar(Buffer.b[p->Symbol + i]);
       break;
   }
 }
@@ -226,6 +231,7 @@ void Shell()
 {
   int running = 1;
   Program *p = FindProgram(Read());
+  0;
   if (p == (Program *)-1) ResetBuffer();
   else Print(p), putchar('\n');
   End:
