@@ -62,76 +62,172 @@
 *******************************************************************************/
 
 #include <stdio.h>
-
-#define BuffersMax 7
-#define BufferSegmentSize 1024
-
-char* Buffer;
-unsigned int Buffer_length = 0;
-unsigned int Buffer_size = 0;
-char** recent_buffers;
-int recent_buffer_count;
+#include <stdlib.h>
 
 void Shell();
 
-typdef struct {
-  enum {symbol, string, number, expression, quote, unquote, requote} kind;
-  unsigned int size;
+struct nth__program {
+  enum {symbol, string, number, expression, quote, unquote, requote} Type;
+  unsigned int Size;
   union
   {
-    struct String {char *contents;};
-    struct Symbol {char *contents;};
-    struct Number {unsigned char* contents;};
-    struct Expression {void **fields;};
-    struct Quote {void *contents;};
-    struct Unquote {void *contents;};
-    struct Requote {void *contents;};
-  }
-} Program;
+    char* String;
+    char* Symbol;
+    char* Number;
+    unsigned int *Expression;
+  };
+};
+typedef struct nth__program Program;
 
-/*********************************** Entry ************************************/
+struct nth__buffer
+{
+  unsigned int l;
+  unsigned int i;
+  char*b;
+  unsigned int s;
+  Program *p;
+};
+struct nth__buffer Buffer;
+
 int main() 
 {
+  Buffer.l = 0;
+  Buffer.i = 0;
+  Buffer.s = 0;
+  Buffer.b = malloc(0);
+  Buffer.p = malloc(0);
   Shell();
   return 0;
 }
 
-Program *Read()
+void ResetBuffer()
 {
-  char c = 0;
-  Program top, *p;
-  p = &top;
-  p->type = expression;
-  p->size = 0;
-  c = getchar()
-  switch(c)
-  {
+  Buffer.l = 0;
+  Buffer.i = 0;
+  Buffer.s = 0;
+  Buffer.b != 0 ? (free(Buffer.b), Buffer.b = 0) : (Buffer.b = 0);
+  for (unsigned int i = 0; i < Buffer.s; i++)
+    if (Buffer.p[i].Type == expression)
+      free(Buffer.p[i].Expression);
+  Buffer.p != 0 ? (free(Buffer.p), Buffer.p = 0) : (Buffer.p = 0);
+}
 
+char Char()
+{
+  if (Buffer.i >= Buffer.l)
+  {
+    for(char c = 0; 
+        1; 
+        c = getchar(),
+        Buffer.l++,
+        Buffer.b = realloc(Buffer.b, sizeof(char) * Buffer.l),
+        Buffer.b[Buffer.l-1] = c) 
+        {if (c == '\n') break;}
+  }
+  Buffer.i++;
+  return Buffer.b[Buffer.i-1];
+}
+
+char Peek()
+{
+  char c = Char();
+  Buffer.i--;
+  return c;
+}
+
+int IsSymbChar(char c)
+{
+  if (c != ' '
+  &&  c != '('
+  &&  c != ')'
+  &&  c != '"'
+  &&  c != '\n')
+    return 0;
+  else
+    return 1;
+}
+
+unsigned int NewProgram()
+{
+  Buffer.s++;
+  Buffer.p = realloc(Buffer.p, sizeof(Program) * Buffer.s);
+  return Buffer.s - 1;
+}
+Program *FindProgram(unsigned int i)
+{
+  return &Buffer.p[i];
+}
+void PushAtom(unsigned int i, unsigned int atom)
+{
+  Program *p = FindProgram(i);
+  if (p->Type != expression 
+  &&  p->Type != quote
+  &&  p->Type != unquote
+  &&  p->Type != requote)
+  return;
+  if (p->Type != expression && p->Size == 1) return;
+  if (atom == 0) return;
+  p->Size++;
+  p->Expression = realloc(p->Expression, sizeof(unsigned int*) * p->Size);
+  p->Expression[p->Size-1] = atom;
+}
+
+unsigned int Read()
+{
+  Program *p;
+  char *tmp;
+  unsigned int tmp_size, i;
+  switch(Char())
+  {
+    case '(':
+      i = NewProgram();
+      p = FindProgram(i);
+      p->Type = expression, p->Size = 0, p->Expression = malloc(0);
+      for (PushAtom(i, Read());; PushAtom(i, Read()))
+          {p = FindProgram(i);
+           if (p->Expression[p->Size-1] == 0) return -1;
+           else if (Peek() == ')') {Char(); return i;}}
+      break;
+    case ' ':
+      break;
+    case ')':
+      return -1;
+      break;
+    default:
+      i = NewProgram();
+      p = FindProgram(i);
+      p->Type = symbol, p->Size = 1, p->Symbol = &Buffer.b[Buffer.i-1];
+      for (;IsSymbChar(Peek());Char())
+      {p->Size++;}
+      return i;
+      break;
+  }
+}
+
+void Print(Program *p)
+{
+  switch(p->Type)
+  {
+    case expression:
+      putchar('(');
+      for (int i = 0; i < p->Size; i++)
+        Print(FindProgram(p->Expression[i])),
+        i < p->Size - 1 ? putchar(' ') : 0;
+      putchar(')');
+      break;
+    case symbol:
+      for (int i = 0; i < p->Size; i++)
+        putchar(p->Symbol[i]);
+      break;
   }
 }
 
 void Shell()
 {
   int running = 1;
-  char c = 0;
-  Program top, *p;
-  p = &top;
-  p->size = 0;
-  for(;c = getchar())
-  {
-    switch(c)
-    {
-      case '(':
-      break;
-      case ')':
-      break;
-      case '\'':
-      break;
-      case '"':
-      break;
-      default:
-    }
-  }
+  Program *p = FindProgram(Read());
+  if (p == (Program *)-1) ResetBuffer();
+  else Print(p), putchar('\n');
   End:
   return;
 }
