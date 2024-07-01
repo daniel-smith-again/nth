@@ -62,6 +62,8 @@ where the <a href="terms.html#Identifier">identifier</a>, <span><code>b</code></
 <h2><a href="#Collection-Expressions" id="Collection-Expressions">Collection Expressions</a></h2>
 <h3><a>Subscript</a></h3>
 <p>Subscript is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> with an <a href="terms.html#Index">index</a> <a href="terms.html#Equivalence">equal</a> to a <a href="terms.html#Number">number</a>.</p>
+<p>Subscript must always be <a href="terms.html#Execute">executed</a> in a constant amount of time. 
+In other words, the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Collection">collection</a> <a href="terms.html#Parameter">parameter</a> and the <a href="terms.html#Value">value</a> of the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a> must never affect the <a href="terms.html#Operation">operations</a> required to <a href="terms.html#Execute">execute</a> Subscript.</p>
 <figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Subscript</figcaption>
 <p><code>

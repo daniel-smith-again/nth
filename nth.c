@@ -96,6 +96,19 @@ int main()
   return 0;
 }
 
+Program *Read()
+{
+  char c = 0;
+  Program top, *p;
+  p = &top;
+  p->type = expression;
+  p->size = 0;
+  c = getchar()
+  switch(c)
+  {
+
+  }
+}
 
 void Shell()
 {
@@ -103,27 +116,20 @@ void Shell()
   char c = 0;
   Program top, *p;
   p = &top;
-  p->type = expression;
   p->size = 0;
-  while(running)
+  for(;c = getchar())
   {
-    c = getchar()
-    switch(p->type)
+    switch(c)
     {
-      case symbol:
+      case '(':
       break;
-      case string:
+      case ')':
       break;
-      case number:
+      case '\'':
       break;
-      case expression:
+      case '"':
       break;
-      case quote:
-      break;
-      case unquote:
-      break;
-      case requote:
-      break;
+      default:
     }
   }
   End:
