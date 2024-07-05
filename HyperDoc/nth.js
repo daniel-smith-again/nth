@@ -5,6 +5,15 @@
                                        by                                       
                                   Daniel Smith                                  
 
+--------------------------------------------------------------------------------
+                                     About                                      
+--------------------------------------------------------------------------------
+
+     This is a fully working implementation of the nth Programming Language     
+     as described in "The nth Programming Language HyperDoc". It is a fully     
+          conforming implementation as described in the "Conformance"           
+                      section of the chapter, "Foreword".                       
+
 
 --------------------------------------------------------------------------------
                                   Terms of Use                                  
@@ -49,15 +58,6 @@
      ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE, OR THE USE,     
                        OR OTHER DEALINGS IN THE SOFTWARE.                       
 
-
---------------------------------------------------------------------------------
-                                     About                                      
---------------------------------------------------------------------------------
-
-     This is a fully working implementation of the nth Programming Language     
-     as described in "The nth Programming Language HyperDoc". It is a fully     
-          conforming implementation as described in the "Conformance"           
-                      section of the chapter, "Foreword".                       
 
 *******************************************************************************/
 
