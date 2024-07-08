@@ -10,19 +10,19 @@
 <a id="up" href="index.html">&centerdot;</a>
 
 <h1><a href="#Collections" id="Collections">Collections</a></h1>
-<p>A <a href="terms.html#Collection">collection</a> is a form of composite <a href="terms.html#Data">data</a> which appears as a single <a href="terms.html#Unit">unit</a>, but is also deconstructible into components.</p>
-<p>A <a href="terms.html#Collection">collection</a> is comprised of <a href="terms.html#Field">fields</a> which are ordered according to numerical <a href="terms.html#Index">index</a> values.
+<a href="#1-1" id="1-1">1-1</a><p>A <a href="terms.html#Collection">collection</a> is a form of composite <a href="terms.html#Data">data</a> which appears as a single <a href="terms.html#Unit">unit</a>, but is also deconstructible into components.</p>
+<a href="#1-2" id="1-2">1-2</a><p>A <a href="terms.html#Collection">collection</a> is comprised of <a href="terms.html#Field">fields</a> which are ordered according to numerical <a href="terms.html#Index">index</a> values.
 The first <a href="terms.html#Field">field</a> corresponds to an <a href="terms.html#Index">index</a> of <span><code>1</code></span> and each following <a href="terms.html#Field">field</a> corresponds to consecutively increasing <a href="terms.html#Index">index</a> <a href="terms.html#Value">values</a>.</p>
-<p>A <a href="terms.html#Collection">collection</a> contains a <a href="terms.html#Context">context</a> such that a <a href="terms.html#Field">field</a> may be <a href="terms.html#Binding">bound</a> by an <a href="terms.html#Identifier">identifier</a>.
+<a href="#1-3" id="1-3">1-3</a><p>A <a href="terms.html#Collection">collection</a> contains a <a href="terms.html#Context">context</a> such that a <a href="terms.html#Field">field</a> may be <a href="terms.html#Binding">bound</a> by an <a href="terms.html#Identifier">identifier</a>.
 An <a href="terms.html#Identifier">identifier</a> which <a href="terms.html#Binding">binds</a> a <a href="terms.html#Field">field</a> in this <a href="terms.html#Context">context</a> is referred to as a <a href="terms.html#Label">label</a>.</p>
 <h2><a href="#Constructing-Collections" id="Constructing-Collections">Constructing Collections</a></h2>
-<p>The Collection Constructor is a <a href="defaults.html#Expression">default expression</a> which will result in a new <a href="terms.html#Collection">collection</a>.</p>
-<p>The Collection Constructor <a href="terms.html#Expression">expression</a> follows the same form and rules as a <a href="evaluation.html#Sequencing">Sequence</a>, however, the result of each <a href="terms.html#Step">step</a> is taken as a <a href="terms.html#Field">field</a> <a href="terms.html#Value">value</a> and any <a href="terms.html#Binding">bindings</a> in the <a href="terms.html#Scope">scope</a> are used as <a href="terms.html#Label">labels</a>.</p>
-<p>Each <a href="terms.html#Step">step</a> corresponds to an <a href="terms.html#Index">index</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to the order in which the <a href="terms.html#Step">step</a> occurs.
+<a href="#2-1" id="2-1">2-1</a><p>The Collection Constructor is a <a href="defaults.html#Expression">default expression</a> which will result in a new <a href="terms.html#Collection">collection</a>.</p>
+<a href="#2-2" id="2-2">2-2</a><p>The Collection Constructor <a href="terms.html#Expression">expression</a> follows the same form and rules as a <a href="evaluation.html#Sequencing">Sequence</a>, however, the result of each <a href="terms.html#Step">step</a> is taken as a <a href="terms.html#Field">field</a> <a href="terms.html#Value">value</a> and any <a href="terms.html#Binding">bindings</a> in the <a href="terms.html#Scope">scope</a> are used as <a href="terms.html#Label">labels</a>.</p>
+<a href="#2-3" id="2-3">2-3</a><p>Each <a href="terms.html#Step">step</a> corresponds to an <a href="terms.html#Index">index</a> <a href="terms.html#Value">value</a> <a href="terms.html#Equivalence">equal</a> to the order in which the <a href="terms.html#Step">step</a> occurs.
 This is such that the lowest <a href="terms.html#Index">index</a> will be <span><code>1</code></span> and the highest <a href="terms.html#Index">index</a> will be <a href="terms.html#Equivalence">equal</a> to the number of <a href="terms.html#Step">steps</a> in the Collection Constructor.</p>
-<p><a href="terms.html#Binding">Bindings</a> which do not <a href="terms.html#Binding">bind</a> a <a href="terms.html#Field">field</a> are <a href="terms.html#Discard">discarded</a> once the Collection Constructor is <a href="terms.html#Reduce">reduced</a>.</p>
-<p>A Collection Constructor is made distinct from a <a href="evaluation.html#Sequencing">Sequence</a> by the inclusion of the <a href="terms.html#Keyword">keyword</a> <span><code>collection</code></span> as the first <a href="terms.html#Field">field</a> in the Collection Constructor <a href="terms.html#Expression">expression</a>.</p>
-<figure>
+<a href="#2-4" id="2-4">2-4</a><p><a href="terms.html#Binding">Bindings</a> which do not <a href="terms.html#Binding">bind</a> a <a href="terms.html#Field">field</a> are <a href="terms.html#Discard">discarded</a> once the Collection Constructor is <a href="terms.html#Reduce">reduced</a>.</p>
+<a href="#2-5" id="2-5">2-5</a><p>A Collection Constructor is made distinct from a <a href="evaluation.html#Sequencing">Sequence</a> by the inclusion of the <a href="terms.html#Keyword">keyword</a> <span><code>collection</code></span> as the first <a href="terms.html#Field">field</a> in the Collection Constructor <a href="terms.html#Expression">expression</a>.</p>
+<a href="#Fig-1" id="Fig-1">Figure 1</a><figure>
 <figcaption>The following are examples of the Collection Constructor and the results of <a href="terms.html#Evaluate">evaluating</a> it.</figcaption>
 <p><code>
 (collection 1 , 2 , 3 , 4)
@@ -38,8 +38,9 @@ results in
 <mi>c</mi><mo>:</mo><mi>'c</mi>
 <mo>&#x27eb;</mo></mrow></math></p>
 <p><code>
-(let y = 1 z = 3 in
-(collection x = 2 , y + x , z = (z + y)))
+(let y = 1 z = 3<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;(collection x = 2 , y + x , z = (z + y)))
 </code>results in 
 <math><mrow><mo>&#x27ea;</mo>
 <mi>x</mi><mo>:</mo><mn>2</mn><mo>,</mo><mspace width="0.5em"/>
@@ -59,28 +60,77 @@ where the <a href="terms.html#Identifier">identifier</a>, <span><code>b</code></
 <mo>&#x27eb;</mo></mrow></math>
 </i></p>
 </figure>
+<a href="#2-6" id="2-6">2-6</a><p>An alternative Collection Constructor <a href="terms.html#Expression">expression</a> is also provided by <a href="terms.html#Default">default</a> as given below in <a href="#Fig-2">Figure 2</a>.</p>
+<a href="#Fig-2" id="Fig-2">Figure 2</a><figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the alternative Collection Constructor <a href="terms.html#Expression">expression</a>.</figcaption>
+<p><code>
+('({ '''Program }) -><br>
+&nbsp;let ((_ p _)) = &<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'(collection '''p))
+</code></p>
+<p>such that
+<code>({ x = 1 , y = 2 , z = 3 })</code>
+is rewritten as 
+<code>(collection x = 1 , y = 2 , z = 3)</code>
+</p>
+</figure>
 <h2><a href="#Collection-Expressions" id="Collection-Expressions">Collection Expressions</a></h2>
-<h3><a>Subscript</a></h3>
-<p>Subscript is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> with an <a href="terms.html#Index">index</a> <a href="terms.html#Equivalence">equal</a> to a <a href="terms.html#Number">number</a>.</p>
-<p>Subscript must always be <a href="terms.html#Execute">executed</a> in a constant amount of time. 
+<h3><a href="#Subscript" id="Subscript">Subscript</a></h3>
+<a href="#3-1" id="3-1">3-1</a><p>Subscript is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> with an <a href="terms.html#Index">index</a> <a href="terms.html#Equivalence">equal</a> to a <a href="terms.html#Number">number</a>.</p>
+<a href="#3-2" id="3-2">3-2</a><p>Subscript must always be <a href="terms.html#Execute">executed</a> in a constant amount of time. 
 In other words, the <a href="terms.html#Cardinality">cardinality</a> of the <a href="terms.html#Collection">collection</a> <a href="terms.html#Parameter">parameter</a> and the <a href="terms.html#Value">value</a> of the <a href="terms.html#Number">number</a> <a href="terms.html#Parameter">parameter</a> must never affect the <a href="terms.html#Operation">operations</a> required to <a href="terms.html#Execute">execute</a> Subscript.</p>
-<figure>
+<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Subscript</figcaption>
 <p><code>
-('(''Collection _ ''Number) -> *)
+('(''Collection '''(array '(_ ''Number))) -> *)
 </code></p>
+<p>Subscript may involve multiple individual subscripting <a href="terms.html#Operation">operations</a> such that the <a href="terms.html#Expression">expression</a>, <code>(a _ b _ c)</code> represents two sequential Subscript <a href="terms.html#Operation">operations</a> <code>((a _ b) _ c)</code></p>
 </figure>
-<h3><a>Extract</a></h3>
-<p>Extract is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> using a <a href="terms.html#Label">label</a> <a href="terms.html#Equivalence">equivalent</a> to a <a href="terms.html#Symbol">symbol</a>.</p>
-<figure>
+<a href="#3-3" id="3-3">3-3</a><p>Subscript may be abbreviated by a <a href="terms.html#Transform">transform</a> which allows a Subscript <a href="terms.html#Expression">expression</a> to be represented as a single <a href="terms.html#Symbol">symbol</a>.</p>
+<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the abbreviation of the Subscript <a href="defaults.html#Expressions">default expression</a>.</figcaption>
+<p><code>
+((s : Symbol) -> '(''Symbol '''(array '(_ ''Number))))
+</code></p>
+<p>such that the <a href="terms.html#Symbol">symbol</a>,
+<code>x_y</code>
+is <a href="terms.html#Rewrite">rewritten</a> as
+<code>(x _ y)</code></p>
+<p>Additionally, the <a href="terms.html#Symbol">symbol</a>,
+<code>a_b_c_d</code>
+is <a href="terms.html#Rewrite">rewritten</a> to,
+<code>(a _ b _ c _ d)</code></p>
+</figure>
+<h3><a href="#Extract" id="Extract">Extract</a></h3>
+<a href="#4-1" id="4-1">4-1</a><p>Extract is a <a href="defaults.html#Expressions">default expression</a> which will locate a <a href="terms.html#Field">field</a> using a <a href="terms.html#Label">label</a> <a href="terms.html#Equivalence">equivalent</a> to a <a href="terms.html#Symbol">symbol</a>.</p>
+<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transfrom">transform</a> which <a href="terms.html#Implementation">implements</a> Extract.</figcaption>
 <p><code>
-('(''Collection . ''Symbol) -> *)
+('(''Collection '''(array '(. ''Symbol))) -> *)
 </code></p>
+<p>Extract may involve multiple individual extracting <a href="terms.html#Operation">operations</a> such that the <a href="terms.html#Expression">expression</a>
+<code>(a . b . c)</code> represents two sequential Extraction <a href="terms.html#Operation">operations</a>
+<code>((a . b) . c)</code></p>
 </figure>
-<h3><a>Combine</a></h3>
-<p>Combine is a <a href="defaults.html#Expressions">default expression</a> which will concatenate two <a href="terms.html#Collection">collections</a>, resulting in a new <a href="terms.html#Collection">collection</a> containing all the <a href="terms.html#Field">fields</a> of the first two.</p>
-<figure>
+<a href="#4-2" id="4-2">4-2</a><p>Extract may be abbreviated by a <a href="terms.html#Transform">transform</a> which allows an Extract <a href="terms.html#Expression">expression</a> to be represented as a single <a href="terms.html#Symbol">symbol</a>.</p>
+<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
+<figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which implements the abbreviation of the Extract <a href="defaults.html#Expressions">default expression</a>.</figcaption>
+<p><code>
+((s : Symbol) -> '(''Symbol '''(array '(. ''Symbol))))
+</code></p>
+<p>such that the <a href="terms.html#Symbol">symbol</a>, 
+<code>x.y</code>
+is <a href="terms.html#Rewrite">rewritten</a> to 
+<code>(x . y)</code>
+and the <a href="terms.html#Symbol">symbol</a>,
+<code>a.b.c.d</code>
+is <a href="terms.html#Rewrite">rewritten</a> to,
+<code>(a . b . c . d)</code></p>
+</figure>
+<h3><a href="#Combine" id="Combine">Combine</a></h3>
+<a href="#5-1" id="5-1">5-1</a><p>Combine is a <a href="defaults.html#Expressions">default expression</a> which will concatenate two <a href="terms.html#Collection">collections</a>, resulting in a new <a href="terms.html#Collection">collection</a> containing all the <a href="terms.html#Field">fields</a> of the first two.</p>
+<a href="#Fig-7" id="Fig-7">Figure 7</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Combine.</figcaption>
 <p><code>
 ('(''Collection + ''Collection) -><br>
@@ -89,15 +139,15 @@ In other words, the <a href="terms.html#Cardinality">cardinality</a> of the <a h
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Collection |<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m -> (# m) = ((# a) + (# b)))))
 </code></p>
-<p>Combine will result in a <a href="terms.html#Collection">collection</a> where the <a href="terms.html#Field">fields</a> from <span><code>a</code></span> and <span><code>b</code></span> must be in the same order as they were in their original <a href="terms.html#Collection">collections</a>.
+<a href="#5-2" id="5-2">5-2</a><p>Combine will result in a <a href="terms.html#Collection">collection</a> where the <a href="terms.html#Field">fields</a> from <span><code>a</code></span> and <span><code>b</code></span> must be in the same order as they were in their original <a href="terms.html#Collection">collections</a>.
 Additionally, the <a href="terms.html#Field">fields</a> originating from <span><code>b</code></span> must be at <a href="terms.html#Index">indicies</a> which are greater than the <a href="terms.html#Index">index</a> of the last <a href="terms.html#Field">field</a> from <span><code>a</code></span>.
 This is such that the <a href="terms.html#Expression">expression</a>, <code>((collection 1 , 2 , 3) + (collection 4 , 5 , 6))</code> 
 results in <code>(collection 1 , 2 , 3 , 4 , 5 , 6)</code></p>
 </figure>
-<p>Given two <a href="terms.html#Collection">collections</a> in a Combine <a href="terms.html#Expression">expression</a> where both <a href="terms.html#Collection">collections</a> have an identical <a href="terms.html#Label">label</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
-<h3><a>Remove</a></h3>
-<p>Remove is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Discard">discard</a> <a href="terms.html#Field">fields</a> from one <a href="terms.html#Collection">collection</a> according to the <a href="terms.html#Subtype">subtype</a> relation of the <a href="terms.html#Field">field</a> in another <a href="terms.html#Collection">collection</a>.</p>
-<figure>
+<a href="#5-2" id="5-2">5-2</a><p>Given two <a href="terms.html#Collection">collections</a> in a Combine <a href="terms.html#Expression">expression</a> where both <a href="terms.html#Collection">collections</a> have an identical <a href="terms.html#Label">label</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
+<h3><a href="#Remove" id="Remove">Remove</a></h3>
+<a href="#6-1" id="6-1">6-1</a><p>Remove is a <a href="defaults.html#Expressions">default expression</a> which will <a href="terms.html#Discard">discard</a> <a href="terms.html#Field">fields</a> from one <a href="terms.html#Collection">collection</a> according to the <a href="terms.html#Subtype">subtype</a> relation of the <a href="terms.html#Field">field</a> in another <a href="terms.html#Collection">collection</a>.</p>
+<a href="#Fig-8" id="Fig-8">Figure 8</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> that <a href="terms.html#Implementation">implements</a> Remove.</figcaption>
 <p><code>
 ('(''Collection - ''Collection) -><br>
@@ -108,19 +158,20 @@ results in <code>(collection 1 , 2 , 3 , 4 , 5 , 6)</code></p>
 </code></p>
 <p>Remove will result in a <a href="terms.html#Collection">collection</a> containing the <a href="terms.html#Field">fields</a> of <span><code>a</code></span> which are not <a href="terms.html#Subtype">subtypes</a> of any <a href="terms.html#Field">field</a> in <span><code>b</code></span>.</p>
 </figure>
-<h3><a>Identify</a></h3>
-<p>Identify is a <a href="defaults.html#Expression">default expression</a> which will provide <a href="terms.html#Index">index</a> for a <a href="terms.html#Label">label</a> or the <a href="terms.html#Label">label</a> for an <a href="terms.html#Index">index</a> if it exists.</p>
-<figure>
+<h3><a href="#Identify" id="Identify">Identify</a></h3>
+<a href="#7-1" id="7-1">7-1</a><p>Identify is a <a href="defaults.html#Expression">default expression</a> which will provide <a href="terms.html#Index">index</a> for a <a href="terms.html#Label">label</a> or the <a href="terms.html#Label">label</a> for an <a href="terms.html#Index">index</a> if it exists.</p>
+<a href="#Fig-9" id="Fig-9">Figure 9</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Identify.</figcaption>
 <p><code>
-('(''Collection ~ ''(type Symbol Number)) -> (type Symbol Number _))
+('(''Collection ~ ''(type Symbol Number)) -><br>
+&nbsp;(type Symbol Number _))
 </code></p>
 </figure>
-<p>Given an Identify <a href="terms.html#Expression">expression</a> where the <a href="terms.html#Collection">collection</a> does not have a corresponding <a href="terms.html#Label">label</a> or <a href="terms.html#Index">index</a>, the result of Identify will be <span><code>_</code></span>.</p>
-<h3><a>Cardinality</a></h3>
-<p>Cardinality is a <a href="defaults.html#Expression">default expression</a> which will result in a <a href="terms.html#Number">number</a> corresponding to the count of the <a href="terms.html#Field">fields</a> in a <a href="terms.html#Collection">collection</a>.
+<a href="#7-2" id="7-2">7-2</a><p>Given an Identify <a href="terms.html#Expression">expression</a> where the <a href="terms.html#Collection">collection</a> does not have a corresponding <a href="terms.html#Label">label</a> or <a href="terms.html#Index">index</a>, the result of Identify will be <span><code>_</code></span>.</p>
+<h3><a href="#Cardinality" id="Cardinality">Cardinality</a></h3>
+<a href="#8-1" id="8-1">8-1</a><p>Cardinality is a <a href="defaults.html#Expression">default expression</a> which will result in a <a href="terms.html#Number">number</a> corresponding to the count of the <a href="terms.html#Field">fields</a> in a <a href="terms.html#Collection">collection</a>.
 In other words, Cardinality will result in the <a href="terms.html#Number">number</a> <a href="terms.html#Equal">equal</a> to the highest <a href="terms.html#Index">index</a> for that <a href="terms.html#Collection">collection</a>.</p>
-<figure>
+<a href="#Fig-10" id="Fig-10">Figure 10</a><figure>
 <figcaption>The <a href="terms.html#Type">type</a> of <a href="terms.html#Transform">transform</a> which <a href="terms.html#Implementation">implements</a> Cardinality.</figcaption>
 <p><code>
 ('(# ''Collection) -> Number)

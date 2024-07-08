@@ -60,3 +60,23 @@ This is the second line."
 
 "This is the first line." + Newline +
 "This is the second line."
+
+
+When I want to include code from a separate module, there's three ways.
+
+Compile the code as part of the artiface.
+Allow the code to be linked by the system linker.
+Link to the code during runtime.
+
+"Static",
+(define ABC (! 'libABC)),
+(define foo (ABC . foo)),
+(foo "data")
+
+"Linking",
+(define ABC (! 'libABC)),
+((ABC . foo) "data")
+
+"Load Time",
+(let ABC = (! 'libABC)
+ in  (ABC . foo) "data")

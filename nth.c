@@ -59,181 +59,68 @@
                        OR OTHER DEALINGS IN THE SOFTWARE.                      
 
 
-*******************************************************************************
+*******************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
 
-void Shell();
-
-struct nth__program {
-  enum {symbol, string, number, expression, quote, unquote, requote} Type;
-  unsigned int Size;
-  union
-  {
-    unsigned int String;
-    unsigned int Symbol;
-    unsigned int Number;
-    unsigned int *Expression;
-  };
-};
-typedef struct nth__program Program;
-
-struct nth__buffer
+typedef unsigned int Int;
+typedef enum 
+        { 
+          symbol, 
+          number, 
+          string, 
+          expression, 
+          quote, 
+          unquote, 
+          requote 
+        } Kind;
+typedef struct nth__syntax
 {
-  unsigned int l;
-  unsigned int i;
-  char*b;
-  unsigned int s;
-  Program *p;
-};
-struct nth__buffer Buffer;
+  Kind kind;
+  Int size;
+  union { Int content; struct nth__syntax *nodes; };
+} Syntax;
 
-int main() 
+struct nth__input
 {
-  Buffer.l = 0;
-  Buffer.i = 0;
-  Buffer.s = 0;
-  Buffer.b = malloc(0);
-  Buffer.p = malloc(0);
-  Shell();
+  char *content;
+  Int size;
+  Int i;
+  Syntax *nodes;
+  Int length;
+};
+struct nth__input Input;
+
+char Char();
+char Peek();
+Syntax *CreateNode(Kind k);
+void AppendNode(Syntax *a, Syntax *b);
+void DropBuffer();
+void Parse();
+
+int main ()
+{
+  Input.content = malloc(0);
+  Input.size = 0;
+  Input.i = 0;
+  Input.nodes = malloc(0);
+  Int length = 0;
   return 0;
-}
-
-void ResetBuffer()
-{
-  Buffer.l = 0;
-  Buffer.i = 0;
-  Buffer.s = 0;
-  Buffer.b != 0 ? (free(Buffer.b), Buffer.b = 0) : (Buffer.b = 0);
-  for (unsigned int i = 0; i < Buffer.s; i++)
-    if (Buffer.p[i].Type == expression)
-      free(Buffer.p[i].Expression);
-  Buffer.p != 0 ? (free(Buffer.p), Buffer.p = 0) : (Buffer.p = 0);
 }
 
 char Char()
 {
-  if (Buffer.i >= Buffer.l)
+  if (Input.i >= Input.size)
   {
-    for(char c = 0; 
-        1; 
-        c = getchar(),
-        Buffer.l++,
-        Buffer.b = realloc(Buffer.b, sizeof(char) * Buffer.l),
-        Buffer.b[Buffer.l-1] = c) 
-        {if (c == '\n') break;}
+    for ( char c = 0; 1;
+          c = getchar(),
+          Input.size++,
+          Input.content = realloc(Input.content, sizeof(char) * Input.size),
+          Input.content[Input.size-1] = c)
+      {if (c == '\n') break;}
   }
-  Buffer.i++;
-  return Buffer.b[Buffer.i-1];
-}
-
-char Peek()
-{
-  char c = Char();
-  Buffer.i--;
+  char c = Input.content[Input.i];
+  Input.i++;
   return c;
-}
-
-int IsSymbChar(char c)
-{
-  if (c <= ' '
-  ||  c == '('
-  ||  c == ')'
-  ||  c == '"')
-    return 0;
-  else
-    return 1;
-}
-
-unsigned int NewProgram()
-{
-  Buffer.s++;
-  Buffer.p = realloc(Buffer.p, sizeof(Program) * Buffer.s);
-  return Buffer.s - 1;
-}
-Program *FindProgram(unsigned int i)
-{
-  return &Buffer.p[i];
-}
-void PushAtom(unsigned int i, unsigned int atom)
-{
-  Program *p = FindProgram(i);
-  if (p->Type != expression 
-  &&  p->Type != quote
-  &&  p->Type != unquote
-  &&  p->Type != requote)
-  return;
-  if (p->Type != expression && p->Size == 1) return;
-  if (atom == 0) return;
-  p->Size++;
-  p->Expression = realloc(p->Expression, sizeof(unsigned int*) * p->Size);
-  p->Expression[p->Size-1] = atom;
-}
-
-unsigned int Read()
-{
-  Program *p;
-  char tmp;
-  unsigned int tmp_size, i, j;
-  switch(Peek())
-  {
-    case '(':
-      Char();
-      i = NewProgram();
-      p = FindProgram(i);
-      p->Type = expression, p->Size = 0, p->Expression = malloc(0);
-      for (;Peek() != ')';)
-      {
-        j = Read();
-        if (j != -1) {
-          PushAtom(i, j);
-        }
-      }
-      return i;
-      break;
-    default:
-      if (Peek() <= ' ') {Char(); return -1;}
-      i = NewProgram();
-      p = FindProgram(i);
-      p->Type = symbol, p->Size = 1, p->Symbol = Buffer.i-1;
-      for (;;)
-      {
-        if (IsSymbChar(Peek()))
-          p->Size++, Char();
-        else break;
-      }
-      return i;
-      break;
-  }
-}
-
-void Print(Program *p)
-{
-  switch(p->Type)
-  {
-    case expression:
-     // printf("%i\n", p->Size);
-      putchar('(');
-      for (int i = 0; i < p->Size; i++)
-        Print(FindProgram(p->Expression[i])), 0;
-        //i < p->Size - 1 ? putchar(' ') : 0;
-      putchar(')');
-      break;
-    case symbol:
-      for (int i = 0; i < p->Size; i++)
-        putchar(Buffer.b[p->Symbol + i]);
-      break;
-  }
-}
-
-void Shell()
-{
-  int running = 1;
-  Program *p = FindProgram(Read());
-  0;
-  if (p == (Program *)-1) ResetBuffer();
-  else Print(p), putchar('\n');
-  End:
-  return;
 }
