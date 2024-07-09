@@ -32,7 +32,7 @@ In general, characters in a source text must only be accepted as left-to-right o
 <tr><td>Contents &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a></td></tr>
 <tr><td>Delimiter &rarr; <a href="terms.html#Blank">Blank</a> * | Program | String</td></tr>
 <tr><td>Sign &rarr; <code>+</code> | <code>-</code></td></tr>
-<tr><td>Characters &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a> | <a href="terms.html#Blank">Blank</a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="terms.html#Digit">Digit</a> * <code>\</code></td></tr>
+<tr><td>Characters &rarr; <a href="terms.html#Glyph">Glyph</a> | <a href="terms.html#Digit">Digit</a> | <a href="terms.html#Blank">Blank</a> | <code>\</code> <code>"</code> | <code>\</code> <code>\</code> | <code>\</code> <a href="terms.html#Digit">Digit</a> * <code>\</code> | <code>\</code> Expression</td></tr>
 <tr><td>Form &rarr; Program | <code>'</code> Form | <code>''</code> Form</td></tr>
 </table>
 <p>The symbol, &rarr;, denotes a relation between a named position on the left, and a list of elements that can occur at that position given on the right.
@@ -72,6 +72,17 @@ and <math><mi>n</mi></math> is the number of <a href="terms.html#Digit">digits</
 <a href="#6-3" id="6-3">6-3</a><p>A backward slash followed by any number of <a href="terms.html#Digit">Digits</a>, terminated by a second backward slash, must be interpreted as a whole, decimal value corresponding to a Unicode&reg; code point.
 For example, the <a href="terms.html#String">string</a>, <span><code>"\9\\13\\10\"</code></span> corresponds to a <a href="terms.html#String">string</a> of three characters, the Horizontal Tab, the Carriage Return, and the Line Feed.</p>
 <a href="#6-4" id="6-4">6-4</a><p>An <a href="terms.html#Implementation">implementation</a> may define alternative notations for code points provided that every notation is terminated with a backward slash and no complete <a href="terms.html#Character">character</a> sequence begins with <span><code>\"</code></span> or <span><code>\\</code></span>.</p>
+<a href="#6-5" id="6-5">6-5</a><p>The backward slash followed by an <a href="terms.html#Expression">expression</a> will <a href="terms.html#Evaluate">evaluate</a> that <a href="terms.html#Expression">expression</a> and will insert the result into the <a href="terms.html#String">string</a> at the position where the backward slash occurred, replacing both the backward slash and the <a href="terms.html#Expression">expression</a> following it.
+The result must be either a <a href="terms.html#Character">character</a> or a <a href="terms.html#String">string</a>.</p>
+<a href="Fig-3" id="Fig-3">Figure 3</a><figure>
+<figcaption>An example of how an <a href="terms.html#Expression">expression</a> is inserted into a <a href="terms.html#String">string</a> using the backward slash.</figcaption>
+<p>The <a>string</a>
+<code>"abc\(x)def"</code>
+constructs the same <a>string</a> as the <a>program</a>
+<code>(let x' = (x)<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;"abc" + x' + "def")</code></p>
+</figure>
 <h3><a href="#Constructing-Qutoes" id="Constructing-Quotes">Constructing Qutoes</a></h3>
 <a href="#7-1" id="7-1">7-1</a><p>A <a href="terms.html#Quote">quote</a> corresponds to the "Quote" <a href="terms.html#Syntax">syntax</a> as given in <a href="#Fig-1">Figure 1</a>.
 It will construct a <a href="terms.html#Program-Model">Program Model</a> which is then exposed as <a href="terms.html#Data">data</a>.</p>
@@ -97,7 +108,7 @@ Given a <a href="terms.html#Quote">quote</a> which contains nested <a href="term
 <a href="#8-1" id="8-1">8-1</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>read</code></span>  will pull <a href="terms.html#Character">characters</a> from the <a href="terms.html#Session">session input</a>.
 It will then return a <a href="terms.html#Program-Model">Program Model</a> corresponding to the <a href="terms.html#Source">source</a> used as input.</p>
 <a href="#8-2" id="8-2">8-2</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>read</code></span> will additionally accept a <a href="terms.html#String">string</a> <a href="terms.html#Paramter">parameter</a> which will be used instead of the <a href="terms.html#Session">session input</a> to construct a <a href="terms.html#Program-Model">Program Model</a>.</p>
-<a href="#Fig-3" id="Fig-3">Figure 3</a><figure>
+<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>read</code></span> must conform to.</figcaption>
 <p><code>
 (read : (type<br>
@@ -110,7 +121,7 @@ It will then return a <a href="terms.html#Program-Model">Program Model</a> corre
 <h3><a href="#Format" id="Format">Format</a></h3>
 <a href="#9-1" id="9-1">9-1</a><p>The <a href="defaults.html#Functions">default function</a> <span><code>format</code></span> will accept a single <a href="terms.html#Parameter">parameter</a> of any <a href="terms.html#Type">type</a>.
 It will generate a <a href="terms.html#Source">source</a> which encodes that <a href="terms.html#Parameter">parameter</a>.</p>
-<a href="#Fig-4" id="Fig-4">Figure 4</a><figure>
+<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>format</code></span> must conform to.</figcaption>
 <p><code>
 (format : (* -> String))
@@ -121,7 +132,7 @@ It will generate a <a href="terms.html#Source">source</a> which encodes that <a 
 It will generate a new <a href="terms.html#Symbol">symbol</a> which is unique to every <a href="terms.html#Symbol">symbol</a> being used as an <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and is distinct from any previous <a href="terms.html#Symbol">symbol</a> resulting from <a href="terms.html#Application">applying</a> this <a href="terms.html#Function">function</a>.
 This is such that for any <span><code>(s : &#x1d544;)</code></span> where &#x1d544; is a <a href="terms.html#Type">type</a> such that every <a href="terms.html#Identifier">identifier</a> in the <a href="terms.html#Top-Level">top level</a> and every <a href="terms.html#Symbol">symbol</a> resulting from <span><code>symbol</code></span> is a <a href="terms.html#Member">member</a>,
 <code>(let s : &#x1d544; in (symbol) = s)</code> must always <a href="terms.html#Evaluate">evaluate</a> to <span><code>false</code></span> given any <a href="terms.html#Application">application</a> of <span><code>symbol</code></span>.</p>
-<a href="#Fig-5" id="Fig-5">Figure 5</a><figure>
+<a href="#Fig-6" id="Fig-6">Figure 6</a><figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of <span><code>symbol</code></span> must conform to.</figcaption>
 <p><code>
 (symbol : (_ -> Symbol))

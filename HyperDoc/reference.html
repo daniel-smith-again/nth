@@ -164,7 +164,7 @@ var unicodebutton = document.getElementsByTagName('nth-showhide')[0]
 var unicodemenu = document.getElementsByTagName('nth-unicode')[0]
 unicodebutton.onclick = (e) => {unicodemenu.getAttribute('displayhidden') == 'true' ? (unicodemenu.style.left = '0', unicodemenu.setAttribute('displayhidden', 'false')) : (unicodemenu.style.left = '-22ch', unicodemenu.setAttribute('displayhidden', 'true'));}
 var unicodelisting = "\n+-⨯÷√=≠<≤>≥±≡≢≣∼∽∾∿≀≁\n∧∨¬∀∃∄∴∵⊢⊣⊤⊥\n←↑→↓↔↕↖↗↘↙\n∩∪∈∉∋∌∖∅⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎\nΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρςστυφχψω\n⊕⊖⊗⊘⊙⊚⊛⊜⊝\n⦁⦂⦃⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⫷⫸⫹⫺⫶⦙⦚\n⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺"
-unicodelisting.split('').map(c => {console.log(c)
+unicodelisting.split('').map(c => {
   if (c == '\n') {unicodemenu.appendChild(document.createElement('div'))}
   else {
     unicodemenu.lastChild.appendChild(document.createElement('span'))
@@ -181,30 +181,37 @@ area.onclick = (e)=>
     if (area['clicklock']) {area['clicklock'] = false; return;}
     if (e.target.tagName != 'NTH-AREA') return;
     e.preventDefault()
-    var snippet = editor.cloneNode(true)
-    for (var x = 0; x < area.childElementCount; x++)
-    area.children[x].removeAttribute('active')
-    snippet.setAttribute('active', 'true')
-    snippet.id = null
-    snippet.style.display = 'grid'
-    active = snippet, active.children[0].focus()
-    snippet['caret'] = snippet.lastChild;
-    snippet.caret.symbol = null;
-    snippet.children[1].children[0].children[0].onclick = Run
-    snippet.children[1].children[0].children[1].onclick = Rewrite
-    snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
-    snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
-    snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
-    snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
-    snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
-    snippet.children[1].children[0].children[4].onclick = Close
-    snippet.style.top = String(e.clientY) + 'px'
-    snippet.style.left = String(e.clientX) + 'px'
-    snippet.onmousedown = dragCode
-    snippet.ontouchstart = dragCode
+    var snippet = createSnippet()
     area.appendChild(snippet)
+    var r = snippet.getBoundingClientRect();
+    console.log(r)
+    snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
+    snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
+    
 }
-
+function createSnippet() 
+{
+  var snippet = editor.cloneNode(true)
+  for (var x = 0; x < area.childElementCount; x++)
+    area.children[x].removeAttribute('active')
+  snippet.setAttribute('active', 'true')
+  snippet.id = null
+  snippet.style.display = 'grid'
+  active = snippet, active.children[0].focus()
+  snippet['caret'] = snippet.lastChild
+  snippet.caret.symbol = null
+  snippet.children[1].children[0].children[0].onclick = Run
+  snippet.children[1].children[0].children[1].onclick = Rewrite
+  snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
+  snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
+  snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
+  snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
+  snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
+  snippet.children[1].children[0].children[4].onclick = Close
+  snippet.onmousedown = dragCode
+  snippet.ontouchstart = dragCode
+  return snippet
+}
 function Close(e)
 {
   area.removeChild(active)

@@ -14,17 +14,15 @@
 Thus, <a href="terms.html#Evaluate">evaluating</a> a <a href="terms.html#Program">program</a> will produce effects in the <a href="terms.html#Environment">environment</a> in the form of a <a href="terms.html#Data">data</a> result.</p>
 <p>The forms of <a href="terms.html#Data">data</a> available in <i>n</i><sup>th</sup> are...</p>
 <ul>
-<li><a href="terms.html#Boolean">Boolean</a></li>
-<li><a href="terms.html#Byte">Byte</a></li>
-<li><a href="terms.html#Word">Word</a></li>
-<li><a href="terms.html#Character">Character</a></li>
-<li><a href="terms.html#Place">Place</a></li>
-<li><a href="terms.html#Array">Array</a></li>
-<li><a href="terms.html#Number">Number</a></li>
-<li><a href="terms.html#Datatype">Datatype</a></li>
-<li><a href="terms.html#Symbol">Symbol</a></li>
+<li><a href="terms.html#Boolean">Booleans</a></li>
+<li><a href="terms.html#Byte">Bytes</a></li>
+<li><a href="terms.html#Word">Words</a></li>
+<li><a href="terms.html#Character">Characters</a></li>
+<li><a href="terms.html#Place">Places</a></li>
+<li><a href="terms.html#Array">Arrays</a></li>
+<li><a href="terms.html#Number">Numbers</a></li>
+<li><a href="terms.html#Symbol">Symbols</a></li>
 </ul>
-
 <h2><a href="#Booleans" id="Booleans">Booleans</a></h2>
 <p>The <a href="terms.html#Boolean">Boolean</a> is a form of <a href="terms.html#Data">data</a> that corresponds to a <a href="terms.html#Value">value</a> in binary logic.</p>
 <p>The <a href="terms.html#Symbol">symbols</a>, <span><code>true</code></span> and <span><code>false</code></span> correspond to <a href="terms.html#Boolean">boolean</a> 1 and 0 respectively.</p>
@@ -111,17 +109,22 @@ The number of <a href="terms.html#Element">elements</a> contained in the <a href
 <p>Because an <a href="terms.html#Array">Array</a> contains <a href="terms.html#Fields">fields</a>, it is a <a href="terms.html#Subtype">subtype</a> of <a href="terms.html#Collection">Collection</a>.
 However, it is a distinct form of <a href="terms.html#Data">data</a> and does not require support for all the <a href="terms.html#Operation">operations</a> which are allowed on <a href="terms.html#Collection">Collections</a>.</p>
 <p>Any two <a href="terms.html#Array">Arrays</a> are <a href="terms.html#Equivalence">equivalent</a> where the <a href="terms.html#Order">order</a> and <a href="terms.html#Cardinality">cardinality</a> are <a href="terms.html#Equivalence">equivalent</a>, and the <a href="terms.html#Value">values</a> of like <a href="terms.html#Index">indicies</a> are each <a href="terms.html#Equivalence">equivalent</a>.</p>
+<p>Given an <a href="terms.html#Array">array</a> with an <a href="terms.html#Order">order</a> and a definite <a href="terms.html#Cardinality">cardinality</a>, a <a href="terms.html#Collection">collection</a> where all <a href="terms.html#Field">fields</a> are <a href="terms.html#Instance">instances</a> of the <a href="terms.html#Order">order</a> and the <a href="terms.html#Cardinality">cardinality</a> is <a href="terms.html#Equivalent">equivalent</a> is a <a href="terms.html#Subtype">subtype</a>.
+Additionally, if the <a href="terms.html#Array">array</a> does not have a definite <a href="terms.html#Cardinality">cardinality</a>, a <a href="terms.html#Collection">collection</a> may have any <a href="terms.html#Cardinality">cardinality</a> and will still be a <a href="terms.html#Subtype">subtype</a>.</p>
 <h3><a href="#Array-Constructor" id="Array-Constructor">Array Constructor</a></h3>
 <p>The Array Constructor is a <a href="defaults.html#Functions">default function</a> which takes one or two <a href="terms.html#Parameter">parameters</a> which are a <a href="terms.html#Type">type</a> or a <a href="terms.html#Type">type</a> and a <a href="terms.html#Range">range</a> respectively.
 <a href="terms.html#Application">Applying</a> an Array Constructor to a <a href="terms.html#Type">type</a> will result in an <a href="terms.html#Array">Array</a> with an <a href="terms.html#Order">order</a> <a href="terms.html#Equal">equal</a> to the <a href="terms.html#Parameter">parameter</a>, which is the <a href="terms.html#Supertype">supertype</a> of any <a href="terms.html#Array">Array</a> with an <a href="terms.html#Equivalence">equivalent</a> <a href="terms.html#Order">order</a> and a definite <a href="terms.html#Cardinality">cardinality</a>.</p>
 <figure>
 <figcaption>The <a href="terms.html#Function">function</a> <a href="terms.html#Type">type</a> which an <a href="terms.html#Implementation">implementation</a> of the Array Constructor must conform to.</figcaption>
 <p><code>
-(array : (type (* -> Array) (* (Range) -> Array)))
+(array : (type (* -> Array) (* (Number) -> Array)))
 </code></p>
 </figure>
-<p>The <a href="terms.html#Collection">collection</a> <a href="terms.html#Operation">operation</a>, <a href="collections.html#Subscript">Subscript</a> will also support <a href="terms.html#Array">Arrays</a>.
+<h3><a href="#Array-Operations" id="Collection-Operations-for-Arrays">Collection Operations for Arrays</a></h3>
+<p>The <a href="terms.html#Collection">collection</a> <a href="terms.html#Operation">operation</a>, <a href="collections.html#Subscript">Subscript</a> will also support <a href="terms.html#Array">arrays</a>.
 The result of a <a href="terms.html#Subscript">subscript</a> on an <a href="terms.html#Array">Array</a> with an indefinite <a href="terms.html#Cardinality">cardinality</a> will be the <a href="terms.html#Order">order</a> of that <a href="terms.html#Array">Array</a>.</p>
+<p>The <a href="terms.html#Collection">collection</a> <a href="terms.html#Operation">operation</a>, <a href="collections.html#Combine">Combine</a> will also support <a href="terms.html#Array">arrays</a>.
+It is considered an <a href="terms.html#Error">error</a> if an <a href="terms.html#Array">array</a> with an indefinite <a href="terms.html#Cardinality">cardinality</a> is provided to the <a href="terms.html#Combine">Combine</a> <a href="terms.html#Operation">operation</a>.</p>
 <h2><a href="#Numbers" id="Numbers">Numbers</a></h2>
 <p>A <a href="terms.html#Number">Number</a> is a form of <a href="terms.html#Data">data</a> which contains a numerical <a href="terms.html#Value">value</a> within an arbitrary fixed range over the integers.</p>
 <p>The <a href="terms.html#Value">value</a> stored by a <a href="terms.html#Number">Number</a> cannot exceed the minimum or maximum for that <a href="terms.html#Number">number</a>.

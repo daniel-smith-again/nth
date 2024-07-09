@@ -80,3 +80,8 @@ Link to the code during runtime.
 "Load Time",
 (let ABC = (! 'libABC)
  in  (ABC . foo) "data")
+
+
+is (array Symbol 100)
+a supertype of
+(collection 'Symbol)?
