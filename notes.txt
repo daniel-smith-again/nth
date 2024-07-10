@@ -85,3 +85,13 @@ Link to the code during runtime.
 is (array Symbol 100)
 a supertype of
 (collection 'Symbol)?
+
+
+big big big question
+--------------------------------------------------------------------------------
+how does the compiler enforce this type?
+(define evens (Number | (n -> (n mod 2) = 0)))
+Can it even verify this?
+Say I have (x : evens)
+If I do (x = (5 * 324 + 7)), how does the compiler verify that this expression 
+conforms to the type?
