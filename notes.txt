@@ -86,6 +86,15 @@ is (array Symbol 100)
 a supertype of
 (collection 'Symbol)?
 
+can inversion be a macro?
+maybe?
+if it's static it can.
+
+({ a b c d })
+( a ; b ; c ; d ; e)
+(collection a b c d e)
+(# a b c d e)
+
 
 big big big question
 --------------------------------------------------------------------------------
@@ -95,3 +104,46 @@ Can it even verify this?
 Say I have (x : evens)
 If I do (x = (5 * 324 + 7)), how does the compiler verify that this expression 
 conforms to the type?
+I can't enforce it.
+
+The point of having types like this was to be able to talk about what a
+program does. This doesn't do it.
+
+All I really need is an assertion macro. This doesn't appropriately constrain
+the language in any useful way. It would be much better to use 
+inversion consumers and producers. Inversion is not just control flow, but 
+also a way to guarantee behavior.
+
+So what if I want to write an expression which matches >>
+('('''(type Symbol Collection) >> ''Program) -> *)
+
+================================================================================
+
+What problem am I solving with my language?
+ALGOL style languages suck and other languages which suck less aren't 
+ergonomic for targetting the same things as the sucky languages.
+They suck because...
+
+* The feedback cycle isn't instantaneous
+* Every language assumes no other exists
+* Constructs are inefficient for humans and computers too
+* You can't perform basic program validation in the language
+
+* Live, Session based programming
+  You should be able to ask high level questions about your program.
+
+* Extractable
+  You should be able to take the program you built, and export it to some 
+  binary machine-interpreted format in a generic way.
+
+* It's up, all the way down
+  The language is the bottom, top, and every abstraction in-between.
+
+* Extensible abstractions
+  There's a feature you want, go ahead and code it.
+
+* Predictable Automatic Memory Management
+  Everything belongs to some function scope and exists as long as that scope
+
+* Types and Polymorphism
+  The compiler doesn't have to guess about the shape of data.
