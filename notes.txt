@@ -99,9 +99,11 @@ and instead of (type a b c) I can use [a b c]
 This is the most convenient form.
 
 
-how do I use character macros
-
-
+how do I use character macros?
+I provide the compiler with a function to dispatch on a character, just like CL
+How would it look?
+Here's the character macro for types.
+()
 
 FOR THE LAST TIME, I DO NOT NEED ADT'S.
 I HAVE DEPENDENT TYPING VIA SYMBOLIC EVALUATION AT THE TYPE LEVEL.

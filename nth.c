@@ -5,6 +5,7 @@
                                        by                                      
                                   Daniel Smith                                  
 
+
 -------------------------------------------------------------------------------
                                      About                                     
 -------------------------------------------------------------------------------
@@ -61,6 +62,7 @@
 
 *******************************************************************************/
 
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -71,7 +73,9 @@ typedef enum
           number, 
           string,
           stringsegment,
-          expression, 
+          expression,
+          collection,
+          type,
           quote, 
           unquote, 
           requote 
@@ -102,6 +106,11 @@ void __nth_syntax_append_node(Syntax *a, Syntax *b);
 void __nth_clean_buffer();
 void __nth_wipe_buffer();
 Syntax *__nth_syntax_parse_buffer();
+Syntax *__nth_syntax_parse_expression();
+Syntax *__nth_syntax_parse_collection();
+Syntax *__nth_syntax_parse_type();
+Syntax *__nth_syntax_parse_symbol();
+Syntax *__nth_syntax_parse_string();
 void __nth_print_syntax(Syntax *s);
 
 int main ()
@@ -112,7 +121,7 @@ int main ()
     input.top = __nth_syntax_parse_buffer();
     if (input.top)
     {
-      //__nth_print_syntax(input.top);
+      __nth_print_syntax(input.top);
       putchar('\n');
     }
     else if (input.e > -1)
@@ -224,16 +233,42 @@ void __nth_wipe_buffer()
 Syntax *__nth_syntax_parse_buffer()
 {
   Int alreadyquoted = 0;
+  char c = 0;
   Syntax *t, *S;
+  Kind k;
   switch(__nth_peek_char())
   {
+    case '{':
+      __nth_consume_char();
+      for ( S = __nth_syntax_create_node(collection);
+            __nth_peek_char() != '}';)
+      {
+        t = __nth_syntax_parse_buffer();
+        if (input.e > -1) goto parse_error;
+        if (t) __nth_syntax_append_node(S, t);
+      }
+      __nth_consume_char();
+      return S;
+      break;
+    case '[':
+      __nth_consume_char();
+      for ( S = __nth_syntax_create_node(type);
+            __nth_peek_char() != ']';)
+      {
+        t = __nth_syntax_parse_buffer();
+        if (input.e > -1) goto parse_error;
+        if (t) __nth_syntax_append_node(S, t);
+      }
+      __nth_consume_char();
+      return S;
+      break;
     case '(':
       __nth_consume_char();
       for ( S = __nth_syntax_create_node(expression); 
             __nth_peek_char() != ')';)
       {
         t = __nth_syntax_parse_buffer();
-        if (input.e > -1) goto __nth_syntax_parse_bufferError;
+        if (input.e > -1) goto parse_error;
         if (t) __nth_syntax_append_node(S, t);
       }
       __nth_consume_char();
@@ -246,7 +281,7 @@ Syntax *__nth_syntax_parse_buffer()
       break;
     case ')': 
       __nth_consume_char(); 
-      goto __nth_syntax_parse_bufferError;
+      goto parse_error;
     case '"':
       S = __nth_syntax_create_node(string);
       __nth_consume_char();
@@ -259,7 +294,7 @@ Syntax *__nth_syntax_parse_buffer()
             if (__nth_peek_char() == '(')
             {
               t = __nth_syntax_parse_buffer();
-              if (input.e > -1) goto __nth_syntax_parse_bufferError;
+              if (input.e > -1) goto parse_error;
               if (t) __nth_syntax_append_node(S, t);
               continue;
             } 
@@ -281,20 +316,32 @@ Syntax *__nth_syntax_parse_buffer()
       S = __nth_syntax_create_node(quote);
       if (__nth_peek_char() == '\'') { __nth_consume_char(); S->kind = unquote; }
       if (__nth_peek_char() == '\'') { __nth_consume_char(); S->kind = requote; }
-      if (S->kind != quote && !InsideQuote) goto __nth_syntax_parse_bufferError;
+      if (S->kind != quote && !InsideQuote) goto parse_error;
       if (InsideQuote) alreadyquoted = 1;
       else InsideQuote = 1;
       t = __nth_syntax_parse_buffer();
-      if (input.e > -1) goto __nth_syntax_parse_bufferError;
+      if (input.e > -1) goto parse_error;
       if (t) __nth_syntax_append_node(S, t);
       if (!alreadyquoted) InsideQuote = 0;
       return S;
     default:
-      for (S = __nth_syntax_create_node(symbol), S->content = input.i, S->size = 1, __nth_consume_char();; S->size++, __nth_consume_char())
-      { if (__nth_peek_char() <= ' ' || __nth_peek_char() == '(' || __nth_peek_char() == ')') return S; }
+      for ( S = __nth_syntax_create_node(symbol), 
+            S->content = input.i, 
+            S->size = 1, 
+            __nth_consume_char();;
+            S->size++, 
+            __nth_consume_char())
+      { 
+        if (c = __nth_peek_char(), 
+            ( c <= ' ' || 
+              c == '(' || c == ')' || 
+              c == '[' || c == ']' || 
+              c == '{' || c == '}')) 
+        return S; 
+      }
       break;
   }
-  __nth_syntax_parse_bufferError:
+  parse_error:
   if (input.e == -1) input.e = input.i;
   return 0;
 }
@@ -315,6 +362,18 @@ void __nth_print_syntax(Syntax *s)
         __nth_print_syntax(s->nodes[i]), i < s->size - 1 ? putchar(' ') : 0;
       putchar(')');
       break;
+    case collection:
+      putchar('{');
+      for (Int i = 0; i < s->size; i++)
+        __nth_print_syntax(s->nodes[i]), i < s->size - 1 ? putchar(' ') : 0;
+      putchar('}');
+      break;
+    case type:
+      putchar('[');
+      for (Int i = 0; i < s->size; i++)
+        __nth_print_syntax(s->nodes[i]), i < s->size - 1 ? putchar(' ') : 0;
+      putchar(']');
+      break;
     case quote: printf("'"); goto __nth_print_syntaxQuote; break;
     case unquote: printf("''"); goto __nth_print_syntaxQuote; break;
     case requote: printf("'''"); goto __nth_print_syntaxQuote; break;
@@ -328,3 +387,4 @@ void __nth_print_syntax(Syntax *s)
       break;
   }
 }
+  
