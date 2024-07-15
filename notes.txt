@@ -28,30 +28,6 @@ You can accomplish most stuff with just integers.
 If you want more, just add additional stuff on top of integers.
 Plus I have ranges which are static sized integers.
 
-
-
-(quicksort = ((list : Array) -> 
- ? ((# list) > 1) 
-   (swap = (pv i j ->
-    ??
-      (((list _ i) < (list _ pv)) and (i < pv))
-      (swap pv (i + 1) j)
-      (((list _ j) > (list _ pv)) and (j > pv))
-      (swap pv i (j - 1))
-      (((list _ j) < (list _ pv)) and ((list _ i) < (list _ pv)))
-      (tmp = (list _ i),
-       list _ i (list _ j),
-       list _ j tmp,
-       swap pv i j),
-      (quicksort ((@ (@ (list _ 1))) : (Collection | 
-                 (c -> (? ((# c) = ((# list) - pv)) True))))),
-      (quicksort ((@ (@ (list _ (pivot _ 1)))) : (Collection | 
-                 (c -> (? ((# c) = ((# list) - pv)) True)))))))))
-
-
-
-
-
 "This is the first line.
 This is the second line"
 
@@ -117,33 +93,18 @@ also a way to guarantee behavior.
 So what if I want to write an expression which matches >>
 ('('''(type Symbol Collection) >> ''Program) -> *)
 
-================================================================================
+do I want to use collection notation?
+instead of (collection x = 1, y = 2, z = 3) I can use {x = 1, y = 2, z = 3}
+and instead of (type a b c) I can use [a b c] 
+This is the most convenient form.
 
-What problem am I solving with my language?
-ALGOL style languages suck and other languages which suck less aren't 
-ergonomic for targetting the same things as the sucky languages.
-They suck because...
 
-* The feedback cycle isn't instantaneous
-* Every language assumes no other exists
-* Constructs are inefficient for humans and computers too
-* You can't perform basic program validation in the language
+how do I use character macros
 
-* Live, Session based programming
-  You should be able to ask high level questions about your program.
 
-* Extractable
-  You should be able to take the program you built, and export it to some 
-  binary machine-interpreted format in a generic way.
 
-* It's up, all the way down
-  The language is the bottom, top, and every abstraction in-between.
-
-* Extensible abstractions
-  There's a feature you want, go ahead and code it.
-
-* Predictable Automatic Memory Management
-  Everything belongs to some function scope and exists as long as that scope
-
-* Types and Polymorphism
-  The compiler doesn't have to guess about the shape of data.
+FOR THE LAST TIME, I DO NOT NEED ADT'S.
+I HAVE DEPENDENT TYPING VIA SYMBOLIC EVALUATION AT THE TYPE LEVEL.
+If I have an arbitrary predicate, P, then (x -> P x) is evidence of the
+predicate, and if (P' = (x -> P x)), then (P' *) quantifies the members which 
+satisfy the predicate.

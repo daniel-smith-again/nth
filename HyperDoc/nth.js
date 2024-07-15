@@ -69,6 +69,30 @@ const nth = {
     
   },
   Evaluate: function(program){
-    
+    var stream = {  i: 0, 
+                    s: p,
+                    seek: ()=>{ var c = this.p[this.i]; 
+                                this.p++; 
+                                return c; }, 
+                    peek: ()=>{ var c = this.seek(); 
+                                this.i--; 
+                                return c; }};
+    var tree = CreateAST(program);
+    function CreateAST(p) 
+    {
+      switch(stream.peek())
+      {
+        case '(': break;
+        case ')': break;
+        case '{': break;
+        case '}': break;
+        case '[': break;
+        case ']': break;
+        case '"': break;
+        case '\'': break;
+        case ' ': break;
+        case '\n': break;
+      }
+    }
   },
 }

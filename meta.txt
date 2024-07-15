@@ -1,0 +1,33 @@
+                  What Problem am I Solving with My Language?                   
+================================================================================
+
+ALGOL style languages suck in general. 
+Languages which try to break away from the ALGOL model are equally lacking.
+This is because...
+
+1.	The feedback cycle isn't instantaneous
+2.	Every language assumes no others exist
+3.	Constructs are inefficient for humans and sometimes even the computer too.
+4.	You can't perform basic program validation in the language.
+5.	You can't abstract or extend the language.
+
+I solve these problems by providing...
+
+*		Live, Session-based programming
+		You should be able to ask high level questions about your program.
+		
+*		Extractable
+		You should be able to take the program you built, and export it to some
+		binary machine-interpreted format in a generic way.
+		
+*		It's up all the way down
+		The language is the bottom, top, and every abstraction in-between.
+		
+*		Predictable Automatic Memory Management
+		Callee cleanup and bump allocation as GC allows for crazy perf.
+		
+*		Types and Polymorphism
+		The compiler doesn't have to guess about the shape of data.
+		
+*		Macros
+		If you want to do compile-time stuff, just do it.

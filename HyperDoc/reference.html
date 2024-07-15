@@ -46,8 +46,6 @@ nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.5ch;}
 nth-expression > * + *{margin-left:1ch;}
 nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0ch;}
 nth-editor[active] nth-symbol[active]{background-color:var(--dbg);}
-nth-editor[active] nth-expression[active] > nth-expression{background-color:var(--dbg);}
-nth-editor[active] nth-expression[active] > nth-expression[active]{background-color:var(--bg);}
 nth-expression[active]{background-image:none;}
 nth-symbol{cursor:pointer;transition:all 0.2s;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
@@ -184,7 +182,6 @@ area.onclick = (e)=>
     var snippet = createSnippet()
     area.appendChild(snippet)
     var r = snippet.getBoundingClientRect();
-    console.log(r)
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
     
@@ -208,8 +205,7 @@ function createSnippet()
   snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
   snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
   snippet.children[1].children[0].children[4].onclick = Close
-  snippet.onmousedown = dragCode
-  snippet.ontouchstart = dragCode
+  snippet.onpointerdown = dragCode
   return snippet
 }
 function Close(e)
@@ -241,15 +237,11 @@ function dragCode(e)
   var stopmove = function(e)
                  {
                     e.preventDefault()
-                    document.onmousemove = null
-                    document.ontouchmove = null
-                    document.onmouseup = null
-                    document.ontouchend = null
+                    document.onpointermove = null
+                    document.onpointerup = null
                  }
-  document.onmousemove = move
-  document.ontouchmove = move
-  document.onmouseup = stopmove
-  document.ontouchend = stopmove
+  document.onpointermove = move
+  document.onpointerup = stopmove
 }
 document.onkeydown = (e) => {
   if (document.activeElement.tagName == 'NTH-STRING') 
@@ -551,6 +543,7 @@ function Cut(e)
 {
   e.stopImmediatePropagation();
   if (active.caret == null) return;
+  if (active.caret.symbol == null) return;
   document.clipboard = null;
   document.clipboard = active.caret.symbol
   document.clipboard.removeAttribute('active')
@@ -568,6 +561,7 @@ function Copy(e)
 {
   e.stopImmediatePropagation();
   if (active.caret == null) return;
+  if (active.caret.symbol == null) return;
   document.clipboard = null;
   document.clipboard = active.caret.symbol.cloneNode(true)
   if (document.clipboard.tagName == 'NTH-SYMBOL')
@@ -577,7 +571,8 @@ function Copy(e)
 function Paste(e)
 {
   e.stopImmediatePropagation();
-  if (document.clipboard == null) return
+  if (document.clipboard == null) return;
+  if (active.caret.tagName == 'NTH-CODE' && active.caret.childElementCount == 1) return;
   if (active.caret == null)
   {
     active.lastChild.appendChild(document.clipboard)

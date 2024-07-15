@@ -95,37 +95,37 @@ struct
   Int count;
 } input;
 
-char Char();
-char Peek();
-Syntax *CreateNode(Kind k);
-void AppendNode(Syntax *a, Syntax *b);
-void DropBuffer();
-void KillBuffer();
-Syntax *Parse();
-void nth_print_syntax(Syntax *s);
+char __nth_consume_char();
+char __nth_peek_char();
+Syntax *__nth_syntax_create_node(Kind k);
+void __nth_syntax_append_node(Syntax *a, Syntax *b);
+void __nth_clean_buffer();
+void __nth_wipe_buffer();
+Syntax *__nth_syntax_parse_buffer();
+void __nth_print_syntax(Syntax *s);
 
 int main ()
 {
-  DropBuffer();
+  __nth_clean_buffer();
   for(;;)
   {
-    input.top = Parse();
+    input.top = __nth_syntax_parse_buffer();
     if (input.top)
     {
-      //nth_print_syntax(input.top);
+      //__nth_print_syntax(input.top);
       putchar('\n');
     }
     else if (input.e > -1)
     {
       printf("\x1b[30;107m?\x1b[0m\n");
-      KillBuffer();
+      __nth_wipe_buffer();
     }
-    else DropBuffer();
+    else __nth_clean_buffer();
   }
   return 0;
 }
 
-char Char()
+char __nth_consume_char()
 {
   if (input.i >= input.size)
   {
@@ -141,14 +141,14 @@ char Char()
   return c;
 }
 
-char Peek()
+char __nth_peek_char()
 {
-  char c = Char();
+  char c = __nth_consume_char();
   input.i--;
   return c;
 }
 
-Syntax *CreateNode(Kind k)
+Syntax *__nth_syntax_create_node(Kind k)
 {
   Syntax *n = malloc(sizeof(Syntax));
   n->kind = k;
@@ -161,7 +161,7 @@ Syntax *CreateNode(Kind k)
   return n;
 }
 
-void AppendNode(Syntax *a, Syntax *b)
+void __nth_syntax_append_node(Syntax *a, Syntax *b)
 {
   switch(a->kind)
   {
@@ -177,7 +177,7 @@ void AppendNode(Syntax *a, Syntax *b)
   }
 }
 
-void DropBuffer()
+void __nth_clean_buffer()
 {
   if (input.nodes) 
     for (Int i = 0; i < input.count; i++)
@@ -212,111 +212,114 @@ void DropBuffer()
   InsideQuote = 0;
 }
 
-void KillBuffer()
+void __nth_wipe_buffer()
 {
-  DropBuffer();
+  __nth_clean_buffer();
   free(input.content);
   input.content = malloc(0);
   input.size = 0;
   input.i = 0;
 }
 
-Syntax *Parse()
+Syntax *__nth_syntax_parse_buffer()
 {
   Int alreadyquoted = 0;
   Syntax *t, *S;
-  switch(Peek())
+  switch(__nth_peek_char())
   {
     case '(':
-      Char();
-      for (S = CreateNode(expression); Peek() != ')';)
+      __nth_consume_char();
+      for ( S = __nth_syntax_create_node(expression); 
+            __nth_peek_char() != ')';)
       {
-        t = Parse();
-        if (input.e > -1) goto ParseError;
-        if (t) AppendNode(S, t);
+        t = __nth_syntax_parse_buffer();
+        if (input.e > -1) goto __nth_syntax_parse_bufferError;
+        if (t) __nth_syntax_append_node(S, t);
       }
-      Char();
+      __nth_consume_char();
       return S;
       break;
     case ' ':
     case '\n':
-      while (Peek() <= ' ') Char();
+      while (__nth_peek_char() <= ' ') __nth_consume_char();
       return 0;
       break;
-    case ')': Char(); goto ParseError;
+    case ')': 
+      __nth_consume_char(); 
+      goto __nth_syntax_parse_bufferError;
     case '"':
-      S = CreateNode(string);
-      Char();
-      for(;Peek() != '"';) 
+      S = __nth_syntax_create_node(string);
+      __nth_consume_char();
+      for(;__nth_peek_char() != '"';) 
       {
-        switch(Peek())
+        switch(__nth_peek_char())
         {
           case '\\': 
-            Char();
-            if (Peek() == '(')
+            __nth_consume_char();
+            if (__nth_peek_char() == '(')
             {
-              t = Parse();
-              if (input.e > -1) goto ParseError;
-              if (t) AppendNode(S, t);
+              t = __nth_syntax_parse_buffer();
+              if (input.e > -1) goto __nth_syntax_parse_bufferError;
+              if (t) __nth_syntax_append_node(S, t);
               continue;
             } 
-            AppendNode(S, CreateNode(stringsegment));
+            __nth_syntax_append_node(S, __nth_syntax_create_node(stringsegment));
             S->nodes[S->size - 1]->content = input.i;
           default:
             if (!S->nodes || S->nodes[S->size - 1]->kind != stringsegment)
-              AppendNode(S, CreateNode(stringsegment)),
+              __nth_syntax_append_node(S, __nth_syntax_create_node(stringsegment)),
               S->nodes[S->size - 1]->content = input.i;
             S->nodes[S->size - 1]->size++;
-            Char();
+            __nth_consume_char();
         }
       }
-      Char();
+      __nth_consume_char();
       return S;
       break;
     case '\'':
-      Char();
-      S = CreateNode(quote);
-      if (Peek() == '\'') { Char(); S->kind = unquote; }
-      if (Peek() == '\'') { Char(); S->kind = requote; }
-      if (S->kind != quote && !InsideQuote) goto ParseError;
+      __nth_consume_char();
+      S = __nth_syntax_create_node(quote);
+      if (__nth_peek_char() == '\'') { __nth_consume_char(); S->kind = unquote; }
+      if (__nth_peek_char() == '\'') { __nth_consume_char(); S->kind = requote; }
+      if (S->kind != quote && !InsideQuote) goto __nth_syntax_parse_bufferError;
       if (InsideQuote) alreadyquoted = 1;
       else InsideQuote = 1;
-      t = Parse();
-      if (input.e > -1) goto ParseError;
-      if (t) AppendNode(S, t);
+      t = __nth_syntax_parse_buffer();
+      if (input.e > -1) goto __nth_syntax_parse_bufferError;
+      if (t) __nth_syntax_append_node(S, t);
       if (!alreadyquoted) InsideQuote = 0;
       return S;
     default:
-      for (S = CreateNode(symbol), S->content = input.i, S->size = 1, Char();; S->size++, Char())
-      { if (Peek() <= ' ' || Peek() == '(' || Peek() == ')') return S; }
+      for (S = __nth_syntax_create_node(symbol), S->content = input.i, S->size = 1, __nth_consume_char();; S->size++, __nth_consume_char())
+      { if (__nth_peek_char() <= ' ' || __nth_peek_char() == '(' || __nth_peek_char() == ')') return S; }
       break;
   }
-  ParseError:
+  __nth_syntax_parse_bufferError:
   if (input.e == -1) input.e = input.i;
   return 0;
 }
 
-void nth_print_syntax(Syntax *s)
+void __nth_print_syntax(Syntax *s)
 {
   switch(s->kind)
   {
     case string:
       putchar('"');
       for (Int i = 0; i < s->size; i++)
-        nth_print_syntax(s->nodes[i]);
+        __nth_print_syntax(s->nodes[i]);
       putchar('"');
       break;
     case expression:
       putchar('(');
       for (Int i = 0; i < s->size; i++) 
-        nth_print_syntax(s->nodes[i]), i < s->size - 1 ? putchar(' ') : 0;
+        __nth_print_syntax(s->nodes[i]), i < s->size - 1 ? putchar(' ') : 0;
       putchar(')');
       break;
-    case quote: printf("'"); goto nth_print_syntaxQuote; break;
-    case unquote: printf("''"); goto nth_print_syntaxQuote; break;
-    case requote: printf("'''"); goto nth_print_syntaxQuote; break;
-      nth_print_syntaxQuote: 
-      nth_print_syntax(s->nodes[0]);
+    case quote: printf("'"); goto __nth_print_syntaxQuote; break;
+    case unquote: printf("''"); goto __nth_print_syntaxQuote; break;
+    case requote: printf("'''"); goto __nth_print_syntaxQuote; break;
+      __nth_print_syntaxQuote: 
+      __nth_print_syntax(s->nodes[0]);
       break;
     case stringsegment:
     case symbol:
