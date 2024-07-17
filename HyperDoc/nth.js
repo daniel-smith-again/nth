@@ -9,10 +9,9 @@
                                      About                                      
 --------------------------------------------------------------------------------
 
-     This is a fully working implementation of the nth Programming Language     
-     as described in "The nth Programming Language HyperDoc". It is a fully     
-          conforming implementation as described in the "Conformance"           
-                      section of the chapter, "Foreword".                       
+                  This is a fully conforming implementation of                  
+                  the Nth Programming Language as described in                  
+                    "The nth Programming Language HyperDoc".                    
 
 
 --------------------------------------------------------------------------------
@@ -63,9 +62,13 @@
 
 const nth = {
   nth: this,
-  base: {},
+  base: { transforms:[],
+          constructors:[],
+          bindings:[],
+          data:[]
+  },
   toplevel: this.base,
-  Init: function(){
+  Init: function() {
     
   },
   Evaluate: function(program){
