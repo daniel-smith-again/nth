@@ -106,6 +106,7 @@ Here's the character macro for types.
 ()
 
 FOR THE LAST TIME, I DO NOT NEED ADT'S.
+
 I HAVE DEPENDENT TYPING VIA SYMBOLIC EVALUATION AT THE TYPE LEVEL.
 If I have an arbitrary predicate, P, then (x -> P x) is evidence of the
 predicate, and if (P' = (x -> P x)), then (P' *) quantifies the members which 
