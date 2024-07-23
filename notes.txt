@@ -111,3 +111,22 @@ I HAVE DEPENDENT TYPING VIA SYMBOLIC EVALUATION AT THE TYPE LEVEL.
 If I have an arbitrary predicate, P, then (x -> P x) is evidence of the
 predicate, and if (P' = (x -> P x)), then (P' *) quantifies the members which 
 satisfy the predicate.
+
+
+What's my maxwell's equations?
+
+(define compute ((p : Program) -> ? p
+'(define ''Symbol ''Function) 
+(let (_ i v) = P
+ in  this . i = (compute v))
+
+'(''Function '''Program)
+(let (fun args *) = p
+     params = (parameters fun)
+     eval-arg = (plist -> let (first rest *) = plist
+                          in ? rest
+                               (collection (compute first) (k rest)))
+ in
+     )
+
+))
