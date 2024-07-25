@@ -113,6 +113,23 @@ predicate, and if (P' = (x -> P x)), then (P' *) quantifies the members which
 satisfy the predicate.
 
 
+What's my maxwell's equations?
+
+(define compute ((p : Program) -> ? p
+'(define ''Symbol ''Function) 
+(let (_ i v) = P
+ in  this . i = (compute v))
+
+'(''Function '''Program)
+(let (fun args *) = p
+     params = (parameters fun)
+     eval-arg = (plist -> let (first rest *) = plist
+                          in ? rest
+                               (collection (compute first) (k rest)))
+ in
+     )
+
+))
 What can I steal from APL and Shen Lisp.
 I want destructuring and iteration for collections.
 Since they're relatively small, dense arrays, you can do useful things
