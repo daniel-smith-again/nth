@@ -132,6 +132,7 @@ What's my maxwell's equations?
 ))
 
 
+
 Do I need types when I don't have types?
 I need nominal types.
 I also need type constructors for enumerating things.
@@ -187,3 +188,9 @@ how would computed goto look in my language?
 what is my inline assembly?
 I have an operation listing and a register table.
 you can query them and build instructions from there.
+
+What can I steal from APL and Shen Lisp.
+I want destructuring and iteration for collections.
+Since they're relatively small, dense arrays, you can do useful things
+with them.
+
