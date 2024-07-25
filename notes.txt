@@ -130,3 +130,60 @@ What's my maxwell's equations?
      )
 
 ))
+
+
+Do I need types when I don't have types?
+I need nominal types.
+I also need type constructors for enumerating things.
+Creating enumeration types allows you to express things naturally.
+
+If I have (define addition-A (x y -> ...))
+and (define addition-B (x y -> ...))
+then I can say that (define addition (type addition-A addition-B))
+because in all cases, I'm performing addition on one of two cases, distinct 
+only by type.
+I can say this more tersely by writing
+(define addition [((x : A) (y : A) -> ...) ((x : B) (y : B) -> ...)])
+
+
+I want punctuation which is in pairs.
+I want symbol recognition.
+I want expression recognition.
+
+
+(define "begin" T "end" (-> ...))
+(define ((Symbol -> ...)))
+(define ((Expression) -> ...))
+
+I can write a data type using types
+
+{A} + T + {B}
+is any collection which begins with A and ends with B
+how complex can I get with this?
+Can I do non-primitive operations?
+What about (define foo ((A : Collection) (B : Collection) -> A + x + B))
+
+{A} + T + {B}
+is equivalent to the two constraints
+result = (concatenate {A} T) 
+...
+(concatenat result {B})
+
+and 
+result = (concatenat T {B})
+...
+(concatenate {A} result)
+
+
+My dependent types are very specific. 
+I do not refine anything.
+It's only about functions.
+
+
+how would computed goto look in my language?
+
+(A B C >> (let listing = {A , B , C} in stream))
+
+what is my inline assembly?
+I have an operation listing and a register table.
+you can query them and build instructions from there.

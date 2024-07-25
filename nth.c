@@ -61,13 +61,18 @@
 
 *******************************************************************************/
 
-//These names are capitalized because they're significant entry points.
 void Boot();
 void *Read();
-void *Eval(void *p);
-void *Print(void *d);
+void *Compute(void *p);
+void Print(void *d);
+
+typedef struct {
+  
+} AST;
 
 int main ()
 {
-
+  Boot();
+  while(1) Print(Compute(Read()));
 }
+
