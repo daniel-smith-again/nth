@@ -111,3 +111,9 @@ I HAVE DEPENDENT TYPING VIA SYMBOLIC EVALUATION AT THE TYPE LEVEL.
 If I have an arbitrary predicate, P, then (x -> P x) is evidence of the
 predicate, and if (P' = (x -> P x)), then (P' *) quantifies the members which 
 satisfy the predicate.
+
+
+What can I steal from APL and Shen Lisp.
+I want destructuring and iteration for collections.
+Since they're relatively small, dense arrays, you can do useful things
+with them.
