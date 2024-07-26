@@ -65,9 +65,9 @@ void Boot();
 void *Read();
 void *Compute(void *p);
 void Print(void *d);
-
+typedef unsigned long int Int;
 typedef struct {
-  
+
 } AST;
 
 int main ()
@@ -76,3 +76,29 @@ int main ()
   while(1) Print(Compute(Read()));
 }
 
+void* Env;
+typedef struct {
+  Int size;
+  Int data; 
+} Object;
+
+void Boot() 
+{
+
+}
+
+void *Read()
+{
+
+}
+
+void *Compute(void *p)
+{
+  Object *P = (Object *)p;
+
+}
+
+void Print()
+{
+
+}

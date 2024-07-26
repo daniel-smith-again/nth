@@ -177,8 +177,6 @@ The first <a href="terms.html#Symbol">symbol</a> or <span><code>_</code></span> 
 <li>If the <a href="terms.html#Symbol">symbol</a> is <span><code>_</code></span>, the corresponding <a href="terms.html#Field">fields</a> will be claimed from the deconstructed <a href="terms.html#Collection">collection</a> as if the <span><code>_</code></span> were another <a href="terms.html#Symbol">symbol</a>, but no <a href="terms.html#Binding">binding</a> will be made.
 The <a href="terms.html#Field">fields</a> which were claimed cannot be accessible as <a href="terms.html#Value">values</a> in the Let <a href="terms.html#Scope">scope</a>.
 Additionally, the <span><code>_</code></span> <a href="terms.html#Symbol">symbol</a> may be used multiple times and each time will be interpreted as unique.</li>
-<li>The <a href="terms.html#Keyword">keyword</a> <span><code>*</code></span> signifies that the <a href="terms.html#Symbol">symbol</a> will be <a href="terms.html#Binding">bound</a> to a new <a href="terms.html#Collection">collection</a> containing at least the initial <a href="terms.html#Field">field</a> at the corresponding <a href="terms.html#Index">index</a> and any additional <a href="terms.html#Field">fields</a> at higher <a href="terms.html#Index">indicies</a> which are not yet <a href="terms.html#Binding">bound</a>.
-The process of determining which <a href="terms.html#Field">fields</a> are included in the new <a href="terms.html#Collection">collection</a> is not eager and if additional <a href="terms.html#Symbol">symbols</a> are given in the <a href="terms.html#Expression">expression</a> after the <span><code>*</code></span>, then only the <a href="terms.html#Field">fields</a> up to the <math><mrow><mi>k</mi><mo>-</mo><mi>n</mi></mrow></math> <a href="terms.html#Index">index</a> may be claimed where <math><mi>k</mi></math> is the number of <a href="terms.html#Field">fields</a> to be included in the new <a href="terms.html#Collection">collection</a> and <math><mi>n</mi></math> is the least number of <a href="terms.html#Field">fields</a> which must be left after the highest <a href="terms.html#Index">index</a> included by <math><mi>k</mi></math> in order for all following <a href="terms.html#Binding">bindings</a> to have <a href="terms.html#Value">values</a>.</li>
 <li>A <a href="terms.html#Constraint">constraint</a> may be added, using the <a href="defaults.html#Expressions">default expression</a> for creating <a href="terms.html#Constraint">constraints</a>, to any <a href="terms.html#Symbol">symbol</a> or <span><code>_</code></span>. 
 This will require that the first <a href="terms.html#Field">field</a> which satisfies the <a href="terms.html#Constraint">constraint</a> will be <a href="terms.html#Binding">bound</a> to the <a href="terms.html#Symbol">symbol</a>.
 If the <a href="terms.html#Field">field</a> at the corresponding <a href="terms.html#Index">index</a> to the <a href="terms.html#Symbol">symbol</a> does not satisfy the <a href="terms.html#Constraint">constraint</a>, then that <a href="terms.html#Field">field</a> will be unclaimed (and available for <a href="terms.html#Binding">binding</a> by a previous <a href="terms.html#Symbol">symbol</a>) and the next consecutive <a href="terms.html#Index">index</a> will be tested.
@@ -191,7 +189,7 @@ If a nested deconstructing <a href="terms.html#Expression">expression</a> is giv
 If a <a href="terms.html#Collection">collection</a> contains a greater number of <a href="terms.html#Field">fields</a> than what is consumed by the Deconstructing Bind, those <a href="terms.html#Field">fields</a> are skipped as if they were consumed by the <a href="terms.html#Keyword">keyword</a> <span><code>_</code></span></p>
 <a href="#11-5" id="11-5">11-5</a><p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain the a number of <a href="terms.html#Field">fields</a> equivalent to each <a href="terms.html#Binding">binding</a> to be established by a Deconstructing Bind. If a <a href="terms.html#Collection">collection</a> does not have enough <a href="terms.html#Field">fields</a>, it is considered an <a href="terms.html#Error">error</a>.</p>
 <a href="#11-6" id="11-6">11-6</a><p>The <a href="terms.html#Collection">collection</a> provided to a Deconstructing Bind must minimally contain <a href="terms.html#Field">fields</a> of an amount, ordering, and <a href="terms.html#Type">type</a> which will satisfy the <a href="terms.html#Constraint">constraints</a> placed on the <a href="terms.html#Symbol">symbols</a> in the deconstructing <a href="terms.html#Expression">expression</a>, otherwise it is considered an <a href="terms.html#Error">error</a>.
-The <a href="terms.html#Binding">binding</a> <a href="terms.html#Expression">expression</a> in a Deconstructing Bind sequence effectively corresponds to a <a href="terms.html#Collection">collection</a> <a href="terms.html#Supertype">supertype</a> which the destructured <a href="terms.html#Collection">collection</a> must be an <a href="terms.html#Instance">instance</a> to avoid <a href="terms.html#Error">error</a>.</p>
+The <a href="terms.html#Binding">binding</a> <a href="terms.html#Expression">expression</a> in a Deconstructing Bind sequence effectively corresponds to a <a href="terms.html#Collection">collection</a> <a href="terms.html#Supertype">supertype</a> of which the destructured <a href="terms.html#Collection">collection</a> must be an <a href="terms.html#Instance">instance</a> otherwise it is considered an <a href="terms.html#Error">error</a>.</p>
 <h4><a href="#Symbolic-Bind" id="Symbolic-Bind">Symbolic Bind</a></h4>
 <a href="#12-1" id="12-1">12-1</a><p>A Symbolic Bind will establish an <a href="terms.html#Identifier">identifier</a> in the Let <a href="terms.html#Scope">scope</a> which is <a href="terms.html#Constraint">constrained</a>, but has no <a href="terms.html#Value">value</a>.
 The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Identifier">identifier</a> and the <a href="terms.html#Data">data</a> to the right of the <a href="terms.html#Keyword">keyword</a> will be used as the <a href="terms.html#Constraining">constraining</a> <a href="terms.html#Type">type</a> such that a Symbolic Bind sequence, <span><code>x : T</code></span>, establishes a <a href="terms.html#Constraint">constrained</a> <a href="terms.html#Identifier">identifier</a> in an identical manner to the <a href="terms.html#Expression">expression</a>, <span><code>(x : T)</code></span>.</p>
@@ -210,15 +208,11 @@ The <a href="terms.html#Symbol">symbol</a> to the left of the <a href="terms.htm
 <p>Where <span><code>x</code></span> is <a href="terms.html#Constraint">constrained</a> to the <a href="terms.html#Type">type</a> <span><code>Number</code></span> and the body is <span><code>x + x</code></span> which will <a href="terms.html#Evaluate">evaluate</a> to <span><code>Number</code></span>.</p>
 <br>
 <p><code>
-(let ((_ : 3)<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(a : ((array *) +<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection 6))) (b c) _ ((m n))) =<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;(collection 1 2 3 4 5 6<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection "x" "y")<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"z"<br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(collection (collection 'k 'l) 'h 'i) 'j)<br> 
-&emsp;in<br>
-&emsp;&emsp;&emsp;&emsp;a + (collection b c m n))
+
+(let ((_ : 3) (a : (array *)) (_ : 6) (b c) _ ((m n)) = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1 2 3 4 5 6 {"x" "y"} "z" {{'k 'l} 'h 'i} 'j'}<br>
+&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a + {b c m n}))
 </code></p>
 <p>Where a Deconstructing Bind creates the <a href="terms.html#Identifier">identifiers</a>, <span><code>a b c m n</code></span>, and the body <a href="terms.html#Evaluate">evaluates</a> to 
 <span><code>(collection 4 5 6 "x" "y" 'k 'l)</code></span></p>
@@ -373,7 +367,7 @@ is <a href="terms.html#Evalaute">evaluated</a> in the same order as
 <br>
 <p>The Inversion
 <code>(g >> (g 1) + 1)</code>
-is <a href="terms.html#Evaluate">evaluated</a> in the same order as 
+is <a href="terms.html#Evaluate">evaluated</a> in the same order as
 <code>(1 + 1)</code>
 </p>
 <br>

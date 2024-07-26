@@ -180,17 +180,15 @@ My dependent types are very specific.
 I do not refine anything.
 It's only about functions.
 
-
-how would computed goto look in my language?
-
-(A B C >> (let listing = {A , B , C} in stream))
-
-what is my inline assembly?
-I have an operation listing and a register table.
-you can query them and build instructions from there.
-
 What can I steal from APL and Shen Lisp.
 I want destructuring and iteration for collections.
 Since they're relatively small, dense arrays, you can do useful things
 with them.
 
+how to overwrite a thing from let with destructuring binding?
+if I have 
+(define M {1 2 3})
+and I have 
+(let (x y z) = M 
+ in ...)
+how would I destructively update M in the let binding?

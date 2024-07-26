@@ -24,9 +24,10 @@ In general, characters in a source text must only be accepted as left-to-right o
 <table>
 <tr><td>Program &rarr; Expression | Collection | Type | Atom</td></tr>
 <tr><td>Expression &rarr; <code>(</code> Atom * <code>)</code></td></tr>
-<tr><td>Collection &rarr; <code>{</code> Atom * <code>}</code></td></tr>
+<tr><td>Collection &rarr; <code>{</code> Fields <code>}</code></td></tr>
 <tr><td>Type &rarr; <code>[</code> Atom * <code>]</code></td></tr>
 <tr><td>Atom &rarr; Program | Symbol | Number | String | Quote</td></tr>
+<tr><td>Fields &rarr; Atom | Atom <code>;</code> Fields</td></tr>
 <tr><td>Symbol &rarr; Contents * Delimiter</td></tr>
 <tr><td>Number &rarr; <u>Sign</u> <a href="terms.html#Digit">Digit</a> *</tr>
 <tr><td>String &rarr; <code>"</code> Characters * <code>"</code></td></tr>
@@ -60,7 +61,8 @@ When an "Expression" <a href="terms.html#Syntax">syntax</a> element occurs in a 
 </figure>
 <h3><a href="#Constructing-Collections" id="Constructing-Collections">Constructing Collections</a></h3>
 <a href="#4-1" id="4-1">4-1</a><p>The Collection <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to the <a href="defaults.html#Expressions">default expression</a> for <a href="collections.html#Fig-1">constructing collections</a>.</p>
-<a href="#4-2" id="4-2">4-2</a><p>The entire sequence of <a href="terms.html#Syntax">syntax</a> which occurs between the open and closed curly braces is treated as the contents of a <a href="collections.html#2-5">collection constructor</a> which follows the <span><code>collection</code></span> <a href="terms.html#keyword">keyword</a> such that <span><code>{x = 1, y = 2, z = 3}</code></span> is treated as <span><code>(collection x = 1, y = 2, z = 3)</code></span>.</p>
+<a href="#4-2" id="4-2">4-2</a><p>The entire sequence of <a href="terms.html#Syntax">syntax</a> which occurs between the open and closed curly braces is treated as the contents of a <a href="collections.html#2-5">collection constructor</a> which follows the <span><code>collection</code></span> <a href="terms.html#keyword">keyword</a> such that <span><code>{x = 1;y = 2;z = 3}</code></span> is treated as <span><code>(collection x = 1 , y = 2 , z = 3)</code></span>.</p>
+<a href="#4-3" id="4-3">4-3</a><p>The semicolon <a href="terms.html#Character">character</a> will be interpreted as a comma separating two <a href="terms.html#Steps">steps</a>.</p>
 <h3><a href="#Constructing-Types" id="Constructing-Collections">Constructing Types</a></h3>
 <a href="#5-1" id="5-1">5-1</a><p>The Type <a href="terms.html#Syntax">syntax</a> as described in <a href="#Fig-1">Figure 1</a> corresponds to the <a href="defaults.html#Expressions">default expression</a> for <a href="types.html#Constructing-Types">constructing types</a>.</p>
 <a href="5-2" id="5-2">5-2</a><p>The entire sequence of <a>syntax</a> which occurs between the open and closed square braces is treated as the contents of a <a href="types.html#Constructing-Types">type constructor</a> which follows the <span><code>type</code></span> <a href="terms.html#Keyword">keyword</a> such that <span><code>[a b c]</code></span> is treated as <span><code>(type a b c)</code></span>.</p>
