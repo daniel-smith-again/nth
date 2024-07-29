@@ -192,3 +192,6 @@ and I have
 (let (x y z) = M 
  in ...)
 how would I destructively update M in the let binding?
+
+should I have macro characters at all?
+maybe not.
