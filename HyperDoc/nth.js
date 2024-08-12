@@ -60,42 +60,28 @@
 
 *******************************************************************************/
 
-const nth = {
-  nth: this,
-  base: { transforms:[],
-          constructors:[],
-          bindings:[],
-          data:[]
-  },
-  toplevel: this.base,
-  Init: function() {
-    
-  },
-  Evaluate: function(program){
-    var stream = {  i: 0, 
-                    s: p,
-                    seek: ()=>{ var c = this.p[this.i]; 
-                                this.p++; 
-                                return c; }, 
-                    peek: ()=>{ var c = this.seek(); 
-                                this.i--; 
-                                return c; }};
-    var tree = CreateAST(program);
-    function CreateAST(p) 
-    {
-      switch(stream.peek())
-      {
-        case '(': break;
-        case ')': break;
-        case '{': break;
-        case '}': break;
-        case '[': break;
-        case ']': break;
-        case '"': break;
-        case '\'': break;
-        case ' ': break;
-        case '\n': break;
-      }
-    }
-  },
+export class Nth {
+  constructor () {
+    this.nth = {}
+    this.nth.queue = []
+    this.nth.append = (program) => 
+                      {this.nth.queue.push(
+                        { i:0, 
+                          s: program,
+                          seek : () => 
+                                  {
+                                    var c = this.p[this.i]
+                                    this.p++
+                                    return c;
+                                  },
+                          peek: () =>
+                                  {
+                                    var c = this.seek();
+                                    this.i--;
+                                    return c;
+                                  }})}
+    this.image = []
+  }
+  Init () {}
+  Compute () {}
 }

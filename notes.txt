@@ -192,6 +192,10 @@ and I have
 (let (x y z) = M 
  in ...)
 how would I destructively update M in the let binding?
+(let (x y z) = M 
+ in set x to 3)
 
-should I have macro characters at all?
-maybe not.
+How does that work?
+
+(M = {a = 2},
+ let (k) = M in k := 5)

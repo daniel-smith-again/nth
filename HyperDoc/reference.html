@@ -3,6 +3,12 @@
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
 <link rel="stylesheet" href="style.css">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
+<link rel="manifest" href="./icon/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
 <style>
 body{padding:0;margin:0;}
 nth-area{display:block;width:90vw;height:90vh;margin:auto;}
@@ -129,7 +135,6 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 <nth-unicode displayhidden="true">
 <nth-showhide><span>&#x2328;</span></nth-showhide>
 </nth-unicode>
-</body>
 <nth-editor id="editortemplate" style="display:none;">
 <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
 <nth-handle><!--&#x25a9;-->&#x2b24;
@@ -151,8 +156,11 @@ nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </nth-manip>
 <nth-close>&#x2a2f;</nth-close>
 </nth-options></nth-handle><nth-code></nth-code></nth-editor>
-<script src="nth.js" type="text/javascript"></script>
-<script>
+</body>
+<script type="module">
+import { Nth } from './nth.js'
+var nth = new Nth()
+nth.Init()
 var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
@@ -172,7 +180,7 @@ unicodelisting.split('').map(c => {
 })
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
-active = null;
+var active = null;
 document['clipboard'] = null;
 area.onclick = (e)=> 
 {
