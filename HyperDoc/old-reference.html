@@ -2,989 +2,804 @@
 <head>
 <meta charset='utf-8'>
 <title>Nth HyperDoc</title>
+<link rel="stylesheet" href="style.css">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
+<link rel="manifest" href="./icon/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
 <style>
-	:root{
-		--fg:rgb(0, 37, 33);
-		--bg:rgb(238, 232, 221);
-		--hg:rgb(65, 153, 144);
-		--hl:rgb(89, 22, 22);
-	}
-	body{font-size:calc((1vw + 1vh) * 0.8);font-family:serif;color:var(--fg);background-color:var(--bg);}
-	[contenteditable]{outline:0px none transparent;}
-	[tabindex]{outline:0px none transparent;}
-	h-cursor{height:0px;width:5ch;border-bottom:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
-	v-cursor{height:5ch;width:0px;border-left:medium solid var(--fg);display:block;position:fixed;transition:all 0.2s;}
-	nth-view{display:block;margin:auto;font-family:monospace;margin-top:13ch;margin-bottom:32ch;width:fit-content;max-width:69%;white-space:normal;word-break:break-all;caret-color:transparent;transition:all 0.2s;cursor:default;}
-	nth-view *{margin:0;}
-	nth-expression, nth-exp-collection, nth-exp-type, nth-exp-quote, nth-exp-dquote, nth-exp-tquote
-	{display:inline-block;vertical-align:top;width:auto;height:fit-content;margin:0;border-radius:0.5ch;border:thin solid var(--hg);border-top-style:none;border-bottom-style:none;justify-content:left;min-height:2ch;min-width:2ch;}
-	
-	nth-expression{padding:0.1ch;}
-	nth-exp-collection{border:0.2ch dashed var(--hg);padding:0.1ch;}
-	nth-exp-type{border:0.2ch dotted var(--hg);padding:0.1ch;}
-	nth-exp-collection, nth-exp-type {border-color:var(--hl);}
-	nth-exp-quote{background-color:var(--hg);border:0.2ch solid var(--hg);padding:0.1ch;}
-	nth-exp-quote *{color:var(--bg);border-color:var(--fg);}
-	nth-exp-dquote{background-color:var(--bg);}
-	nth-exp-dquote *{color:var(--fg);border-color:var(--fg);}
-	nth-exp-tquote{background-color:var(--bg);}
-	nth-exp-tquote *{color:var(--hg);border-color:var(--fg);}
-	nth-symbol, nth-comma, nth-tab{display:inline;vertical-align:top;}
-	nth-symbol + *, nth-string + *{margin-left:1ch;}
-	nth-symbol + nth-comma, nth-symbol + nth-tab, nth-string + nth-comma, br + nth-symbol, br + nth-string {margin-left:0;}
-	* + nth-symbol, * + nth-string{margin-left:1ch;}
-	nth-tab{background-color:var(--hg);opacity:0.2;border-radius:1ch;}
-	nth-string{border-style:none;}
-	nth-string::before{content:'"';}
-	nth-string::after{content:'"';}
-	#Result {font-family:serif;position:relative;top:-2ch;left:1ch;overflow-x:auto;overflow-y:hidden;height:2ch;width:40ch;}
-	v-cursor{padding:0;top:150vw;transition-delay:0.2s;}
-	h-cursor{transition-delay:0.2s;}
-	v-cursor #state{position:relative;top:3ch;border-radius:1ch;width:fit-content;background-color:none;padding-top:1ch;transition:all 0.2s;}
-	#Help{border-radius:1ch;width:1ch;margin:0;padding:1ch;position:absolute;top:0;left:0;z-index:99;transition:all 0.2s;}
-	#Help-Contents{display:block;position:absolute;width:100vw;height:100vh;margin:0;padding:0;top:-100vh;z-index:10;left:0;transition:all 0.2s;opacity:0.7;background-color:var(--fg);}
-	#The-Result, #The-Expression, #KeyCommands, #Top-Icons{display:block;position:absolute;z-index:20;top:0;left:-100vw;transition:all 0.2s;background-color:var(--bg);border-radius:1ch;padding:1ch;padding-bottom:0ch;}
-	#KeyCommands{display:block;position:absolute;width:25ch;z-index:20;left:calc(100vw - 30ch);top:-500vh;transition:all 0.2s;transition-delay:0.1s;}
-	#UploadCode{cursor:pointer;}
-	#UploadCode #CodeOpen{display:none;}
-	#UploadCode:hover #CodeClosed{display:none;}
-	#UploadCode:hover #CodeOpen{display:inline;}
+body{padding:0;margin:0;}
+nth-area{display:block;width:90vw;height:90vh;margin:auto;}
+nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
+nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:absolute;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
+nth-unicode{display:block;height:90vh;width:21ch;position:absolute;top:10vh;left:-22ch;z-index:100;background-color:var(--bg);transition: all 0.2s;}
+nth-unicode div{display:flex;flex-flow:row wrap;justify-content:left;margin-bottom:1ch;background-color:var(--bg);box-shadow:0 0 1ch var(--fg);border-radius:0.5ch;padding:0.5ch;}
+nth-unicode div > *{display:inline-flex;cursor:pointer;border-radius:0.5ch;height:2ch;width:2ch;justify-content:center;align-items:center;}
+nth-unicode div > *:hover{background-color:var(--bg1);}
+nth-showhide{display:flex;position:relative;top:50%;left:calc(100% + 2ch);height:3ch;width:3ch;justify-content:center;align-items:center;border-radius:3ch;background-color:var(--lfg);cursor:pointer;}
+nth-showhide:hover{box-shadow:0 0 1ch var(--fg);}
+nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding:1ch;padding-left:2ch;padding-right:2ch;}
+nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
+nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
+nth-footer{grid-area:bottom;}
+nth-help{position:absolute;display:none;top:7vh;left:3ch;width:calc(100vw - 6ch);height:calc(90vh - 2ch);margin:0;background-color:var(--bg);box-shadow:var(--fg) 0 0 13ch 2ch;z-index:10;border-radius:1ch;overflow-y:scroll;}
+nth-help table tr{border-bottom:dotted var(--fg) 0.2ch;}
+nth-help table{border-collapse:collapse;}
+nth-help > *{position:static;}
+help-button{display:inline-block;cursor:pointer;width:3ch;border-radius:0.5ch;}
+help-button:hover, help-button:active{background-color: var(--dbg);}
+close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
+close-help:hover, close-help:active{background-color:var(--dbg);}
+nth-editor{display:grid;width:max-content;grid-template-areas: 'handle area' 'options area';position:absolute;font-family:monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;border-radius:1ch;cursor:move;}
+nth-editor[active]{z-index:1;}
+nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
+nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;}
+nth-editor[active] nth-handle{color:var(--lfg)}
+nth-editor[active] nth-options{color:var(--lfg);}
+nth-options{display:none;flex-flow:column nowrap;justify-content:flex-start;background-color:var(--bg);position:relative;top:0ch;box-shadow:var(--fg) 0 0 0.5ch;border-radius:0.5ch;}
+nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:center;width:2ch;height:2ch;line-height:2ch;border-radius:0.5ch;text-align:center;cursor:pointer;}
+nth-options > *:hover, nth-options > *:active, nth-tools > *:hover, nth-tools > *:active{background-color:var(--dbg);}
+nth-manip{position:relative;}
+nth-tools{display:none;flex-flow:row nowrap;width:min-content;height:2ch;position:absolute;background-color:var(--bg);border-radius:0.5ch;top:0;left:2ch;box-shadow:var(--fg) 0 0 0.5ch;}
+nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;}
+nth-handle:hover nth-options, nth-handle:active nth-options{display:flex;}
+nth-code{grid-area:area;font-size:calc(var(--scale) * 0.5);user-select:none;max-width:69vw;padding:0.2ch;}
+nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;background-color:var(--bg);}
+nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.2s;border:none var(--dbg) 2px;margin:0;}
+nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.7ch;}
+nth-expression > * + *{margin-left:1ch;}
+nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0.2ch;}
+nth-editor[active] nth-symbol[active]{background-color:var(--dbg);}
+nth-expression[active]{background-image:none;}
+nth-symbol{cursor:pointer;transition:all 0.2s;padding:0.2ch;border-radius:0.5ch;}
+nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--lfg) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
+nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);}
+nth-tooltip > *{position:absolute;z-index:100;visibility:hidden;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);}
+*:hover > nth-tooltip > *{visibility:visible;}
+nth-string{color:var(--lfg);transition:all 0.2s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}
+nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
+nth-editor[active] nth-string[active]{background-color:var(--dbg);}
 </style>
 </head>
-<body onload="CheckEmbed();">
-<p id="Help" onmouseover="ShowHelp();">?
-	<div id="Help-Contents" onclick="HideHelp();"></div>
-	<div id="KeyCommands" style="height:52ch;overflow-y:scroll;padding-top:0;">
-		<h3>Keyboard Commands</h3>
-		<table>
-			<style>table{font-size:calc((1vh + 1vw) * 0.6)}td{padding:0.5ch;text-align:right;border-right:solid thin var(--fg);}td + td{border-right:none;border-left:solid thin var(--fg);text-align:left;}</style>
-			<tr><th>Key</th><th>Effect</th></tr>
-			<tr><th colspan="2">Expression Mode</th></tr>
-			<tr><td>[A-z0-9]</td><td>Append to a symbol</td></tr>
-			<tr><td>Spacebar</td><td>Insert a new symbol</td></tr>
-			<tr><td>Spacebar (held)</td><td>Move the cursor forward</td></tr>
-			<tr><td>Spacebar + Shift</td><td>Put a yanked expression</td></tr>
-			<tr><td>Backspace</td><td>Clear/Delete the symbol</td></tr>
-			<tr><td>Backspace (held)</td><td>Move the cursor back</td></tr>
-			<tr><td>Enter</td><td>Line break</td></tr>
-			<tr><td>Enter (held)</td><td>Exit Expression Mode</td></tr>
-			<tr><td>Escape</td><td>Exit Expression Mode</td></tr>
-			<tr><td>&leftarrow;/&rightarrow;</td><td>Move cursor</td></tr>
-			<tr><td>(</td><td>Insert an expression</td></tr>
-			<tr><td>)</td><td>Exit Expression Mode</td></tr>
-			<tr><td>,</td><td>Insert sequencer</td></tr>
-			<tr><td>"</td><td>Begin/End string data</td></tr>
-			<tr><th colspan="2">Structure Mode</th></tr>
-			<tr><td>Spacebar</td><td>Next expression</td></tr>
-			<tr><td>Spacebar (held)</td><td>Move inside expression</td></tr>
-			<tr><td>Spacebar + Shift</td><td>Put a yanked expression</td></tr>
-			<tr><td>Backspace</td><td>Previous expression</td></tr>
-			<tr><td>Backspace (held)</td><td>Move outside expression</td></tr>
-			<tr><td>Backspace + Shift</td><td>Delete expression</td></tr>
-			<tr><td>Enter</td><td>Enter Expression Mode</td></tr>
-			<tr><td>Enter (held)</td><td>Insert an expression</td></tr>
-			<tr><td>Enter + Shift</td><td>Yank an expression</td></tr>
-			<tr><td>Escape</td><td>Move outside expression</td></tr>
-			<tr><td>(</td><td>Insert an expression</td></tr>
-			<tr><td>&leftarrow;/&rightarrow;</td><td>Move cursor</td></tr>
-			<tr><td>&uparrow;/&downarrow;</td><td>Move between levels</td></tr>
-		</table>
-	</div>
-	<div id="The-Result">The result from evaluating the expression gets printed here.<br>&downarrow;</div>
-	<div id="The-Expression">&uparrow;<br>This is the program code that you edit.</div>
-	<div id="Top-Icons" style="width:fit-content;padding-top:none;"><span style="float:right;">&rightarrow;</span><br>&#128427; Save your code to text<br>&#128448; Open text as code<br>&#x27be; Embed your code in a link</div>
-</p>
-<p style="position:absolute;bottom:0;left:0;width:1ch;height:1ch;cursor:pointer;" onclick="InvertTheme();">&#x25d0;</p>
-<script>
-function InvertTheme() {
-	var root = document.querySelector(':root');
-	var s = getComputedStyle(root);
-	var fg = s.getPropertyValue('--fg');
-	var bg = s.getPropertyValue('--bg');
-	root.style.setProperty('--fg', bg);
-	root.style.setProperty('--bg', fg);
-}
-async function ShowHelp() {
-	var H = document.getElementById('Help-Contents');
-	var Rp = document.getElementById('Result').getBoundingClientRect();
-	var R = document.getElementById('The-Result');
-	var Ep = editor.getBoundingClientRect();
-	var E = document.getElementById('The-Expression');
-	var K = document.getElementById('KeyCommands');
-	var T = document.getElementById('Top-Icons');
-	var Tp = document.getElementById('Header').getBoundingClientRect();
-
-	H.style.top = '0';
-	R.style.top = Rp.top - (Math.floor(R.getBoundingClientRect().height))+ 'px';
-	R.style.left = Rp.left + 'px';
-	E.style.top = Ep.bottom + 'px';
-	E.style.left = Ep.x + (Ep.width * 0.32) + 'px';
-	K.style.top = '20vh';
-	K.style.right = '13ch';
-	T.style.top = '2ch';
-	T.style.left = Tp.left - T.getBoundingClientRect().width + 'px';
-}
-function HideHelp() {
-	document.getElementById('Help-Contents').style.top = '-100vh';
-	document.getElementById('The-Result').style.left = '-100vw';
-	document.getElementById('The-Expression').style.left = '-100vw';
-	document.getElementById('Top-Icons').style.left = '-100vw';
-	var K = document.getElementById('KeyCommands');
-	K.style.top = '-100vh';
-}
-</script>
-<div id='Header' style="transition:all 0.2s;width:25%;position:fixed;top:120vh;opacity:0;right:0;">
-	<p style="border-bottom:medium solid var(--fg);margin:0;">The <a href="index.html" style="color:var(--fg);text-decoration:none;"><i>n</i><sup>th</sup></a> Reference Implementation</p>
-	<p style="margin:0;">
-		<span id='SaveCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ExportCode(null, '');">&#128427;</span>
-		<span id='UploadCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);" onclick="ImportCode();"><span id="CodeOpen">&#128449;</span><span id="CodeClosed">&#128448;</span></span>
-		<span id='LinkCode' style="cursor:pointer;padding:0.2ch;font-size:calc(1vw + 1vh);"><a id="CodeLinkIcon" href="" style="text-decoration:none;color:var(--fg);">&#x27be;</a></span>
-	</p>
+<body>
+<nth-header>The <i>n</i><sup>th</sup> Reference Implementation<br><a href="contents.html" style="float:left;">&LeftArrow;</a><help-button style="float:right;">?</help-button></nth-header>
+<nth-help>
+<h2 style="margin-bottom:0;margin-top:0;">Help</h2>
+<close-help>X</close-help>
+<div style="display:grid;grid-template-areas:'a b';grid-template-columns:40% auto;">
+<div>
+<h3>The Interface</h3>
+<div style="margin:auto;">
+<p>Mouse over the editor to learn about the interface.</p>
+<nth-editor active="true" style="position:static;margin:auto;">
+<nth-handle>
+<span>&#x2b24;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
+<nth-options>
+<nth-run>&#x23f5;<nth-tooltip><p style="left:3ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
+<nth-step>&#x21dd;<nth-tooltip><p style="left:3ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
+<nth-manip>
+<span>&#x2699;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for working with multiple editor instances.</p></nth-tooltip></span>
+<nth-tools>
+<nth-copy>&#x29c9;<nth-tooltip><p style="left:2ch;bottom:1ch;">Copy the current atom to the clipboard.</p></nth-tooltip></nth-copy>
+<nth-move>&#x25a3;<nth-tooltip><p style="left:2ch;bottom:1ch;">Cut the current atom to the clipboard.</p></nth-tooltip></nth-move>
+<nth-paste>&#x21f2;<nth-tooltip><p style="left:2ch;bottom:1ch;">Paste the atom in the clipboard by inserting it before the focused atom.</p></nth-tooltip></nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-manip><span>&#x21f5;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for handling the editor content.</p></nth-tooltip></span>
+<nth-tools>
+<nth-save>&#x27f1<nth-tooltip><p style="left:2ch;bottom:1ch;">Download the <a href="terms.html#Expression">expression</a> in the editor as <a href="terms.html#Source">source</a>.</p></nth-tooltip></nth-save>
+<nth-load>&#x27f0;<nth-tooltip><p style="left:2ch;bottom:1ch;">Upload a <a href="terms.html#Source">source</a> to be the <a href="terms.html#Expression">expression</a> in the editor.</p></nth-tooltip></nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;<nth-tooltip><p style="left:2ch;bottom:0;">Close the editor and delete the <a href="terms.html#Expression">expression</a>.</p></nth-tooltip></nth-close>
+</nth-options>
+</nth-handle>
+<nth-code>
+<nth-expression><nth-symbol>let<nth-tooltip><p style="left:-5ch;bottom:1ch;">Your code always starts just to the right of the "handle".</p></nth-tooltip></nth-symbol>
+<nth-tooltip><p style="right:1ch;top:5ch;">Click and drag anywhere in the editor to move it.</p></nth-tooltip><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>x</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>1</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>y</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>2</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>z</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>3</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>in</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nth-symbol>
+<nth-expression active="true"><nth-tooltip><p style="left:3;top:2ch;">Focused <a href="terms.html#Expression">expressions</a> always raised from the rest of the code.</p></nth-tooltip>
+<nth-symbol>x</nth-symbol><nth-symbol>+</nth-symbol><nth-expression><nth-symbol>y</nth-symbol><nth-symbol>+</nth-symbol><nth-symbol active="true">z<nth-tooltip><p style="left:1ch;bottom:-1lh;">The current <a href="terms.html#Symbol">Symbol</a> has a darker background. Click on a <a href="terms.html#Symbol">Symbol</a> to focus on it.</p></nth-tooltip></nth-symbol></nth-expression></nth-expression>
+</nth-expression>
+</nth-code>
+</nth-editor>
 </div>
-
-<h-cursor>
-	<div id="Result">Fake Result: <span></span></div>
-	<p id="info" style="width:32ch;">This is info about the runtime state.<br><br><nth-expression>Fake-code</nth-expression><br><nth-expression>more fake-code</nth-expression><br><nth-string>a fake constant</nth-string></p>
-</h-cursor>
-<v-cursor>
-<div id="state">
-	<p style="font-size:calc(1vh + 1vw);margin:1ch;position:relative;top:0;left:0;padding:0;margin:0;"><span id="EditorMode">&#x25ce;</span><span id="Copied">&#x25a2;</span></p>
-	<p>Expression Info</p>
-	<p>Auto-complete suggestion</p>
-	
-</div></v-cursor>
-<nth-view contenteditable="true" autofocus="true" spellcheck="false"><nth-expression><nth-symbol>Press</nth-symbol><nth-symbol>enter</nth-symbol><nth-symbol>to</nth-symbol><nth-symbol>edit</nth-symbol><nth-symbol>this</nth-symbol><nth-symbol>expression.</nth-symbol></nth-expression></nth-view>
+</div>
+<div>
+<h3 style="margin-bottom:0;margin-top:0;">Controls</h3>
+<table style="text-align:center;">
+<tr><th>Input</th><th>Mapping</th></tr>
+<tr><td>&#x2328;</td><td>Append characters to a focused <a href="terms.html#Symbol">Symbol</a> or <a href="terms.html#String">String</a>.</td></tr>
+<tr><td><code>(</code></td><td>Append a new <a href="terms.html#Expression">expression</a> and focus into it.</td></tr>
+<tr><td>&rightarrow;</td><td>Focus the next atom.</td></tr>
+<tr><td>&leftarrow;</td><td>Focus the previous atom.</td></tr>
+<tr><td>&downarrow;</td><td>If an <a href="terms.html#Expression">expression</a> is focused, move the focus into its atoms.<br>If a <a href="terms.html#String">String</a> is focused, edit the <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>&uparrow;<br><code>)</code></td><td>Move focus out of an <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>&#x2936</td><td>Insert a line break after the focused atom.</td></tr>
+<tr><td>Del</td><td>Delete the focused <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>Backspace</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
+<tr><td>Tab</td><td>Create a pseudo-symbol with spaces for indentation.</td></tr>
+<tr><td>Shift + &#x2936;</td><td><a href="terms.html#Evaluate">Evaluate</a> the <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Ctrl + X/C/V</td><td>Cut/Copy/Paste a focused atom.</td></tr>
+</table>
+</div></div>
+</nth-help>
+<nth-area></nth-area>
+<nth-unicode displayhidden="true">
+<nth-showhide><span>&#x2328;</span></nth-showhide>
+</nth-unicode>
+<nth-editor id="editortemplate" style="display:none;">
+<textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
+<nth-handle><!--&#x25a9;-->&#x2b24;
+<nth-options>
+<nth-run>&#x23f5;</nth-run>
+<nth-step>&#x21dd;</nth-step>
+<nth-manip>&#x2699;
+<nth-tools>
+<nth-copy>&#x29c9;</nth-copy>
+<nth-move>&#x25a3</nth-move>
+<nth-paste>&#x21f2;</nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-manip>&#x21f5;
+<nth-tools>
+<nth-save>&#x27f1</nth-save>
+<nth-load>&#x27f0;</nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;</nth-close>
+</nth-options></nth-handle><nth-code></nth-code></nth-editor>
 </body>
 <script>
-var editor = document.getElementsByTagName('nth-view')[0];
-editor.autocapitalize = 'off';
-editor.focus();
-var expression = editor.firstChild;
-expression.cursor = 1;
-editor.onkeyup = StructureEditorInput;
-editor.onclick = MouseClick;
-editor.onpaste = (e) => {e.preventDefault();}
-document.onclick = MouseClick;
-var Mode = true;
-var CharacterEscape = false;
-var StringInput = false;
-editor.onkeydown = KeyHold;
-var Ignore = null;
-var Buffer = null;
-var hcursor = document.getElementsByTagName('h-cursor')[0];
-var vcursor = document.getElementsByTagName('v-cursor')[0];
-DisplayCursor();
-document.getElementById('Header').style.cssText += 'top:0px;opacity:1;';
-hcursor.style.transitionDelay = '0s';
-vcursor.style.transitionDelay = '0s';
 
-function CheckEmbed () {
-	u = new URLSearchParams(document.location.search);
-	if (u.get('embedsrc')) {
-		editor.replaceChildren();
-		s = u.get('embedsrc');
-		ParseFile(s, 0, editor);
-	}
+var area = document.getElementsByTagName('nth-area')[0]
+var help = document.getElementsByTagName('nth-help')[0]
+var editor = document.getElementById('editortemplate')
+var helpbutton = document.getElementsByTagName('help-button')[0]
+var closehelp = document.getElementsByTagName('close-help')[0]
+var unicodebutton = document.getElementsByTagName('nth-showhide')[0]
+var unicodemenu = document.getElementsByTagName('nth-unicode')[0]
+unicodebutton.onclick = (e) => {unicodemenu.getAttribute('displayhidden') == 'true' ? (unicodemenu.style.left = '0', unicodemenu.setAttribute('displayhidden', 'false')) : (unicodemenu.style.left = '-22ch', unicodemenu.setAttribute('displayhidden', 'true'));}
+var unicodelisting = "\n+-⨯÷√=≠<≤>≥±≡≢≣∼∽∾∿≀≁\n∧∨¬∀∃∄∴∵⊢⊣⊤⊥\n←↑→↓↔↕↖↗↘↙\n∩∪∈∉∋∌∖∅⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎\nΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρςστυφχψω\n⊕⊖⊗⊘⊙⊚⊛⊜⊝\n⦁⦂⦃⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⫷⫸⫹⫺⫶⦙⦚\n⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺"
+unicodelisting.split('').map(c => {
+  if (c == '\n') {unicodemenu.appendChild(document.createElement('div'))}
+  else {
+    unicodemenu.lastChild.appendChild(document.createElement('span'))
+    unicodemenu.lastChild.onclick = (e)=>{if (active) insertCharacter(e.target.textContent[0])}
+    unicodemenu.lastChild.lastChild.appendChild(document.createTextNode(c))
+  }
+})
+helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
+closehelp.addEventListener('click', (e)=>help.style.display = 'none')
+var active = null;
+document['clipboard'] = null;
+area.onclick = (e)=> 
+{
+    if (area['clicklock']) {area['clicklock'] = false; return;}
+    if (e.target.tagName != 'NTH-AREA') return;
+    e.preventDefault()
+    var snippet = createSnippet()
+    area.appendChild(snippet)
+    var r = snippet.getBoundingClientRect();
+    snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
+    snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
+    
 }
-
-function StructureEditorInput(key) {
-	if (key.isComposing || key.keyCode === 229) {return;}
-	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
-	key.preventDefault();
-	if ((key.key == Ignore) && (!key.repeat)) {Ignore = null;}
-	else if ((key.key == Ignore) && key.repeat) {key.preventDefault(); return;}
-	else if (CharacterEscape) {
-		if (key.key.length == 1) {
-			AppendToSymbol(key.key);
-			CharacterEscape = false;
-		}
-	}
-	else if (StringInput) {
-		switch(key.key) {
-			case 'ArrowLeft':
-				PrevSymbol();
-				break;
-			case 'ArrowRight':
-				NextSymbol();
-				break;
-			case 'Backspace':
-				if (!key.repeat) {DeleteSymbol();}
-				StringInput = false;
-				break;
-			case '"':
-				StringInput = false;
-				CursorForward();
-				break;
-			case '\\':
-				CharacterEscape = true;
-				AppendToSymbol(key.key);
-				break;
-			default:
-				if (key.key.length == 1)
-					AppendToSymbol(key.key);
-				break;
-		}
-	}
-	else {
-		if (Mode) switch (key.key) {
-			case 'Enter':
-				if (!key.repeat) {
-					if (key.shiftKey) LiftExpression();
-					else EditExpression();
-				}
-				else {InsertExp('nth-expression');}
-				break;
-			case ' ':
-				if (!key.repeat) {
-					if (key.shiftKey) PutExpression();
-					else NextExpression();
-				}
-				else {InnerExpression();}
-				break;
-			case 'Escape':
-				OuterExpression();
-				break;
-			case 'Backspace':
-				if (!key.repeat) {
-					if (!key.shiftKey) {PrevExpression();}
-					else {DeleteNode();}
-				}
-				else {OuterExpression();}
-				break;
-			case 'Delete':
-				DeleteNode();
-				break;
-			case '(':
-				if (!key.repeat) {InsertExp('nth-expression');}
-				break;
-			case '\'':
-				if (!key.repeat) {InsertExp('nth-exp-quote');}
-				else {
-					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
-					else InsertExp('nth-exp-tquote');
-				}
-				break;
-			case 'ArrowLeft':
-				PrevExpression();
-				break;
-			case 'ArrowRight':
-				NextExpression();
-				break;
-			case 'ArrowUp':
-				OuterExpression();
-				break;
-			case 'ArrowDown':
-				InnerExpression();
-				break;
-			default: {return;}
-		}
-		else switch (key.key) {
-			case ' ':
-				if (!key.repeat) {
-					if (key.shiftKey) {PutExpression();}
-					else if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING') {
-						StringInput = true;
-						AppendToSymbol(key.key);
-					}
-					else {
-						InsertSymbol();
-					}
-				}
-				else {NextSymbol();}
-				break;
-			case 'Backspace':
-				if (!key.repeat) {DeleteSymbol();}
-				else{PrevSymbol();}
-				break;
-			case 'Enter':
-				if (!key.repeat) {InsertLineBreak();}
-				else {CloseExpression();}
-				break;
-			case 'Tab':
-				Indent();
-				break;
-			case 'Escape':
-				CloseExpression();
-				break;
-			case 'ArrowLeft':
-				PrevSymbol();
-				break;
-			case 'ArrowRight':
-				NextSymbol();
-				break;
-			case '(':
-				if (!key.repeat) {InsertExp('nth-expression');}
-				break;
-			case '\'':
-				if (!key.repeat) {InsertExp('nth-exp-quote');}
-				else {
-					if (!key.ctrlKey) InsertExp('nth-exp-dquote');
-					else InsertExp('nth-exp-tquote');
-				}
-				break;
-			case ')':
-				if (!key.repeat) {CloseExpression(); EditExpression();}
-				break;
-			case '"':
-				if (!key.repeat) {InsertString(); StringInput = true;}
-				break;
-			default: 
-				if (key.key.length == 1) {
-					if (expression.cursor > 0 && expression.cursor < expression.childNodes.length && expression.childNodes[expression.cursor - 1].tagName == 'NTH-STRING')
-						StringInput = true;
-					AppendToSymbol(key.key);
-				}
-				break;
-		}
-	}
-	if (key.repeat && Mode) switch(key.key) {
-		case 'ArrowLeft':
-		case 'ArrowRight':
-		case 'ArrowUp':
-		case 'ArrowDown':
-			break;
-		default:
-			Ignore = key.key;
-			break;
-	}
-	else if (key.repeat && !Mode) switch(key.key) {
-		case 'ArrowLeft':
-		case 'ArrowRight':
-		case 'ArrowUp':
-		case 'ArrowDown':
-		case 'Tab':
-			break;
-		default:
-			Ignore = key.key;
-			break;
-	}
-	
+function createSnippet() 
+{
+  var snippet = editor.cloneNode(true)
+  for (var x = 0; x < area.childElementCount; x++)
+    area.children[x].removeAttribute('active')
+  snippet.setAttribute('active', 'true')
+  snippet.id = null
+  snippet.style.display = 'grid'
+  active = snippet, active.children[0].focus()
+  snippet['caret'] = snippet.lastChild
+  snippet.caret.symbol = null
+  snippet.children[1].children[0].children[0].onclick = Run
+  snippet.children[1].children[0].children[1].onclick = Rewrite
+  snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
+  snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
+  snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
+  snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
+  snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
+  snippet.children[1].children[0].children[4].onclick = Close
+  snippet.onpointerdown = dragCode
+  return snippet
 }
-function MouseClick (e) {
-	e.preventDefault();
-	if (e.target.tagName.startsWith('NTH-S')) {
-		e.stopPropagation();
-		expression.style.boxShadow = 'none';
-		expression = e.target.parentElement;
-		expression.cursor = 1;
-		for (var x in expression.childNodes) {
-			if (expression.childNodes[x] == e.target) {
-				expression.cursor = Number(expression.cursor) + Number(x);
-				break;
-			}
-		}
-		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		DisplayCursor();
-		EditExpression();
-	}
-	else editor.focus();
-}
-function KeyHold(key) {
-	if (key.isComposing || key.keyCode === 229) {return;}
-	if ((key.key.length > 1) && (key.key[0] == 'F')) {return;}
-	key.preventDefault();
-	if (key.repeat && key.key != 'Shift' && key.key != 'Control') {
-		editor.onkeyup(key);
-	}
-}
-function DisplayCursor () {
-	var pos = null;
-	if (expression.cursor < expression.childNodes.length && expression.cursor > 0) {
-		pos = expression.childNodes[expression.cursor - 1].getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
-		vcursor.style.left = pos.x - 3 + 'px';
-		vcursor.style.top = pos.y + 'px';
-		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
-	}
-	else if (expression.cursor == expression.childNodes.length && expression.cursor > 0) {
-		pos = expression.lastChild.getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
-		vcursor.style.left = pos.x - 3 + 'px';
-		vcursor.style.top = pos.y + 'px';
-		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
-	}
-	else {
-		pos = expression.getBoundingClientRect();
-		vcursor.style.height = window.innerHeight - pos.y - 20 + 'px';
-		vcursor.style.left = pos.x - 3 + 'px';
-		vcursor.style.top = pos.y - 3 + 'px';
-		hcursor.style.width = pos.x + pos.width + 'px';
-		hcursor.style.top = pos.y + pos.height + 'px';
-	}
-	var bottom = editor.getBoundingClientRect();
-	var state = document.getElementById('state');
-	var res = document.getElementById('Result');
-	var info = document.getElementById('info');
-	res.style.width = bottom.left * 0.9 + 'px';
-	info.style.width = bottom.left - 7 + 'px';
-	state.style.top = (bottom.bottom - pos.y ) + 'px';
-	state.style.width = window.innerWidth - pos.x - 50 + 'px'
-	state.style.height = (window.innerHeight - pos.y) - (pos.height) - (bottom.bottom - pos.y) + 'px';
-}
-function CursorForward () {
-	if (expression.cursor < expression.childNodes.length) {
-		expression.cursor ++;
-	}
-	DisplayCursor();
-}
-function CursorBack () {
-	if (expression.cursor > 0) {
-		expression.cursor --;
-	}
-	DisplayCursor();
-}
-function AppendToSymbol (c) {
-	if (! (expression.childNodes.length > 0)) {
-		InsertSymbol();
-	}
-	if (expression.cursor == 0) {
-		InsertSymbol();
-	}
-	var sym = expression.childNodes[expression.cursor - 1];
-	if (sym.tagName.startsWith('NTH-S')) {
-		if (c == ' ')
-			sym.textContent += '\xa0';
-		else
-			sym.textContent += c;
-	}
-	DisplayCursor();
-}
-function InsertExp(type) {
-	if (type == 'nth-exp-dquote' || type == 'nth-exp-tquote') {
-		var check = expression;
-		while (check.tagName != 'NTH-EXP-QUOTE') {
-			if (check.parentElement.tagName == 'NTH-VIEW') {
-				console.log('no prior quote')
-				return;
-			} 
-			else check = check.parentElement;
-		}
-		if (check.tagName != 'NTH-EXP-QUOTE') {console.log("also no prior quote"); return;}
-	}
-	if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
-		if (expression.childNodes.length == 1) return;
-	}
-	var temp = document.createElement(type);
-	temp.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-	temp.cursor = 0;
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor == 0) {
-			expression.insertBefore(temp, expression.firstChild);
-		}
-		else if (expression.cursor == expression.childNodes.length) {
-			expression.appendChild(temp);
-		}
-		else {
-			expression.insertBefore(temp, expression.childNodes[expression.cursor]);
-		}
-	}
-	else {
-		expression.appendChild(temp);
-	}
-	CursorForward();
-	expression.style.boxShadow = 'none';
-	expression = temp;
-	Mode = false;
-	document.getElementById('EditorMode').textContent = '\u25c9';
-}
-function InsertSymbol () {
-	var sym = document.createElement('nth-symbol');
-	if (expression.childNodes.length > 0) {
-		if (expression.tagName == 'NTH-EXP-QUOTE' || expression.tagName == 'NTH-EXP-DQUOTE' || expression.tagName == 'NTH-EXP-TQUOTE') {
-			if (expression.childNodes.length == 1) return;
-		}
-
-		if (expression.cursor == 0) {
-			expression.insertBefore(sym, expression.firstChild);
-		}
-		else if (expression.cursor == expression.childNodes.length) {
-			if (expression.lastChild.tagName.startsWith('NTH-S') && expression.lastChild.textContent.length == 0) {
-				return;
-			} else {
-				expression.appendChild(sym);
-			}
-		}
-		else {
-			if (expression.childNodes[expression.cursor].tagName != 'NTH-TAB') {
-				expression.insertBefore(sym, expression.childNodes[expression.cursor])
-			}
-		}
-	}
-	else {
-		expression.appendChild(sym);
-	}
-	CursorForward();
-}
-function InsertString() {
-	var sym = document.createElement('nth-string');
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor == 0) {
-			expression.insertBefore(sym, expression.firstChild);
-		}
-		else if (expression.cursor == expression.childNodes.length) {
-			expression.appendChild(sym);
-		}
-		else {
-			expression.insertBefore(sym, expression.childNodes[expression.cursor]);
-		}
-	}
-	else {
-		expression.appendChild(sym);
-	}
-	CursorForward();
-}
-function InsertLineBreak () {
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor > 0) {
-			if (expression.cursor == expression.childNodes.length) {
-				expression.appendChild(document.createElement('br'));
-			}
-			else {
-				expression.insertBefore(document.createElement('br'), expression.childNodes[expression.cursor]);
-			}
-			CursorForward();
-		}
-	}
-}
-function InsertSequence() {
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor > 0) {
-			if (expression.childNodes[expression.cursor - 1].tagName != 'NTH-COMMA') {
-				if (expression.cursor == expression.childNodes.length) {
-					expression.appendChild(document.createElement('nth-comma'));
-					expression.lastChild.appendChild(document.createTextNode(','));
-					CursorForward();
-				}
-				else {
-					if (expression.childNodes[expression.cursor].tagName != 'NTH-COMMA') {
-						var temp = document.createElement('nth-comma');
-						temp.appendChild(document.createTextNode(','));
-						expression.insertBefore(temp, expression.childNodes[expression.cursor]);
-						CursorForward();
-					}
-				}
-			}
-		}
-	}
-}
-function Indent () {
-	if (expression.childNodes.length > 0 && expression.cursor > 0) {
-		var sym = expression.childNodes[expression.cursor - 1];
-		if (sym == expression.firstChild) {return;}
-		switch(sym.tagName) {
-			case 'BR': {
-				if (sym.nextSibling && sym.nextSibling.tagName == 'NTH-TAB') break;
-				var temp = document.createElement('nth-tab');
-				temp.appendChild(document.createTextNode('\xa0'));
-				if (expression.cursor == expression.childNodes.length) {
-					expression.appendChild(temp);
-				}
-				else {
-					expression.insertBefore(temp, expression.childNodes[expression.cursor]);
-				}
-				CursorForward();
-			} break;
-			case 'NTH-TAB': {
-				sym.textContent += '\xa0';
-				DisplayCursor();
-			} break;
-			default: {
-				if (expression.childNodes[expression.cursor - 2].tagName == 'BR') {
-					var temp = document.createElement('nth-tab');
-					temp.appendChild(document.createTextNode('\xa0'));
-					expression.insertBefore(temp, sym);
-				}
-			} break;
-		}
-	}
-}
-function DeleteSymbol () {
-	if (expression.childNodes.length > 0) {
-		if (expression.cursor > 0) {
-			var sym = expression.childNodes[expression.cursor - 1];
-			switch(sym.tagName) {
-				case 'NTH-SYMBOL':
-				case 'NTH-STRING':
-				case 'NTH-TAB':
-				{
-					if (sym.textContent.length > 0) {
-						sym.textContent = '';
-						DisplayCursor();
-					}
-					else {
-						sym.remove();
-						CursorBack();
-					}
-				} break;
-				case 'BR': 
-				{
-					if (sym.nextSibling)
-						if (sym.nextSibling.tagName == 'NTH-TAB')
-							sym.nextSibling.remove();
-				}
-				case 'NTH-COMMA':
-				{
-					sym.remove();
-					CursorBack();
-				} break;
-			}
-		}
-	}
-
-}
-function DeleteNode () {
-	if (expression.parentNode.tagName != 'NTH-VIEW') {
-		var temp = expression;
-		expression = expression.parentNode;
-		temp.remove();
-		CursorBack();
-		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-	}
-	else {
-		expression.replaceChildren();
-		expression.cursor = 0;
-		DisplayCursor();
-	}
-
-}
-function NextSymbol () {
-	StringInput = false;
-	CursorForward();
-}
-function PrevSymbol () {
-	StringInput = false;
-	CursorBack();
-}
-function PrevExpression () {
-	var p = null;
-	if (expression.previousSibling) {
-		p = expression.previousSibling;
-		while (!(p.tagName.startsWith('NTH-EXP'))) {
-			if (p.previousSibling) {
-				p = p.previousSibling;
-			}
-			else {
-				break;
-			}
-		}
-		if (p.tagName.startsWith('NTH-EXP')) {
-			expression.style.boxShadow = 'none';
-			expression = p;
-			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		}
-	}
-	DisplayCursor();
-}
-function NextExpression () {
-	var p = null;
-	if (expression.nextSibling) {
-		p = expression.nextSibling;
-		while (!(p.tagName.startsWith('NTH-EXP'))) {
-			if (p.nextSibling) {
-				p = p.nextSibling;
-			}
-			else {
-				break;
-			}
-		}
-		if (p.tagName.startsWith('NTH-EXP')) {
-			expression.style.boxShadow = 'none';
-			expression = p;
-			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		}
-	}
-	DisplayCursor()
-}
-function OuterExpression () {
-	if (expression.parentNode.tagName != 'NTH-VIEW') {
-		var n = 0;
-		for (x in expression.parentNode.childNodes) {
-			if (expression.parentNode.childNodes[x] == expression) {
-				n = x;
-				break;
-			}
-		}
-		expression.style.boxShadow = 'none';
-		expression = expression.parentNode;
-		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		expression.cursor = Number(n) + 1;
-	}
-	else {
-		expression.cursor = 0;
-		expression.style.boxShadow = 'none';
-	}
-	DisplayCursor();
-}
-function InnerExpression () {
-	if (expression.childNodes.length > 0) {
-		var temp = null;
-		if (expression.cursor > 0) 
-			temp = expression.childNodes[expression.cursor - 1];
-		else
-			temp = expression.firstChild;
-		var cursorinc = 0;
-		while (!temp.tagName.startsWith('NTH-EXP')) {
-			if (temp.nextSibling) {
-				temp = temp.nextSibling;
-				cursorinc ++;
-			}
-			else {
-				break;
-			}
-		}
-		if (temp.tagName.startsWith('NTH-EXP')) {
-			expression.cursor += cursorinc;
-			expression.style.boxShadow = 'none';
-			expression = temp;
-			expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-		}
-		else {
-			while(!temp.tagName.startsWith('NTH-EXP')) {
-				if (temp.previousSibling) {
-					temp = temp.previousSibling;
-					cursorinc --;
-				}
-				else {
-					break;
-				}
-			}
-			if (temp.tagName.startsWith('NTH-EXP')) {
-				expression.cursor += cursorinc;
-				expression.style.boxShadow = 'none';
-				expression = temp;
-				expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-			}
-		}
-	}
-	DisplayCursor();
-}
-function CloseExpression () {
-	Mode = true;
-	document.getElementById('EditorMode').textContent = '\u25ce';
-	if (expression.parentElement.tagName != 'NTH-VIEW') {
-		expression.style.boxShadow = 'none';
-		expression = expression.parentElement;
-		expression.style.boxShadow = '0ch 0ch 3ch var(--fg)';
-	}
-	DisplayCursor();
-	LinkCode();
-	Evaluate();
-}
-function CloseCollection () {
-	if (expression.tagName == 'NTH-EXP-COLLECTION') {
-		CloseExpression();
-	}
-}
-function CloseType () {
-	if (expression.tagName == 'NTH-EXP-TYPE') {
-		CloseExpression();
-	}
-}
-function EditExpression () {
-	expression.style.boxShadow ='0ch 0ch 3ch var(--fg)';
-	Mode = false;
-	document.getElementById('EditorMode').textContent = '\u25c9';
-	DisplayCursor();
-}
-function LiftExpression () {
-	if ((!Buffer) && expression.parentNode.tagName != 'NTH-VIEW') {
-		document.getElementById('Copied').textContent = '\u25a9';
-		Buffer = expression;
-		OuterExpression();
-		expression.removeChild(Buffer);
-		CursorBack();
-	}
-}
-function PutExpression () {
-	if (Buffer) {
-		document.getElementById('Copied').textContent = '\u25a2';
-		if (expression.childNodes.length > 0) {
-			if (expression.cursor == 0) {
-				expression.insertBefore(Buffer, expression.firstChild);
-			}
-			else if (expression.cursor == expression.childNodes.length) {
-				expression.appendChild(Buffer)
-			}
-			else {
-				expression.insertBefore(Buffer, expression.childNodes[expression.cursor])
-			}
-		}
-		else {
-			expression.appendChild(Buffer);
-		}
-		Buffer = null;
-		CursorForward();
-	}
-}
-function Evaluate () {
-	document.getElementById('Result').lastChild.textContent = Math.random().toString();
-}
-function ExportCode (n, s) {
-		var s = CodeToString(editor, '');
-		var code = new Blob([s], {type:'text/plain;charset=utf-8'});
-		var link = document.createElement('a');
-		link.href = URL.createObjectURL(code);
-		link.download = 'nth_source_code.txt';
-		link.click();
-		URL.revokeObjectURL(link.href);
-}
-function CodeToString (n, s) {
-	if (s == null) {s = '';}
-	for (var x in n.childNodes) {
-		switch(n.childNodes[x].tagName) {
-			case 'NTH-SYMBOL':
-				s += n.childNodes[x].textContent + ' '; 
-				break;
-			case 'NTH-STRING':
-				s += '"' + n.childNodes[x].textContent.replaceAll('\xa0', ' ') + '" ';
-				break;
-			case 'NTH-EXPRESSION': 
-				s += '(' + CodeToString(n.childNodes[x], null) + ')';
-				break;
-			case 'NTH-EXP-QUOTE': 
-				s += '\'' + CodeToString(n.childNodes[x], null);
-				break;
-			case 'NTH-EXP-DQUOTE':
-				s += '\'\'' + CodeToString(n.childNodes[x], null);
-				break;
-			case 'NTH-EXP-TQUOTE':
-				s += '\'\'\'' + CodeToString(n.childNodes[x], null);
-				break;
-			case 'BR':
-				s += '\n';
-				break;
-			case 'NTH-TAB':
-				for (var i = 0; i < n.childNodes[x].textContent.length; i ++) {
-					s += ' ';
-				}
-		}
-	}
-	return s;
-}
-function ImportCode () {
-	var open = document.createElement('input');
-	open.type = 'file';
-	open.addEventListener('change', 
-	() => {
-		var f = open.files[0];
-		var text = '';
-		f.text().then((contents) => {editor.innerHTML = '';ParseFile(contents, 0, editor)});
-	});
-	open.click();
-}
-function ParseFile (F, p, n) {
-	var string = false;
-	var tabspace = false;
-	for (p = 0; p < F.length; p++) {
-
-		if(tabspace && (F[p] != ' ')) 
-			{tabspace = false;}
-
-		if (string) switch(F[p]) {
-			case '"':
-				string = false;
-				n = n.parentElement;
-				if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
-					n = n.parentElement;
-				break;
-			case '\\':
-				n.textContent += F[p] + F[p++];
-				break;
-			default:
-				n.textContent += F[p];
-				break;
-		}
-		else switch(F[p]) {
-			case '(':
-				n.appendChild(document.createElement('nth-expression'));
-				n = n.lastChild;
-				n.cursor = 0;
-				break;
-			case ')':
-				n.cursor = n.childNodes.length;
-				n = n.parentElement;
-				if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
-					n = n.parentElement;
-				break;
-			case '\'':
-				var temp = null;
-				if (n.tagName == 'NTH-SYMBOL') n = n.parentElement;
-				if (F[p + 1] == '\'' && F[p + 2] == '\'') {
-					temp = document.createElement('nth-exp-tquote');
-					p++;p++;
-				}
-				else if (F[p + 1] == '\'') {
-					temp = document.createElement('nth-exp-dquote');
-					p++;
-				}
-				else {
-					temp = document.createElement('nth-exp-quote')
-				}
-				temp.cursor = 1;
-				n.appendChild(temp);
-				n = n.lastChild;
-				break;
-			case '"':
-				string = true;
-				if (n.tagName == 'NTH-SYMBOL') {
-					n = n.parentElement;
-					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
-						n = n.parentElement;
-				}
-				n.appendChild(document.createElement('nth-string'));
-				n = n.lastChild;
-				break;
-			case '\n':
-				if (n.tagName == 'NTH-SYMBOL') {
-					n = n.parentElement;
-					if ((n.tagName == 'NTH-QUOTE') || (n.tagName == 'NTH-DQUOTE') || (n.tagName == 'NTH-TQUOTE'))
-						n = n.parentElement;
-				}
-				n.appendChild(document.createElement('br'))
-				tabspace = true;
-				break;
-			case ' ':
-				if (tabspace) {
-					if (n.lastChild.tagName == 'NTH-TAB') {
-						n.lastChild.textContent += '\xa0'
-					}
-					else {
-						n.appendChild(document.createElement('nth-tab'));
-						n.lastChild.textContent += '\xa0';
-					}
-				}
-				else if (n.tagName == 'NTH-SYMBOL') {
-					n = n.parentElement;
-					if ((n.tagName == 'NTH-EXP-QUOTE') || (n.tagName == 'NTH-EXP-DQUOTE') || (n.tagName == 'NTH-EXP-TQUOTE'))
-						n = n.parentElement;
-				}
-				break;
-			default:
-				if (n.tagName == 'NTH-SYMBOL') {
-					n.textContent += F[p];
-				} 
-				else {
-					n.appendChild(document.createElement('nth-symbol'));
-					n = n.lastChild;
-					n.textContent += F[p]
-				}
-				break;
-		}
-	}
-	editor.firstChild.cursor = 1;
-	expression = editor.firstChild;
-	DisplayCursor();
+function Close(e)
+{
+  area.removeChild(active)
 }
 
-function LinkCode () {
-	var src = CodeToString(editor, '');
-	var src_ = src	.replaceAll('\n', '%0A')
-			.replaceAll(' ', '%20');
-	var u = new URL(window.location);
-	u.search = '?embedsrc=' + src_;
-	var l = document.getElementById('CodeLinkIcon')
-	l.href = u.href;
+function dragCode(e) 
+{
+  e.preventDefault()
+  area['clicklock'] = true;
+  var snippet = e.currentTarget
+  for (var x = 0; x < area.childElementCount; x++)
+    area.children[x].removeAttribute('active')
+  snippet.setAttribute('active', 'true')
+  active = snippet, active.children[0].focus()
+  const offsetY = snippet.offsetTop - (e.type == 'touchstart' ? e.touches[0].clientY : e.clientY)
+  const offsetX = snippet.offsetLeft - (e.type == 'touchstart' ? e.touches[0].clientX : e.clientX)
+  var move = function(e) 
+             {
+                e.preventDefault()
+                var x = (e.type == 'touchmove' ? e.touches[0].clientX : e.clientX) + offsetX
+                var y = (e.type == 'touchmove' ? e.touches[0].clientY : e.clientY) + offsetY
+                if ((x > 0) && (x + snippet.offsetWidth < window.innerWidth))
+                  snippet.style.left = String((e.type == 'touchmove' ? e.touches[0].clientX : e.clientX) + offsetX) + 'px'
+                if ((y > 0) && (y + snippet.offsetHeight < window.innerHeight))
+                  snippet.style.top = String((e.type == 'touchmove' ? e.touches[0].clientY : e.clientY) + offsetY) + 'px'
+             }
+  var stopmove = function(e)
+                 {
+                    e.preventDefault()
+                    document.onpointermove = null
+                    document.onpointerup = null
+                 }
+  document.onpointermove = move
+  document.onpointerup = stopmove
 }
+document.onkeydown = (e) => {
+  if (document.activeElement.tagName == 'NTH-STRING') 
+  {
+    if (e.key == 'Escape') 
+    {
+      document.activeElement.blur()
+    }
+    return
+  }
+  if (e.ctrlKey)
+  {
+    switch(e.key)
+    {
+      case 'c': Copy(e); break
+      case 'x': Cut(e); break
+      case 'v': Paste(e); break
+      default: return
+    }
+    return
+  }
+  if (e.key.length == 1) {
+    e.preventDefault()
+    switch(e.key) {
+      case '(': insertExpression(); break
+      case ')': outwards(); break
+      case ' ': insertSymbol(); break
+      case '"': insertString(); break
+      default: insertCharacter(e.key)
+    }
+  }
+  else {
+    e.preventDefault();
+    switch(e.key) {
+      case 'Enter':
+        if (e.shiftKey) Run()
+        else insertBreak()
+      break
+      case 'Tab': growTab(); break
+      case 'Backspace': backspace(); break
+      case 'Delete': removeExpression(); break
+      case 'ArrowRight': forwards(); break
+      case 'ArrowLeft': backwards(); break
+      case 'ArrowUp': outwards(); break
+      case 'ArrowDown': inwards(); break
+      case 'Escape': if (active != null) 
+                        active.removeAttribute('active'),active.children[0].blur(), active = null; break
+    }
+  }
+}
+function insertCharacter(c) 
+{
+  var caret = active.caret;
+  if (caret.symbol == null || 
+      caret.symbol.tagName == 'BR' || 
+      caret.symbol.tagName == 'NTH-EXPRESSION' || 
+      caret.symbol.tagName == 'NTH-STRING' || 
+      caret.symbol.getAttribute('tab') != null)
+  {
+    insertSymbol()
+  }
+  if (caret.symbol.tagName != 'NTH-SYMBOL') return
+  caret.symbol.textContent = caret.symbol.textContent + c
+  checkQuote(caret.symbol)
+}
+function insertSymbol() 
+{
+  var caret = active.caret;
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
+  var s = document.createElement('nth-symbol')
+  s.appendChild(document.createTextNode(''))
+  s.setAttribute('active', 'true')
+  s.onclick = highlightSymbol
+  s.ontouchstart = highlightSymbol
+  
+  if (caret.symbol) caret.symbol.removeAttribute('active');
+  if (caret.childElementCount == 0) 
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.firstChild
+  }
+  else if (caret.symbol.nextSibling)
+  {
+    caret.insertBefore(s, caret.symbol.nextSibling)
+    caret.symbol = caret.symbol.nextSibling
+  }
+  else
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.lastChild
+  } 
+}
+function insertExpression() 
+{
+  var caret = active.caret
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
+  var e = document.createElement('nth-expression')
+  e['symbol'] = null;
+  e.setAttribute('active', 'true')
+  caret.removeAttribute('active');
+  if (caret.symbol != null) caret.symbol.removeAttribute('active')
+  if (caret.childElementCount == 0)
+  {
+    caret.appendChild(e)
+    active.caret = caret.firstChild;
+  }
+  else if (caret.symbol.nextSibling)
+  {
+    caret.insertBefore(e, caret.symbol.nextSibling)
+    active.caret = caret.symbol.nextSibling
+  }
+  else
+  {
+    caret.appendChild(e)
+    active.caret = caret.lastChild
+  }
+}
+function insertBreak() 
+{
+  var caret = active.caret
+  if (caret.tagName == 'NTH-CODE') return
+  var b = document.createElement('br')
+  if (caret.childElementCount == 0) return
+  else
+  {
+    caret.symbol.removeAttribute('active')
+    if (caret.symbol.nextSibling)
+    {
+      caret.insertBefore(b, caret.symbol.nextSibling)
+    }
+    else 
+    {
+      caret.appendChild(b)
+    }
+    active.caret.symbol = caret.symbol.nextSibling
+  }
+}
+function growTab() 
+{
+  var caret = active.caret
+  if (caret.symbol && caret.symbol.tagName == 'NTH-SYMBOL')
+  {
+    if (caret.symbol.textContent == '')
+    {
+      caret.symbol.textContent = caret.symbol.textContent + '\u00a0'
+      caret.symbol.setAttribute('tab', 'true')
+    }
+    else if (caret.symbol.getAttribute('tab') != null)
+      caret.symbol.textContent = caret.symbol.textContent + '\u00a0'
+
+  }
+  else
+  {
+    insertSymbol()
+  }
+}
+function backspace() 
+{
+  var caret = active.caret
+  if (caret.childElementCount > 0)
+  {
+    if (caret.symbol.tagName !== 'NTH-EXPRESSION' && caret.symbol.textContent.length > 0 && caret.symbol.tagName != 'NTH-STRING')
+    {
+      caret.symbol.textContent = caret.symbol.textContent.slice(0, -1)
+      checkQuote(caret.symbol)
+      if (caret.symbol.textContent.length == 0 && caret.symbol.getAttribute('tab') != null)
+        caret.symbol.removeAttribute('tab')
+    }
+    else 
+    {
+      if (caret.symbol.previousSibling)
+      {
+        var temp = caret.symbol
+        active.caret.symbol = caret.symbol.previousSibling
+        active.caret.symbol.setAttribute('active', 'true')
+        caret.removeChild(temp)
+      }
+      else
+      {
+        if (caret.symbol.nextSibling)
+        {
+          var temp = caret.symbol
+          active.caret.symbol = caret.symbol.nextSibling
+          active.caret.symbol.setAttribute('active', 'true')
+          caret.removeChild(temp)
+        }
+        else
+        {
+          caret.replaceChildren()
+          active.caret.symbol = null;
+        }
+      }
+    }
+  }
+  else removeExpression()
+}
+function removeExpression() 
+{
+  var caret = active.caret
+  var temp = caret
+  if (caret.parentElement.tagName == 'NTH-EXPRESSION' || caret.parentElement.tagName == 'NTH-CODE')
+    active.caret = caret.parentElement
+  else 
+  {
+    active.caret.replaceChildren()
+    active.caret.symbol = null
+    return
+  }
+  if (temp.previousSibling) active.caret.symbol = temp.previousSibling
+  else if (temp.nextSibling) active.caret.symbol = temp.nextSibling
+  else active.caret.symbol = null
+  temp.parentElement.removeChild(temp)
+  active.caret.setAttribute('active', 'true')
+  if (active.caret.symbol) active.caret.symbol.setAttribute('active', 'true');
+}
+function forwards()
+{
+  var caret = active.caret
+  if (caret.childElementCount == 0) return
+  if (caret.symbol && caret.symbol.nextSibling)
+  {
+    caret.symbol.removeAttribute('active')
+    caret.symbol = caret.symbol.nextSibling
+    caret.symbol.setAttribute('active', 'true')
+  }
+}
+function backwards()
+{
+  var caret = active.caret
+  if (caret.childElementCount == 0) return
+  if (caret.symbol && caret.symbol.previousSibling)
+  {
+    caret.symbol.removeAttribute('active')
+    active.caret.symbol = caret.symbol.previousSibling
+    active.caret.symbol.setAttribute('active', 'true')
+  }
+}
+function inwards() 
+{
+ var caret = active.caret
+ if (caret.symbol == null) return
+ if (caret.symbol.tagName == 'NTH-EXPRESSION')
+ {
+  caret.removeAttribute('active')
+  active.caret = caret.symbol
+  active.caret.setAttribute('active', 'true')
+  if (active.caret.symbol != null)
+    active.caret.symbol.setAttribute('active', 'true')
+  else if (active.caret.childElementCount > 0)
+  {
+    active.caret.symbol = active.caret.children[0]
+    active.caret.symbol.setAttribute('active', 'true')
+  }
+ }
+ else if (caret.symbol.tagName == 'NTH-STRING')
+  caret.symbol.click()
+ 
+}
+function outwards() 
+{
+  var caret = active.caret
+  var temp = caret
+  if (caret.parentElement && (caret.parentElement.tagName == 'NTH-EXPRESSION' || caret.parentElement.tagName == 'NTH-CODE'))
+  {
+    caret.removeAttribute('active')
+    if (caret.symbol != null) caret.symbol.removeAttribute('active')
+    active.caret = caret.parentElement
+    active.caret.setAttribute('active', 'true')
+    active.caret.symbol = temp
+    active.caret.symbol.setAttribute('active', 'true')
+  }
+}
+function highlightSymbol(e) 
+{
+  e.preventDefault()
+  var p = e.target
+  while (p.parentElement.tagName != 'NTH-EDITOR')
+    p = p.parentElement
+  p = p.parentElement
+  if (active != null && active != p) active.caret.removeAttribute('active')
+  active = p, active.children[0].focus()
+  if (active.caret != null) active.caret.removeAttribute('active')
+  if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
+  active.caret = e.target.parentElement;
+  active.caret.setAttribute('active', 'true')
+  active.caret.symbol = e.target
+  active.caret.symbol.setAttribute('active', 'true')
+}
+function checkQuote(s) 
+{
+  if (s.textContent == "'" ||
+      s.textContent == "''" ||
+      s.textContent == "'''")
+    s.setAttribute('quote', 'true')
+  else if (s.getAttribute('quote') != null)
+    s.removeAttribute('quote')
+}
+function Cut(e)
+{
+  e.stopImmediatePropagation();
+  if (active.caret == null) return;
+  if (active.caret.symbol == null) return;
+  document.clipboard = null;
+  document.clipboard = active.caret.symbol
+  document.clipboard.removeAttribute('active')
+  if (active.caret.childElementCount == 1) 
+    active.caret.symbol = null
+  else if (document.clipboard.previousSibling) 
+    active.caret.symbol = active.caret.previousSibling
+  else if (document.clipboard.nextSibling)
+    active.caret.symbol = active.caret.nextSibling
+  else
+    active.caret.symbol = null
+  active.caret.removeChild(document.clipboard);
+}
+function Copy(e)
+{
+  e.stopImmediatePropagation();
+  if (active.caret == null) return;
+  if (active.caret.symbol == null) return;
+  document.clipboard = null;
+  document.clipboard = active.caret.symbol.cloneNode(true)
+  if (document.clipboard.tagName == 'NTH-SYMBOL')
+    document.clipboard.onclick = highlightSymbol
+    document.clipboard.ontouchstart = highlightSymbol
+}
+function Paste(e)
+{
+  e.stopImmediatePropagation();
+  if (document.clipboard == null) return;
+  if (active.caret.tagName == 'NTH-CODE' && active.caret.childElementCount == 1) return;
+  if (active.caret == null)
+  {
+    active.lastChild.appendChild(document.clipboard)
+  }
+  else 
+  {
+    if (active.caret.symbol && active.caret.symbol.getAttribute('active'))
+      active.caret.symbol.removeAttribute('active');
+    if (active.caret.symbol && active.caret.symbol.nextSibling)
+    {
+      active.caret.insertBefore(document.clipboard, active.caret.symbol.nextSibling)
+      active.caret.symbol = active.caret.symbol.nextSibling
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+    else
+    {
+      active.caret.appendChild(document.clipboard)
+      active.caret.symbol = active.caret.lastChild
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+    document.clipboard = null;
+  }
+}
+function insertString()
+{
+  var caret = active.caret;
+  if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
+  var s = document.createElement('nth-string')
+  s.contentEditable = true
+  s.autocapitalize = false
+  s.spellcheck = false
+  s.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+  s.setAttribute('active', 'true')
+  if (caret.symbol) caret.symbol.removeAttribute('active')
+  if (caret.childElementCount == 0) 
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.firstChild
+  }
+  else if (caret.symbol.nextSibling)
+  {
+    caret.insertBefore(s, caret.symbol.nextSibling)
+    caret.symbol = caret.symbol.nextSibling
+  }
+  else
+  {
+    caret.appendChild(s)
+    caret.symbol = caret.lastChild
+  }
+}
+function saveCode(e)
+{
+  var p = structureToProgram(active.lastChild.lastChild)
+  var download = document.createElement('a')
+  download.setAttribute('href', 'data:text/plain;charset=utf8,' + encodeURIComponent(p))
+  download.setAttribute('download', 'nth-source.txt')
+  download.style.display = 'none'
+  document.body.appendChild(download)
+  download.click()
+  document.body.removeChild(download)
+}
+function loadCode(e)
+{
+  var input = document.createElement('input')
+  input.type = 'file';
+  input.style.display = 'none'
+  input.onchange = async (e) => 
+  {
+    var file = input.files[0]
+    var program = await file.text()
+    var e = programToStructure(program)
+    active.lastChild.replaceChildren(e)
+    active.caret = active.lastChild
+    active.caret.setAttribute('active', 'true')
+    if (active.caret.childElementCount > 0)
+    {
+      active.caret.symbol = active.caret.children[0]
+      active.caret.symbol.setAttribute('active', 'true')
+    }
+  }
+  document.body.appendChild(input)
+  input.click()
+}
+function Run(e)
+{
+  if (active.lastChild.childElementCount == 0) return
+  var r = document.createElement('nth-symbol')
+  r.appendChild(document.createTextNode('_'))
+  active.lastChild.replaceChildren(r)
+  active.caret = active.lastChild
+  active.caret.symbol = r
+  active.caret.symbol.setAttribute('active', 'true')
+}
+function Rewrite(e) 
+{
+}
+function structureToProgram(s) 
+{
+  switch(s.tagName) {
+    case 'NTH-EXPRESSION':
+      var p = '(' 
+      for (var x = 0; x < s.childElementCount; x++)
+      {
+        p += structureToProgram(s.children[x])
+        if (x < s.childElementCount - 1) 
+        {
+          if (s.children[x].tagName != 'NTH-TAB' &&
+              s.children[x].getAttribute('quote') == null &&
+              s.children[x].getAttribute('tab') == null &&
+              s.children[x].tagName != 'BR' &&
+              s.children[x + 1].tagName != 'BR')
+          {
+            p += ' '
+          }
+        }
+      }
+      p += ')'
+      return p
+    break
+    case 'NTH-SYMBOL': 
+      return s.innerText
+    break
+    case 'NTH-STRING': 
+      return '"' + s.innerText + '" '
+    break
+    case 'BR': 
+      return '\n'
+    break
+  }
+}
+function programToStructure(p)
+{
+  var i = 0;
+  getChar = () => {var char = p[i];i++;return char;}
+  peekChar = () => {return p[i]}
+  function parse()  
+  {
+    var expression
+    var c = peekChar()
+    switch(c)
+    {
+      case '(':
+        expression = document.createElement('nth-expression')
+        c = getChar()
+        while (c = peekChar(), c != ')')
+        {
+          var temp = parse()
+          if (temp) expression.appendChild(temp)
+        }
+        getChar()
+        return expression
+      break
+      case '"':
+        c = getChar()
+        expression = document.createElement('nth-string')
+        expression.contentEditable = true
+        expression.autocapitalize = false
+        expression.spellcheck = false
+        expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+        var stringcontent = ''
+        while (c = peekChar(), c != '"')
+        {
+          if (c == '\t' || c == '\r') continue
+          if (c == '\\')
+            stringcontent += c, getChar(), c = peekChar()
+          if (c == '\n')
+          {
+            expression.appendChild(document.createTextNode(stringcontent))
+            expression.appendChild(document.createElement('br'))
+            stringcontent = ''
+          }
+          stringcontent += c, getChar()
+        }
+        getChar()
+        expression.appendChild(document.createTextNode(stringcontent))
+        return expression
+      break
+      case '\n':
+        c = getChar(), expression = document.createElement('br')
+        return expression
+      break
+      case ' ':
+      case '\u00a0':
+        c = getChar()
+        expression = document.createElement('nth-symbol')
+        expression.setAttribute('tab', 'true')
+        expression.textContent = '\u00a0';
+        while (c = peekChar(), c == ' ' || c == '\u00a0')
+          expression.textContent += '\u00a0', getChar()
+        if (expression.textContent.length > 1) return expression
+        else return null
+      break
+      case ')':
+        throw "Unexpected closing brace!"
+      break
+      default:
+        c = getChar()
+        expression = document.createElement('nth-symbol')
+        expression.onclick = highlightSymbol
+        expression.ontouchstart = highlightSymbol
+        expression.textContent = c
+        while (c = peekChar(), c != '(' && c != ')' && c != ' ' && c != '\n')
+          expression.textContent += getChar()
+        var t = expression.textContent
+        checkQuote(expression)
+        return expression
+    }
+  }
+  var top
+  try {
+    top = parse ()
+  }
+  catch(e) {console.log(e);top = document.createElement('nth-symbol').appendChild(document.createTextNode('_'))}
+  return top
+}
+function Eval(program)
+{
+
+}
+
+
 </script>
