@@ -1,8 +1,185 @@
 <!DOCTYPE html>
+<!------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+                  The nth Programming Environment                         
+--------------------------------------------------------------------------------
+                                  by                                      
+                            Daniel Smith                                  
+
+
+--------------------------------------------------------------------------------
+                                About                                     
+--------------------------------------------------------------------------------
+
+            This is a fully conforming implementation of                  
+            the Nth Programming Language as described in                  
+              "The nth Programming Language HyperDoc".                    
+
+
+--------------------------------------------------------------------------------
+                            Terms of Use                                 
+--------------------------------------------------------------------------------
+
+            The author(s) grants the holder of this work                 
+        full right of access, without limitation, irrevocably,            
+            in perpetuity, for any purpose, by any means.                 
+
+      Authorship of this work is reserved only for contributions          
+  to this work which are made under the terms given in this section.      
+        Contribution to this work under terms other than those            
+          given in this section constitutes authorship of                
+              a distinct and separate work, for which                    
+          the status of authorship of this particular work               
+                          is not granted.                                
+
+      In plain terms, if you, the rights holder of this work,            
+      create any derivation, modification, or copy of this work,          
+      you cannot claim that it is a form, version, or variation           
+        of the work titled "The nth Programming Environment"             
+    without providing it under the terms set out in this section.         
+
+          The purpose of these terms is to provide the most               
+          permissive rights and allowances while preventing               
+          any individual or party from claiming authorship               
+                    with less permissive rights                          
+          and thus tainting the availability of the work.                
+
+
+--------------------------------------------------------------------------------
+                        STATEMENT OF WARRANTY                             
+--------------------------------------------------------------------------------
+
+  THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       
+          EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO               
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,     
+                        AND NONINFRINGEMENT.                             
+
+  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES,        
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE,   
+ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE, OR THE USE,     
+                  OR OTHER DEALINGS IN THE SOFTWARE.                      
+
+
+------------------------------------------------------------------------------->
 <head>
 <meta charset="utf-8">
 <title>nth</title>
-<link rel="stylesheet" href="style.css">
+<style>
+:root{
+--hard:rgb(0, 37, 33);
+--soft:rgb(238, 232, 221);
+--medium:rgb(212, 203, 191);
+--light:rgb(0, 117, 105);
+--bright:rgb(89, 22, 22);
+--size:calc(16px + ((1vh + 1vw) * 0.5));
+}
+body{color:var(--hard);background-color:var(--soft);font-size:var(--size);overflow:hidden;user-select:none;}
+nth-code{font-family:monospace;user-select:none;}
+nth-expression, nth-collection, nth-type{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:1ch;padding:0.2ch;}
+nth-code * + * {margin-left:1ch;}
+nth-expression{max-width:1000ch;}
+nth-symbol{border-radius:0.5ch;padding:0.2ch;}
+nth-keyboard-area{display:grid;position:absolute;bottom:-20ch;height:17ch;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';justify-content:space-evenly;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.2 * var(--size));}
+nth-keyboard{display:block;width:32ch;text-align:center;font-family:monospace;margin:auto;position:absolute;top:0;}
+keyboard-display{display:grid;width:32ch;margin:auto;grid-area:c;height:17ch;justify-content:center;align-items:center;}
+keyboard-row{display:block;margin:auto;padding:none;}
+keyboard-key{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:0.5ch;padding:0.5ch;margin:0;}
+nth-prev-layout,nth-next-layout{display:inline-grid;height:10ch;position:absolute;width:2ch;justify-content:center;align-items:center;border:solid var(--medium) 0.2ch;border-radius:1ch;}
+nth-prev-layout{grid-area:a;justify-self:left;}
+nth-next-layout{grid-area:e;justify-self:right;}
+keyboard-space, keyboard-shift, keyboard-symb{display:inline-grid;justify-content:center;align-items:center;height:2ch;width:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
+keyboard-shift, keyboard-symb{width:fit-content;padding:0;margin:auto;}
+nth-keyboard-toggle{position:relative;top:-6ch;display:block;margin:auto;text-align:center;font-size:calc(2 * var(--size));transition:all 0.2s;}
+nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;}
+</style>
 </head>
 <body>
+<!--
+I have a segment which represents a single entry and result.
+interaction is a scrolling list of segments.
+you can copy, move, and edit any segment.
+you can save a segment and import a segment.
+
+segments can contain formatted nth code, rich text, mathML, and svg
+These can be arbitrarily interleaved
+each segment is its own paragraph
+segment width can be controlled separately
+segments can be aligned left center and right
+
+-->
+<nth-segment></nth-segment>
+<nth-code><nth-expression><nth-symbol>define</nth-symbol><nth-symbol>foo</nth-symbol><nth-expression><nth-symbol>x</nth-symbol><nth-symbol>-&gt;</nth-symbol><nth-expression><nth-collection><nth-symbol>bar</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>x</nth-symbol></nth-collection><nth-symbol>:</nth-symbol><nth-type><nth-symbol>baz</nth-symbol></nth-type></nth-expression></nth-expression></nth-expression></nth-code>
+
+<nth-keyboard-area>
+  <nth-prev-layout onpointerdown="prevLayout()">&lt;</nth-prev-layout>
+  <keyboard-display><nth-keyboard-toggle onpointerdown="toggleKeyboard()">&#x2328;</nth-keyboard-toggle><nth-keyboard></nth-keyboard><nth-modifiers><keyboard-shift>Shift</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb>Symb</keyboard-symb></nth-modifiers></keyboard-display>
+  <nth-next-layout onpointerdown="nextLayout()">&gt;</nth-next-layout>
+</nth-keyboard-area>
 </body>
+<script>
+const KeyboardKeys = [
+  ['tbjdkyhr|aofglmncie|spqxzuvw','TBJDKYHR|AOFGLMNCIE|SPQXZUVW'],
+  ['αβγδεζηθ|ικλμνξοπ|ρστυφχψω', 'ΑΒΓΔΕΖΗΘ|ΙΚΛΜΝΞΟΠ|ΡΣΤΥΦΧΨΩ']
+]
+var KeyboardSelect = 0
+var Shifted = 0
+var Visible = false
+var KeyboardToggle = document.getElementsByTagName('nth-keyboard-toggle')[0];
+var KeyboardArea = document.getElementsByTagName('nth-keyboard-area')[0]
+var Keyboard = document.getElementsByTagName('nth-keyboard')[0]
+showKeyboard()
+
+function toggleKeyboard() {
+  if (Visible) KeyboardArea.style.bottom = '-20ch', Visible = false, KeyboardToggle.style.top = '-6ch';
+  else KeyboardArea.style.bottom = '0', Visible = true, KeyboardToggle.style.top = '7ch'
+}
+
+function nextLayout() {
+  KeyboardSelect < KeyboardKeys.length - 1 ? KeyboardSelect ++ : undefined
+  showKeyboard()
+}
+function prevLayout(){
+  KeyboardSelect > 0 ? KeyboardSelect -- : undefined
+  showKeyboard()
+}
+
+function showKeyboard() {
+  var chars = KeyboardKeys[KeyboardSelect][Shifted].split('')
+  Keyboard.replaceChildren();
+  Keyboard.appendChild(document.createElement('keyboard-row'))
+  chars.map(c => {
+    if (c != '|') {
+      Keyboard.lastChild.appendChild(document.createElement('keyboard-key'))
+      Keyboard.lastChild.lastChild.appendChild(document.createTextNode(c))
+    }
+    else {
+      Keyboard.appendChild(document.createElement('keyboard-row'))
+    }
+  })
+}
+
+function createKeyboards() {
+  for (var x in KeyboardKeys) {
+    var k = document.createElement('nth-keyboard')
+    k.appendChild(document.createElement('keyboard-row'))
+    var y = KeyboardKeys[x][0].split('')
+    
+    y.map(c => {
+      if (c == '|') {
+        k.appendChild(document.createElement('keyboard-row'))
+      }
+      else {
+        k.lastChild.appendChild(document.createElement('keyboard-key'))
+        k.lastChild.lastChild.appendChild(document.createTextNode(c))
+      }
+    })
+  }
+}
+
+KeyboardArea.onpointerdown = function (e) {
+  if (e.target.tagName == 'KEYBOARD-KEY')
+  {console.log(e.target.textContent)}
+  else if (e.target.tagName == 'KEYBOARD-SPACE')
+  {console.log(' ')}
+}
+</script>

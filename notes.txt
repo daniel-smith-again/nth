@@ -199,3 +199,9 @@ How does that work?
 
 (M = {a = 2},
  let (k) = M in k := 5)
+
+I'm overloading let with too many things.
+it can create recursive bindings,
+it can create independent variables,
+it can mutate fields and indicies...
+it's becoming a god dsl like looping.
