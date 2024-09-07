@@ -79,18 +79,19 @@ nth-expression, nth-collection, nth-type{display:inline-block;border:solid var(-
 nth-code * + * {margin-left:1ch;}
 nth-expression{max-width:1000ch;}
 nth-symbol{border-radius:0.5ch;padding:0.2ch;}
-nth-keyboard-area{display:grid;position:absolute;bottom:-20ch;height:17ch;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';justify-content:space-evenly;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.2 * var(--size));}
+nth-keyboard-area{display:grid;position:absolute;bottom:0;height:17ch;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';justify-content:space-between;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.2 * var(--size));}
 nth-keyboard{display:block;width:32ch;text-align:center;font-family:monospace;margin:auto;position:absolute;top:0;}
-keyboard-display{display:grid;width:32ch;margin:auto;grid-area:c;height:17ch;justify-content:center;align-items:center;}
+keyboard-display{display:grid;width:32ch;margin:auto;grid-area:c;height:17ch;justify-content:center;align-items:center;font-family:monospace;}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:0.5ch;padding:0.5ch;margin:0;}
 nth-prev-layout,nth-next-layout{display:inline-grid;height:10ch;position:absolute;width:2ch;justify-content:center;align-items:center;border:solid var(--medium) 0.2ch;border-radius:1ch;}
 nth-prev-layout{grid-area:a;justify-self:left;}
 nth-next-layout{grid-area:e;justify-self:right;}
-keyboard-space, keyboard-shift, keyboard-symb{display:inline-grid;justify-content:center;align-items:center;height:2ch;width:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
+keyboard-space, keyboard-shift, keyboard-symb{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;line-height:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
 keyboard-shift, keyboard-symb{width:fit-content;padding:0;margin:auto;}
-nth-keyboard-toggle{position:relative;top:-6ch;display:block;margin:auto;text-align:center;font-size:calc(2 * var(--size));transition:all 0.2s;}
+nth-keyboard-toggle{position:relative;top:7ch;display:block;margin:auto;text-align:center;font-size:calc(2 * var(--size));transition:all 0.2s;}
 nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;}
+keyboard-modifiers{display:grid;justify-content:space-between;align-items:center;width:30ch;grid-template-areas:'a b c';grid-template-columns:11ch 7ch 11ch;}
 </style>
 </head>
 <body>
@@ -112,28 +113,33 @@ segments can be aligned left center and right
 
 <nth-keyboard-area>
   <nth-prev-layout onpointerdown="prevLayout()">&lt;</nth-prev-layout>
-  <keyboard-display><nth-keyboard-toggle onpointerdown="toggleKeyboard()">&#x2328;</nth-keyboard-toggle><nth-keyboard></nth-keyboard><nth-modifiers><keyboard-shift>Shift</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb>Symb</keyboard-symb></nth-modifiers></keyboard-display>
+  <keyboard-display><nth-keyboard-toggle onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle><nth-keyboard></nth-keyboard><nth-modifiers><keyboard-shift onclick="toggleShift(event)">&Uparrow;</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb onclick="toggleSymb(event)">!123</keyboard-symb></nth-modifiers></keyboard-display>
   <nth-next-layout onpointerdown="nextLayout()">&gt;</nth-next-layout>
 </nth-keyboard-area>
 </body>
 <script>
-const KeyboardKeys = [
-  ['tbjdkyhr|aofglmncie|spqxzuvw','TBJDKYHR|AOFGLMNCIE|SPQXZUVW'],
-  ['αβγδεζηθ|ικλμνξοπ|ρστυφχψω', 'ΑΒΓΔΕΖΗΘ|ΙΚΛΜΝΞΟΠ|ΡΣΤΥΦΧΨΩ']
-]
-var KeyboardSelect = 0
-var Shifted = 0
-var Visible = false
-var KeyboardToggle = document.getElementsByTagName('nth-keyboard-toggle')[0];
-var KeyboardArea = document.getElementsByTagName('nth-keyboard-area')[0]
-var Keyboard = document.getElementsByTagName('nth-keyboard')[0]
+  let Keyboard = {
+    KeyMap: [
+      ['tbjdkyhr aofglmncie spqxzuvw','TBJDKYHR AOFGLMNCIE SPQXZUVW'],
+      ['1234567890 ']
+      ['αβγδεζηθ ικλμνξοπ ρστυφχψω', 'ΑΒΓΔΕΖΗΘ ΙΚΛΜΝΞΟΠ ΡΣΤΥΦΧΨΩ']
+    ],
+    Visible: true,
+    ShiftLock: 0,
+    Toggle: document.getElementsByTagName('nth-keyboard-toggle')[0],
+    Area: document.getElementsByTagName('nth-keyboard-area')[0],
+    Display: document.getElementsByTagName('nth-keyboard')[0]
+  }
 showKeyboard()
 
 function toggleKeyboard() {
-  if (Visible) KeyboardArea.style.bottom = '-20ch', Visible = false, KeyboardToggle.style.top = '-6ch';
-  else KeyboardArea.style.bottom = '0', Visible = true, KeyboardToggle.style.top = '7ch'
+  if (Keyboard.Visible) Keyboard.Area.style.bottom = '-20ch', Keyboard.Visible = false, Keyboard.Toggle.style.top = '-5ch';
+  else Keyboard.Area.style.bottom = '0', Keyboard.Visible = true, Keyboard.Toggle.style.top = '7ch'
 }
 
+////////
+//left off here
+//rename the rest of the stuff to use the keyboard namespace
 function nextLayout() {
   KeyboardSelect < KeyboardKeys.length - 1 ? KeyboardSelect ++ : undefined
   showKeyboard()
@@ -148,7 +154,7 @@ function showKeyboard() {
   Keyboard.replaceChildren();
   Keyboard.appendChild(document.createElement('keyboard-row'))
   chars.map(c => {
-    if (c != '|') {
+    if (c != ' ') {
       Keyboard.lastChild.appendChild(document.createElement('keyboard-key'))
       Keyboard.lastChild.lastChild.appendChild(document.createTextNode(c))
     }
@@ -158,19 +164,26 @@ function showKeyboard() {
   })
 }
 
-function createKeyboards() {
-  for (var x in KeyboardKeys) {
-    var k = document.createElement('nth-keyboard')
-    k.appendChild(document.createElement('keyboard-row'))
-    var y = KeyboardKeys[x][0].split('')
-    
-    y.map(c => {
-      if (c == '|') {
-        k.appendChild(document.createElement('keyboard-row'))
+function toggleShift(e) {
+  e.stopPropagation()
+  Shifted = Shifted == 1 ? 0 : 1
+  showKeyboard()
+}
+
+function toggleSymb(e) {
+  e.stopPropagation()
+  SymbolVisible = !SymbolVisible
+  if (SymbolVisible) {
+    var chars = SymbolKeys.split('')
+    Keyboard.replaceChildren();
+    Keyboard.appendChild(document.createElement('keyboard-row'))
+    chars.map(c => {
+      if (c != ' ') {
+        Keyboard.lastChild.appendChild(document.createElement('keyboard-key'))
+        Keyboard.lastChild.lastChild.appendChild(document.createTextNode(c))
       }
       else {
-        k.lastChild.appendChild(document.createElement('keyboard-key'))
-        k.lastChild.lastChild.appendChild(document.createTextNode(c))
+        Keyboard.appendChild(document.createElement('keyboard-row'))
       }
     })
   }
