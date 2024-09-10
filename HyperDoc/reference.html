@@ -89,14 +89,11 @@ nth-keyboard{grid-area:a;}
 nth-modifiers{grid-area:b;margin:auto;}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:0.5ch;padding:0.5ch;margin:0.2ch;}
-keyboard-key:active{background-color:var(--medium);}
 nth-prev-layout,nth-next-layout{display:inline-grid;height:10ch;position:absolute;width:2ch;justify-content:center;align-items:center;border:solid var(--medium) 0.2ch;border-radius:1ch;}
 nth-prev-layout{grid-area:a;justify-self:left;}
 nth-next-layout{grid-area:e;justify-self:right;}
-keyboard-space, keyboard-shift, keyboard-symb, cursor-left, cursor-right, nth-keyboard-toggle{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;line-height:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
-keyboard-shift, keyboard-symb, cursor-left, cursor-right, nth-keyboard-toggle{width:fit-content;padding:0;margin:auto;}
+.modifier{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;width:fit-content;line-height:2ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
 nth-keyboard-toggle{position:static;bottom:1ch;left:50%;transition:all 0.2s;}
-/*nth-keyboard-toggle{position:static;top:7ch;display:block;margin:auto;text-align:center;font-size:calc(2 * var(--size));transition:all 0.2s;}*/
 nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;}
 keyboard-modifiers{display:grid;justify-content:space-between;align-items:center;width:30ch;grid-template-areas:'a b c';grid-template-columns:11ch 7ch 11ch;}
 nth-viewport{display:block;width:100%;height:calc(100% - 17ch);overflow-x:hidden;overflow-y:scroll;}
@@ -121,9 +118,9 @@ segments can be aligned left center and right
 </nth-viewport>
 
 <nth-keyboard-area>
-  <nth-prev-layout onpointerdown="prevLayout()">&leftarrow;</nth-prev-layout>
-  <keyboard-display><nth-keyboard></nth-keyboard><nth-modifiers><cursor-left>&#x21e6;</cursor-left><keyboard-shift onclick="toggleShift(event)">&#x21e7;</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb onclick="toggleSymb(event)">!123</keyboard-symb><nth-keyboard-toggle onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle><cursor-right>&#x21e8;</cursor-right></nth-modifiers></keyboard-display>
-  <nth-next-layout onpointerdown="nextLayout()">&rightarrow;</nth-next-layout>
+  <nth-prev-layout onpointerdown="prevLayout(event)">&leftarrow;</nth-prev-layout>
+  <keyboard-display><nth-keyboard></nth-keyboard><nth-modifiers><cursor-left class="key modifier" onpointerdown="cursorLeft(event)">&#x21e6;</cursor-left><keyboard-shift class="key modifier" onclick="toggleShift(event)">&#x21e7;</keyboard-shift><keyboard-space class="key modifier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space><keyboard-symb class="key modifier" onclick="toggleSymb(event)">!123</keyboard-symb><nth-keyboard-toggle class="key modifier" onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle><cursor-right class="key modifier" onpointerdown="cursorRight(event)">&#x21e8;</cursor-right></nth-modifiers></keyboard-display>
+  <nth-next-layout onpointerdown="nextLayout(event)">&rightarrow;</nth-next-layout>
 </nth-keyboard-area>
 </body>
 <script>
@@ -159,14 +156,16 @@ function toggleKeyboard() {
   }
 }
 
-function nextLayout() {
-  console.log('next')
+function nextLayout(e) {
   Keyboard.Map < Keyboard.KeyMap.length - 1 ? Keyboard.Map ++ : undefined
+  e.target.style.backgroundColor = 'var(--medium)';
+  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
   showKeyboard()
 }
-function prevLayout(){
-  console.log('prev')
+function prevLayout(e){
   Keyboard.Map > 1 ? Keyboard.Map -- : undefined
+  e.target.style.backgroundColor = 'var(--medium)';
+  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
   showKeyboard()
 }
 
@@ -177,6 +176,7 @@ function showKeyboard() {
   chars.map(c => {
     if (c != ' ') {
       Keyboard.Display.lastChild.appendChild(document.createElement('keyboard-key'))
+      Keyboard.Display.lastChild.lastChild.classList.add('key')
       Keyboard.Display.lastChild.lastChild.appendChild(document.createTextNode(c))
     }
     else {
@@ -206,17 +206,23 @@ function toggleSymb(e) {
 }
 
 Keyboard.Area.onpointerdown = function (e) {
-  if (e.target.tagName == 'KEYBOARD-KEY' || e.target.tagName == 'KEYBOARD-SPACE') {
-    window.navigator.vibrate ? window.navigator.vibrate(200) : undefined
+  if (e.target.classList[0] == 'key') {
+    window.navigator.vibrate ? window.navigator.vibrate(50) : undefined
+    e.target.style.backgroundColor = 'var(--medium)';
+    e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
   }
 }
 
 function cursorRight(e){
-
+  e.stopPropagation()
+  e.target.style.backgroundColor = 'var(--medium)';
+  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
 }
 
 function cursorLeft(e){
-
+  e.stopPropagation()
+  e.target.style.backgroundColor = 'var(--medium)';
+  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
 }
 
 </script>
