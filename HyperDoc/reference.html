@@ -79,19 +79,21 @@ nth-expression, nth-collection, nth-type{display:inline-block;border:solid var(-
 nth-code * + * {margin-left:1ch;}
 nth-expression{max-width:1000ch;}
 nth-symbol{border-radius:0.5ch;padding:0.2ch;}
-nth-keyboard-area{display:grid;position:absolute;bottom:0;height:17ch;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';justify-content:space-between;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.2 * var(--size));}
+nth-keyboard-area{display:grid;position:absolute;bottom:0;height:17ch;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';grid-template-columns:auto auto 32ch auto auto;justify-content:space-between;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.2 * var(--size));}
 nth-keyboard{display:block;width:32ch;text-align:center;font-family:monospace;margin:auto;position:absolute;top:0;}
 keyboard-display{display:grid;width:32ch;margin:auto;grid-area:c;height:17ch;justify-content:center;align-items:center;font-family:monospace;}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:0.5ch;padding:0.5ch;margin:0;}
+keyboard-key:active{background-color:var(--medium);}
 nth-prev-layout,nth-next-layout{display:inline-grid;height:10ch;position:absolute;width:2ch;justify-content:center;align-items:center;border:solid var(--medium) 0.2ch;border-radius:1ch;}
 nth-prev-layout{grid-area:a;justify-self:left;}
 nth-next-layout{grid-area:e;justify-self:right;}
-keyboard-space, keyboard-shift, keyboard-symb{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;line-height:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
-keyboard-shift, keyboard-symb{width:fit-content;padding:0;margin:auto;}
+keyboard-space, keyboard-shift, keyboard-symb, cursor-left, cursor-right{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;line-height:2ch;padding-left:4ch;padding-right:4ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
+keyboard-shift, keyboard-symb, cursor-left, cursor-right{width:fit-content;padding:0;margin:auto;}
 nth-keyboard-toggle{position:relative;top:7ch;display:block;margin:auto;text-align:center;font-size:calc(2 * var(--size));transition:all 0.2s;}
 nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;}
 keyboard-modifiers{display:grid;justify-content:space-between;align-items:center;width:30ch;grid-template-areas:'a b c';grid-template-columns:11ch 7ch 11ch;}
+nth-viewport{display:block;width:100%;height:calc(100% - 17ch);overflow-x:hidden;overflow-y:scroll;}
 </style>
 </head>
 <body>
@@ -108,24 +110,29 @@ segment width can be controlled separately
 segments can be aligned left center and right
 
 -->
+<nth-viewport>
 <nth-segment></nth-segment>
-<nth-code><nth-expression><nth-symbol>define</nth-symbol><nth-symbol>foo</nth-symbol><nth-expression><nth-symbol>x</nth-symbol><nth-symbol>-&gt;</nth-symbol><nth-expression><nth-collection><nth-symbol>bar</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>x</nth-symbol></nth-collection><nth-symbol>:</nth-symbol><nth-type><nth-symbol>baz</nth-symbol></nth-type></nth-expression></nth-expression></nth-expression></nth-code>
+<nth-code><nth-expression><nth-symbol>define</nth-symbol><nth-symbol>foo</nth-symbol><nth-expression><nth-symbol>x</nth-symbol><nth-symbol>&gt;</nth-symbol><nth-expression><nth-collection><nth-symbol>bar</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>x</nth-symbol></nth-collection><nth-symbol>:</nth-symbol><nth-type><nth-symbol>baz</nth-symbol></nth-type></nth-expression></nth-expression></nth-expression></nth-code>  
+</nth-viewport>
 
 <nth-keyboard-area>
-  <nth-prev-layout onpointerdown="prevLayout()">&lt;</nth-prev-layout>
-  <keyboard-display><nth-keyboard-toggle onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle><nth-keyboard></nth-keyboard><nth-modifiers><keyboard-shift onclick="toggleShift(event)">&Uparrow;</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb onclick="toggleSymb(event)">!123</keyboard-symb></nth-modifiers></keyboard-display>
-  <nth-next-layout onpointerdown="nextLayout()">&gt;</nth-next-layout>
+  <nth-prev-layout onpointerdown="prevLayout()">&leftarrow;</nth-prev-layout>
+  <keyboard-display><nth-keyboard-toggle onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle><nth-keyboard></nth-keyboard><nth-modifiers><cursor-left>&#x21e6;</cursor-left><keyboard-shift onclick="toggleShift(event)">&#x21e7;</keyboard-shift><keyboard-space>&nbsp;</keyboard-space><keyboard-symb onclick="toggleSymb(event)">!123</keyboard-symb><cursor-right>&#x21e8;</cursor-right></nth-modifiers></keyboard-display>
+  <nth-next-layout onpointerdown="nextLayout()">&rightarrow;</nth-next-layout>
 </nth-keyboard-area>
 </body>
 <script>
   let Keyboard = {
     KeyMap: [
-      ['tbjdkyhr aofglmncie spqxzuvw','TBJDKYHR AOFGLMNCIE SPQXZUVW'],
-      ['1234567890 ']
-      ['αβγδεζηθ ικλμνξοπ ρστυφχψω', 'ΑΒΓΔΕΖΗΘ ΙΚΛΜΝΞΟΠ ΡΣΤΥΦΧΨΩ']
+      ['~!@#$%^&|; 1234567890 +-*×/÷√<>=', '≤≥≰≱≠∽≈≡≣∎ ∀∃∄⊢∈∋∖∏∑∐ ¬∧∨∴∵∘∙'],
+      ['\'tbjdkyhr, aofglmncie .spqxzuvw_','"TBJDKYHR\\\ AOFGLMNCIE ?SPQXZUVW:'],
+      ['αβγδεζηθ ικλμνξοπ ρστυφχψω', 'ΑΒΓΔΕΖΗΘ ΙΚΛΜΝΞΟΠ ΡΣΤΥΦΧΨΩ'],
+      ['𝕥𝕓𝕛𝕕𝕜𝕪𝕙𝕣 𝕒𝕠𝕗𝕘𝕝𝕞𝕟𝕔𝕚𝕖 𝕤𝕡𝕢𝕩𝕫𝕦𝕧𝕨', '𝕋𝔹𝕁𝔻𝕂𝕐ℍℝ 𝔸𝕆𝔽𝔾𝕃𝕄ℕℂ𝕀𝔼 𝕊ℙℚ𝕏ℤ𝕌𝕍']
     ],
+    Map: 1,
     Visible: true,
     ShiftLock: 0,
+    Symb: false,
     Toggle: document.getElementsByTagName('nth-keyboard-toggle')[0],
     Area: document.getElementsByTagName('nth-keyboard-area')[0],
     Display: document.getElementsByTagName('nth-keyboard')[0]
@@ -137,62 +144,65 @@ function toggleKeyboard() {
   else Keyboard.Area.style.bottom = '0', Keyboard.Visible = true, Keyboard.Toggle.style.top = '7ch'
 }
 
-////////
-//left off here
-//rename the rest of the stuff to use the keyboard namespace
 function nextLayout() {
-  KeyboardSelect < KeyboardKeys.length - 1 ? KeyboardSelect ++ : undefined
+  console.log('next')
+  Keyboard.Map < Keyboard.KeyMap.length - 1 ? Keyboard.Map ++ : undefined
   showKeyboard()
 }
 function prevLayout(){
-  KeyboardSelect > 0 ? KeyboardSelect -- : undefined
+  console.log('prev')
+  Keyboard.Map > 1 ? Keyboard.Map -- : undefined
   showKeyboard()
 }
 
 function showKeyboard() {
-  var chars = KeyboardKeys[KeyboardSelect][Shifted].split('')
-  Keyboard.replaceChildren();
-  Keyboard.appendChild(document.createElement('keyboard-row'))
+  var chars = Array.from(Keyboard.KeyMap[Keyboard.Symb ? 0 : Keyboard.Map][Keyboard.ShiftLock])
+  Keyboard.Display.replaceChildren();
+  Keyboard.Display.appendChild(document.createElement('keyboard-row'))
   chars.map(c => {
     if (c != ' ') {
-      Keyboard.lastChild.appendChild(document.createElement('keyboard-key'))
-      Keyboard.lastChild.lastChild.appendChild(document.createTextNode(c))
+      Keyboard.Display.lastChild.appendChild(document.createElement('keyboard-key'))
+      Keyboard.Display.lastChild.lastChild.appendChild(document.createTextNode(c))
     }
     else {
-      Keyboard.appendChild(document.createElement('keyboard-row'))
+      Keyboard.Display.appendChild(document.createElement('keyboard-row'))
     }
   })
 }
 
 function toggleShift(e) {
   e.stopPropagation()
-  Shifted = Shifted == 1 ? 0 : 1
+  Keyboard.ShiftLock = Keyboard.ShiftLock == 1 ? 0 : 1
+  if (Keyboard.ShiftLock == 1)
+    e.target.style.backgroundColor = 'var(--medium)'
+  else 
+    e.target.style.backgroundColor = 'unset'
   showKeyboard()
 }
 
 function toggleSymb(e) {
   e.stopPropagation()
-  SymbolVisible = !SymbolVisible
-  if (SymbolVisible) {
-    var chars = SymbolKeys.split('')
-    Keyboard.replaceChildren();
-    Keyboard.appendChild(document.createElement('keyboard-row'))
-    chars.map(c => {
-      if (c != ' ') {
-        Keyboard.lastChild.appendChild(document.createElement('keyboard-key'))
-        Keyboard.lastChild.lastChild.appendChild(document.createTextNode(c))
-      }
-      else {
-        Keyboard.appendChild(document.createElement('keyboard-row'))
-      }
-    })
+  Keyboard.Symb = !Keyboard.Symb
+  if (Keyboard.Symb)
+    e.target.style.backgroundColor = 'var(--medium)'
+  else
+    e.target.style.backgroundColor = 'unset'
+  showKeyboard()
+}
+
+Keyboard.Area.onpointerdown = function (e) {
+  if (e.target.tagName == 'KEYBOARD-KEY' || e.target.tagName == 'KEYBOARD-SPACE') {
+    console.log(e.target.textContent)
+    window.navigator.vibrate != undefined ? window.navigator.vibrate(100) : undefined
   }
 }
 
-KeyboardArea.onpointerdown = function (e) {
-  if (e.target.tagName == 'KEYBOARD-KEY')
-  {console.log(e.target.textContent)}
-  else if (e.target.tagName == 'KEYBOARD-SPACE')
-  {console.log(' ')}
+function cursorRight(e){
+
 }
+
+function cursorLeft(e){
+
+}
+
 </script>
