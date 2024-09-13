@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!------------------------------------------------------------------------------
+<!--
+--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
                   The nth Programming Environment                         
 --------------------------------------------------------------------------------
@@ -60,7 +61,8 @@ ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE, OR THE USE,
                   OR OTHER DEALINGS IN THE SOFTWARE.                      
 
 
-------------------------------------------------------------------------------->
+--------------------------------------------------------------------------------
+-->
 <head>
 <meta charset="utf-8">
 <title>nth</title>
@@ -80,13 +82,13 @@ nth-expression, nth-collection, nth-type{display:inline-block;border:solid var(-
 nth-code * + * {margin-left:1ch;}
 nth-expression{max-width:1000ch;}
 nth-symbol{border-radius:0.5ch;padding:0.2ch;}
-nth-keyboard-area{display:grid;grid-template-areas:'a b c d e';grid-template-columns:auto auto 32ch auto auto;justify-content:space-between;margin:0;padding:0;border-radius:1ch;width:100%;padding:0ch;font-size:calc(1.3 * var(--size));position:absolute;bottom:0;left:0;z-index:100;background-color:var(--soft);box-shadow:0 0 4ch -1ch var(--hard);transition:all 0.2s;}
+nth-keyboard-area{display:grid;grid-template-areas:'a b c d e';grid-template-columns:auto auto 32ch auto auto;justify-content:space-between;margin:0;padding:0;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;font-size:calc(1.3 * var(--size));position:absolute;bottom:0;left:0;z-index:100;background-color:var(--soft);box-shadow:0 0 4ch -1ch var(--hard);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;}
 /*nth-keyboard-area{display:grid;position:absolute;bottom:0;transition:all 0.2s;width:96vw;grid-template-areas:'a b c d e';grid-template-columns:auto auto 32ch auto auto;justify-content:space-between;margin-left:2vw;padding-bottom:1ch;font-size:calc(1.3 * var(--size));}*/
 nth-keyboard{display:block;width:32ch;text-align:center;font-family:monospace;margin:auto;position:absolute;top:0;}
 keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: 12ch 4ch;width:32ch;margin:0;grid-area:c;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
 nth-keyboard{grid-area:a;}
-nth-modifiers{grid-area:b;margin:auto;}
+nth-modifiers{grid-area:b;margin:auto;font-size:calc(1.5 * var(--size));}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--medium) 0.2ch;border-radius:0.5ch;padding:0.5ch;margin:0.2ch;}
 nth-prev-layout,nth-next-layout{display:inline-grid;height:10ch;position:absolute;width:2ch;justify-content:center;align-items:center;border:solid var(--medium) 0.2ch;border-radius:1ch;}
@@ -95,7 +97,7 @@ nth-next-layout{grid-area:e;justify-self:right;}
 .modifier{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;width:fit-content;line-height:2ch;border:solid var(--medium) 0.2ch;border-radius:0.5ch;margin:auto;}
 nth-keyboard-toggle{position:static;bottom:1ch;left:50%;transition:all 0.2s;}
 nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;}
-keyboard-modifiers{display:grid;justify-content:space-between;align-items:center;width:30ch;grid-template-areas:'a b c';grid-template-columns:11ch 7ch 11ch;}
+keyboard-modifiers{display:grid;justify-content:space-between;align-items:center;width:30ch;grid-template-areas:'a b c';grid-template-columns:11ch 7ch 11ch;font-size:calc(1 * var(--size));}
 nth-viewport{display:block;width:100%;height:calc(100% - 17ch);overflow-x:hidden;overflow-y:scroll;}
 </style>
 </head>
@@ -209,7 +211,7 @@ Keyboard.Area.onpointerdown = function (e) {
   if (e.target.classList[0] == 'key') {
     window.navigator.vibrate ? window.navigator.vibrate(50) : undefined
     e.target.style.backgroundColor = 'var(--medium)';
-    e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
+    window.onpointerup = () => e.target.style.backgroundColor = 'var(--soft)', window.pointerup = null;
   }
 }
 
