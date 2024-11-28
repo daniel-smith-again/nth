@@ -61,3 +61,20 @@
 
 *******************************************************************************/
 
+#ifdef __LINUX_ARM64__
+#define Null void*
+#define None void
+#define Byte unsigned char
+#define QuarterWord unsigned short
+#define HalfWord unsigned int
+#define Word unsigned long
+Null    claim(HalfWord size);
+None    drop(Null ref);
+#elif  __LINUX_i686__
+#elif  __LINUX_AMD64__
+#elif  __WINDOWS_i686__
+#elif  __WINDOWS_AMD64__
+#elif  __MAC_AMD64__
+#elif  __MAC_ARM64__
+#endif
+
