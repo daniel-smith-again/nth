@@ -205,3 +205,47 @@ it can create recursive bindings,
 it can create independent variables,
 it can mutate fields and indicies...
 it's becoming a god dsl like looping.
+
+
+How to double up on apostrophe usage?
+
+Quote     .......     '
+Insert    .......     ' ... ''
+Spread    .......     ' ... '''
+Eval      .......     ''
+List      .......     '''
+So if I want to quote something, insert A, and spread B, I would write
+'(''A '''B)
+If I want to evaluate a quote C, I would write
+''C
+If I want to create a list, not an application, I would write,
+'''(x y z)
+If I want to quote the evaluation of some data I inserted, I would write
+'( ''data)
+aaaaaaaand now it falls apart because it's ambiguous whether I'm inserting or 
+evaluating.
+I need FIVE symbols, not just one.
+
+Quote is definitey apostrophe '
+Insert is ''(_)
+Spread is ''(_ _ ...)
+Eval is (evaluate ...)
+List is ''(_ _ _)
+
+Evaluate is just parens around a properly typed thing.
+
+Spec in 80x25 lines (or one terminal page)
+
+Nth is a programming language. Programs are written using the English alphabet,
+decimal digits, the apostrophe, round braces, and white space. Other characters
+are optional. Programs are written as groups of characters separated by white
+space or braces. A group of characters is a Symbol. A group of digits is a 
+number. A closed pair of braces is a List. Symbols and numbers inside the list 
+are items. Items are numbered sequentially beginning with 1. A single apostrophe
+
+Nth is a programming language. Programs are written using the English alphabet,
+decimal digits, white space, and round braces. Other characters are optional.
+Programs are composed of groups of characters, separated by white space or 
+braces. A single group of characters is a Symbol. A single group of decimal 
+digits is a number. A closed pair of braces is a list. Symbols and numbers in
+a list are items. Items are indexed sequentially beginning with one.
