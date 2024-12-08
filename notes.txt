@@ -234,18 +234,49 @@ List is ''(_ _ _)
 
 Evaluate is just parens around a properly typed thing.
 
-Spec in 80x25 lines (or one terminal page)
 
-Nth is a programming language. Programs are written using the English alphabet,
-decimal digits, the apostrophe, round braces, and white space. Other characters
-are optional. Programs are written as groups of characters separated by white
-space or braces. A group of characters is a Symbol. A group of digits is a 
-number. A closed pair of braces is a List. Symbols and numbers inside the list 
-are items. Items are numbered sequentially beginning with 1. A single apostrophe
+What are my dependent types?
+Can I talk about function extensionality?
+Can I have recursion?
 
-Nth is a programming language. Programs are written using the English alphabet,
-decimal digits, white space, and round braces. Other characters are optional.
-Programs are composed of groups of characters, separated by white space or 
-braces. A single group of characters is a Symbol. A single group of decimal 
-digits is a number. A closed pair of braces is a list. Symbols and numbers in
-a list are items. Items are indexed sequentially beginning with one.
+What's my rich text format?
+
+Symbol presentation: 
+                    - italic
+                    - bold
+                    - large
+                    - normal
+                    - small
+Alignment:
+                    - left
+                    - center
+                    - right
+                    - match column
+                    - line break
+Positioning:
+                    - begin vertical
+                    - line
+                    - separate
+                    - end vertical
+Annotation:
+                    - begin annotation
+                    - end annotation
+Cite:             
+                    - label
+                    - reference
+
+
+02 Start of Text        Begin Annotation
+03 End of Text          End Annotation
+0E Shift Out            Begin Vertical
+0F Shift In             End Vertical
+10 Data Link Escape     Label
+05 Enquiry              Reference
+09 Horizontal Tab       Align Columns
+0B Vertical Tab         Next Row
+12 Device Control One   Italic
+13 Device Control Two   Bold
+14 Device Control Three Larger
+15 Device Control Four  Smaller
+19 End of Medium        Line Vertical
+1A Substitute           Annotation Subject
