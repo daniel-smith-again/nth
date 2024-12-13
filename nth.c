@@ -60,21 +60,83 @@
 
 
 *******************************************************************************/
+/* Edit me*/
+#define __LINUX_AMD64__ //set this to one of 
+                        // __LINUX_ARM64__
+                        // __LINUX_i686__
+                        // __LINUX_AMD64
+                        // __WINDOWS_i686__
+                        // __WINDOWS_AMD64__
+                        // __MAC_AMD64__
+                        // __MAC_ARM64__
+#define Entry int main(int ArgCount, char** Args)
+#define Iter(s) HalfWord i ; i < s ; i++
+#define Array(T) T*
+#define ArrayLoop(s, b) for(Iter(s)) { b }
+#define Ref(T) T*
 
 #ifdef __LINUX_ARM64__
+#endif
+#ifdef  __LINUX_i686__
+#endif
+#ifdef  __LINUX_AMD64__
 #define Null void*
 #define None void
 #define Byte unsigned char
 #define QuarterWord unsigned short
 #define HalfWord unsigned int
 #define Word unsigned long
-Null    claim(HalfWord size);
-None    drop(Null ref);
-#elif  __LINUX_i686__
-#elif  __LINUX_AMD64__
-#elif  __WINDOWS_i686__
-#elif  __WINDOWS_AMD64__
-#elif  __MAC_AMD64__
-#elif  __MAC_ARM64__
+#define Int int
+#define LongInt long
+#define CHARUNKNOWN 0xFFFD
+typedef struct {
+  HalfWord size;
+  Array(HalfWord) contents;
+} String;
+
+
+Null claim(HalfWord size);
+None drop(Null ref);
+
+String utf8_to_charstr(Array(Byte) input, HalfWord size)
+{
+  String out;
+  out.contents = claim(size);
+  ArrayLoop(size,
+    if (input[i - 1] & 0b10000000)
+    {
+      
+    }
+    else if (input[i - 1] & 0b11000000)
+    {
+
+    }
+    else if (input[i - 1] & 0b11100000)
+    {
+
+    }
+    else if (input[i - 1] & 0b11110000)
+    {
+
+    }
+    else 
+    {
+
+    }
+  )
+}
+
+#endif
+#ifdef  __WINDOWS_i686__
+#endif
+#ifdef  __WINDOWS_AMD64__
+#endif
+#ifdef  __MAC_AMD64__
+#endif
+#ifdef  __MAC_ARM64__
 #endif
 
+Entry
+{
+
+}
