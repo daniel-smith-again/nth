@@ -206,6 +206,20 @@ it can create independent variables,
 it can mutate fields and indicies...
 it's becoming a god dsl like looping.
 
+My Lisp has a dual, 
+Quote <-> Eval
+Unquote <-> Apply
+Spread <-> List
+
+How do I quote the construction of a list?
+Quote is constructing a list though?
+
+(quote (a b (insert x y z) (spread a b c)))
+'(a b ''(x y z) '''(a b c))
+spread is run immediately
+what about double quote
+'(a b ''(x y z) ' '''(a b c))
+
 
 How to double up on apostrophe usage?
 
@@ -238,6 +252,41 @@ Evaluate is just parens around a properly typed thing.
 What are my dependent types?
 Can I talk about function extensionality?
 Can I have recursion?
+
+What's my markup format?
+
+(italic ...)
+(bold ...)
+(larger ...)
+(smaller ...)
+(supertext ...)
+(subtext ...)
+(align-left ...)
+(align-right ...)
+(align-center ...)
+(columnar ...)
+(rule ...)
+(annotate ... ...)
+(cite ... ...)
+(user-defined-tag _ ...)
+
+
+What's my text markup format?
+
+Italic
+Bold
+Larger
+Smaller
+Normal
+Left Horizontal Alignment
+Center Horizontal Alignment
+Right Horizontal Alignment
+Columnar
+Rule
+Annotation Delimiters                     Start of Text;End of Text
+Citation Delimiters                       Enquiry
+Tag Delimiters                            
+User-Defined Rendering Delimiters         
 
 What's my rich text format?
 
@@ -280,3 +329,33 @@ Cite:
 15 Device Control Four  Smaller
 19 End of Medium        Line Vertical
 1A Substitute           Annotation Subject
+
+
+how do I update my records?
+
+I have a list 
+'''(1 2 3)
+how do I change part of the list?
+
+(let list = '''(1 2 3)
+     (a b c) = list
+ in
+     list_1 <- )
+
+
+here's how to copy a file in my language
+
+define Unicode ! 'Unicode
+define Upper Unicode.Upper
+define Normalize Unicode.Normalize
+define Files ! 'Files
+define Sys ! 'System
+
+define main with Sys.Exit 
+            _ ->
+            (in out) <- Sys.Pipes.Arguments 
+                        ? (a b) (a b)
+                          *     (Exit)     ,
+            inFile <- Files.Read in ,
+            outFile <- Files.Write out ,
+            outFile Upper Normalize inFile
