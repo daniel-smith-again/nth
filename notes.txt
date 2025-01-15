@@ -359,3 +359,6 @@ define main with Sys.Exit
             inFile <- Files.Read in ,
             outFile <- Files.Write out ,
             outFile Upper Normalize inFile
+
+
+

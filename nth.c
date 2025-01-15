@@ -9,7 +9,6 @@
 --------------------------------------------------------------------------------
                                      About                                     
 --------------------------------------------------------------------------------
-
                   This is a fully conforming implementation of                  
                   the Nth Programming Language as described in                  
                     "The nth Programming Language HyperDoc".                    
@@ -18,7 +17,6 @@
 --------------------------------------------------------------------------------
                                   Terms of Use                                 
 --------------------------------------------------------------------------------
-
                   The author(s) grants the holder of this work                 
              full right of access, without limitation, irrevocably,            
                  in perpetuity, for any purpose, by any means.                 
@@ -47,7 +45,6 @@
 --------------------------------------------------------------------------------
                              STATEMENT OF WARRANTY                             
 --------------------------------------------------------------------------------
-
         THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       
                 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO               
       THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,     
