@@ -361,4 +361,4 @@ define main with Sys.Exit
             outFile Upper Normalize inFile
 
 
-
+Convert a file to uppercase pseudo snippet
