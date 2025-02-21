@@ -1,0 +1,21 @@
+Summary of Use Cases
+
+1. Open the nth program and get immediate access to a shell-like scratch pad where you can enter expressions and perform typical exploratory programming.
+
+2. Open an image and get presented with an advanced GUI which visualizes the module dependency, call dependency, and definition contents of various entities.
+
+3. Export a function as a stand-alone executable.
+
+4. Record, replay, and debug a program using an omniscient debugger mode.
+
+5. Import the "default" module which supplies a GUI library which supports the time travel debugger.
+
+6. Use the default system module to call native routines provided by the operating system.
+
+7. Export a module as a native library.
+
+8. Attach the nth program to a running process and debug it.
+
+9. You should only ever be five lines away from GUI, network, peripheral, or the filesystem.
+
+10. Export binary formats suitable for use by other environments such as embedded architectures or operating system drivers.
