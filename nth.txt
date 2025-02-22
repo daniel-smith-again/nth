@@ -1,9 +1,10 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
 ║                         The nᵗʰ Programming Language                         ║
-║                               by Daniel Smith                                ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
+
+                            Copyright © Daniel Smith                            
 
  ┌────────────────────────────────────────────────────────────────────────────┐
  │                                 Preamble                                   │
@@ -49,9 +50,6 @@
  │├ 1 This document represents a standard of conformance. As such, the 
  ││   descriptions therein represent requirements for an implementation.
  ││
- │├ 1 This document represents a standard of conformance. As such, the 
- ││   descriptions therein represent requirements for an implementation.
- ││
  │├ 2 An implementation of nᵗʰ is said to conform to this standard if it 
  ││   comprehensively demonstrates all the properties described in this 
  ││   document.
@@ -61,10 +59,9 @@
  ││   provide documentation about which clauses or sections it does not 
  ││   conform to
  ││
- │└ 4 Some clauses may use the term "implementation dependent" or 
- │   "implementation defined" where the manner in which a conforming 
- │   implementation provides a capacity is outside the scope of this
- │   document.
+ │└ 4 Some clauses may be "implementation dependent" or
+ │    "implementation defined" where the manner in which an implementation
+ │    meets a requirement is outside the scope of conformance.
  │
  │
  ├─────┬──────────────────────────────────────────────────────────────────────┐
