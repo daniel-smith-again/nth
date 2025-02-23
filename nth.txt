@@ -97,9 +97,11 @@
 ┃ nᵗʰ Grammar │                                                                ┃
 ┠─────────────┘                                                                ┃
 ┃                                                                              ┃
-┃              Program    → Blank | Symbol | Expression                        ┃
+┃              Program    → Blank | Symbol | String | Expression               ┃
 ┃              Blank      → ␠  ⃗ | ␊  ␠  ⃗                                       ┃
 ┃              Symbol     → ☐  ⃗                                                ┃
+┃              String     → "̲ Character "̲                                      ┃
+┃              Character  → ☐  ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                     ┃
 ┃              Expression → Begin List ⃗ End | Begin Blank End | Begin End      ┃
 ┃              Begin      → (̲ | ␊  ␉  | ␊  ␉  ␉  ⃗                              ┃
 ┃              End        → )̲ | ␊  | ␊  ␉  ⃗                                    ┃
@@ -139,82 +141,6 @@
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 
  DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT  
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-
-
-syntax:
-open paren then closed paren, anything in the middle is part of a list.
-whitespace separates symbols.
-syntax accepts any kind of unicode, there's only a few special characters which
-do not represent symbolic content.
-
-Any sequence of adjacent characters which are not punctuation form a symbol.
-The left round brace begins an expression.
-The right round brace ends an expression.
-Any number of white space forms a delimiter. The characters adjacent to either
-end of a white space sequence cannot form a single sequence.
-
-GRAMMAR
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-
-
-The grammar is as follows
-
-
-┏━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ nᵗʰ Grammar │
-┠─────────────┘
-┃                                                                              ┃
-┃ Program    → Blank | Symbol | Expression                                     ┃
-┃ Blank      → ␠  ⃗ | ␊  ␠  ⃗                                                    ┃
-┃ Symbol     → ☐  ⃗                                                             ┃
-┃ Expression → Begin List ⃗ End | Begin Blank End | Begin End                   ┃
-┃ Begin      → (̲ | ␊  ␉  | ␊  ␉  ␉  ⃗                                           ┃
-┃ End        → )̲ | ␊  | ␊  ␉  ⃗                                                 ┃
-┃ List       → Item | Item Delimiter List                                      ┃
-┃ Item       → Symbol | Expression | Symbol Delimiter Item                     ┃
-┃ Delimiter  → Blank | Expression                                              ┃
-┃                                                                              ┃
-┠──────────────────────────────────────────────────────────────────────────────┨
-┃                                                                              ┃
-┃ This grammar denotes how a sequence of characters representing an nᵗʰ program┃
-┃ may be validated. The grammar is comprised of named rules which dictate the  ┃ 
-┃ order in which characters must appear in order to form a valid program.      ┃
-┃                                                                              ┃
-┃ Each rule is formed by a name, followed by an arrow, followed by a list of   ┃
-┃ character sequences separated by pipes (|).                                  ┃
-┃                                                                              ┃
-┃ A character sequence represents a permitted ordering of individual characters┃
-┃ and other sequences. It is denoted by listing names of other rules, and      ┃
-┃ single characters in the order in which they should appear,                  ┃
-┃ from left to right.                                                          ┃
-┃                                                                              ┃
-┃ Character values are denoted by any character with an underline. Character   ┃
-┃ values which are not printable (control characters) are represented using    ┃
-┃ their corresponding depictions in the Unicode "Control Pictures" block.      ┃
-┃                                                                              ┃
-┃ Some items in a character sequence may repeat once or more. This is denoted  ┃
-┃ by a character value or rule being postfixed with an arrow ( ⃗).              ┃
-┃                                                                              ┃
-┃ A symbol can be comprised of any unicode character which is not listed in a  ┃
-┃ sequence rule, and which is not a control character. For this reason, the    ┃
-┃ rule for "Symbol" uses the box as a placeholder corresponding to any valid   ┃
-┃ Unicode character.                                                           ┃
-┃                                                                              ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-
-
-Program     → Expression | 
-Expression  → Begin List End
-Stack       → Top Layers Bottom 
-List        → Item | List Item
-Layers      → Item | Layers Item
-Item        → Symbol | Expression | Rule
-
-
-
-underline combining character is 332
-
 
 
 left and right parentheses delimit a single expression.
