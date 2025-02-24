@@ -11,6 +11,8 @@ This is because...
 4.	You can't perform basic program validation in the language.
 5.	You can't abstract or extend the language.
 
+
+
 I solve these problems by providing...
 
 *		Live, Session-based programming
