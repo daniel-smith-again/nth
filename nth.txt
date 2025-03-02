@@ -131,7 +131,7 @@
 ┃ Some items in a character sequence may repeat once or more. This is denoted  ┃
 ┃ by a character value or rule being postfixed with an arrow ( ⃗).              ┃
 ┃                                                                              ┃
-┃ A symbol can be comprised of any unicode character which is not listed in a  ┃
+┃ A symbol can be comprised of any Unicode character which is not listed in a  ┃
 ┃ sequence rule, and which is not a control character. For this reason, the    ┃
 ┃ rule for "Symbol" uses the box as a placeholder corresponding to any valid   ┃
 ┃ Unicode character.                                                           ┃
