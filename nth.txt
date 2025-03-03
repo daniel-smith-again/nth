@@ -158,3 +158,10 @@ newline followed by less tabs is )
 newline followed by the same number of tabs is )(
 
 the first symbol is a function, the rest are arguments to the function.
+
+definitions:
+
+'define ''symbol '''program
+'define ''symbol '''(items Function)
+'define ''program '''program
+'define ' ''program ''function
