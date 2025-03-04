@@ -1,12 +1,17 @@
 #ifndef _nth_header_lib_
 #define _nth_header_lib_
 
-typedef struct { unsigned char value; } nth_boolean;
-typedef struct { unsigned int value; } nth_character;
-//should cover every real that's not a transcendental number.
-typedef struct {  } nth_number;
-typedef struct {} nth_array;
-typedef struct {} nth_list;
-typedef struct {} nth_data;
+#define Byte unsigned char
+#define Int unsigned int
+
+typedef struct { Byte data; } nth_boolean;
+typedef struct { Int data; } nth_character;
+typedef struct { Int data; } nth_number;
+typedef struct { Int length; void* data; } nth_array;
+typedef struct { Int length; void** data; } nth_tuple;
+typedef struct { Int length; void** data; } nth_type;
+typedef struct { Int size; void* data; } nth_data;
+
+
 
 #endif
