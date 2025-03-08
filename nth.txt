@@ -142,6 +142,9 @@
  DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT  
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 
+encoding is unicode, utf-8.
+you can turn numbers into utf-8 encoded code points.
+strings are utf-8 encoded too.
 
 left and right parentheses delimit a single expression.
 white space separates symbols within an expression.
@@ -188,21 +191,18 @@ symbol
 parameters
 result
 
+what abstractions do I have?
+system abstractions are formatted buffers.
+You have a local region controlled by the runtime. 
+It's tied to an external resource.
+There's an API to digest the buffer's data.
+There's another API to synchronize the buffer with the resource.
 
-What functions do I have?
+anything that runs of the system API.
 
-define
-function
-type
-symbol
-list
-items
-array
-format
-read
-print
-eval
-let
-apply
-do
-?
+System Description
+- Processor Register Files
+  ISA Listing
+  Peripherals
+  Ports
+- 
