@@ -63,6 +63,23 @@
  │    "implementation defined" where the manner in which an implementation
  │    meets a requirement is outside the scope of conformance.
  │
+ │┌──────────────────────────────────────────────────────────────────────────┐
+ ├│                                  Scope                                   │
+ │├──────────────────────────────────────────────────────────────────────────┘
+ ││
+ │├ 1 This document specifies...
+ │                                     ∙ The form of an nᵗʰ program.
+ │                                     ∙ The stored format of an nᵗʰ program.
+ │                                     ∙ The effects of interpreting an nᵗʰ
+ │                                       program.
+ │                                     ∙ The process by which an nᵗʰ program is
+ │                                       judged to be correct.
+ │                                     ∙ The requirements of a conforming 
+ │                                       implementation.
+ │
+ │
+ │
+ │
  │
  ├─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
@@ -98,7 +115,7 @@
 ┠─────────────┘                                                                ┃
 ┃                                                                              ┃
 ┃              Program    → Blank | Symbol | String | Expression               ┃
-┃              Blank      → ␠  ⃗ | ␊  ␠  ⃗                                       ┃
+┃              Blank      → ␠  ⃗ | ␊  ␠  ⃗ | ␉  ␊                                ┃
 ┃              Symbol     → ☐  ⃗                                                ┃
 ┃              String     → "̲ Character "̲                                      ┃
 ┃              Character  → ☐  ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                     ┃
@@ -150,6 +167,24 @@ influence the printed representation of a symbol.
 shift out and shift in delimit a non-linear expression.
 vertical tab and form feed 
 
+( )
+ 
+⎛ ⎞
+⎜ ⎟
+⎝ ⎠
+
+
+⎛       ⎞
+⎜ over  ⎟
+⎜       ⎟
+⎜ under ⎟
+⎝       ⎠
+
+⎛           ⎞
+⎜ overline  ⎟
+⎜⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎟
+⎜ underline ⎟
+⎝           ⎠
 
 significant indentation:
 newline followed by a space is normal formatting.
@@ -206,3 +241,11 @@ let
 apply
 do
 ?
+
+defining requires a non-empty string after the initial name.
+
+what is an image?
+an image stores the names of things.
+what about polymorphism?
+Those desugar to varargs rather than monomorphization.
+actually it's fine to define a function as multiple functions and type hints will skip the initial case matching.
