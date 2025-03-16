@@ -63,6 +63,23 @@
  │    "implementation defined" where the manner in which an implementation
  │    meets a requirement is outside the scope of conformance.
  │
+ │┌──────────────────────────────────────────────────────────────────────────┐
+ ├│                                  Scope                                   │
+ │├──────────────────────────────────────────────────────────────────────────┘
+ ││
+ │├ 1 This document specifies...
+ │                                     ∙ The form of an nᵗʰ program.
+ │                                     ∙ The stored format of an nᵗʰ program.
+ │                                     ∙ The effects of interpreting an nᵗʰ
+ │                                       program.
+ │                                     ∙ The process by which an nᵗʰ program is
+ │                                       judged to be correct.
+ │                                     ∙ The requirements of a conforming 
+ │                                       implementation.
+ │
+ │
+ │
+ │
  │
  ├─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
@@ -98,13 +115,13 @@
 ┠─────────────┘                                                                ┃
 ┃                                                                              ┃
 ┃              Program    → Blank | Symbol | String | Expression               ┃
-┃              Blank      → ␠  ⃗ | ␊  ␠  ⃗                                       ┃
-┃              Symbol     → ☐  ⃗                                                ┃
+┃              Blank      →  ̲ ⃗ | ^̲J̲  ̲ ⃗ | ^̲I̲ ^̲J̲                                 ┃
+┃              Symbol     → □ ⃗                                                 ┃
 ┃              String     → "̲ Character "̲                                      ┃
-┃              Character  → ☐  ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                     ┃
+┃              Character  → □ ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                      ┃
 ┃              Expression → Begin List ⃗ End | Begin Blank End | Begin End      ┃
-┃              Begin      → (̲ | ␊  ␉  | ␊  ␉  ␉  ⃗                              ┃
-┃              End        → )̲ | ␊  | ␊  ␉  ⃗                                    ┃
+┃              Begin      → (̲ | ^̲J̲ ^̲I̲ | ^̲J̲ ^̲I̲ ⃗                                 ┃
+┃              End        → )̲ | ^̲J̲ | ^̲J̲ ^̲I̲ ⃗                                    ┃
 ┃              List       → Item | Item Delimiter List                         ┃
 ┃              Item       → Symbol | Expression | Symbol Delimiter Item        ┃
 ┃              Delimiter  → Blank | Expression                                 ┃
@@ -126,7 +143,7 @@
 ┃                                                                              ┃
 ┃ Character values are denoted by any character with an underline. Character   ┃
 ┃ values which are not printable (control characters) are represented using    ┃
-┃ their corresponding depictions in the Unicode "Control Pictures" block.      ┃
+┃ their corresponding Caret Notations.                                         ┃
 ┃                                                                              ┃
 ┃ Some items in a character sequence may repeat once or more. This is denoted  ┃
 ┃ by a character value or rule being postfixed with an arrow ( ⃗).              ┃
@@ -153,12 +170,30 @@ influence the printed representation of a symbol.
 shift out and shift in delimit a non-linear expression.
 vertical tab and form feed 
 
+( )
+ 
+⎛ ⎞
+⎜ ⎟
+⎝ ⎠
+
+⎛       ⎞
+⎜ over  ⎟
+⎜       ⎟
+⎜ under ⎟
+⎝       ⎠
+
+⎛           ⎞
+⎜ overline  ⎟
+⎜⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎟
+⎜ underline ⎟
+⎝           ⎠
 
 significant indentation:
 newline followed by a space is normal formatting.
 newline followed by a tab is (
 newline followed by less tabs is )
 newline followed by the same number of tabs is )(
+A horizontal tab followed by a newline is a vertical indentation.
 
 the first symbol is a function, the rest are arguments to the function.
 
@@ -200,9 +235,45 @@ There's another API to synchronize the buffer with the resource.
 
 anything that runs of the system API.
 
+<<<<<<< HEAD
 System Description
 - Processor Register Files
   ISA Listing
   Peripherals
   Ports
 - 
+=======
+define
+function
+type
+symbol
+list
+items
+array
+format
+read
+print
+eval
+let
+apply
+do
+?
+
+defining requires a non-empty string after the initial name.
+
+what is an image?
+an image stores the names of things.
+what about polymorphism?
+Those desugar to varargs rather than monomorphization.
+actually it's fine to define a function as multiple functions and type hints will skip the initial case matching.
+
+are formatting characters allowed in strings? like if I wanted to have a line
+break, just do 
+"Hello,
+world" ?
+yes.
+
+strings are utf-8 encoded.
+it's literally just the bytes of input.
+Constructing a string can evaluate things.
+>>>>>>> 4da13e87bd8d71433c99e6c55b992e5c6d437c38
