@@ -12,8 +12,10 @@ typedef struct
 { enum {string, number, list} type; 
   union { nth_String string; nth_Number number; nth_List list; };
 } nth_Data;
-typedef struct {} nth_Pool;
 
-nth_Pool* nth_create_pool ();
+nth_Number* nth_add_numbers(nth_Number a, nth_Number b);
+nth_Number* nth_subtract_numbers(nth_Number a, nth_Number b);
+nth_Number* nth_multiply_numbers(nth_Number a, nth_Number b);
+
 
 #endif
