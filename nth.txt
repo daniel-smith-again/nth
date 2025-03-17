@@ -235,14 +235,11 @@ There's another API to synchronize the buffer with the resource.
 
 anything that runs of the system API.
 
-<<<<<<< HEAD
 System Description
 - Processor Register Files
   ISA Listing
   Peripherals
   Ports
-- 
-=======
 define
 function
 type
@@ -276,4 +273,3 @@ yes.
 strings are utf-8 encoded.
 it's literally just the bytes of input.
 Constructing a string can evaluate things.
->>>>>>> 4da13e87bd8d71433c99e6c55b992e5c6d437c38
