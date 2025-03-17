@@ -81,7 +81,8 @@
  │
  │
  │
- ├─────┬──────────────────────────────────────────────────────────────────────┐
+ └
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
@@ -105,14 +106,33 @@
  │7    │                                                                 Data │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │8    │                                                             Numerics │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+ 
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │9    │                                                            Functions │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │10   │                                                                Types │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │11   │                                                              Modules │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │12   │                                                               Images │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                   Figures                                    ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-┏━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ nᵗʰ Grammar │                                                                ┃
-┠─────────────┘                                                                ┃
+┏━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ 1. nᵗʰ Grammar │                                                             ┃
+┠────────────────┘                                                             ┃
 ┃                                                                              ┃
 ┃              Program    → Blank | Symbol | String | Expression               ┃
 ┃              Blank      →  ̲ ⃗ | ^̲J̲  ̲ ⃗ | ^̲I̲ ^̲J̲                                 ┃
@@ -273,3 +293,76 @@ yes.
 strings are utf-8 encoded.
 it's literally just the bytes of input.
 Constructing a string can evaluate things.
+
+what do I actually need to be compatible with a host system?
+The ability to import libraries as modules.
+What can I safely assume about a system?
+
+- It has a single thread.
+- It has a (flat) filesystem.
+- It has RAM.
+
+Do I really need both a type system and macros?
+Type are just macros.
+ADT's are already just a macro.
+No, a type system to check that your program is actually working is good.
+Static verification helps with large projects.
+
+
+What does nth have?
+
+Types:
+You can look at a form and decide what type you will get from evaluating it.
+You can constrain variables and places in execution.
+
+Circularity:
+You can capture a part of a program as a single object and then execute it.
+
+Math:
+You have integer ranges, saturating and modular. 
+You have arbitrary precision algebraic numbers.
+
+Control Flow:
+You have pattern/case matching, conditional execution, and effects.
+
+Predictable Runtime:
+There's no heap, everything is on the stack.
+Functions own anything that's been allocated while the function is active.
+When the function returns, those things are reclaimed.
+Indirection is also traced for things which have to escape the function scope.
+
+Modules:
+You can declare namespaces for things.
+Parts of your program are encapsulated from other parts.
+Modules form a build system where you can use external files.
+
+Composite Data:
+Algebraic Data Types, but guaranteed to occupy a contiguous region of memory.
+
+Images:
+Basically the "project file" but all code is cached in the binary file.
+
+System stuff:
+You can emit assembly and import binary objects as images.
+You can also export parts of your image as libraries or executables.
+
+Indirection:
+Lists are just arrays of pointers to things.
+Lists allow checked indirection.
+You can use a list to refer to things on the stack.
+
+how to make numbers be constant space?
+Arbitrary precision numbers cannot be constant space.
+That might be fine though.
+Anything that's an items type can be destructured using comprehension syntax.
+
+
+What are my chapters?
+
+Syntax.
+Evaluation.
+Data.
+Numerics.
+Functions.
+Modules.
+Images.
