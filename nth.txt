@@ -82,6 +82,7 @@
  │
  │
  └
+
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
  └─────┴──────────────────────────────────────────────────────────────────────┘
@@ -94,18 +95,34 @@
  │4    │                                                             Overview │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
+ nᵗʰ is a programming language. you use it to write programs
+
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │5    │                                                               Syntax │
  └─────┴──────────────────────────────────────────────────────────────────────┘
- 
+ see figure 1.
+ the characters sequences from begin may be used interchangeably.
+ the cannonical form of a source text is one which only uses () to delimit 
+ expressions
+
+
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │6    │                                                           Evaluation │
  └─────┴──────────────────────────────────────────────────────────────────────┘
+
+  evaluation is function application with binding resolution.
+  Before evaluation macros must be computed.
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │7    │                                                                 Data │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
+ algebraic data types.
+ arrays.
+ items.
+ lists.
+ segments and views
+ bits
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │8    │                                                             Numerics │
  └─────┴──────────────────────────────────────────────────────────────────────┘
@@ -357,12 +374,9 @@ That might be fine though.
 Anything that's an items type can be destructured using comprehension syntax.
 
 
-What are my chapters?
-
-Syntax.
-Evaluation.
-Data.
-Numerics.
-Functions.
-Modules.
-Images.
+javascript array buffers and data views are an interesting system to adopt.
+they pretty much solve the entire purpose of having C around.
+Plus you can statically type stuff you get out of the array.
+For an implementation, there's a machine type which corresponds to storage.
+What are my methods for storage arrays and viewtypes though?
+"Storage" or "Memory"
