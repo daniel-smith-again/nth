@@ -277,21 +277,6 @@ System Description
   ISA Listing
   Peripherals
   Ports
-define
-function
-type
-symbol
-list
-items
-array
-format
-read
-print
-eval
-let
-apply
-do
-?
 
 defining requires a non-empty string after the initial name.
 
@@ -380,3 +365,11 @@ Plus you can statically type stuff you get out of the array.
 For an implementation, there's a machine type which corresponds to storage.
 What are my methods for storage arrays and viewtypes though?
 "Storage" or "Memory"
+
+
+how do I use types?
+mainly for monomorphization. I want to specialize code to elide type checks.
+Secondly, I want to remove all type errors. You have to provide some form of 
+static artifact that shows the compiler that you can satisfy the constraints.
+
+the editor uses alt codes for symbol palettes.
