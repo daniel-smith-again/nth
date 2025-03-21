@@ -1,21 +1,38 @@
 #ifndef NTH_LIB
 #define NTH_LIB
 
-#define Int unsigned int
-#define Byte unsigned char
-#define Ref void*
-
-typedef struct { Int length; Ref contents; } nth_String;
-typedef struct { Int length; Ref numerator; Ref denominator; } nth_Number;
-typedef struct { Int length; Ref contents; } nth_List;
-typedef struct 
-{ enum {string, number, list} type; 
-  union { nth_String string; nth_Number number; nth_List list; };
-} nth_Data;
-
-nth_Number* nth_add_numbers(nth_Number a, nth_Number b);
-nth_Number* nth_subtract_numbers(nth_Number a, nth_Number b);
-nth_Number* nth_multiply_numbers(nth_Number a, nth_Number b);
-
+typedef void* Ref;
+typedef void* Nat; //predictable size of max-cpu-register-width.
+typedef unsigned char Byte;
+typedef struct {Nat size; Byte* contents;} Interval;
+typedef struct {Nat size; Byte* contents;} Natural;
+typedef struct {Natural numerator; Natural denominator;} Integer;
+typedef struct {Nat size; Ref *items;} List;
+typedef struct {Ref *type; Nat length; Byte* contents;} Array;
+typedef struct {Nat length; Byte* contents;} Symbol;
+/*
+ * add number
+ * subtract number
+ * multiply number
+ * divide number
+ * raise number
+ * log number
+ * root number
+ * add interval
+ * subtract interval
+ * multiply interval
+ * divide interval
+ * raise interval
+ * log interval
+ * root interval 
+ * apply function 
+ * apply over list
+ * get argument type
+ * get return type
+ * list concatenate
+ * string concatenate
+ * define
+ *
+ */
 
 #endif

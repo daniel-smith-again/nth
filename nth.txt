@@ -157,8 +157,11 @@
 ┃              String     → "̲ Character "̲                                      ┃
 ┃              Character  → □ ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                      ┃
 ┃              Expression → Begin List ⃗ End | Begin Blank End | Begin End      ┃
-┃              Begin      → (̲ | ^̲J̲ ^̲I̲ | ^̲J̲ ^̲I̲ ⃗                                 ┃
-┃              End        → )̲ | ^̲J̲ | ^̲J̲ ^̲I̲ ⃗                                    ┃
+┃                           | Indent List ⃗ Dedent                              ┃
+┃              Begin      → (̲                                                  ┃
+┃              End        → )̲                                                  ┃
+┃              Indent     → ^̲J̲ ^̲I̲ [^̲I̲ ⃗]                                        ┃
+┃              Dedent     → ^̲J̲ [^̲I̲ ⃗]                                           ┃
 ┃              List       → Item | Item Delimiter List                         ┃
 ┃              Item       → Symbol | Expression | Symbol Delimiter Item        ┃
 ┃              Delimiter  → Blank | Expression                                 ┃
@@ -185,9 +188,11 @@
 ┃ Some items in a character sequence may repeat once or more. This is denoted  ┃
 ┃ by a character value or rule being postfixed with an arrow ( ⃗).              ┃
 ┃                                                                              ┃
+┃ Items which are surrounded by square braces ([ ]) may appear optionally.     ┃
+┃                                                                              ┃
 ┃ A symbol can be comprised of any Unicode character which is not listed in a  ┃
 ┃ sequence rule, and which is not a control character. For this reason, the    ┃
-┃ rule for "Symbol" uses the box as a placeholder corresponding to any valid   ┃
+┃ rule for "Symbol" uses a box as a wildcard corresponding to any valid        ┃
 ┃ Unicode character.                                                           ┃
 ┃                                                                              ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -372,4 +377,50 @@ mainly for monomorphization. I want to specialize code to elide type checks.
 Secondly, I want to remove all type errors. You have to provide some form of 
 static artifact that shows the compiler that you can satisfy the constraints.
 
+quantification using let:
+if I write something like 
+(let x : T in P x)
+that's the same as ∀x∈T,P(x)
+if I write 
+(let x : T in (P x) = t)
+that's the same as ∃x∈T, P(x) = t
+
 the editor uses alt codes for symbol palettes.
+
+what are my functions?
+
++             addition
+-             subtraction 
+×             multiplication
+÷             division 
+↑             exponentiation
+↓             logarithm
+simplify      symbolically convert an algebraic expression to a simplified form
+⌈             ceiling
+⌊             floor
+
+¬             negation 
+∧             conjunction
+∨             disjunction
+
+apply         function application
+∙             function compose
+?             function signature
+
+∆             concatenate items
+∇             slice items
+
+
+special forms:
+
+∗             top type
+define        definition
+function      function constructor
+items         sequence constructor
+array         array constructor
+list          list constructor
+segment       binary data space constructor
+?             conditional evaluation
+let           lexical binding
+do            sequencing
+the           type assertion
