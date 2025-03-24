@@ -201,51 +201,6 @@
  DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT  
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 
-encoding is unicode, utf-8.
-you can turn numbers into utf-8 encoded code points.
-strings are utf-8 encoded too.
-
-left and right parentheses delimit a single expression.
-white space separates symbols within an expression.
-device control characters one through four may prefix a symbol and should 
-influence the printed representation of a symbol.
-shift out and shift in delimit a non-linear expression.
-vertical tab and form feed 
-
-( )
- 
-⎛ ⎞
-⎜ ⎟
-⎝ ⎠
-
-⎛       ⎞
-⎜ over  ⎟
-⎜       ⎟
-⎜ under ⎟
-⎝       ⎠
-
-⎛           ⎞
-⎜ overline  ⎟
-⎜⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎟
-⎜ underline ⎟
-⎝           ⎠
-
-significant indentation:
-newline followed by a space is normal formatting.
-newline followed by a tab is (
-newline followed by less tabs is )
-newline followed by the same number of tabs is )(
-A horizontal tab followed by a newline is a vertical indentation.
-
-the first symbol is a function, the rest are arguments to the function.
-
-definitions:
-
-'define ''symbol '''program
-'define ''symbol '''(items Function)
-'define ''program '''program
-'define ' ''program ''function
-
 What macros do I have?
 
 define
@@ -271,9 +226,9 @@ result
 what abstractions do I have?
 system abstractions are formatted buffers.
 You have a local region controlled by the runtime. 
-It's tied to an external resource.
-There's an API to digest the buffer's data.
-There's another API to synchronize the buffer with the resource.
+It′s tied to an external resource.
+There′s an API to digest the buffer′s data.
+There′s another API to synchronize the buffer with the resource.
 
 anything that runs of the system API.
 
@@ -289,7 +244,7 @@ what is an image?
 an image stores the names of things.
 what about polymorphism?
 Those desugar to varargs rather than monomorphization.
-actually it's fine to define a function as multiple functions and type hints will skip the initial case matching.
+actually it′s fine to define a function as multiple functions and type hints will skip the initial case matching.
 
 are formatting characters allowed in strings? like if I wanted to have a line
 break, just do 
@@ -298,7 +253,7 @@ world" ?
 yes.
 
 strings are utf-8 encoded.
-it's literally just the bytes of input.
+it′s literally just the bytes of input.
 Constructing a string can evaluate things.
 
 what do I actually need to be compatible with a host system?
@@ -311,7 +266,7 @@ What can I safely assume about a system?
 
 Do I really need both a type system and macros?
 Type are just macros.
-ADT's are already just a macro.
+ADT′s are already just a macro.
 No, a type system to check that your program is actually working is good.
 Static verification helps with large projects.
 
@@ -333,8 +288,8 @@ Control Flow:
 You have pattern/case matching, conditional execution, and effects.
 
 Predictable Runtime:
-There's no heap, everything is on the stack.
-Functions own anything that's been allocated while the function is active.
+There′s no heap, everything is on the stack.
+Functions own anything that′s been allocated while the function is active.
 When the function returns, those things are reclaimed.
 Indirection is also traced for things which have to escape the function scope.
 
@@ -361,13 +316,13 @@ You can use a list to refer to things on the stack.
 how to make numbers be constant space?
 Arbitrary precision numbers cannot be constant space.
 That might be fine though.
-Anything that's an items type can be destructured using comprehension syntax.
+Anything that′s an items type can be destructured using comprehension syntax.
 
 
 javascript array buffers and data views are an interesting system to adopt.
 they pretty much solve the entire purpose of having C around.
 Plus you can statically type stuff you get out of the array.
-For an implementation, there's a machine type which corresponds to storage.
+For an implementation, there′s a machine type which corresponds to storage.
 What are my methods for storage arrays and viewtypes though?
 "Storage" or "Memory"
 
@@ -380,17 +335,17 @@ static artifact that shows the compiler that you can satisfy the constraints.
 quantification using let:
 if I write something like 
 (let x : T in P x)
-that's the same as ∀x∈T,P(x)
+that′s the same as ∀x∈T,P(x)
 if I write 
 (let x : T in (P x) = t)
-that's the same as ∃x∈T, P(x) = t
+that′s the same as ∃x∈T, P(x) = t
 
 the editor uses alt codes for symbol palettes.
 
 what are my functions?
 
 +             addition
--             subtraction 
+−             subtraction 
 ×             multiplication
 ÷             division 
 ↑             exponentiation
@@ -398,6 +353,13 @@ what are my functions?
 simplify      symbolically convert an algebraic expression to a simplified form
 ⌈             ceiling
 ⌊             floor
+≤             less or equal
+≥             greater or equal
+<             less
+>             greater
+
+=             equality comparison
+≠             inequality comparison
 
 ¬             negation 
 ∧             conjunction
@@ -410,17 +372,62 @@ apply         function application
 ∆             concatenate items
 ∇             slice items
 
+′             quote
+″             unquote
+‴             requote
+
+#             cardinality
+
 
 special forms:
 
-∗             top type
-define        definition
-function      function constructor
-items         sequence constructor
-array         array constructor
-list          list constructor
-segment       binary data space constructor
-?             conditional evaluation
+top type
+  (′∗)
+bottom type
+  (′_)
+definition
+  (′define ″Symbol ″String ‴Program)
+  (′define (‴Symbol) ″String ‴(‴Symbol))
+function constructor
+  (function (‴Symbol) ‴Program)
+  (‴Symbol → ‴Program)
+  (‴ (″*) → ‴Program)
+Array constructor
+  (array ″Type ″Natural)
+  (′⟨ ″Type ′⟩)
+  (′⟨ ″Type ″Natural ′⟩)
+Tuple constructor
+  (′values ‴*)
+  (′{ ‴* ′})
+Tagged Tuple constructor
+  (″Symbol ‴*)
+List constructor
+  (′list ‴*)
+  (′[ ‴* ′])
+Conditional evaluation
+  (′? ″* ‴(″* ‴Program))
+  (′? ″* ‴([ ′(″* ⇒ ‴Program) ]))
+Lexical binding
+  (′let ‴(type ′(* ′: *) ′(* = *) ′(‴Program = *)) ′in ‴Program)
+Type constructor
+  (′type ‴*)
+  (‴(‴* ′|))
+Module definition
+  (′module ‴Program)
+Module exports
+  (′export ‴Symbol)
+Versioning
+  (′version ″Number ‴Program)
+
+
 let           lexical binding
 do            sequencing
 the           type assertion
+[function] ... function application
+[symbol] ...   tagged tuple
+segment       segment constructor
+size          segment width
+
+
+(t ; 100)
+(# a b c d e)
