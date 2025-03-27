@@ -85,7 +85,28 @@
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
- └─────┴──────────────────────────────────────────────────────────────────────┘
+ ├─────┴──────────────────────────────────────────────────────────────────────┘
+ └ There's many tools that are used to iteratively construct an artifact over
+   time. Sculpting and woodworking tools are one such example. Another is 
+   computer design software such as CAD, 3D design, or video editing. In all 
+   such cases, the tool and the artifact start out closely intertwined, but the
+   completed artifact will always stand alone in the end. The tools only ever 
+   reach as far as scaffolding is required to prop up an incomplete artifact.
+
+   In the world of software design, this principal of scaffolding is entirely 
+   lost. There are two choices: batch or dynamic. The batch method replaces any
+   notion of iteration with brute-force productivity. Any change to the artifact
+   requires the entire artifact to be re-built from scratch. The dynamic method
+   replaces any notion of an artifact with the idea that the tool is the 
+   artifact. Imagine a painter using the batch method. Each brush stroke would 
+   require the painter to repeat all the previous strokes on a new canvas. 
+   Imagine a vehicle manufacturer using the dynamic method. The tools from each
+   assembly stage would have to be included as part of the vehicle. The result 
+   would be an inoperable pile of scrap. If these approaches seem absurd, it is
+   because they are genuinely, completely absurd. No designer would ever attempt
+   to function this way. The entire process of design would be infeasibly slow
+   and wasteful; precisely just as the process currently exists in the world of
+   software design.
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │3    │                                                                Terms │
@@ -382,42 +403,36 @@ apply         function application
 special forms:
 
 top type
-  (′∗)
+  ′∗
 bottom type
-  (′_)
+  ′_
 definition
   (′define ″Symbol ″String ‴Program)
   (′define (‴Symbol) ″String ‴(‴Symbol))
 function constructor
   (function (‴Symbol) ‴Program)
-  (‴Symbol → ‴Program)
-  (‴ (″*) → ‴Program)
 Array constructor
   (array ″Type ″Natural)
-  (′⟨ ″Type ′⟩)
-  (′⟨ ″Type ″Natural ′⟩)
 Tuple constructor
   (′values ‴*)
-  (′{ ‴* ′})
 Tagged Tuple constructor
   (″Symbol ‴*)
 List constructor
   (′list ‴*)
-  (′[ ‴* ′])
 Conditional evaluation
   (′? ″* ‴(″* ‴Program))
-  (′? ″* ‴([ ′(″* ⇒ ‴Program) ]))
 Lexical binding
   (′let ‴(type ′(* ′: *) ′(* = *) ′(‴Program = *)) ′in ‴Program)
 Type constructor
   (′type ‴*)
-  (‴(‴* ′|))
 Module definition
   (′module ‴Program)
 Module exports
   (′export ‴Symbol)
 Versioning
   (′version ″Number ‴Program)
+description
+  (′describe ″symbol)
 
 
 let           lexical binding
@@ -428,6 +443,17 @@ the           type assertion
 segment       segment constructor
 size          segment width
 
+macros:
 
-(t ; 100)
-(# a b c d e)
+list constructor
+  (′[ ‴* ′])
+type constructor
+  (‴(‴* ′|))
+array constructor
+  (′⟨ ″Type ′⟩)
+  (′⟨ ″Type ″Natural ′⟩)
+function constructor
+  (‴Symbol → ‴Program)
+  (‴ (″*) → ‴Program)
+tuple constructor
+  (′{ ‴* ′})
