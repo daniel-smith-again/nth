@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>nth</title>
     <style>
+    @font-face{ font-family:customfont; src:url('./OverpassMonoVariable.ttf'); }
+    @font-face{ font-family:noto; src:url('./NotoSansMonoVariable.ttf');}
     :root{--front:#000000ff;--back:#ffffffff;--size:calc((12px + 1vw + 1vh) / 2);}
     html{overflow:clip;color:var(--front);background-color:var(--back);}
+    html *, body *{font-family:customfont, noto, monospace;font-size:var(--size);line-height:2ch;}
     body{height:80vh;display:flex;flex-flow:column wrap;align-content:center;align-items:center;justify-content:center;}
-    nth-display{font-family:monospace;font-size:var(--size);display:block;width:80ch;height:24ch;min-width:80ch;min-height:24ch;margin:auto;white-space: pre;}
+    nth-display{display:block;width:80ch;height:24ch;min-width:80ch;min-height:24ch;margin:auto;white-space: pre;}
     </style>
   </head>
   <body>
