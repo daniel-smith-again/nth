@@ -33,13 +33,6 @@ Nat buffer_position;
 void setup_terminal() 
 {
   tcgetattr(STDOUT_FILENO, &terminal_save);
-  //terminal_raw = terminal_save;
-  //terminal_raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
-  //terminal_raw.c_oflag &= ~OPOST;
-  //terminal_raw.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-  //terminal_raw.c_cflag &= ~(CSIZE | PARENB);
-  //terminal_raw.c_cflag |= CS8;
-  //tcsetattr(STDOUT_FILENO, 0, &terminal_raw);
   cfmakeraw();
 }
 
@@ -53,6 +46,7 @@ void setup_program()
 void do_upon_exit(void) 
 {
   tcsetattr(STDOUT_FILENO, 0, &terminal_save);
+  free(input_buffer);
 }
 
 void fill_buffer() 
@@ -61,7 +55,7 @@ void fill_buffer()
   Nat count;
   while(count = read(STDIN_FILENO, c, 128), count > 0)
   {
-    
+    for (int i = 0; i < )
   }
 }
 
@@ -70,9 +64,18 @@ void clear_buffer ()
 
 }
 
+/*
+* reader state machine
+*
+* character is either a symbol
+*/
+
 Byte grab_char ()
 {
-
+  if (buffer_position >= buffer_length)
+    fill_buffer();
+  buffer_position++;
+  return input_buffer[buffer_position - 1];
 }
 
 int main () 

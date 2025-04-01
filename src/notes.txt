@@ -1,0 +1,38 @@
+How do I make my bootstrap when everything is reprogrammable and also depends on
+linking to a vendor library (or no library at all)?
+
+Have a host profile.
+The profile contains the information needed to make a process run on the system.
+It includes 
+            - CPU ISA description
+            - Calling convention
+            - Binary executable format(s) description
+            - Necessary libraries which need to be included by the process.
+This should all be static, searchable information.
+It's used by an assembler/linker to generate native code.
+
+What's the IR like?
+* arbitrarily sized bits
+* memory layout regex declaration
+* no functions, just jumps
+* ISA descriptor 
+* CPU extension descriptor
+* typed SSA registers, generic ops
+
+
+API:
+
+list_host_descriptors()
+    get all descriptor strings for supported hosts
+
+get_host_descriptor()
+    get the descriptor string for the current host
+
+list_architectures()
+    get all descriptor strings for all architectures
+
+get_architecture()
+    get the descriptor string for the current architecture
+
+list_ops()
+    get all operations for the current host/architecture
