@@ -1,30 +1,29 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <head>
-<meta charset='utf-8'>
+<title>nth</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{
-	font-size:calc((12px + 1vw + 1vh) / 2);
-	line-height:2ch;
-	font-family:monospace;
-	width:80ch;
-	margin:auto;
-	color:black;
-	background-color:white;
+:root{
+--bg:rgb(229, 211, 202);
+--bgd:rgb(145, 192, 189);
+--fg:rgb(87, 36, 0);
+--fgl:rgb(154, 52, 1);
+--hg:rgb(94, 228, 217);
+--size:calc(8px + ((1vw + 1vh) / 2));
 }
-a{
-	color:black;
-	font-style:none;
-	text-decoration:none;
-}
-img{
-width:40ch;
-display:block;
-margin:auto;
-}
+body { font-size:var(--size); line-height:2ch; font-family:monospace; width:80ch; margin:auto; color:var(--fg); background-color:var(--bg); }
+a { color:var(--fgl); font-style:none; text-decoration:none; }
+svg { width:40ch; display:block; margin:auto; }
 </style>
 </head>
 <body>
-<img src="icon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidyMin" version="1.1" style="">
+<defs id="defs54"/>
+<ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45"/>
+<path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--fg);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1" d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959" id="path47"/>
+<path style="fill:none;stroke:var(--fg);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 60.777712,2.0907162 37.92925,97.768652" id="path49"/>
+</svg>
 <pre>
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
@@ -33,7 +32,6 @@ margin:auto;
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
                             Copyright © Daniel Smith                            
-
 
  ┌────────────────────────────────────────────────────────────────────────────┐
  │                                 Preamble                                   │
@@ -92,10 +90,50 @@ margin:auto;
  │    "implementation defined" where the manner in which an implementation
  │    meets a requirement is outside the scope of conformance.
  │
+ │┌──────────────────────────────────────────────────────────────────────────┐
+ ├│                                  Scope                                   │
+ │├──────────────────────────────────────────────────────────────────────────┘
+ ││
+ │├ 1 This document specifies...
+ │                                     ∙ The form of an nᵗʰ program.
+ │                                     ∙ The stored format of an nᵗʰ program.
+ │                                     ∙ The effects of interpreting an nᵗʰ
+ │                                       program.
+ │                                     ∙ The process by which an nᵗʰ program is
+ │                                       judged to be correct.
+ │                                     ∙ The requirements of a conforming 
+ │                                       implementation.
  │
- ├─────┬──────────────────────────────────────────────────────────────────────┐
+ │
+ │
+ │
+ │
+ └
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
- └─────┴──────────────────────────────────────────────────────────────────────┘
+ ├─────┴──────────────────────────────────────────────────────────────────────┘
+ └ There's many tools that are used to iteratively construct an artifact over
+   time. Sculpting and woodworking tools are one such example. Another is 
+   computer design software such as CAD, 3D design, or video editing. In all 
+   such cases, the tool and the artifact start out closely intertwined, but the
+   completed artifact will always stand alone in the end. The tools only ever 
+   reach as far as scaffolding is required to prop up an incomplete artifact.
+
+   In the world of software design, this principal of scaffolding is entirely 
+   lost. There are two choices: batch or dynamic. The batch method replaces any
+   notion of iteration with brute-force productivity. Any change to the artifact
+   requires the entire artifact to be re-built from scratch. The dynamic method
+   replaces any notion of an artifact with the idea that the tool is the 
+   artifact. Imagine a painter using the batch method. Each brush stroke would 
+   require the painter to repeat all the previous strokes on a new canvas. 
+   Imagine a vehicle manufacturer using the dynamic method. The tools from each
+   assembly stage would have to be included as part of the vehicle. The result 
+   would be an inoperable pile of scrap. If these approaches seem absurd, it is
+   because they are genuinely, completely absurd. No designer would ever attempt
+   to function this way. The entire process of design would be infeasibly slow
+   and wasteful; precisely just as the process currently exists in the world of
+   software design.
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │3    │                                                                Terms │
@@ -105,33 +143,106 @@ margin:auto;
  │4    │                                                             Overview │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
+ nᵗʰ is a programming language. you use it to write programs
+
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │5    │                                                               Syntax │
  └─────┴──────────────────────────────────────────────────────────────────────┘
- 
+ see figure 1.
+ the characters sequences from begin may be used interchangeably.
+ the cannonical form of a source text is one which only uses () to delimit 
+ expressions
+
+
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │6    │                                                           Evaluation │
  └─────┴──────────────────────────────────────────────────────────────────────┘
+
+  evaluation is function application with binding resolution.
+  Before evaluation macros must be computed.
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │7    │                                                                 Data │
  └─────┴──────────────────────────────────────────────────────────────────────┘
 
-................................................................................
- DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT  
-................................................................................
+ algebraic data types.
+ arrays.
+ items.
+ lists.
+ segments and views
+ bits
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │8    │                                                             Numerics │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+ 
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │9    │                                                            Functions │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
 
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │10   │                                                                Types │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
 
-syntax:
-open paren then closed paren, anything in the middle is part of a list.
-whitespace separates symbols.
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │11   │                                                              Modules │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
 
-significant indentation:
-newline followed by a space is normal formatting.
-newline followed by a tab is (
-newline followed by less tabs is )
-newline followed by the same number of tabs is )(
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │12   │                                                               Images │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
 
-the first symbol is a function, the rest are arguments to the function.
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                   Figures                                    ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ 1. nᵗʰ Grammar │                                                             ┃
+┠────────────────┘                                                             ┃
+┃                                                                              ┃
+┃              Program    → Blank | Symbol | String | Expression               ┃
+┃              Blank      →  ̲ ⃗ | ^̲J̲  ̲ ⃗ | ^̲I̲ ^̲J̲                                 ┃
+┃              Symbol     → □ ⃗                                                 ┃
+┃              String     → "̲ Character "̲                                      ┃
+┃              Character  → □ ⃗ | \̲ \̲ | \̲ "̲ | \̲ Expression                      ┃
+┃              Expression → Begin List ⃗ End | Begin Blank End | Begin End      ┃
+┃                           | Indent List ⃗ Dedent                              ┃
+┃              Begin      → (̲                                                  ┃
+┃              End        → )̲                                                  ┃
+┃              Indent     → ^̲J̲ ^̲I̲ [^̲I̲ ⃗]                                        ┃
+┃              Dedent     → ^̲J̲ [^̲I̲ ⃗]                                           ┃
+┃              List       → Item | Item Delimiter List                         ┃
+┃              Item       → Symbol | Expression | Symbol Delimiter Item        ┃
+┃              Delimiter  → Blank | Expression                                 ┃
+┃                                                                              ┃
+┠──────────────────────────────────────────────────────────────────────────────┨
+┃                                                                              ┃
+┃ This grammar denotes how a sequence of characters representing an nᵗʰ        ┃
+┃ program may be validated. The grammar is comprised of named rules which      ┃
+┃ dictate the order in which characters must appear in order to form a         ┃
+┃ valid program.                                                               ┃
+┃                                                                              ┃
+┃ Each rule is formed by a name, followed by an arrow, followed by a list of   ┃
+┃ character sequences separated by pipes (|).                                  ┃
+┃                                                                              ┃
+┃ A character sequence represents a permitted ordering of individual           ┃
+┃ characters and other sequences. It is denoted by listing names of other      ┃
+┃ rules, and single characters in the order in which they should appear,       ┃
+┃ from left to right.                                                          ┃
+┃                                                                              ┃
+┃ Character values are denoted by any character with an underline. Character   ┃
+┃ values which are not printable (control characters) are represented using    ┃
+┃ their corresponding Caret Notations.                                         ┃
+┃                                                                              ┃
+┃ Some items in a character sequence may repeat once or more. This is denoted  ┃
+┃ by a character value or rule being postfixed with an arrow ( ⃗).              ┃
+┃                                                                              ┃
+┃ Items which are surrounded by square braces ([ ]) may appear optionally.     ┃
+┃                                                                              ┃
+┃ A symbol can be comprised of any Unicode character which is not listed in a  ┃
+┃ sequence rule, and which is not a control character. For this reason, the    ┃
+┃ rule for "Symbol" uses a box as a wildcard corresponding to any valid        ┃
+┃ Unicode character.                                                           ┃
+┃                                                                              ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 </pre>
 </body>

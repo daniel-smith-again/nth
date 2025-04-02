@@ -1,0 +1,137 @@
+<DOCTYPE html>
+<head>
+<meta charset='utf-8'>
+<style>
+body{
+	font-size:calc((12px + 1vw + 1vh) / 2);
+	line-height:2ch;
+	font-family:monospace;
+	width:80ch;
+	margin:auto;
+	color:black;
+	background-color:white;
+}
+a{
+	color:black;
+	font-style:none;
+	text-decoration:none;
+}
+img{
+width:40ch;
+display:block;
+margin:auto;
+}
+</style>
+</head>
+<body>
+<img src="icon.svg">
+<pre>
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                         The nᵗʰ Programming Language                         ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+                            Copyright © Daniel Smith                            
+
+
+ ┌────────────────────────────────────────────────────────────────────────────┐
+ │                                 Preamble                                   │
+ ├────────────────────────────────────────────────────────────────────────────┘
+ │
+ ├ 1 This document forms a comprehensive specification of the properties of
+ │   the programming language, nᵗʰ.
+ │
+ ├ 2 The purpose of this document is to encourage the portability of nᵗʰ 
+ │   programs across a variety of computing systems and implementations.
+ │
+ │┌──────────────────────────────────────────────────────────────────────────┐
+ ├│                                 License                                  │
+ │├──────────────────────────────────────────────────────────────────────────┘
+ ││
+ │├ 1 The author(s) grants the holder of this work full right of access, 
+ ││   without limitation, irrevocably, in perpetuity, for any purpose,
+ ││   by any means.
+ ││
+ │├ 2 Authorship of this work is reserved only for contributions to this
+ ││   work which are made under the terms given in this license.
+ ││
+ │├ 3 Contribution to this work under terms other than those given in this
+ ││   section constitutes authorship of a distinct and separate work, for
+ ││   which the status of authorship of this particular work is not granted.
+ ││
+ │├ 4 In plain terms, if you, the holder of this work, create any 
+ ││   derivation, modification, or copy of this work, in whole or in part,
+ ││   you cannot claim that it is a form of, version of, variation of, 
+ ││   or in any way associated with the work titled 
+ ││   "The nᵗʰ Programming Language" without first providing it under the 
+ ││   terms set out in this license.
+ ││
+ │└ 5 The purpose of these terms is to provide you, the licensee, the most 
+ │    permissive rights and allowances, while preventing any individual or
+ │    entity from claiming authorship with less permissive rights and thus
+ │    reducing the availability of this work.
+ │
+ │┌──────────────────────────────────────────────────────────────────────────┐
+ ├│                               Conformance                                │
+ │├──────────────────────────────────────────────────────────────────────────┘
+ ││
+ │├ 1 This document represents a standard of conformance. As such, the 
+ ││   descriptions therein represent requirements for an implementation.
+ ││
+ │├ 2 An implementation of nᵗʰ is said to conform to this standard if it 
+ ││   comprehensively demonstrates all the properties described in this 
+ ││   document.
+ ││
+ │├ 3 In cases where the practical limitations of an otherwise conforming
+ ││   implementation prevent full conformance, the implementation must 
+ ││   provide documentation about which clauses or sections it does not 
+ ││   conform to
+ ││
+ │└ 4 Some clauses may be "implementation dependent" or
+ │    "implementation defined" where the manner in which an implementation
+ │    meets a requirement is outside the scope of conformance.
+ │
+ │
+ ├─────┬──────────────────────────────────────────────────────────────────────┐
+ │2    │                                                            Rationale │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │3    │                                                                Terms │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │4    │                                                             Overview │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │5    │                                                               Syntax │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+ 
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │6    │                                                           Evaluation │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+ ┌─────┬──────────────────────────────────────────────────────────────────────┐
+ │7    │                                                                 Data │
+ └─────┴──────────────────────────────────────────────────────────────────────┘
+
+................................................................................
+ DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT DRAFT  
+................................................................................
+
+
+syntax:
+open paren then closed paren, anything in the middle is part of a list.
+whitespace separates symbols.
+
+significant indentation:
+newline followed by a space is normal formatting.
+newline followed by a tab is (
+newline followed by less tabs is )
+newline followed by the same number of tabs is )(
+
+the first symbol is a function, the rest are arguments to the function.
+</pre>
+</body>
