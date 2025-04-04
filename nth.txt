@@ -457,3 +457,58 @@ function constructor
   (‴ (″*) → ‴Program)
 tuple constructor
   (′{ ‴* ′})
+
+
+
+memory model:
+Fixed size things can be mutated in-place.
+Arbitrary sized things are mutated using indirection.
+Look at this program for example.
+
+
+define give-me-string 
+       _ → String
+       _ → 
+           let 
+            start = "Hello"
+            rest = ", World!"
+           in
+            (map rest c → start + (string c)),
+            start
+In this example, I loop over the 'rest string and append each character to the 
+start string. I perform an append which clobbers the array. If I wanted a more 
+efficient program, I would write the following code.
+
+define give-me-string _ →
+ let 
+     start = "Hello"
+     rest = ", World!"
+     new = (array Byte ((# start) + (# rest)))
+     partition = (# start)
+ in
+     (map start 
+      c i → new i c),
+     (map rest 
+      c i → new (i + partition) c),
+     (string new)
+
+This example pre-allocates a Byte array to store the combined string inside.
+It then iterates through each string and clobbers the array.
+This is faster than the first one because the first one requires that you 
+re-allocate on each call to append. Honestly there should just be a concatenate.
+
+
+In my stack-based memory model, I can allocate quickly by bumping. However the 
+tradeoff is that I have to perform a lot of copying.
+So I'll take a page from functional languages that have a lot of copying and 
+arbitrarily-sized data structures and use indirection.
+Anything that might change size requires a pointer.
+Things like Natural/Integer/Rational or lists can all change sizes and will 
+change sizes often in the real world. Therefore, they're all indirect.
+If I want to perform addition with two very large numbers, just bump and copy.
+If I want to increment a register by 1, then I overwrite it. 
+Only fixed size things can be overwritten. 
+THIS INCLUDES LIST SLOTS WHICH CAN ALSO BE OVERWRITTEN.
+But with this model, my runtime can use a single linear stack for most things, 
+and indirection is automatically traced when a piece of data that uses 
+indirection escapes the scope.
