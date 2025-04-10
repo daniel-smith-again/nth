@@ -499,7 +499,7 @@ re-allocate on each call to append. Honestly there should just be a concatenate.
 
 
 In my stack-based memory model, I can allocate quickly by bumping. However the 
-tradeoff is that I have to perform a lot of copying.
+trade off is that I have to perform a lot of copying.
 So I'll take a page from functional languages that have a lot of copying and 
 arbitrarily-sized data structures and use indirection.
 Anything that might change size requires a pointer.
@@ -512,3 +512,15 @@ THIS INCLUDES LIST SLOTS WHICH CAN ALSO BE OVERWRITTEN.
 But with this model, my runtime can use a single linear stack for most things, 
 and indirection is automatically traced when a piece of data that uses 
 indirection escapes the scope.
+
+how do I perform quantification? 
+I would use let binding and introduce a typed variable with no actual value.
+
+How do I implement versioning in my language?
+Per image.
+Every time you re-define something, it's incremented as a version.
+Is this the way I want to do that though? 
+How do I change something without polluting the image with needless changes?
+Imagine an image that grows with previous versions of everything you've ever
+edited.
+

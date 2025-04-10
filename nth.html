@@ -142,27 +142,50 @@ alt-background {background-color:var(--bgd);}
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │2    │                                                            Rationale │
  ├─────┴──────────────────────────────────────────────────────────────────────┘
- └ There's many tools that are used to iteratively construct an artifact over
-   time. Sculpting and woodworking tools are one such example. Another is 
-   computer design software such as CAD, 3D design, or video editing. In all 
-   such cases, the tool and the artifact start out closely intertwined, but the
-   completed artifact will always stand alone in the end. The tools only ever 
-   reach as far as scaffolding is required to prop up an incomplete artifact.
+ └    As computer hardware becomes more powerful, modern software applications 
+   grow in complexity. This trend has existed and will continue to exist as 
+   time goes on and new innovations are made. Complexity is always best 
+   addressed in a gradual manner. When creating a complex software application,
+   construction is best performed gradually, over time. But, no tool yet exists 
+   which allows a truly gradual workflow. 
 
-   In the world of software design, this principal of scaffolding is entirely 
-   lost. There are two choices: batch or dynamic. The batch method replaces any
-   notion of iteration with brute-force productivity. Any change to the artifact
-   requires the entire artifact to be re-built from scratch. The dynamic method
-   replaces any notion of an artifact with the idea that the tool is the 
-   artifact. Imagine a painter using the batch method. Each brush stroke would 
-   require the painter to repeat all the previous strokes on a new canvas. 
-   Imagine a vehicle manufacturer using the dynamic method. The tools from each
-   assembly stage would have to be included as part of the vehicle. The result 
-   would be an inoperable pile of scrap. If these approaches seem absurd, it is
-   because they are genuinely, completely absurd. No designer would ever attempt
-   to function this way. The entire process of design would be infeasibly slow
-   and wasteful; precisely just as the process currently exists in the world of
-   software design.
+      In every other field of design, workflows exist where an artifact may be 
+   built up gradually. The tooling supports this by allowing the storage and 
+   manipulation of the spectrum of intermediate states that the artifact may 
+   exist in while still incomplete. Every tool for creating digital media 
+   provides some form of this workflow. Document creating tools allow you to 
+   save an incomplete document without requiring you to print the contents. 
+   Computer graphics programs allow you to save a "scene file" without 
+   requiring you to export a video or image. Digital audio workstations allow 
+   you to save the "project" without requiring you to export an audio file. 
+   Software design is the only field of design which does not yet have a 
+   workflow following this pattern. Software design instead follows one of two 
+   pathologies: die casting or play-dough.
+
+      When engineering with die casting, the only way of forming an artifact is
+   by creating a die or template (another artifact in its own right). This die 
+   will always create the same artifact when cast. However the artifact comes 
+   out is the completed state, even if the artifact doesn't meet requirements. 
+   This is pathological because creating a software artifact requires intense
+   labor for every adjustment. With each iteration, a new die must be created,
+   cast, then inspected and tested for conformance.
+   
+      The second pathology, play-dough is the opposite problem. The dough may
+   be freely manipulated into any desired form, however the material will
+   always be dough. Any resulting artifact will always have the physical 
+   qualities and tolerances of dough. In most cases, this results in an 
+   artifact which is completely unusable for its intended purpose. This is 
+   pathalogical because part of the design process is the ability to produce a
+   finished result, and a finished result should never contain the intermediary
+   materials used in the design process.
+
+      What is required is a new tool for software design. One which allows the 
+   designers, engineers, and architects to compose an application gradually. 
+   Like die casting, the completed artifact should be able to posess the 
+   qualities and tolerances to meet its requirements and intended use cases.
+   Like play-dough, the process of creating an application should allow for 
+   iteration of incomplete facets without needing to discard the rest of the 
+   application. This is the purpose which nᵗʰ is intended to fulfill.
 
  ┌─────┬──────────────────────────────────────────────────────────────────────┐
  │3    │                                                                Terms │
