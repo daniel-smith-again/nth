@@ -512,6 +512,8 @@ THIS INCLUDES LIST SLOTS WHICH CAN ALSO BE OVERWRITTEN.
 But with this model, my runtime can use a single linear stack for most things, 
 and indirection is automatically traced when a piece of data that uses 
 indirection escapes the scope.
+Should I allow the programmer to reason about the size of things?
+Yes. You might want to put some data somewhere
 
 how do I perform quantification? 
 I would use let binding and introduce a typed variable with no actual value.
@@ -524,3 +526,28 @@ How do I change something without polluting the image with needless changes?
 Imagine an image that grows with previous versions of everything you've ever
 edited.
 
+You can embed the compiler and any other kinds of dynamic routines into an app,
+but the purpose of nth is to be able to extract a completed, stand-alone, 
+static binary.
+If you want to use nth as a kind of "OS within an OS", you can do that by just 
+not extracting a function and instead export a module.
+
+Arbitrary precision numbers are fine. 
+Embedding them inside an ADT should also be fine. 
+There should be a way to "grow" the ADT in a contiguous region by shuffling 
+the order of the fields.
+Or, the only indirection is recursion. If I write something like
+(define (foo x y z))
+then I can do something like 
+(foo 1/38292 -382984/239847293847 3829843)
+and that will be inside constant space.
+So ADT instances should be fine.
+But what about something like this?
+
+(define (foo x) 
+ instance x -> foo x
+ inst (instance x) y -> instance y)
+
+and then doing something like 
+(let i = (instance 1)
+ in (inst i 2))
