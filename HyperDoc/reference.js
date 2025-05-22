@@ -574,8 +574,8 @@ function structureToProgram(s)
 function programToStructure(p)
 {
   var i = 0;
-  var getChar = () => {var char = p[i];i++;return char;}
-  var peekChar = () => {return p[i]}
+  var getChar = () => {var char = (i >= p.length ? null : p[i]); i++; return char;}
+  var peekChar = () => {return i >= p.length ? null : p[i]; }
   function parse()  
   {
     var expression
@@ -592,7 +592,7 @@ function programToStructure(p)
         }
         getChar()
         return expression
-      break
+      break;
       case '"':
         c = getChar()
         expression = document.createElement('nth-string')
@@ -618,11 +618,11 @@ function programToStructure(p)
         getChar()
         expression.appendChild(document.createTextNode(stringcontent))
         return expression
-      break
+      break;
       case '\n':
         c = getChar(), expression = document.createElement('br')
         return expression
-      break
+      break;
       case ' ':
       case '\u00a0':
         c = getChar()
@@ -633,17 +633,17 @@ function programToStructure(p)
           expression.textContent += '\u00a0', getChar()
         if (expression.textContent.length > 1) return expression
         else return null
-      break
+      break;
       case ')':
         throw "Unexpected closing brace!"
-      break
+      break;
       default:
         c = getChar()
         expression = document.createElement('nth-symbol')
         expression.onclick = highlightSymbol
         expression.ontouchstart = highlightSymbol
         expression.textContent = c
-        while (c = peekChar(), c != '(' && c != ')' && c != ' ' && c != '\n')
+        while (c = peekChar(), c != '(' && c != ')' && c != ' ' && c != '\n' && c != null)
           expression.textContent += getChar()
         var t = expression.textContent
         checkQuote(expression)

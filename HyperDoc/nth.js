@@ -249,6 +249,7 @@ export class nth {
   }
   #expand = (ast) => 
   {
+    
     return ast;
   }
   #check = (ast) =>
@@ -258,7 +259,7 @@ export class nth {
   }
   #interpret = (ast) => 
   {
-    astp = this.#expand(ast);
+    var astp = this.#expand(ast);
     this.#check(astp);
     return (this.#print(astp))
   }
