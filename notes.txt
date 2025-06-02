@@ -342,23 +342,3 @@ how do I change part of the list?
  in
      list_1 <- )
 
-
-here's how to copy a file in my language
-
-define Unicode ! 'Unicode
-define Upper Unicode.Upper
-define Normalize Unicode.Normalize
-define Files ! 'Files
-define Sys ! 'System
-
-define main with Sys.Exit 
-            _ ->
-            (in out) <- Sys.Pipes.Arguments 
-                        ? (a b) (a b)
-                          *     (Exit)     ,
-            inFile <- Files.Read in ,
-            outFile <- Files.Write out ,
-            outFile Upper Normalize inFile
-
-
-Convert a file to uppercase pseudo snippet

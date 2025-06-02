@@ -41,6 +41,7 @@ footer > * { margin: auto; }
 #prev{left:0ch;}
 #up{left:calc(50vw - 2ch);}
 #cover-icon{display:block;min-height:34vh;max-height:30ch;margin:auto;}
+#cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
 nth-source-snippet { white-space: pre; display: inline-block; }
 nth-area{display:block;width:90vw;height:90vh;margin:auto;}
@@ -88,7 +89,8 @@ nth-expression[active]{background-image:none;}
 nth-symbol{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--fgl) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);visibility:hidden;transition-property:visibility;transition-duration:0.5s;}
-nth-tooltip > *{position:absolute;z-index:100;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);}
+nth-help nth-tooltip{transition-duration:0s;}
+nth-tooltip > *{position:absolute;z-index:100;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);white-space:normal;}
 *:hover > nth-tooltip {visibility:visible;}
 nth-tooltip:hover {visibility:visible;}
 nth-string{color:var(--fgl);transition:all 0.2s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}

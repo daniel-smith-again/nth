@@ -10,7 +10,17 @@ closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 var unicodebutton = document.getElementsByTagName('nth-showhide')[0]
 var unicodemenu = document.getElementsByTagName('nth-unicode')[0]
 unicodebutton.onclick = (e) => {unicodemenu.getAttribute('displayhidden') == 'true' ? (unicodemenu.style.left = '0', unicodemenu.setAttribute('displayhidden', 'false')) : (unicodemenu.style.left = '-22ch', unicodemenu.setAttribute('displayhidden', 'true'));}
-
+const shortcutreplace = [
+  [/\\\\->/g, '→'],
+  [/\\\\\*/g, '⨯'],
+  [/\\\\\//g, '÷'],
+  [/\\\\and/g, '∧'],
+  [/\\\\or/g, '∨'],
+  [/\\\\not/g, '¬'],
+  [/\\\\\.=/g, '≠'],
+  [/\\\\<=/g, '≤'],
+  [/\\\\>=/g, '≥']
+]
 var unicodelisting = "\n+-⨯÷√=≠<≤>≥±≡≢≣∼∽∾∿≀≁\n∧∨¬∀∃∄∴∵⊢⊣⊤⊥\n←↑→↓↔↕↖↗↘↙\n∩∪∈∉∋∌∖∅⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎\nΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρςστυφχψω\n⊕⊖⊗⊘⊙⊚⊛⊜⊝\n⦁⦂⦃⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⫷⫸⫹⫺⫶⦙⦚\n⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺"
 unicodelisting.split('').map(c => {
   if (c == '\n') {unicodemenu.appendChild(document.createElement('div'))}
@@ -48,13 +58,14 @@ function createSnippet()
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
   snippet.children[1].children[0].children[0].onclick = Run
-  snippet.children[1].children[0].children[1].onclick = Rewrite
-  snippet.children[1].children[0].children[2].children[0].children[0].onclick = Copy
-  snippet.children[1].children[0].children[2].children[0].children[1].onclick = Cut
-  snippet.children[1].children[0].children[2].children[0].children[2].onclick = Paste
-  snippet.children[1].children[0].children[3].children[0].children[0].onclick = saveCode
-  snippet.children[1].children[0].children[3].children[0].children[1].onclick = loadCode
-  snippet.children[1].children[0].children[4].onclick = Close
+  //got rid of rewrite button, there's other ways to do this that are just as easy
+  //snippet.children[1].children[0].children[1].onclick = Rewrite
+  snippet.children[1].children[0].children[1].children[0].children[0].onclick = Copy
+  snippet.children[1].children[0].children[1].children[0].children[1].onclick = Cut
+  snippet.children[1].children[0].children[1].children[0].children[2].onclick = Paste
+  snippet.children[1].children[0].children[2].children[0].children[0].onclick = saveCode
+  snippet.children[1].children[0].children[2].children[0].children[1].onclick = loadCode
+  snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
   return snippet
 }
@@ -390,19 +401,15 @@ function checkQuote(s)
   else if (s.getAttribute('quote') != null)
     s.removeAttribute('quote')
 }
+
 function reduceShortcuts(s)
 {
   if (s.textContent.includes('\\\\'))
   {
-    s.textContent = s.textContent.replace(/\\\\->/g, '→')
-    s.textContent = s.textContent.replace(/\\\\\*/g, '⨯')
-    s.textContent = s.textContent.replace(/\\\\\//g, '÷')
-    s.textContent = s.textContent.replace(/\\\\and/g, '∧')
-    s.textContent = s.textContent.replace(/\\\\or/g, '∨')
-    s.textContent = s.textContent.replace(/\\\\not/g, '¬')
-    s.textContent = s.textContent.replace(/\\\\\/=/g, '≠')
-    s.textContent = s.textContent.replace(/\\\\<=/g, '≤')
-    s.textContent = s.textContent.replace(/\\\\>=/g, '≥')
+    for (var n of shortcutreplace)
+    {
+      s.textContent = s.textContent.replace(n[0], n[1])
+    }
   }
 }
 function Cut(e)
@@ -536,6 +543,7 @@ function Run(e)
 }
 function Rewrite(e) 
 {
+  
 }
 function structureToProgram(s) 
 {
