@@ -1,5 +1,0 @@
-:root{front:#000000ff;back:#ffffffff;highlight:#555555ff;}
-@font-face{ font-family:customfont; src:url('./OverpassMonoVariable.ttf'); }
-@font-face{ font-family:noto; src:url('./NotoSansMonoVariable.ttf');}
-body{font-family:customfont noto monospace;}
-body * {font-family:customfont noto monospace;}

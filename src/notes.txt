@@ -1,38 +1,16 @@
-How do I make my bootstrap when everything is reprogrammable and also depends on
-linking to a vendor library (or no library at all)?
+I'm making the nth implementation in two parts. 
+There's the header-only library which implements the nth language, bytecode
+interpreter, and other things.
+Then there's the ".c" file which is operating-system specific.
 
-Have a host profile.
-The profile contains the information needed to make a process run on the system.
-It includes 
-            - CPU ISA description
-            - Calling convention
-            - Binary executable format(s) description
-            - Necessary libraries which need to be included by the process.
-This should all be static, searchable information.
-It's used by an assembler/linker to generate native code.
+The H file is responsible for...
+- Parsing a UTF-8 string into an AST
+- Interpreting the AST
+- providing the nth defaults
+- managing the live image state
 
-What's the IR like?
-* arbitrarily sized bits
-* memory layout regex declaration
-* no functions, just jumps
-* ISA descriptor 
-* CPU extension descriptor
-* typed SSA registers, generic ops
-
-
-API:
-
-list_host_descriptors()
-    get all descriptor strings for supported hosts
-
-get_host_descriptor()
-    get the descriptor string for the current host
-
-list_architectures()
-    get all descriptor strings for all architectures
-
-get_architecture()
-    get the descriptor string for the current architecture
-
-list_ops()
-    get all operations for the current host/architecture
+The C file is responsible for...
+- the entry into the nth executable
+- managing the frontend interface (i.e. how the user enters source code)
+- providing memory management
+- providing primitive routines necessary for nth to work
