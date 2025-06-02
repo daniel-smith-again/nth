@@ -28,13 +28,10 @@
             <p>Clause 1.</p>
             <figure>
                 <figcaption>Some example code</figcaption>
-                <nth-editor active>
-                    <nth-code>
-                        <nth-expression><nth-symbol>foo<nth-tooltip><p>This is a tooltip</p></nth-tooltip></nth-symbol><nth-symbol>bar</nth-symbol>
-                            <nth-expression active><nth-symbol>foo</nth-symbol><nth-symbol>baz</nth-symbol></nth-expression>
-                        </nth-expression>
-                    </nth-code>
-                </nth-editor>
+                <nth-source-snippet>
+                    (foo bar
+                         <span>(baz biff)<nth-tooltip><p style="left:0; bottom:0ch;">a sub expression</p></nth-tooltip></span>)
+                </nth-source-snippet>
             </figure>
         </article>
     </main>

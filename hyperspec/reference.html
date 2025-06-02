@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>Nth HyperDoc</title>
+<link rel="stylesheet" href="./style/style.css">
+<!--<link rel="stylesheet" href="reference.css">-->
+<link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
+<link rel="manifest" href="./icon/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<script src="./js/nth.js" type="module"></script>
+<script src="./js/reference.js" type="module"></script>
+</head>
+<body>
+<nth-header>The <i>n</i><sup>th</sup> Reference Implementation<br><a href="contents.html" style="float:left;">&LeftArrow;</a><help-button style="float:right;">?</help-button></nth-header>
+<nth-help>
+<h2 style="margin-bottom:0;margin-top:0;">Help</h2>
+<close-help>X</close-help>
+<div style="display:grid;grid-template-areas:'a b';grid-template-columns:40% auto;">
+<div>
+<h3>The Interface</h3>
+<div style="margin:auto;">
+<p>Mouse over the editor to learn about the interface.</p>
+<nth-editor active="true" style="position:static;margin:auto;">
+<nth-handle>
+<span>&#x2b24;<nth-tooltip><p style="left:1ch;bottom:1ch;">Move the editor around the window by dragging this thing called a "handle". Hover over the handle to show tools.</p></nth-tooltip></span>
+<nth-options>
+<nth-run>&#x23f5;<nth-tooltip><p style="left:3ch;bottom:1ch;"><a href="terms.html#Evaluation">Evaluate</a> your code and replace the current <a href="terms.html#Expression">expression</a> with the result.</p></nth-tooltip></nth-run>
+<nth-step>&#x21dd;<nth-tooltip><p style="left:3ch;bottom:1ch;">Replace the current <a href="terms.html#Expression">expression</a> with one where all the <a href="terms.html#Transform">transforms</a> have been <a href="terms.html#Rewrite">rewritten</a>.</p></nth-tooltip></nth-step>
+<nth-manip>
+<span>&#x2699;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for working with multiple editor instances.</p></nth-tooltip></span>
+<nth-tools>
+<nth-copy>&#x29c9;<nth-tooltip><p style="left:2ch;bottom:1ch;">Copy the current atom to the clipboard.</p></nth-tooltip></nth-copy>
+<nth-move>&#x25a3;<nth-tooltip><p style="left:2ch;bottom:1ch;">Cut the current atom to the clipboard.</p></nth-tooltip></nth-move>
+<nth-paste>&#x21f2;<nth-tooltip><p style="left:2ch;bottom:1ch;">Paste the atom in the clipboard by inserting it before the focused atom.</p></nth-tooltip></nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-manip><span>&#x21f5;<nth-tooltip><p style="left:0;bottom:1ch;">Tools for handling the editor content.</p></nth-tooltip></span>
+<nth-tools>
+<nth-save>&#x27f1<nth-tooltip><p style="left:2ch;bottom:1ch;">Download the <a href="terms.html#Expression">expression</a> in the editor as <a href="terms.html#Source">source</a>.</p></nth-tooltip></nth-save>
+<nth-load>&#x27f0;<nth-tooltip><p style="left:2ch;bottom:1ch;">Upload a <a href="terms.html#Source">source</a> to be the <a href="terms.html#Expression">expression</a> in the editor.</p></nth-tooltip></nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;<nth-tooltip><p style="left:2ch;bottom:0;">Close the editor and delete the <a href="terms.html#Expression">expression</a>.</p></nth-tooltip></nth-close>
+</nth-options>
+</nth-handle>
+<nth-code>
+<nth-expression><nth-symbol>let<nth-tooltip><p style="left:-5ch;bottom:1ch;">Your code always starts just to the right of the "handle".</p></nth-tooltip></nth-symbol>
+<nth-tooltip><p style="right:1ch;top:5ch;">Click and drag anywhere in the editor to move it.</p></nth-tooltip><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>x</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>1</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>y</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>2</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>z</nth-symbol><nth-symbol>=</nth-symbol><nth-symbol>3</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;</nth-symbol><nth-symbol>in</nth-symbol><br>
+<nth-symbol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nth-symbol>
+<nth-expression active="true"><nth-tooltip><p style="left:3;top:2ch;">Focused <a href="terms.html#Expression">expressions</a> always raised from the rest of the code.</p></nth-tooltip>
+<nth-symbol>x</nth-symbol><nth-symbol>+</nth-symbol><nth-expression><nth-symbol>y</nth-symbol><nth-symbol>+</nth-symbol><nth-symbol active="true">z<nth-tooltip><p style="left:1ch;bottom:-1lh;">The current <a href="terms.html#Symbol">Symbol</a> has a darker background. Click on a <a href="terms.html#Symbol">Symbol</a> to focus on it.</p></nth-tooltip></nth-symbol></nth-expression></nth-expression>
+</nth-expression>
+</nth-code>
+</nth-editor>
+</div>
+</div>
+<div>
+<h3 style="margin-bottom:0;margin-top:0;">Controls</h3>
+<table style="text-align:center;">
+<tr><th>Input</th><th>Mapping</th></tr>
+<tr><td>&#x2328;</td><td>Append characters to a focused <a href="terms.html#Symbol">Symbol</a> or <a href="terms.html#String">String</a>.</td></tr>
+<tr><td><code>(</code></td><td>Append a new <a href="terms.html#Expression">expression</a> and focus into it.</td></tr>
+<tr><td>&rightarrow;</td><td>Focus the next atom.</td></tr>
+<tr><td>&leftarrow;</td><td>Focus the previous atom.</td></tr>
+<tr><td>&downarrow;</td><td>If an <a href="terms.html#Expression">expression</a> is focused, move the focus into its atoms.<br>If a <a href="terms.html#String">String</a> is focused, edit the <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>&uparrow;<br><code>)</code></td><td>Move focus out of an <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>&#x2936</td><td>Insert a line break after the focused atom.</td></tr>
+<tr><td>Del</td><td>Delete the focused <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Esc</td><td>Deselect the focused editor or exit from editing a <a href="terms.html#String">String</a>.</td></tr>
+<tr><td>Backspace</td><td>Delete a <a href="terms.html#Caracter">Character</a> from a focused <a href="terms.html#Symbol">Symbol</a>,<br>or delete a focused atom which is empty.</td></tr>
+<tr><td>Tab</td><td>Create a pseudo-symbol with spaces for indentation.</td></tr>
+<tr><td>Shift + &#x2936;</td><td><a href="terms.html#Evaluate">Evaluate</a> the <a href="terms.html#Expression">expression</a>.</td></tr>
+<tr><td>Ctrl + X/C/V</td><td>Cut/Copy/Paste a focused atom.</td></tr>
+</table>
+</div></div>
+</nth-help>
+<nth-area></nth-area>
+<nth-unicode displayhidden="true">
+<nth-showhide><span>&#x2328;</span></nth-showhide>
+</nth-unicode>
+<nth-editor id="editortemplate" style="display:none;">
+<textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
+<nth-handle><!--&#x25a9;-->&#x2b24;
+<nth-options>
+<nth-run>&#x23f5;</nth-run>
+<nth-step>&#x21dd;</nth-step>
+<nth-manip>&#x2699;
+<nth-tools>
+<nth-copy>&#x29c9;</nth-copy>
+<nth-move>&#x25a3</nth-move>
+<nth-paste>&#x21f2;</nth-paste>
+</nth-tools>
+</nth-manip>
+<nth-manip>&#x21f5;
+<nth-tools>
+<nth-save>&#x27f1</nth-save>
+<nth-load>&#x27f0;</nth-load>
+</nth-tools>
+</nth-manip>
+<nth-close>&#x2a2f;</nth-close>
+</nth-options></nth-handle><nth-code></nth-code></nth-editor>
+</body>
+</html>
+
