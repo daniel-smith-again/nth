@@ -127,9 +127,9 @@ document.onkeydown = (e) => {
   if (e.key.length == 1) {
     e.preventDefault()
     switch(e.key) {
-      case '(': insertExpression(); break
+      case '(': insertExpression(e.shiftKey); break
       case ')': outwards(); break
-      case ' ': insertSymbol(); break
+      case ' ': insertSymbol(e.shiftKey); break
       case '"': insertString(); break
       default: insertCharacter(e.key)
     }
@@ -169,7 +169,7 @@ function insertCharacter(c)
   checkQuote(caret.symbol)
   reduceShortcuts(caret.symbol)
 }
-function insertSymbol() 
+function insertSymbol(i) 
 {
   var caret = active.caret;
   if (caret.tagName == 'NTH-CODE' && caret.childElementCount > 0) return
@@ -184,6 +184,11 @@ function insertSymbol()
   {
     caret.appendChild(s)
     caret.symbol = caret.firstChild
+  }
+  else if (i && caret.symbol) 
+  {
+    caret.insertBefore(s, caret.symbol)
+    caret.symbol = caret.symbol.previousSibling;
   }
   else if (caret.symbol.nextSibling)
   {
@@ -213,11 +218,27 @@ function insertExpression()
   else if (caret.symbol.nextSibling)
   {
     caret.insertBefore(e, caret.symbol.nextSibling)
-    active.caret = caret.symbol.nextSibling
+    if (e.previousSibling && 
+        e.previousSibling.tagName == 'NTH-SYMBOL' &&
+        e.previousSibling.textContent == ''
+    )
+    {
+      caret.removeChild(e.previousSibling);
+      caret.symbol = e;
+      active.caret = caret.symbol;
+    }
+    else 
+    {
+      active.caret = caret.symbol.nextSibling
+    }
   }
   else
   {
     caret.appendChild(e)
+    if (e.previousSibling.tagName == 'NTH-SYMBOL' && e.previousSibling.textContent == '')
+    {
+      caret.removeChild(e.previousSibling);
+    }
     active.caret = caret.lastChild
   }
 }
@@ -225,6 +246,9 @@ function insertBreak()
 {
   var caret = active.caret
   if (caret.tagName == 'NTH-CODE') return
+  //var b = document.createElement('span')
+  //b.appendChild(document.createTextNode('LINEBREAK'))
+  //b.appendChild(document.createElement('br'))
   var b = document.createElement('br')
   if (caret.childElementCount == 0) return
   else
@@ -394,6 +418,8 @@ function highlightSymbol(e)
 }
 function checkQuote(s) 
 {
+  return;
+  unreachable
   if (s.textContent == "'" ||
       s.textContent == "''" ||
       s.textContent == "'''")

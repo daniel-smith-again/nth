@@ -3,6 +3,7 @@
 :root {
     --bg: rgb(229, 211, 202);
     --bgd: rgb(145,192,189);
+    --bgl: #91C0BD33;
     --fg: rgb(87, 36,0);
     --fgl: rgb(154, 52, 1);
     --hg: rgb(94, 228, 217);
@@ -84,9 +85,13 @@ nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical
 nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.7ch;position:relative;z-index:200;}
 nth-expression > * + *{margin-left:1ch;}
 nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0;}
+nth-expression > br::before{content: 'XD';}
+nth-expression nth-expression + nth-symbol {vertical-align:bottom;}
 nth-editor[active] nth-symbol[active]{background-color:var(--bgd);}
+nth-editor[active] nth-expression[active] nth-expression{background-color:var(--bgl);}
+/*nth-editor[active] nth-expression[active] > nth-expression nth-expression{background-color: var(--bgl);}*/
 nth-expression[active]{background-image:none;}
-nth-symbol{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;}
+nth-symbol{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;background-color:unset;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--fgl) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);visibility:hidden;transition-property:visibility;transition-duration:0.5s;}
 nth-help nth-tooltip{transition-duration:0s;}

@@ -254,8 +254,7 @@ export class nth {
   }
   #check = (ast) =>
   {
-    //symbols must be bound
-    //function calls must conform to signatures
+    
   }
   #interpret = (ast) => 
   {
