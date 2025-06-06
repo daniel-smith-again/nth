@@ -11,15 +11,15 @@ var unicodebutton = document.getElementsByTagName('nth-showhide')[0]
 var unicodemenu = document.getElementsByTagName('nth-unicode')[0]
 unicodebutton.onclick = (e) => {unicodemenu.getAttribute('displayhidden') == 'true' ? (unicodemenu.style.left = '0', unicodemenu.setAttribute('displayhidden', 'false')) : (unicodemenu.style.left = '-22ch', unicodemenu.setAttribute('displayhidden', 'true'));}
 const shortcutreplace = [
-  [/\\\\->/g, '→'],
-  [/\\\\\*/g, '⨯'],
-  [/\\\\\//g, '÷'],
+  [/\\\\arrow/g, '→'],
+  [/\\\\product/g, '⨯'],
+  [/\\\\quotient/g, '÷'],
   [/\\\\and/g, '∧'],
   [/\\\\or/g, '∨'],
   [/\\\\not/g, '¬'],
-  [/\\\\\.=/g, '≠'],
-  [/\\\\<=/g, '≤'],
-  [/\\\\>=/g, '≥']
+  [/\\\\neq/g, '≠'],
+  [/\\\\leq/g, '≤'],
+  [/\\\\geq/g, '≥']
 ]
 var unicodelisting = "\n+-⨯÷√=≠<≤>≥±≡≢≣∼∽∾∿≀≁\n∧∨¬∀∃∄∴∵⊢⊣⊤⊥\n←↑→↓↔↕↖↗↘↙\n∩∪∈∉∋∌∖∅⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎\nΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρςστυφχψω\n⊕⊖⊗⊘⊙⊚⊛⊜⊝\n⦁⦂⦃⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⫷⫸⫹⫺⫶⦙⦚\n⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺"
 unicodelisting.split('').map(c => {

@@ -107,6 +107,13 @@ export class nth {
     '≤': (ast) => {},
     '>': (ast) => {},
     '≥': (ast) => {},
+    //builtin functions
+    'apply': (ast) => {},
+    //reflection
+    '#': (ast) => {},
+    'size': (ast) => {},
+    'signature': (ast) => {},
+    'return': (ast) => {},
 
 
     'define': (ast) => {},
