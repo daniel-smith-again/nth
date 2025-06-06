@@ -1,0 +1,16 @@
+{
+    "name": "Nth Reference Implementation",
+    "short_name": "nth",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "icon.webp",
+            "sizes": "100x100",
+            "type": "image/webp"
+        }
+    ],
+    "display": "standalone",
+    "theme-color": "rgb(87, 36,0)",
+    "background_color": "rgb(229, 211, 202)",
+    "prefer_related_applications": false
+}

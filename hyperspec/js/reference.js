@@ -129,7 +129,7 @@ document.onkeydown = (e) => {
     switch(e.key) {
       case '(': insertExpression(e.shiftKey); break
       case ')': outwards(); break
-      case ' ': insertSymbol(e.shiftKey); break
+      case ' ': insertSymbol(); break
       case '"': insertString(); break
       default: insertCharacter(e.key)
     }
@@ -185,10 +185,12 @@ function insertSymbol(i)
     caret.appendChild(s)
     caret.symbol = caret.firstChild
   }
-  else if (i && caret.symbol) 
+  else if (caret.symbol.previousSibling && 
+           caret.symbol.tagName == 'NTH-SYMBOL' &&
+           caret.symbol.textContent == '') 
   {
-    caret.insertBefore(s, caret.symbol)
-    caret.symbol = caret.symbol.previousSibling;
+    caret.insertBefore(caret.symbol, caret.symbol.previousSibling)
+    caret.symbol.setAttribute('active', 'true')
   }
   else if (caret.symbol.nextSibling)
   {
