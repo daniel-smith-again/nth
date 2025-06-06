@@ -77,7 +77,7 @@ nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:c
 nth-options > *:hover, nth-options > *:active, nth-tools > *:hover, nth-tools > *:active{background-color:var(--bgd);}
 nth-manip{position:relative;}
 nth-tools{display:none;flex-flow:row nowrap;width:min-content;max-width:unset;height:2ch;position:absolute;background-color:var(--bg);border-radius:0.5ch;top:0;left:2ch;box-shadow:var(--fg) 0 0 0.5ch;}
-nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;}
+nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;z-index:500;}
 nth-handle:hover nth-options, nth-handle:active nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.7);user-select:none;max-width:69vw;padding:0.2ch;}
 nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;background-color:var(--bg);}
