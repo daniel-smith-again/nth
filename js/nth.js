@@ -60,7 +60,7 @@
 
 *******************************************************************************/
 
-export class nth {
+class nth {
   constructor(){this.#init(); this.eval = (program) => {this.#setbuffer(program); return this.#eval(); }}
   #string = class { constructor(){}; type = "String"; contents = ""; }
   #number = class { constructor(){}; type = "Number"; contents = ""; }

@@ -1,4 +1,3 @@
-import { nth } from "./nth.js";
 const Nth = new nth();
 var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
@@ -7,26 +6,6 @@ var helpbutton = document.getElementsByTagName('help-button')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
-var unicodebutton = document.getElementsByTagName('nth-showhide')[0]
-var unicodemenu = document.getElementsByTagName('nth-unicode')[0]
-unicodebutton.onclick = (e) => {unicodemenu.getAttribute('displayhidden') == 'true' ? (unicodemenu.style.left = '0', unicodemenu.setAttribute('displayhidden', 'false')) : (unicodemenu.style.left = '-22ch', unicodemenu.setAttribute('displayhidden', 'true'));}
-
-const Keyboard= {
-  KeyMap: [
-        ['.~!@#%^&|; 1234567890 +-*×/÷√<>=', '≤≥≰≱≠∽≈≡≣∎ ∀∃∄⊢∈∋∖∏∑∐ ¬∧∨∴∵∘∙'],
-        ['\'tbjdkyhr, aofglmncie (spqxzuvw)','"TBJDKYHR\\\ AOFGLMNCIE ?SPQXZUVW:'],
-        ['αβγδεζηθ ικλμνξοπ ρστυφχψω', 'ΑΒΓΔΕΖΗΘ ΙΚΛΜΝΞΟΠ ΡΣΤΥΦΧΨΩ'],
-        ['𝕥𝕓𝕛𝕕𝕜𝕪𝕙𝕣 𝕒𝕠𝕗𝕘𝕝𝕞𝕟𝕔𝕚𝕖 𝕤𝕡𝕢𝕩𝕫𝕦𝕧𝕨', '𝕋𝔹𝕁𝔻𝕂𝕐ℍℝ 𝔸𝕆𝔽𝔾𝕃𝕄ℕℂ𝕀𝔼 𝕊ℙℚ𝕏ℤ𝕌𝕍']
-      ],
-      Map: 1,
-      Visible: true,
-      ShiftLock: 0,
-      Symb: false,
-      Toggle: document.getElementsByTagName('nth-keyboard-toggle')[0],
-      Area: document.getElementsByTagName('nth-keyboard-area')[0],
-      Display: document.getElementsByTagName('nth-keyboard')[0]
-}
-showKeyboard()
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
@@ -38,102 +17,11 @@ const shortcutreplace = [
   [/\\\\leq/g, '≤'],
   [/\\\\geq/g, '≥']
 ]
-var unicodelisting = "\n+-⨯÷√=≠<≤>≥±≡≢≣∼∽∾∿≀≁\n∧∨¬∀∃∄∴∵⊢⊣⊤⊥\n←↑→↓↔↕↖↗↘↙\n∩∪∈∉∋∌∖∅⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎\nΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρςστυφχψω\n⊕⊖⊗⊘⊙⊚⊛⊜⊝\n⦁⦂⦃⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⫷⫸⫹⫺⫶⦙⦚\n⌶⌷⌸⌹⌺⌻⌼⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺"
-unicodelisting.split('').map(c => {
-  if (c == '\n') {unicodemenu.appendChild(document.createElement('div'))}
-  else {
-    unicodemenu.lastChild.appendChild(document.createElement('span'))
-    unicodemenu.lastChild.onclick = (e)=>{if (active) insertCharacter(e.target.textContent[0])}
-    unicodemenu.lastChild.lastChild.appendChild(document.createTextNode(c))
-  }
-});
 
-function toggleKeyboard() {
-  if (Keyboard.Visible) {
-    Keyboard.Area.style.bottom = '-20ch';
-    Keyboard.Visible = false;
-    Keyboard.Toggle.style.position = 'fixed';
-    Keyboard.Toggle.style.left = '1%'
-  }
-  else {
-    Keyboard.Area.style.bottom = '0';
-    Keyboard.Toggle.style.left = '50%';
-    Keyboard.Visible = true;
-    setTimeout(() => {Keyboard.Toggle.style.position = 'static'; Keyboard.Area.style.bottom = '0';}, 100)
-  }
-}
-function nextLayout(e) {
-  Keyboard.Map < Keyboard.KeyMap.length - 1 ? Keyboard.Map ++ : undefined
-  e.target.style.backgroundColor = 'var(--medium)';
-  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
-  showKeyboard()
-}
-function prevLayout(e){
-  Keyboard.Map > 1 ? Keyboard.Map -- : undefined
-  e.target.style.backgroundColor = 'var(--medium)';
-  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
-  showKeyboard()
-}
-
-function showKeyboard() {
-  var chars = Array.from(Keyboard.KeyMap[Keyboard.Symb ? 0 : Keyboard.Map][Keyboard.ShiftLock])
-  Keyboard.Display.replaceChildren();
-  Keyboard.Display.appendChild(document.createElement('keyboard-row'))
-  chars.map(c => {
-    if (c != ' ') {
-      Keyboard.Display.lastChild.appendChild(document.createElement('keyboard-key'))
-      Keyboard.Display.lastChild.lastChild.classList.add('key')
-      Keyboard.Display.lastChild.lastChild.appendChild(document.createTextNode(c))
-    }
-    else {
-      Keyboard.Display.appendChild(document.createElement('keyboard-row'))
-    }
-  })
-}
-
-function toggleShift(e) {
-  e.stopPropagation()
-  Keyboard.ShiftLock = Keyboard.ShiftLock == 1 ? 0 : 1
-  if (Keyboard.ShiftLock == 1)
-    e.target.style.backgroundColor = 'var(--medium)'
-  else 
-    e.target.style.backgroundColor = 'unset'
-  showKeyboard()
-}
-
-function toggleSymb(e) {
-  e.stopPropagation()
-  Keyboard.Symb = !Keyboard.Symb
-  if (Keyboard.Symb)
-    e.target.style.backgroundColor = 'var(--medium)'
-  else
-    e.target.style.backgroundColor = 'unset'
-  showKeyboard()
-}
-
-Keyboard.Area.onpointerdown = function (e) {
-  if (e.target.classList[0] == 'key') {
-    e.target.style.backgroundColor = 'var(--medium)';
-    window.onpointerup = () => e.target.style.backgroundColor = 'var(--soft)', window.pointerup = null;
-  }
-}
-
-function cursorRight(e){
-  e.stopPropagation()
-  e.target.style.backgroundColor = 'var(--medium)';
-  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
-}
-
-function cursorLeft(e){
-  e.stopPropagation()
-  e.target.style.backgroundColor = 'var(--medium)';
-  e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--soft)')
-}
 var active = null;
 document['clipboard'] = null;
 area.onclick = (e)=> 
 {
-  console.log(e)
   if (area['clicklock']) {area['clicklock'] = false; return;}
   if (e.target.tagName != 'NTH-AREA') return;
   e.preventDefault()
@@ -175,7 +63,6 @@ function Close(e)
 function dragCode(e)
 {
   e.preventDefault()
-  console.log(e)
   area['clicklock'] = true
   var snippet = e.currentTarget
   for (var x = 0; x < area.childElementCount; x++)
@@ -184,10 +71,9 @@ function dragCode(e)
   active = snippet, active.children[0].focus()
   const offsetY = snippet.offsetTop - e.clientY
   const offsetX = snippet.offsetLeft - e.clientX
-  snippet.setPointerCapture(e.pointerId)
+  //snippet.setPointerCapture(e.pointerId)
   const move = function(e)
   {
-    console.log(e)
     e.preventDefault()
     var x = e.clientX + offsetX
     var y = e.clientY + offsetY
@@ -199,7 +85,7 @@ function dragCode(e)
   const stopmove = function(e)
   {
     e.preventDefault()
-    snippet.releasePointerCapture(e.pointerId)
+    //snippet.releasePointerCapture(e.pointerId)
     document.onpointermove = null
     document.onpointerup = null
   }
@@ -230,7 +116,7 @@ document.onkeydown = (e) => {
   if (e.key.length == 1) {
     e.preventDefault()
     switch(e.key) {
-      case '(': insertExpression(e.shiftKey); break
+      case '(': insertExpression(); break
       case ')': outwards(); break
       case ' ': insertSymbol(); break
       case '"': insertString(); break
@@ -279,8 +165,7 @@ function insertSymbol(i)
   var s = document.createElement('nth-symbol')
   s.appendChild(document.createTextNode(''))
   s.setAttribute('active', 'true')
-  s.onclick = highlightSymbol
-  s.ontouchstart = highlightSymbol
+  s.onpointerdown = highlightSymbol
   
   if (caret.symbol) caret.symbol.removeAttribute('active');
   if (caret.childElementCount == 0) 
@@ -350,17 +235,11 @@ function insertExpression()
 function insertBreak() 
 {
   var caret = active.caret
-  if (caret.tagName == 'NTH-CODE') return
-  
-  //var b = document.createElement('span')
-  //b.appendChild(document.createTextNode('LINEBREAK'))
-  //b.appendChild(document.createElement('br'))
-  
-  //var b = document.createElement('br')
+  if (caret.tagName == 'NTH-CODE') return;
   var b = document.createElement('nth-linebreak')
   b.appendChild(document.createTextNode('↩'))
   b.appendChild(document.createElement('br'));
-  if (caret.childElementCount == 0) return
+  if (caret.childElementCount == 0) return;
   else
   {
     caret.symbol.removeAttribute('active')
@@ -457,22 +336,40 @@ function forwards()
 {
   var caret = active.caret
   if (caret.childElementCount == 0) return
-  if (caret.symbol && caret.symbol.nextSibling)
+  if (caret.symbol)
   {
+    if (caret.symbol.nextSibling)
+    {
     caret.symbol.removeAttribute('active')
     caret.symbol = caret.symbol.nextSibling
     caret.symbol.setAttribute('active', 'true')
+    }
+    else
+    {
+    caret.symbol.removeAttribute('active')
+    caret.symbol = caret.firstChild
+    caret.symbol.setAttribute('active', 'true')
+    }
   }
 }
 function backwards()
 {
   var caret = active.caret
   if (caret.childElementCount == 0) return
-  if (caret.symbol && caret.symbol.previousSibling)
+  if (caret.symbol)
   {
-    caret.symbol.removeAttribute('active')
-    active.caret.symbol = caret.symbol.previousSibling
-    active.caret.symbol.setAttribute('active', 'true')
+    if (caret.symbol.previousSibling)
+    {
+      caret.symbol.removeAttribute('active')
+      caret.symbol = caret.symbol.previousSibling
+      caret.symbol.setAttribute('active', 'true')
+    }
+    else
+    {
+      caret.symbol.removeAttribute('active')
+      caret.symbol = caret.lastChild
+      caret.symbol.setAttribute('active', 'true')
+    }
   }
 }
 function inwards() 
@@ -646,6 +543,7 @@ function saveCode(e)
 }
 function loadCode(e)
 {
+  console.log(e)
   var input = document.createElement('input')
   input.type = 'file';
   input.style.display = 'none'
@@ -672,7 +570,9 @@ function Run(e)
   var result = Eval(active.lastChild.lastChild)
   var r = document.createElement('nth-symbol')
   r.appendChild(document.createTextNode('_'))
-  active.lastChild.replaceChildren(result)
+  //save this for when interpreter is done
+  //active.lastChild.replaceChildren(result)
+  active.lastChild.replaceChildren(r)
   active.caret = active.lastChild
   active.caret.symbol = r
   active.caret.symbol.setAttribute('active', 'true')
@@ -764,17 +664,21 @@ function programToStructure(p)
         return expression
       break;
       case '\n':
-        c = getChar(), expression = document.createElement('br')
+        c = getChar()
+        expression = document.createElement('nth-linebreak')
+        expression.appendChild(document.createTextNode('↩'))
+        expression.appendChild(document.createElement('br'))
         return expression
       break;
       case ' ':
-      case '\u00a0':
+      case ' ':
         c = getChar()
         expression = document.createElement('nth-symbol')
+        expression.onpointerdown = highlightSymbol
         expression.setAttribute('tab', 'true')
-        expression.textContent = '\u00a0';
-        while (c = peekChar(), c == ' ' || c == '\u00a0')
-          expression.textContent += '\u00a0', getChar()
+        expression.textContent = ' ';
+        while (c = peekChar(), c == ' ' || c == ' ')
+          expression.textContent += ' ', getChar()
         if (expression.textContent.length > 1) return expression
         else return null
       break;
@@ -784,8 +688,7 @@ function programToStructure(p)
       default:
         c = getChar()
         expression = document.createElement('nth-symbol')
-        expression.onclick = highlightSymbol
-        expression.ontouchstart = highlightSymbol
+        expression.onpointerdown = highlightSymbol
         expression.textContent = c
         while (c = peekChar(), c != '(' && c != ')' && c != ' ' && c != '\n' && c != null)
           expression.textContent += getChar()
@@ -808,4 +711,114 @@ function Eval(program)
   var src = structureToProgram(program).replaceAll(/[^\S]/gi, ' ');
   var result = Nth.eval(src)
   return programToStructure(result)
+}
+
+let Keyboard = {
+    KeyMap: [
+        ['`~!@#%^&|/,. 1234567890 +-×÷√<≤>≥=≠', '←↑↓→∖∏∑∐ ∧∨¬∀∃∄⊢∈∋ {}[]∴∵∎∘∙'],
+        ['\'tbjdkyhr* aofglmncie \\spqxzuvw→','"TBJDKYHR; AOFGLMNCIE ?SPQXZUVW:'],
+        ['αβγδεζηθ ικλμνξοπ ρστυφχψω', 'ΑΒΓΔΕΖΗΘ ΙΚΛΜΝΞΟΠ ΡΣΤΥΦΧΨΩ'],
+    ],
+    Map: 1,
+    Visible: true,
+    ShiftLock: 0,
+    Symb: false,
+    Toggle: document.getElementsByTagName('keyboard-toggle')[0],
+    Area: document.getElementsByTagName('nth-keyboard-area')[0],
+    Display: document.getElementsByTagName('nth-keyboard')[0]
+}
+toggleKeyboard()
+showKeyboard()
+
+function keyPressColor(e) {
+e.stopPropagation()
+    e.target.style.backgroundColor = 'var(--bgdd)';
+    e.target.addEventListener('pointerup', keyPressColorReset)
+    e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--bg)')
+}
+
+function keyPressColorReset(e) {
+    e.target.style.backgroundColor = 'var(--bg)'
+    e.target.removeEventListener('pointerup', keyPressColorReset)
+}
+
+function toggleKeyboard() {
+    if (Keyboard.Visible) {
+        Keyboard.Area.style.bottom = '-50ch'
+        Keyboard.Visible = false
+        Keyboard.Toggle.style.position = 'fixed'
+        Keyboard.Toggle.style.left = '1ch'
+        Keyboard.Toggle.style.bottom = '1ch'
+    }
+    else {
+        Keyboard.Area.style.bottom = '0';
+        Keyboard.Toggle.style.left = '50%';
+        Keyboard.Visible = true;
+        setTimeout(() => {Keyboard.Toggle.style.position = 'static'; Keyboard.Area.style.bottom = '0';}, 100)
+    }
+}
+
+function nextLayout(e) {
+    Keyboard.Map < Keyboard.KeyMap.length - 1 ? Keyboard.Map ++ : Keyboard.Map = 1
+    e.target.style.backgroundColor = 'var(--bgdd)';
+    e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--bg)')
+    showKeyboard()
+}
+function prevLayout(e){
+    Keyboard.Map > 1 ? Keyboard.Map -- : Keyboard.Map = Keyboard.KeyMap.length - 1
+    e.target.style.backgroundColor = 'var(--bgdd)';
+    e.target.addEventListener('pointerup', () => e.target.style.backgroundColor = 'var(--bg)')
+    showKeyboard()
+}
+
+function showKeyboard() {
+    var chars = Array.from(Keyboard.KeyMap[Keyboard.Symb ? 0 : Keyboard.Map][Keyboard.ShiftLock])
+    Keyboard.Display.replaceChildren();
+    Keyboard.Display.appendChild(document.createElement('keyboard-row'))
+    chars.map(c => {
+        if (c != ' ') {
+            Keyboard.Display.lastChild.appendChild(document.createElement('keyboard-key'))
+            Keyboard.Display.lastChild.lastChild.classList.add('key')
+            Keyboard.Display.lastChild.lastChild.appendChild(document.createTextNode(c))
+            }
+        else {
+            Keyboard.Display.appendChild(document.createElement('keyboard-row'))
+        }
+    })
+}
+
+function toggleShift(e) {
+    e.stopPropagation()
+    Keyboard.ShiftLock = Keyboard.ShiftLock == 1 ? 0 : 1
+    if (Keyboard.ShiftLock == 1)
+        e.target.style.backgroundColor = 'var(--bgdd)'
+    else 
+        e.target.style.backgroundColor = 'unset'
+    showKeyboard()
+}
+
+function toggleSymb(e) {
+    e.stopPropagation()
+    Keyboard.Symb = !Keyboard.Symb
+    if (Keyboard.Symb)
+        e.target.style.backgroundColor = 'var(--bgdd)'
+    else
+        e.target.style.backgroundColor = 'unset'
+    showKeyboard()
+}
+
+Keyboard.Area.onpointerdown = function (e) {
+    if (e.target.classList[0] == 'key' && !e.target.classList.contains("toggle")) {
+        e.target.style.backgroundColor = 'var(--bgdd)';
+        window.onpointerup = () => e.target.style.backgroundColor = 'var(--bg)', window.pointerup = null;
+    }
+    if (e.target.classList.contains("modifier"))
+    {
+
+    }
+    else if (e.target.classList.contains("key"))
+    {
+        console.log(e.target.textContent);
+        insertCharacter(e.target.textContent);
+    }
 }

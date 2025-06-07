@@ -12,8 +12,7 @@
 <link rel="manifest" href="./icon/site.webmanifest">
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">
-<script src="./js/nth.js" type="module"></script>
-<script src="./js/reference.js" type="module"></script>
+<script src="./js/nth.js"></script>
 </head>
 <body>
 <nth-header>The <i>n</i><sup>th</sup> Reference Implementation<br><a href="contents.html" style="float:left;">&LeftArrow;</a><help-button style="float:right;">?</help-button></nth-header>
@@ -84,24 +83,35 @@
 </div></div>
 </nth-help>
 <nth-area></nth-area>
+
 <nth-keyboard-area>
-<nth-prev-layout onpointerdown="prevLayout(event)">&leftarrow;</nth-prev-layout>
-<keyboard-display>
-<nth-keyboard></nth-keyboard>
-<nth-modifiers>
-<cursor-left class="key modifier" onpointerdown="cursorLeft(event)">&#x21e6;</cursor-left>
-<keyboard-shift class="key modifier" onclick="toggleShift(event)">&#x21e7;</keyboard-shift>
-<keyboard-space class="key modifier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space>
-<keyboard-symb class="key modifier" onclick="toggleSymb(event)">!123</keyboard-symb>
-<nth-keyboard-toggle class="key modifier" onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle>
-<cursor-right class="key modifier" onpointerdown="cursorRight(event)">&#x21e8;</cursor-right>
-</nth-modifiers>
-</keyboard-display>
-<nth-next-layout onpointerdown="nextLayout(event)">&rightarrow;</nth-next-layout>
+    
+    <nth-prev-layout onpointerdown="prevLayout(event)">&leftarrow;</nth-prev-layout>
+    
+    <keyboard-display>
+        <keyboard-open-expression class="key modifier" onpointerdown="insertExpression()">(</keyboard-open-expression>
+        <nth-keyboard></nth-keyboard>
+        <nth-modifiers>
+            
+            <keyboard-shift class="key modifier" onpointerdown="toggleShift(event)">&#x21e7;</keyboard-shift>
+            <keyboard-symb class="key modifier" onpointerdown="toggleSymb(event)">?123</keyboard-symb>
+            <keyboard-space class="key modifier" onpointerdown="insertSymbol()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space>
+            <keyboard-backspace class="key modifier" onpointerdown="backspace()">&#x232b;</keyboard-backspace>
+            <keyboard-linebreak class="key modifier" onpointerdown="insertBreak()">↩</keyboard-linebreak>
+            <cursor-left class="key modifier" onpointerdown="backwards()">&#x2190;</cursor-left>
+            <cursor-up class="key modifier" onpointerdown="outwards()">&#x2191;</cursor-up>
+            <cursor-down class="key modifier" onpointerdown="inwards()">&#x2193;</cursor-down>
+            <cursor-right class="key modifier" onpointerdown="forwards()">&#x2192;</cursor-right>
+            <keyboard-toggle class="key modifier toggle" onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle>
+            
+        </nth-modifiers>
+        <keyboard-close-expression class="key modifier" onpointerdown="outwards()">)</keyboard-close-expression>
+    </keyboard-display>
+    
+    <nth-next-layout onpointerdown="nextLayout(event)">&rightarrow;</nth-next-layout>
 </nth-keyboard-area>
-<nth-unicode displayhidden="true">
-<nth-showhide><span>&#x2328;</span></nth-showhide>
-</nth-unicode>
+
+
 <nth-editor id="editortemplate" style="display:none;">
 <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
 <nth-handle><!--&#x25a9;-->&#x2b24;
@@ -124,5 +134,7 @@
 <nth-close>&#x2a2f;</nth-close>
 </nth-options></nth-handle><nth-code></nth-code></nth-editor>
 </body>
+<script src="./js/reference.js"></script>
+<!--<script src="./js/keyboard.js"></script>-->
 </html>
 
