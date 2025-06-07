@@ -3,6 +3,7 @@
 :root {
     --bg: rgb(229, 211, 202);
     --bgd: rgb(145,192,189);
+    --bgdd: rgb(206, 174, 158);
     --bgl: #91C0BD50;
     --fg: rgb(87, 36,0);
     --fgl: rgb(154, 52, 1);
@@ -80,19 +81,19 @@ nth-tools{display:none;flex-flow:row nowrap;width:min-content;max-width:unset;he
 nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;z-index:500;}
 nth-handle:hover nth-options, nth-handle:active nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.7);user-select:none;max-width:69vw;padding:0.2ch;}
-nth-symbol, nth-expression, nth-quote, nth-line, nth-string{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;background-color:var(--bg);}
-nth-expression{border-radius:0.5ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.2s;border:none var(--bgd) 2px;margin:0;}
+nth-symbol, nth-expression, nth-quote, nth-line, nth-string, nth-linebreak{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;background-color:var(--bg);}
+nth-expression{border-radius:0.7ch;height:min-content;width:fit-content;vertical-align:top;transition:all 0.2s;margin:0;box-shadow: var(--bgdd) 0 0 0 0.1ch;}
 nth-editor[active] nth-expression[active]{box-shadow: var(--fg) 0 0 0.7ch;position:relative;z-index:200;}
 nth-expression > * + *{margin-left:1ch;}
-nth-expression > br + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0;}
-nth-expression > br::before{content: 'XD';}
+nth-expression > nth-linebreak + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0;}
 nth-expression nth-expression + nth-symbol {vertical-align:bottom;}
-nth-editor[active] nth-symbol[active]{background-color:var(--bgd);}
+nth-editor[active] nth-symbol[active], nth-editor[active] nth-linebreak[active]{background-color:var(--bgd);color:var(--fg);}
 nth-editor[active] nth-expression[active] nth-expression{background-color:var(--bgl);}
 /*nth-editor[active] nth-expression[active] > nth-expression nth-expression{background-color: var(--bgl);}*/
 nth-expression[active]{background-image:none;}
 nth-symbol{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;background-color:unset;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--fgl) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
+nth-linebreak{color:var(--bgd);display:inline;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--scale) * 0.5);visibility:hidden;transition-property:visibility;transition-duration:0.5s;}
 nth-help nth-tooltip{transition-duration:0s;}
 nth-tooltip > *{position:absolute;z-index:100;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--fg);border-radius:0.5ch;box-shadow:var(--fg) 0 0 1ch;background-color:var(--bg);white-space:normal;}
