@@ -108,7 +108,7 @@ nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 
 
-nth-keyboard-area{display:grid;grid-template-areas:'lmargin . middle . rmargin';grid-template-columns:2ch auto auto auto 2ch;justify-content:space-between;margin:0;padding:0;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;position:absolute;bottom:0;left:0;z-index:100;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
+nth-keyboard-area{display:grid;grid-template-areas:'lmargin . middle . rmargin';grid-template-columns:2ch auto auto auto 2ch;justify-content:space-between;margin:0;padding:0;padding-bottom:3ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;position:absolute;bottom:0;left:0;z-index:100;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(2 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
 keyboard-display{display:grid;grid-template-areas:'l a r' 'l b r';grid-template-rows: 12ch auto;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
@@ -126,10 +126,10 @@ cursor-right{grid-area:moveright;}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;padding:0.2ch;margin:0.2ch;}
 nth-prev-layout,nth-next-layout, keyboard-open-expression, keyboard-close-expression{display:inline-grid;height:10ch;width:2ch;align-self:center;justify-self:center;justify-content:center;align-items:center;border:solid var(--bgdd) 0.1ch;border-radius:1ch;font-size:calc(1.2 * var(--size));}
-nth-prev-layout{grid-area:lmargin;justify-self:left;}
-nth-next-layout{grid-area:rmargin;justify-self:right;}
-keyboard-open-expression{grid-area:l;justify-self:left;}
-keyboard-close-expression{grid-area:r;justify-self:right;}
+nth-prev-layout{grid-area:lmargin;justify-self:left;font-size:calc(3 * var(--size));}
+nth-next-layout{grid-area:rmargin;justify-self:right;font-size:calc(3 * var(--size));}
+keyboard-open-expression{grid-area:l;justify-self:left;font-size:calc(3 * var(--size));}
+keyboard-close-expression{grid-area:r;justify-self:right;font-size:calc(3 * var(--size));}
 .modifier{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;width:fit-content;line-height:2ch;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;margin:auto;}
 nth-keyboard-toggle{position:static;bottom:1ch;left:50%;transition:all 0.2s;}
 nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;padding:0.2ch;}

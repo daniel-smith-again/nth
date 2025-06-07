@@ -747,8 +747,8 @@ function toggleKeyboard() {
         Keyboard.Area.style.bottom = '-50ch'
         Keyboard.Visible = false
         Keyboard.Toggle.style.position = 'fixed'
-        Keyboard.Toggle.style.left = '1ch'
-        Keyboard.Toggle.style.bottom = '1ch'
+        Keyboard.Toggle.style.left = '2ch'
+        Keyboard.Toggle.style.bottom = '2ch'
     }
     else {
         Keyboard.Area.style.bottom = '0';
