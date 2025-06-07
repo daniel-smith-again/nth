@@ -84,6 +84,21 @@
 </div></div>
 </nth-help>
 <nth-area></nth-area>
+<nth-keyboard-area>
+<nth-prev-layout onpointerdown="prevLayout(event)">&leftarrow;</nth-prev-layout>
+<keyboard-display>
+<nth-keyboard></nth-keyboard>
+<nth-modifiers>
+<cursor-left class="key modifier" onpointerdown="cursorLeft(event)">&#x21e6;</cursor-left>
+<keyboard-shift class="key modifier" onclick="toggleShift(event)">&#x21e7;</keyboard-shift>
+<keyboard-space class="key modifier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space>
+<keyboard-symb class="key modifier" onclick="toggleSymb(event)">!123</keyboard-symb>
+<nth-keyboard-toggle class="key modifier" onpointerdown="toggleKeyboard(event)">&#x2328;</nth-keyboard-toggle>
+<cursor-right class="key modifier" onpointerdown="cursorRight(event)">&#x21e8;</cursor-right>
+</nth-modifiers>
+</keyboard-display>
+<nth-next-layout onpointerdown="nextLayout(event)">&rightarrow;</nth-next-layout>
+</nth-keyboard-area>
 <nth-unicode displayhidden="true">
 <nth-showhide><span>&#x2328;</span></nth-showhide>
 </nth-unicode>
