@@ -62,7 +62,7 @@ footer > * { margin: auto; }
 #cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
 nth-source-snippet { white-space: pre; display: inline-block; }
-nth-area{display:block;width:90vw;height:calc(90vh - 32ch);margin:auto;padding:2ch;overflow:auto;box-shadow:var(--bgdd) 0 0 0.5ch 0.2ch inset;}
+nth-area{display:block;width:90vw;height:calc(90vh - 32ch);margin:auto;padding:2ch;overflow:auto;box-shadow:var(--bgdd) 0 0 0.5ch 0.2ch inset;z-index:1000;background-color:unset;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
 nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:relative;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
 nth-unicode{display:block;height:90vh;width:21ch;position:absolute;top:10vh;left:-22ch;z-index:100;background-color:var(--bg);transition: all 0.2s;}
@@ -83,8 +83,8 @@ help-button{display:inline-block;cursor:pointer;width:3ch;border-radius:0.5ch;}
 help-button:hover, help-button:active{background-color: var(--bgd);}
 close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
 close-help:hover, close-help:active{background-color:var(--bgd);}
-nth-editor{display:grid;width:calc(100% - 4ch);grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;z-index:0;border-radius:1ch;cursor:move;margin:auto;}
-nth-editor[active]{z-index:1; box-shadow: 0 0 0 0.1ch var(--fgl);}
+nth-editor{display:grid;width:calc(100% - 4ch);grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
+nth-editor[active]{box-shadow: 0 0 0 0.1ch var(--fgl);}
 nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--fgl)}
@@ -120,7 +120,7 @@ nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 
 
-nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
+nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:90vw;margin:auto;padding:0ch;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
 keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: auto 5ch;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
@@ -141,7 +141,7 @@ cursor-down{grid-area:movedown;}
 cursor-right{grid-area:moveright;}
 keyboard-open-expression{grid-area:openparen;}
 keyboard-close-expression{grid-area:closeparen;}
-keyboard-toggle{grid-area:toggle;}
+keyboard-toggle{grid-area:toggle;background-color:var(--bg);}
 keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;padding:0.2ch;margin:0.2ch;}
 .modifier{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;width:fit-content;line-height:2ch;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;margin:auto;}

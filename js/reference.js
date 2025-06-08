@@ -761,11 +761,12 @@ function toggleKeyboard(e) {
   if (Keyboard.Visible) {
       Keyboard.Area.style.position = 'absolute';
       Keyboard.Area.style.left = '-500ch'
+      Keyboard.Area.style.top = '0px'
       Keyboard.Visible = false
       Keyboard.Toggle.style.position = 'fixed'
-      Keyboard.Toggle.style.left = '2ch'
-      Keyboard.Toggle.style.bottom = '2ch'
-      document.getElementById('nth-area').style.height = 'calc(90vh - 7ch)'
+      Keyboard.Toggle.style.left = '1ch'
+      Keyboard.Toggle.style.bottom = '1ch'
+      document.getElementById('nth-area').style.height = 'calc(90vh - 16ch)'
   }
   else {
       Keyboard.Area.style.position = 'static'
