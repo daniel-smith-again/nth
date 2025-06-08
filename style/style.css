@@ -104,10 +104,10 @@ nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 
 
 nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;position:absolute;bottom:0;left:0;z-index:100;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
-nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(2.5 * var(--size));}
+nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
 keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: 12ch auto;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
-nth-modifiers{grid-area:b;display:grid;font-size:calc(2 * var(--size));justify-self:center;grid-template-areas: 'openparen shift symb symb symb spacebar spacebar spacebar back break closeparen' 'layoutleft . . moveleft moveup movedown moveright . . toggle layoutright';}
+nth-modifiers{grid-area:b;display:grid;font-size:calc(2 * var(--size));justify-self:center;grid-template-areas: 'openparen shift symb symb symb spacebar spacebar spacebar back break closeparen' 'layoutleft . . . moveleft moveup movedown moveright  . toggle layoutright';}
 keyboard-shift{grid-area:shift;}
 keyboard-symb{grid-area:symb;}
 keyboard-space{grid-area:spacebar;}
@@ -126,4 +126,4 @@ keyboard-row{display:block;margin:auto;padding:none;}
 keyboard-key{display:inline-block;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;padding:0.2ch;margin:0.2ch;}
 .modifier{display:inline-grid;justify-content:center;align-items:center;min-height:2ch;min-width:2ch;width:fit-content;line-height:2ch;border:solid var(--bgdd) 0.1ch;border-radius:0.5ch;margin:auto;}
 nth-keyboard-toggle{position:static;bottom:1ch;left:50%;transition:all 0.2s;}
-nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;padding:0.2ch;font-size:calc(2 * var(--size));}
+nth-modifiers * {margin-left:0.2ch;margin-right:0.2ch;padding:0.2ch;font-size:calc(1.5 * var(--size));}
