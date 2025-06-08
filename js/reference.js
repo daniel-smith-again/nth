@@ -194,6 +194,7 @@ function insertSymbol(i)
     caret.appendChild(s)
     caret.symbol = caret.lastChild
   } 
+  caret.symbol.scrollIntoView();
 }
 function insertExpression() 
 {
@@ -235,6 +236,7 @@ function insertExpression()
     }
     active.caret = caret.lastChild
   }
+  caret.scrollIntoView()
 }
 function insertBreak() 
 {
@@ -355,6 +357,7 @@ function forwards()
     caret.symbol.setAttribute('active', 'true')
     }
   }
+  caret.symbol.scrollIntoView()
 }
 function backwards()
 {
@@ -375,6 +378,7 @@ function backwards()
       caret.symbol.setAttribute('active', 'true')
     }
   }
+  caret.symbol.scrollIntoView()
 }
 function inwards() 
 {
@@ -394,7 +398,10 @@ function inwards()
   }
  }
  else if (caret.symbol.tagName == 'NTH-STRING')
+ {
   caret.symbol.click()
+ }
+ caret.symbol.scrollIntoView()
  
 }
 function outwards() 
@@ -410,6 +417,7 @@ function outwards()
     active.caret.symbol = temp
     active.caret.symbol.setAttribute('active', 'true')
   }
+  caret.symbol.scrollIntoView()
 }
 function highlightSymbol(e) 
 {
@@ -757,11 +765,13 @@ function toggleKeyboard(e) {
       Keyboard.Toggle.style.position = 'fixed'
       Keyboard.Toggle.style.left = '2ch'
       Keyboard.Toggle.style.bottom = '2ch'
+      document.getElementById('nth-area').style.height = 'calc(90vh - 7ch)'
   }
   else {
       Keyboard.Area.style.position = 'static'
       Keyboard.Toggle.style.position = 'static'
       Keyboard.Visible = true;
+      document.getElementById('nth-area').style.height = 'calc(90vh - 32ch)'
   }
 }
 

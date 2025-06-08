@@ -62,7 +62,7 @@ footer > * { margin: auto; }
 #cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
 nth-source-snippet { white-space: pre; display: inline-block; }
-nth-area{display:block;width:90vw;height:calc(90vh - 30ch);margin:auto;padding:2ch;overflow:auto;}
+nth-area{display:block;width:90vw;height:calc(90vh - 32ch);margin:auto;padding:2ch;overflow:auto;box-shadow:var(--bgdd) 0 0 0.5ch 0.2ch inset;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
 nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:relative;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
 nth-unicode{display:block;height:90vh;width:21ch;position:absolute;top:10vh;left:-22ch;z-index:100;background-color:var(--bg);transition: all 0.2s;}
@@ -71,7 +71,7 @@ nth-unicode div > *{display:inline-flex;cursor:pointer;border-radius:0.5ch;heigh
 nth-unicode div > *:hover{background-color:var(--bg1);}
 nth-showhide{display:flex;position:relative;top:50%;left:calc(100% + 2ch);height:3ch;width:3ch;justify-content:center;align-items:center;border-radius:3ch;background-color:var(--fgl);cursor:pointer;}
 nth-showhide:hover{box-shadow:0 0 1ch var(--fg);}
-nth-header{display:block;margin:auto;min-height:5ch;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding:1ch;padding-left:2ch;padding-right:2ch;}
+nth-header{display:block;margin:auto;min-height:5ch;width:90vw;text-align:center;border-bottom:solid var(--fg) 0.2ch;padding:1ch;padding-left:2ch;padding-right:2ch;}
 nth-left-margin{grid-area:left;box-shadow:var(--fg) 3ch 0 3ch -2ch;}
 nth-right-margin{grid-area:right;box-shadow:var(--fg) -3ch 0 3ch -2ch;}
 nth-footer{grid-area:bottom;}
@@ -120,7 +120,7 @@ nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 
 
-nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;max-height:24ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
+nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
 keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: auto 5ch;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
