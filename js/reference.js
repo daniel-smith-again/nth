@@ -20,7 +20,7 @@ const shortcutreplace = [
 
 var active = null;
 document['clipboard'] = null;
-area.onclick = (e)=> 
+area.onpointerdown = (e)=> 
 {
   if (area['clicklock']) {area['clicklock'] = false; return;}
   if (e.target.tagName != 'NTH-AREA') return;
@@ -742,20 +742,21 @@ function keyPressColorReset(e) {
     e.target.removeEventListener('pointerup', keyPressColorReset)
 }
 
-function toggleKeyboard() {
-    if (Keyboard.Visible) {
-        Keyboard.Area.style.bottom = '-50ch'
-        Keyboard.Visible = false
-        Keyboard.Toggle.style.position = 'fixed'
-        Keyboard.Toggle.style.left = '2ch'
-        Keyboard.Toggle.style.bottom = '2ch'
-    }
-    else {
-        Keyboard.Area.style.bottom = '0';
-        Keyboard.Toggle.style.left = '50%';
-        Keyboard.Visible = true;
-        setTimeout(() => {Keyboard.Toggle.style.position = 'static'; Keyboard.Area.style.bottom = '0';}, 100)
-    }
+function toggleKeyboard(e) {
+  if (e) { e.stopPropagation(); }
+  if (Keyboard.Visible) {
+      Keyboard.Area.style.bottom = '-50ch'
+      Keyboard.Visible = false
+      Keyboard.Toggle.style.position = 'fixed'
+      Keyboard.Toggle.style.left = '2ch'
+      Keyboard.Toggle.style.bottom = '2ch'
+  }
+  else {
+      Keyboard.Area.style.bottom = '0';
+      Keyboard.Toggle.style.left = '50%';
+      Keyboard.Visible = true;
+      setTimeout(() => {Keyboard.Toggle.style.position = 'static'; Keyboard.Area.style.bottom = '0';}, 100)
+  }
 }
 
 function nextLayout(e) {
