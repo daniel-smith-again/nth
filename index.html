@@ -19,6 +19,7 @@
 <nth-help>
 <h2 style="margin-bottom:0;margin-top:0;">Help</h2>
 <close-help>X</close-help>
+<!--
 <div style="display:grid;grid-template-areas:'a b';grid-template-columns:40% auto;">
 <div>
 <h3>The Interface</h3>
@@ -81,36 +82,30 @@
 <tr><td>Ctrl + X/C/V</td><td>Cut/Copy/Paste a focused atom.</td></tr>
 </table>
 </div></div>
+-->
 </nth-help>
 <nth-area></nth-area>
 
 <nth-keyboard-area>
-    
-    
-    
-    <keyboard-display>
-        
-        <nth-keyboard></nth-keyboard>
-        <nth-modifiers>
-            <keyboard-swap-layout class="key modifier" onpointerdown="nextLayout(event)">&#x2026;</keyboard-swap-layout>
-            <keyboard-tab class="key modifier" onpointerdown="growTab()">&#x21e5;</keyboard-tab>
-            <keyboard-open-expression class="key modifier" onpointerdown="insertExpression()">(</keyboard-open-expression>
-            <keyboard-shift class="key modifier" onpointerdown="toggleShift(event)">&#x21e7;</keyboard-shift>
-            <keyboard-symb class="key modifier" onpointerdown="toggleSymb(event)">?123</keyboard-symb>
-            <keyboard-space class="key modifier" onpointerdown="insertSymbol()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space>
-            <keyboard-backspace class="key modifier" onpointerdown="backspace()">&#x232b;</keyboard-backspace>
-            <keyboard-linebreak class="key modifier" onpointerdown="insertBreak()">↩</keyboard-linebreak>
-            <cursor-left class="key modifier" onpointerdown="backwards()">&#x2190;</cursor-left>
-            <cursor-up class="key modifier" onpointerdown="outwards()">&#x2191;</cursor-up>
-            <cursor-down class="key modifier" onpointerdown="inwards()">&#x2193;</cursor-down>
-            <cursor-right class="key modifier" onpointerdown="forwards()">&#x2192;</cursor-right>
-            <keyboard-toggle class="key modifier toggle" onpointerdown="toggleKeyboard(event)">&#x2328;</keyboard-toggle>
-            <keyboard-close-expression class="key modifier" onpointerdown="outwards()">)</keyboard-close-expression>
-        </nth-modifiers>
-        
-    </keyboard-display>
-    
-    
+<keyboard-display>
+<nth-keyboard></nth-keyboard>
+<nth-modifiers>
+<keyboard-swap-layout class="key modifier" onpointerdown="nextLayout(event)">&#x2026;</keyboard-swap-layout>
+<keyboard-tab class="key modifier" onpointerdown="growTab()">&#x21e5;</keyboard-tab>
+<keyboard-open-expression class="key modifier" onpointerdown="insertExpression()">(</keyboard-open-expression>
+<keyboard-shift class="key modifier" onpointerdown="toggleShift(event)">&#x21e7;</keyboard-shift>
+<keyboard-symb class="key modifier" onpointerdown="toggleSymb(event)">?123</keyboard-symb>
+<keyboard-space class="key modifier" onpointerdown="insertSymbol()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</keyboard-space>
+<keyboard-backspace class="key modifier" onpointerdown="backspace()">&#x232b;</keyboard-backspace>
+<keyboard-linebreak class="key modifier" onpointerdown="insertBreak()">↩</keyboard-linebreak>
+<cursor-left class="key modifier" onpointerdown="backwards()">&#x2190;</cursor-left>
+<cursor-up class="key modifier" onpointerdown="outwards()">&#x2191;</cursor-up>
+<cursor-down class="key modifier" onpointerdown="inwards()">&#x2193;</cursor-down>
+<cursor-right class="key modifier" onpointerdown="forwards()">&#x2192;</cursor-right>
+<keyboard-toggle class="key modifier toggle" onpointerdown="toggleKeyboard(event)">&#x2328;</keyboard-toggle>
+<keyboard-close-expression class="key modifier" onpointerdown="outwards()">)</keyboard-close-expression>
+</nth-modifiers>
+</keyboard-display>
 </nth-keyboard-area>
 
 

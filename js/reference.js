@@ -27,9 +27,7 @@ area.onpointerdown = (e)=>
   e.preventDefault()
   var snippet = createSnippet()
   area.appendChild(snippet)
-  var r = snippet.getBoundingClientRect();
-  snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
-  snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
+  snippet.scrollIntoView();
     
 }
 function createSnippet() 
@@ -75,12 +73,18 @@ function dragCode(e)
   const move = function(e)
   {
     e.preventDefault()
-    var x = e.clientX + offsetX
-    var y = e.clientY + offsetY
-    if ((x > 0) && (x + snippet.offsetWidth < window.innerWidth))
-      snippet.style.left = String(e.clientX + offsetX) + 'px'
-    if ((y > 0) && (y + snippet.offsetHeight < window.innerHeight))
-      snippet.style.top = String(e.clientY + offsetY) + 'px'
+    if (e.target.tagName == 'NTH-EDITOR')
+    {
+      if (snippet.nextSibling == e.target)
+      {
+        area.insertBefore(e.target, snippet);
+      }
+      else
+      {
+        area.insertBefore(snippet, e.target);
+      }
+    }
+    snippet.scrollIntoView()
   }
   const stopmove = function(e)
   {
@@ -426,13 +430,6 @@ function highlightSymbol(e)
 function checkQuote(s) 
 {
   return;
-  unreachable
-  if (s.textContent == "'" ||
-      s.textContent == "''" ||
-      s.textContent == "'''")
-    s.setAttribute('quote', 'true')
-  else if (s.getAttribute('quote') != null)
-    s.removeAttribute('quote')
 }
 
 function reduceShortcuts(s)
@@ -470,9 +467,18 @@ function Copy(e)
   if (active.caret.symbol == null) return;
   document.clipboard = null;
   document.clipboard = active.caret.symbol.cloneNode(true)
-  if (document.clipboard.tagName == 'NTH-SYMBOL')
-    document.clipboard.onclick = highlightSymbol
-    document.clipboard.ontouchstart = highlightSymbol
+  const reinstateHandlers = function(exp)
+  {
+    if (exp.tagName == 'NTH-EXPRESSION')
+    {
+      exp.childNodes.forEach(reinstateHandlers)
+    }
+    else if (exp.tagName == 'NTH-SYMBOL')
+    {
+      exp.onpointerdown = highlightSymbol
+    }
+  }
+  reinstateHandlers(document.clipboard)
 }
 function Paste(e)
 {
@@ -745,17 +751,17 @@ function keyPressColorReset(e) {
 function toggleKeyboard(e) {
   if (e) { e.stopPropagation(); }
   if (Keyboard.Visible) {
-      Keyboard.Area.style.bottom = '-50ch'
+      Keyboard.Area.style.position = 'absolute';
+      Keyboard.Area.style.left = '-500ch'
       Keyboard.Visible = false
       Keyboard.Toggle.style.position = 'fixed'
       Keyboard.Toggle.style.left = '2ch'
       Keyboard.Toggle.style.bottom = '2ch'
   }
   else {
-      Keyboard.Area.style.bottom = '0';
-      Keyboard.Toggle.style.left = '50%';
+      Keyboard.Area.style.position = 'static'
+      Keyboard.Toggle.style.position = 'static'
       Keyboard.Visible = true;
-      setTimeout(() => {Keyboard.Toggle.style.position = 'static'; Keyboard.Area.style.bottom = '0';}, 100)
   }
 }
 
