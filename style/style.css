@@ -1,6 +1,8 @@
 @font-face { font-family:nth-hyperspec-overpass; src:url('./OverpassMonoVariable.ttf'); }
 @font-face { font-family:nth-hyperspec-noto; src:url('./NotoSansMonoVariable.ttf'); }
-:root {
+@media only screen and (orientation: portrait)
+{
+  :root {
     --bg: rgb(229, 211, 202);
     --bgd: rgb(145,192,189);
     --bgdd: rgb(206, 174, 158);
@@ -8,7 +10,21 @@
     --fg: rgb(87, 36,0);
     --fgl: rgb(154, 52, 1);
     --hg: rgb(94, 228, 217);
-    --size:calc(12px + ((1vw + 1vh) / 2));
+    --size:calc(16px + ((1vw + 1vh) / 2));
+  }
+}
+@media only screen and (orientation: landscape)
+{
+  :root {
+    --bg: rgb(229, 211, 202);
+    --bgd: rgb(145,192,189);
+    --bgdd: rgb(206, 174, 158);
+    --bgl: #91C0BD70;
+    --fg: rgb(87, 36,0);
+    --fgl: rgb(154, 52, 1);
+    --hg: rgb(94, 228, 217);
+    --size:calc(7px + ((1vw + 1vh) / 2));
+  }
 }
 html { width: 100%; height: 100%; }
 html * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
@@ -106,19 +122,22 @@ nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:100%;padding:0ch;position:absolute;bottom:0;left:0;z-index:100;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
-keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: 12ch auto;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
-nth-modifiers{grid-area:b;display:grid;font-size:calc(2 * var(--size));justify-self:center;grid-template-areas: 'openparen shift symb symb symb spacebar spacebar spacebar back break closeparen' 'layoutleft . . . moveleft moveup movedown moveright  . toggle layoutright';}
+keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: auto 5ch;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
+nth-modifiers{grid-area:b;display:grid;font-size:calc(2 * var(--size));justify-self:center;
+  grid-template-areas: 
+  'openparen tab spacebar spacebar spacebar spacebar spacebar back break closeparen'
+  'shift symb symb symb moveleft moveup movedown moveright toggle layout';}
 keyboard-shift{grid-area:shift;}
 keyboard-symb{grid-area:symb;}
 keyboard-space{grid-area:spacebar;}
 keyboard-backspace{grid-area:back;}
 keyboard-linebreak{grid-area:break;}
+keyboard-tab{grid-area:tab;}
+keyboard-swap-layout{grid-area:layout;}
 cursor-left{grid-area:moveleft;}
 cursor-up{grid-area:moveup;}
 cursor-down{grid-area:movedown;}
 cursor-right{grid-area:moveright;}
-nth-prev-layout{grid-area:layoutleft;}
-nth-next-layout{grid-area:layoutright;}
 keyboard-open-expression{grid-area:openparen;}
 keyboard-close-expression{grid-area:closeparen;}
 keyboard-toggle{grid-area:toggle;}

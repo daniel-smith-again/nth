@@ -92,7 +92,8 @@
         
         <nth-keyboard></nth-keyboard>
         <nth-modifiers>
-            <nth-prev-layout class="key modifier" onpointerdown="prevLayout(event)">&leftarrow;</nth-prev-layout>
+            <keyboard-swap-layout class="key modifier" onpointerdown="nextLayout(event)">&#x2026;</keyboard-swap-layout>
+            <keyboard-tab class="key modifier" onpointerdown="growTab()">&#x21e5;</keyboard-tab>
             <keyboard-open-expression class="key modifier" onpointerdown="insertExpression()">(</keyboard-open-expression>
             <keyboard-shift class="key modifier" onpointerdown="toggleShift(event)">&#x21e7;</keyboard-shift>
             <keyboard-symb class="key modifier" onpointerdown="toggleSymb(event)">?123</keyboard-symb>
@@ -105,7 +106,6 @@
             <cursor-right class="key modifier" onpointerdown="forwards()">&#x2192;</cursor-right>
             <keyboard-toggle class="key modifier toggle" onpointerdown="toggleKeyboard(event)">&#x2328;</keyboard-toggle>
             <keyboard-close-expression class="key modifier" onpointerdown="outwards()">)</keyboard-close-expression>
-            <nth-next-layout class="key modifier" onpointerdown="nextLayout(event)">&rightarrow;</nth-next-layout>
         </nth-modifiers>
         
     </keyboard-display>
