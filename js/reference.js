@@ -6,6 +6,7 @@ var helpbutton = document.getElementsByTagName('help-button')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
+const mediaMobile = window.matchMedia("(orientation:landscape)")
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
@@ -20,7 +21,7 @@ const shortcutreplace = [
 
 var active = null;
 document['clipboard'] = null;
-area.onpointerdown = (e)=> 
+area.onclick = (e)=> 
 {
   if (area['clicklock']) {area['clicklock'] = false; return;}
   if (e.target.tagName != 'NTH-AREA') return;
@@ -28,7 +29,12 @@ area.onpointerdown = (e)=>
   var snippet = createSnippet()
   area.appendChild(snippet)
   snippet.scrollIntoView();
-    
+  if (mediaMobile)
+  {
+    var r = snippet.getBoundingClientRect();
+    snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
+    snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
+  }
 }
 function createSnippet() 
 {
@@ -58,38 +64,43 @@ function Close(e)
   area.removeChild(active)
 }
 
-function dragCode(e)
+function setActive(e)
 {
-  e.preventDefault()
-  area['clicklock'] = true
   var snippet = e.currentTarget
   for (var x = 0; x < area.childElementCount; x++)
     area.children[x].removeAttribute('active')
-  snippet.setAttribute('active', 'true')
-  active = snippet, active.children[0].focus()
+  snippet.setAttribute('active', 'true');
+  active = snippet
+  active.children[0].focus()
+}
+
+function dragCode(e)
+{
+  setActive(e)
+  if (!mediaMobile.matches)
+    return;
+  e.preventDefault()
+  area['clicklock'] = true
+  setActive(e)
+  var snippet = e.currentTarget
+  if (snippet.offsetTop < 0) snippet.style.top = '0px';
+  if (snippet.offsetLeft < 0) snippet.style.left = '0px';
   const offsetY = snippet.offsetTop - e.clientY
   const offsetX = snippet.offsetLeft - e.clientX
-  //snippet.setPointerCapture(e.pointerId)
+  console.log(snippet.offsetTop, snippet.offsetLeft, window.innerWidth, window.innerHeight)
   const move = function(e)
   {
     e.preventDefault()
-    if (e.target.tagName == 'NTH-EDITOR')
-    {
-      if (snippet.nextSibling == e.target)
-      {
-        area.insertBefore(e.target, snippet);
-      }
-      else
-      {
-        area.insertBefore(snippet, e.target);
-      }
-    }
-    snippet.scrollIntoView()
+    var x = e.clientX + offsetX
+    var y = e.clientY + offsetY
+    if ((x > 0) && (x + snippet.offsetWidth < window.innerWidth))
+      snippet.style.left = String(e.clientX + offsetX) + 'px'
+    if ((y > 0) && (y + snippet.offsetHeight < window.innerHeight))
+      snippet.style.top = String(e.clientY + offsetY) + 'px'
   }
   const stopmove = function(e)
   {
     e.preventDefault()
-    //snippet.releasePointerCapture(e.pointerId)
     document.onpointermove = null
     document.onpointerup = null
   }
@@ -828,6 +839,8 @@ function toggleSymb(e) {
 Keyboard.Area.onpointerdown = function (e) {
     if (e.target.classList[0] == 'key' && !e.target.classList.contains("toggle")) {
         e.target.style.backgroundColor = 'var(--bgdd)';
+        if (navigator.vibrate)
+          navigator.vibrate(200);
         window.onpointerup = () => e.target.style.backgroundColor = 'var(--bg)', window.pointerup = null;
     }
     if (e.target.classList.contains("modifier"))
@@ -836,7 +849,6 @@ Keyboard.Area.onpointerdown = function (e) {
     }
     else if (e.target.classList.contains("key"))
     {
-        console.log(e.target.textContent);
         insertCharacter(e.target.textContent);
     }
 }

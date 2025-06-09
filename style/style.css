@@ -12,6 +12,11 @@
     --hg: rgb(94, 228, 217);
     --size:calc(16px + ((1vw + 1vh) / 2));
   }
+  nth-editor{position:static;width:calc(100% - 4ch);}
+  nth-editor[active]{box-shadow: 0 0 0 0.1ch var(--bgdd);}
+  nth-area{display:block;width:90vw;height:calc(90vh - 32ch);margin:auto;padding:2ch;overflow:auto;box-shadow:var(--bgdd) 0 0 0.5ch 0.2ch inset;z-index:1000;background-color:unset;}
+  body *{touch-action:manipulation;}
+  nth-handle{touch-action:none;}
 }
 @media only screen and (orientation: landscape)
 {
@@ -25,11 +30,15 @@
     --hg: rgb(94, 228, 217);
     --size:calc(7px + ((1vw + 1vh) / 2));
   }
+  nth-editor{position:absolute;width:max-content;}
+  nth-editor[active]{box-shadow:none;}
+  nth-area{display:block;width:90vw;height:90vh;margin:auto;padding:2ch;overflow:hidden;box-shadow:none;z-index:unset;background-color:unset;}
+  body *{touch-action:none;}
 }
 html { width: 100%; height: 100%; }
 html * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
 body { color:var(--fg); background-color:var(--bg); font-size:var(--size); max-width: min(69vw, 160ch); margin: auto; overflow:hidden;}
-body * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto; font-variant-ligatures: none; max-width: 100%; touch-action:none; user-select:none;}
+body * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto; font-variant-ligatures: none; max-width: 100%; user-select:none;}
 nav { display:flex; height:1lh; width: 100%; flex-flow: row nowrap; justify-content: space-between; }
 a { text-decoration: none; color: var(--fgl); }
 a:hover { color: var(--hg); }
@@ -62,7 +71,6 @@ footer > * { margin: auto; }
 #cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
 nth-source-snippet { white-space: pre; display: inline-block; }
-nth-area{display:block;width:90vw;height:calc(90vh - 32ch);margin:auto;padding:2ch;overflow:auto;box-shadow:var(--bgdd) 0 0 0.5ch 0.2ch inset;z-index:1000;background-color:unset;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
 nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:relative;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
 nth-unicode{display:block;height:90vh;width:21ch;position:absolute;top:10vh;left:-22ch;z-index:100;background-color:var(--bg);transition: all 0.2s;}
@@ -83,13 +91,13 @@ help-button{display:inline-block;cursor:pointer;width:3ch;border-radius:0.5ch;}
 help-button:hover, help-button:active{background-color: var(--bgd);}
 close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
 close-help:hover, close-help:active{background-color:var(--bgd);}
-nth-editor{display:grid;width:calc(100% - 4ch);grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
-nth-editor[active]{box-shadow: 0 0 0 0.1ch var(--fgl);}
+nth-editor{display:grid;grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
+nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
 nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--fgl)}
 nth-editor[active] nth-options{color:var(--fgl);}
-nth-editor:hover{box-shadow: 0 0 0 0.1ch var(--fg);}
+
 nth-options{display:none;flex-flow:column nowrap;justify-content:flex-start;background-color:var(--bg);position:relative;top:0ch;box-shadow:var(--fg) 0 0 0.5ch;border-radius:0.5ch;}
 nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:center;width:2ch;height:2ch;line-height:2ch;border-radius:0.5ch;text-align:center;cursor:pointer;}
 nth-options > *:hover, nth-options > *:active, nth-tools > *:hover, nth-tools > *:active{background-color:var(--bgd);}
@@ -120,7 +128,7 @@ nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--bgd);}
 
 
-nth-keyboard-area{display:grid;justify-content:center;align-items:center;margin:0;padding:0;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:90vw;margin:auto;padding:0ch;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
+nth-keyboard-area{display:grid;justify-content:center;align-items:center;padding:1ch;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:90vw;margin:auto;background-color:var(--bg);box-shadow:0 0 4ch -1ch var(--fg);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}
 keyboard-display{display:grid;grid-template-areas:'a' 'b';grid-template-rows: auto 5ch;width:max-content;margin:0;grid-area:middle;height:min-content;justify-content:center;align-items:center;font-family:monospace;}
