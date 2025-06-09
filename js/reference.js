@@ -840,7 +840,7 @@ Keyboard.Area.onpointerdown = function (e) {
     if (e.target.classList[0] == 'key' && !e.target.classList.contains("toggle")) {
         e.target.style.backgroundColor = 'var(--bgdd)';
         if (navigator.vibrate)
-          navigator.vibrate(200);
+          navigator.vibrate(70);
         window.onpointerup = () => e.target.style.backgroundColor = 'var(--bg)', window.pointerup = null;
     }
     if (e.target.classList.contains("modifier"))
