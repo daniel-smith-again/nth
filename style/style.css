@@ -1,6 +1,7 @@
 @font-face { font-family:nth-hyperspec-overpass; src:url('./OverpassMonoVariable.ttf'); }
 @font-face { font-family:nth-hyperspec-noto; src:url('./NotoSansMonoVariable.ttf'); }
 
+
 @media only screen and (orientation: portrait)
 {
   :root {
@@ -11,7 +12,7 @@
     --fg: rgb(87, 36,0);
     --fgl: rgb(154, 52, 1);
     --hg: rgb(94, 228, 217);
-    --size:calc(16px + ((1vw + 1vh) / 2));
+    --size:calc(7px + ((1vw + 1vh) / 2));
   }
   nth-editor{position:static;width:calc(100% - 4ch);}
   nth-editor[active]{box-shadow: 0 0 0 0.1ch var(--bgdd);}
@@ -19,6 +20,7 @@
   body *{touch-action:manipulation;}
   nth-handle{touch-action:none;}
 }
+
 @media only screen and (orientation: landscape)
 {
   :root {
@@ -93,7 +95,7 @@ help-button:hover, help-button:active{background-color: var(--bgd);}
 close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer;padding:0.2ch;border-radius:0.5ch;}
 close-help:hover, close-help:active{background-color:var(--bgd);}
 nth-editor{display:grid;grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
-nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
+nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;z-index:100;}
 nth-editor textarea, nth-editor input {display:none;appearance:none;width:0;height:0;resize:none;}
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--fgl)}
@@ -104,7 +106,7 @@ nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:c
 nth-options > *:hover, nth-options > *:active, nth-tools > *:hover, nth-tools > *:active{background-color:var(--bgd);}
 nth-manip{position:relative;}
 nth-tools{display:none;flex-flow:row nowrap;width:min-content;max-width:unset;height:2ch;position:absolute;background-color:var(--bg);border-radius:0.5ch;top:0;left:2ch;box-shadow:var(--fg) 0 0 0.5ch;}
-nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;z-index:500;}
+nth-editor[active] nth-manip:hover nth-tools, nth-editor[active] nth-manip:active nth-tools{display:flex;z-index:300;}
 nth-handle:hover nth-options, nth-handle:active nth-options{display:flex;}
 nth-code{grid-area:area;font-size:calc(var(--scale) * 0.7);user-select:none;max-width:69vw;padding:0.2ch;}
 nth-symbol, nth-expression, nth-quote, nth-line, nth-string, nth-linebreak{display:inline-block;min-width:1ch;line-height:1lh;min-height:1lh;border-radius:0.5ch;margin:0;padding:0;background-color:var(--bg);}

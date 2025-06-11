@@ -72,6 +72,12 @@ class othernth {
     {
       moduleBind: (symbol, data) => {},
       moduleCreate: (symbol, data) => {},
+      moduleEnter: (symbol) => {},
+      moduleLeave: (symbol) => {},
+      function: (args, data) => {},
+      list: (data) => {},
+      items: (data) => {},
+      
     },
     ['define']: () => {}
 
