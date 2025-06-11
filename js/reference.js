@@ -7,7 +7,15 @@ helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 const mediaMobile = window.matchMedia("(orientation:landscape)")
-const colorpallettes = 
+mediaMobile.onchange = () => {
+  for (var x = 0; x < area.childElementCount; x++)
+  {
+    var snippet = area.children[x]
+    if (snippet.offsetTop < 0) snippet.style.top = '0px';
+    if (snippet.offsetLeft < 0) snippet.style.left = '0px';
+  }  
+}
+const colors = 
 [
   { 'bg_0': '#181818',
     'bg_1': '#252525',
@@ -37,25 +45,70 @@ const colorpallettes =
     'bg_2': '#2d5b69',
     'bdim_0': '#72898f',
     'fg_0': '#adbcbc',
-    'fg_1': '#dedede',
-    'red': '#ed4a46',
-    'green': '#70b433',
-    'yellow': '#d1a416',
-    'blue': '#368aeb',
-    'magenta': '#3b6eb7',
-    'cyan': '#3fc5b7',
-    'orange': '#e67f43',
-    'violet': '#a580e2',
-    'br_red': '#ff5e56',
-    'br_green': '#83c746',
-    'br_yellow': '#efc541',
-    'br_blue': '#4f9cfe',
-    'br_magenta': '#ff81ca',
-    'br_cyan': '#56d8c9',
-    'br_orange': '#fa9153',
-    'br_violet': '#b891f5'
+    'fg_1': '#cad8d9',
+    'red': '#fa5750',
+    'green': '#75b938',
+    'yellow': '#dbb32d',
+    'blue': '#4695f7',
+    'magenta': '#f275be',
+    'cyan': '#41c7b9',
+    'orange': '#ed8649',
+    'violet': '#af88eb',
+    'br_red': '#ff665c',
+    'br_green': '#84c747',
+    'br_yellow': '#ebc13d',
+    'br_blue': '#58a3ff',
+    'br_magenta': '#ff84cd',
+    'br_cyan': '#53d6c7',
+    'br_orange': '#fd9456',
+    'br_violet': '#bd96fa'
   },
-
+  { 'bg_0': '#fbf3db',
+    'bg_1': '#ece3cc',
+    'bg_2': '#d5cdb6',
+    'bdim_0': '#909995',
+    'fg_0': '#53676d',
+    'fg_1': '#3a4d53',
+    'red': '#d2212d',
+    'green': '#489100',
+    'yellow': '#ad8900',
+    'blue': '#0072d4',
+    'magenta': '#ca4898',
+    'cyan': '#009c8f',
+    'orange': '#c25d1e',
+    'violet': '#8762c6',
+    'br_red': '#cc1729',
+    'br_green': '#428b00',
+    'br_yellow': '#a78300',
+    'br_blue': '#006dce',
+    'br_magenta': '#c44392',
+    'br_cyan': '#00978a',
+    'br_orange': '#bc5819',
+    'br_violet': '#825dc0'
+  },
+  { 'bg_0': '#ffffff',
+    'bg_1': '#ebebeb',
+    'bg_2': '#cdcdcd',
+    'bdim_0': '#878787',
+    'fg_0': '#474747',
+    'fg_1': '#282828',
+    'red': '#d6000c',
+    'green': '#1d9700',
+    'yellow': '#c49700',
+    'blue': '#0064e4',
+    'magenta': '#dd0f9d',
+    'cyan': '#00ad9c',
+    'orange': '#d04a00',
+    'violet': '#7f51d6',
+    'br_red': '#bf0000',
+    'br_green': '#008400',
+    'br_yellow': '#af8500',
+    'br_blue': '#0054cf',
+    'br_magenta': '#c7008b',
+    'br_cyan': '#009a8a',
+    'br_orange': '#ba3700',
+    'br_violet': '#6b40c3'
+  },
 ]
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
@@ -85,6 +138,7 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
+  snippet.children[0].focus();
 }
 function createSnippet() 
 {
@@ -94,7 +148,8 @@ function createSnippet()
   snippet.setAttribute('active', 'true')
   snippet.id = null
   snippet.style.display = 'grid'
-  active = snippet, active.children[0].focus()
+  active = snippet
+  active.children[0].focus()
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
   snippet.children[1].children[0].children[0].onclick = Run
@@ -137,7 +192,7 @@ function dragCode(e)
   if (snippet.offsetLeft < 0) snippet.style.left = '0px';
   const offsetY = snippet.offsetTop - e.clientY
   const offsetX = snippet.offsetLeft - e.clientX
-  console.log(snippet.offsetTop, snippet.offsetLeft, window.innerWidth, window.innerHeight)
+  //console.log(snippet.offsetTop, snippet.offsetLeft, window.innerWidth, window.innerHeight)
   const move = function(e)
   {
     e.preventDefault()
@@ -901,4 +956,31 @@ Keyboard.Area.onpointerdown = function (e) {
     {
         insertCharacter(e.target.textContent);
     }
+}
+function setTheme(index)
+{
+  var c = colors[index]
+  var r = document.querySelector(':root')[0]
+  r.style.setProperty('--background', c.bg_0)
+  r.style.setProperty('--backgroundsecond', c.bg_1)
+  r.style.setProperty('--backgroundthird', c.bg_2)
+  r.style.setProperty('--diminished', c.dim_0)
+  r.style.setProperty('--foreground', c.fg_0)
+  r.style.setProperty('--foregroundsecond', c.fg_1)
+  r.style.setProperty('--red', c.red)
+  r.style.setProperty('--green', c.green)
+  r.style.setProperty('--yellow', c.yellow)
+  r.style.setProperty('--blue', c.blue)
+  r.style.setProperty('--magenta', c.magenta)
+  r.style.setProperty('--cyan', c.cyan)
+  r.style.setProperty('--orange', c.orange)
+  r.style.setProperty('--violet', c.violet)
+  r.style.setProperty('--brightred', r.br_red)
+  r.style.setProperty('--brightgreen', c.br_green)
+  r.style.setProperty('--brightyellow', c.br_yellow)
+  r.style.setProperty('--brightblue', c.br_blue)
+  r.style.setProperty('--brightmagenta', c.br_magenta)
+  r.style.setProperty('--brightcyan', c.br_cyan)
+  r.style.setProperty('--brightorange', c.br_orange)
+  r.style.setProperty('--brightviolet', c.br_violet)
 }
