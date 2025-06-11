@@ -7,6 +7,56 @@ helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 const mediaMobile = window.matchMedia("(orientation:landscape)")
+const colorpallettes = 
+[
+  { 'bg_0': '#181818',
+    'bg_1': '#252525',
+    'bg_2': '#3b3b3b',
+    'bdim_0': '#777777',
+    'fg_0': '#b9b9b9',
+    'fg_1': '#dedede',
+    'red': '#ed4a46',
+    'green': '#70b433',
+    'yellow': '#d1a416',
+    'blue': '#368aeb',
+    'magenta': '#3b6eb7',
+    'cyan': '#3fc5b7',
+    'orange': '#e67f43',
+    'violet': '#a580e2',
+    'br_red': '#ff5e56',
+    'br_green': '#83c746',
+    'br_yellow': '#efc541',
+    'br_blue': '#4f9cfe',
+    'br_magenta': '#ff81ca',
+    'br_cyan': '#56d8c9',
+    'br_orange': '#fa9153',
+    'br_violet': '#b891f5'
+  },
+  { 'bg_0': '#103c48',
+    'bg_1': '#184956',
+    'bg_2': '#2d5b69',
+    'bdim_0': '#72898f',
+    'fg_0': '#adbcbc',
+    'fg_1': '#dedede',
+    'red': '#ed4a46',
+    'green': '#70b433',
+    'yellow': '#d1a416',
+    'blue': '#368aeb',
+    'magenta': '#3b6eb7',
+    'cyan': '#3fc5b7',
+    'orange': '#e67f43',
+    'violet': '#a580e2',
+    'br_red': '#ff5e56',
+    'br_green': '#83c746',
+    'br_yellow': '#efc541',
+    'br_blue': '#4f9cfe',
+    'br_magenta': '#ff81ca',
+    'br_cyan': '#56d8c9',
+    'br_orange': '#fa9153',
+    'br_violet': '#b891f5'
+  },
+
+]
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
