@@ -61,6 +61,21 @@
 *******************************************************************************/
 
 class othernth {
+  constructor()
+  {
+
+  }
+  #default =
+  {
+    ['\0toplevel']: {},
+    ['\0primitives']: 
+    {
+      moduleBind: (symbol, data) => {},
+      moduleCreate: (symbol, data) => {},
+    },
+    ['define']: () => {}
+
+  }
 }
 
 class nth {

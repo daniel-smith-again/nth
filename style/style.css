@@ -94,7 +94,7 @@ close-help{display:inline-block;position:fixed;top:10vh;right:5ch;cursor:pointer
 close-help:hover, close-help:active{background-color:var(--bgd);}
 nth-editor{display:grid;grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
 nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
-nth-editor textarea {display:none;appearance:none;width:0;height:0;resize:none;}
+nth-editor textarea, nth-editor input {display:none;appearance:none;width:0;height:0;resize:none;}
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--bg);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--fgl)}
 nth-editor[active] nth-options{color:var(--fgl);}
