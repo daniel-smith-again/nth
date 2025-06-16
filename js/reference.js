@@ -3,6 +3,7 @@ var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
 var helpbutton = document.getElementsByTagName('help-button')[0]
+var header = document.getElementsByTagName('nth-header')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
@@ -20,7 +21,7 @@ const colors =
   { 'bg_0': '#181818',
     'bg_1': '#252525',
     'bg_2': '#3b3b3b',
-    'bdim_0': '#777777',
+    'dim_0': '#777777',
     'fg_0': '#b9b9b9',
     'fg_1': '#dedede',
     'red': '#ed4a46',
@@ -43,7 +44,7 @@ const colors =
   { 'bg_0': '#103c48',
     'bg_1': '#184956',
     'bg_2': '#2d5b69',
-    'bdim_0': '#72898f',
+    'dim_0': '#72898f',
     'fg_0': '#adbcbc',
     'fg_1': '#cad8d9',
     'red': '#fa5750',
@@ -66,7 +67,7 @@ const colors =
   { 'bg_0': '#fbf3db',
     'bg_1': '#ece3cc',
     'bg_2': '#d5cdb6',
-    'bdim_0': '#909995',
+    'dim_0': '#909995',
     'fg_0': '#53676d',
     'fg_1': '#3a4d53',
     'red': '#d2212d',
@@ -89,7 +90,7 @@ const colors =
   { 'bg_0': '#ffffff',
     'bg_1': '#ebebeb',
     'bg_2': '#cdcdcd',
-    'bdim_0': '#878787',
+    'dim_0': '#878787',
     'fg_0': '#474747',
     'fg_1': '#282828',
     'red': '#d6000c',
@@ -110,6 +111,9 @@ const colors =
     'br_violet': '#6b40c3'
   },
 ]
+var Theme = 0
+setTheme(Theme);
+header.onclick = () => {setTheme((Theme ++ ) % 4)}
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
@@ -131,7 +135,7 @@ area.onclick = (e)=>
   e.preventDefault()
   var snippet = createSnippet()
   area.appendChild(snippet)
-  snippet.scrollIntoView();
+  //snippet.scrollIntoView();
   if (mediaMobile)
   {
     var r = snippet.getBoundingClientRect();
@@ -310,7 +314,7 @@ function insertSymbol(i)
     caret.appendChild(s)
     caret.symbol = caret.lastChild
   } 
-  caret.symbol.scrollIntoView();
+  //caret.symbol.scrollIntoView();
 }
 function insertExpression() 
 {
@@ -352,7 +356,7 @@ function insertExpression()
     }
     active.caret = caret.lastChild
   }
-  caret.scrollIntoView()
+  //caret.scrollIntoView()
 }
 function insertBreak() 
 {
@@ -473,7 +477,7 @@ function forwards()
     caret.symbol.setAttribute('active', 'true')
     }
   }
-  caret.symbol.scrollIntoView()
+  //caret.symbol.scrollIntoView()
 }
 function backwards()
 {
@@ -494,7 +498,7 @@ function backwards()
       caret.symbol.setAttribute('active', 'true')
     }
   }
-  caret.symbol.scrollIntoView()
+  //caret.symbol.scrollIntoView()
 }
 function inwards() 
 {
@@ -517,7 +521,7 @@ function inwards()
  {
   caret.symbol.click()
  }
- caret.symbol.scrollIntoView()
+ //caret.symbol.scrollIntoView()
  
 }
 function outwards() 
@@ -533,7 +537,7 @@ function outwards()
     active.caret.symbol = temp
     active.caret.symbol.setAttribute('active', 'true')
   }
-  caret.symbol.scrollIntoView()
+  //caret.symbol.scrollIntoView()
 }
 function highlightSymbol(e) 
 {
@@ -960,7 +964,7 @@ Keyboard.Area.onpointerdown = function (e) {
 function setTheme(index)
 {
   var c = colors[index]
-  var r = document.querySelector(':root')[0]
+  var r = document.querySelector(':root')
   r.style.setProperty('--background', c.bg_0)
   r.style.setProperty('--backgroundsecond', c.bg_1)
   r.style.setProperty('--backgroundthird', c.bg_2)
@@ -983,4 +987,5 @@ function setTheme(index)
   r.style.setProperty('--brightcyan', c.br_cyan)
   r.style.setProperty('--brightorange', c.br_orange)
   r.style.setProperty('--brightviolet', c.br_violet)
+  r.style.setProperty('--hgl', c.dim_0 + '40')
 }
