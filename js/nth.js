@@ -79,7 +79,9 @@ class othernth {
       items: (data) => {},
       
     },
-    ['define']: () => {}
+    ['define']: () => {},
+    ['function']: () => {},
+    ['let']: () => {},
 
   }
 }

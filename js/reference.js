@@ -113,7 +113,7 @@ const colors =
 ]
 var Theme = 0
 setTheme(Theme);
-header.onclick = () => {setTheme((Theme ++ ) % 4)}
+header.onclick = () => {setTheme(Theme = ((Theme + 1) % 4));}
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
@@ -125,7 +125,6 @@ const shortcutreplace = [
   [/\\\\leq/g, '≤'],
   [/\\\\geq/g, '≥']
 ]
-
 var active = null;
 document['clipboard'] = null;
 area.onclick = (e)=> 
@@ -142,7 +141,55 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
+  storeState()
   snippet.children[0].focus();
+}
+function storeState()
+{
+  var state = {}
+  state.theme = Theme
+  state.snippets = []
+  var snips = area.children
+  for (var x in snips)
+  {
+    if (snips[x].tagName == 'NTH-EDITOR')
+    {
+      var s = {top: snips[x].style.top, left: snips[x].style.left, contents: structureToProgram(snips[x].lastChild.lastChild)}
+      state.snippets.push(s)
+    }
+  }
+  document.cookie = JSON.stringify(state)
+}
+function retreiveState()
+{
+  var state = undefined;
+  try
+  {
+    state = JSON.parse(document.cookie)
+  }
+  catch
+  {
+    return;
+  }
+  setTheme(state.theme)
+  for (var x in state.snippets)
+  {
+    var s = createSnippet()
+    if (mediaMobile)
+    {
+      var r = s.getBoundingClientRect();
+      s.style.top = state.snippets[x].top
+      s.style.left = state.snippets[x].left
+    }
+    s.lastChild.replaceChildren(programToStructure(state.snippets[x].contents))
+    area.appendChild(s)
+  }
+  for (var x = 0; x < area.childElementCount; x++)
+  {
+    var snippet = area.children[x]
+    if (snippet.offsetTop < 0) snippet.style.top = '0px';
+    if (snippet.offsetLeft < 0) snippet.style.left = '0px';
+  }  
 }
 function createSnippet() 
 {
@@ -262,7 +309,7 @@ document.onkeydown = (e) => {
       case 'ArrowUp': outwards(); break
       case 'ArrowDown': inwards(); break
       case 'Escape': if (active != null) 
-                        active.removeAttribute('active'),active.children[0].blur(), active = null; break
+                        active.removeAttribute('active'),active.children[0].blur(), active = null, storeState(); break
     }
   }
 }
@@ -861,8 +908,8 @@ let Keyboard = {
     Area: document.getElementsByTagName('nth-keyboard-area')[0],
     Display: document.getElementsByTagName('nth-keyboard')[0]
 }
-toggleKeyboard()
-showKeyboard()
+//toggleKeyboard()
+//showKeyboard()
 
 function keyPressColor(e) {
 e.stopPropagation()
@@ -945,6 +992,7 @@ function toggleSymb(e) {
     showKeyboard()
 }
 
+/*
 Keyboard.Area.onpointerdown = function (e) {
     if (e.target.classList[0] == 'key' && !e.target.classList.contains("toggle")) {
         e.target.style.backgroundColor = 'var(--bgdd)';
@@ -961,6 +1009,7 @@ Keyboard.Area.onpointerdown = function (e) {
         insertCharacter(e.target.textContent);
     }
 }
+*/
 function setTheme(index)
 {
   var c = colors[index]
@@ -989,3 +1038,4 @@ function setTheme(index)
   r.style.setProperty('--brightviolet', c.br_violet)
   r.style.setProperty('--hgl', c.dim_0 + '40')
 }
+window.onload = function() {retreiveState();}
