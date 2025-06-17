@@ -183,7 +183,8 @@ function setActive(e)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
   active = snippet
-  active.children[0].focus()
+  //active.children[0].focus()
+  document.getElementById('summonthegotdangmobilekeyboard').focus()
 }
 
 function dragCode(e)
