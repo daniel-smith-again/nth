@@ -141,8 +141,7 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
-  document.getElementById('summonthegotdangmobilekeyboard').focus()
-  //snippet.children[0].focus();
+  snippet.children[0].focus();
 }
 function createSnippet() 
 {
@@ -180,8 +179,7 @@ function setActive(e)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
   active = snippet
-  //active.children[0].focus()
-  document.getElementById('summonthegotdangmobilekeyboard').focus()
+  active.children[0].focus()
 }
 
 function dragCode(e)
