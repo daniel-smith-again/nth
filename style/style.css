@@ -91,7 +91,6 @@ nth-editor textarea, nth-editor input {display:none;appearance:none;width:0;heig
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--background);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--foregroundsecond)}
 nth-editor[active] nth-options{color:var(--foregroundsecond);}
-
 nth-options{display:none;flex-flow:column nowrap;justify-content:flex-start;background-color:var(--background);position:relative;top:0ch;box-shadow:var(--foreground) 0 0 0.5ch;border-radius:0.5ch;}
 nth-options > *, nth-tools > *{display:grid;justify-content:center;align-items:center;width:2ch;height:2ch;line-height:2ch;border-radius:0.5ch;text-align:center;cursor:pointer;}
 nth-options > *:hover, nth-options > *:active, nth-tools > *:hover, nth-tools > *:active{background-color:var(--backgroundsecond);}
@@ -111,7 +110,7 @@ nth-editor[active] nth-expression[active] nth-expression{background-color:var(--
 nth-expression[active]{background-image:none;}
 nth-symbol, nth-linebreak{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;background-color:unset;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--foregroundsecond) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}
-nth-linebreak{color:var(--backgroundsecond);display:inline;}
+nth-linebreak{color:var(--backgroundthird);display:inline;}
 nth-tooltip{position:relative;font-family:serif;font-size:calc(var(--size) * 0.5);visibility:hidden;transition-property:visibility;transition-duration:0.5s;}
 nth-help nth-tooltip{transition-duration:0s;}
 nth-tooltip > *{position:absolute;z-index:100;width:fit-content;min-width:20ch;height:fit-content;padding:1ch;color:var(--foreground);border-radius:0.5ch;box-shadow:var(--foreground) 0 0 1ch;background-color:var(--background);white-space:normal;}
@@ -120,8 +119,6 @@ nth-tooltip:hover {visibility:visible;}
 nth-string{color:var(--foregroundsecond);transition:all 0.2s;border-radius:0.5ch;appearance:none;outline:none;padding:0.2ch;}
 nth-string:empty{width:1ch;height:1rlh;vertical-align:top;font-family:serif;}
 nth-editor[active] nth-string[active]{background-color:var(--backgroundsecond);}
-
-
 nth-keyboard-area{display:grid;justify-content:center;align-items:center;padding:1ch;padding-bottom:3ch;max-height:26ch;border-radius:1ch;border-bottom-left-radius:0;border-bottom-right-radius:0;width:90vw;margin:auto;background-color:var(--background);box-shadow:0 0 4ch -1ch var(--foreground);transition:all 0.2s;}
 nth-keyboard-area *{margin:1ch;max-width:unset;font-size:calc(1.7 * var(--size));}
 nth-keyboard{grid-area:a;display:block;width:max-content;text-align:center;font-family:monospace;margin:auto;position:relative;top:0;}

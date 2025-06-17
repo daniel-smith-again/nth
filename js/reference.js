@@ -8,6 +8,7 @@ helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 const mediaMobile = window.matchMedia("(orientation:landscape)")
+const openmobilekeyboard= document.getElementById('summonthegotdangmobilekeyboard')
 mediaMobile.onchange = () => {
   for (var x = 0; x < area.childElementCount; x++)
   {
@@ -141,55 +142,8 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
-  storeState()
+  openmobilekeyboard.focus()
   snippet.children[0].focus();
-}
-function storeState()
-{
-  var state = {}
-  state.theme = Theme
-  state.snippets = []
-  var snips = area.children
-  for (var x in snips)
-  {
-    if (snips[x].tagName == 'NTH-EDITOR')
-    {
-      var s = {top: snips[x].style.top, left: snips[x].style.left, contents: structureToProgram(snips[x].lastChild.lastChild)}
-      state.snippets.push(s)
-    }
-  }
-  document.cookie = JSON.stringify(state)
-}
-function retreiveState()
-{
-  var state = undefined;
-  try
-  {
-    state = JSON.parse(document.cookie)
-  }
-  catch
-  {
-    return;
-  }
-  setTheme(state.theme)
-  for (var x in state.snippets)
-  {
-    var s = createSnippet()
-    if (mediaMobile)
-    {
-      var r = s.getBoundingClientRect();
-      s.style.top = state.snippets[x].top
-      s.style.left = state.snippets[x].left
-    }
-    s.lastChild.replaceChildren(programToStructure(state.snippets[x].contents))
-    area.appendChild(s)
-  }
-  for (var x = 0; x < area.childElementCount; x++)
-  {
-    var snippet = area.children[x]
-    if (snippet.offsetTop < 0) snippet.style.top = '0px';
-    if (snippet.offsetLeft < 0) snippet.style.left = '0px';
-  }  
 }
 function createSnippet() 
 {
@@ -200,6 +154,7 @@ function createSnippet()
   snippet.id = null
   snippet.style.display = 'grid'
   active = snippet
+  openmobilekeyboard.focus()
   active.children[0].focus()
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
@@ -227,6 +182,7 @@ function setActive(e)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
   active = snippet
+  openmobilekeyboard.focus()
   active.children[0].focus()
 }
 
@@ -594,7 +550,10 @@ function highlightSymbol(e)
     p = p.parentElement
   p = p.parentElement
   if (active != null && active != p) active.caret.removeAttribute('active')
-  active = p, active.children[0].focus()
+  {
+    openmobilekeyboard.focus()
+    active = p, active.children[0].focus()
+  }
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
   active.caret = e.target.parentElement;
@@ -691,8 +650,8 @@ function insertString()
   s.contentEditable = true
   s.autocapitalize = false
   s.spellcheck = false
-  s.onclick = (e) => {highlightSymbol(e); e.target.focus()}
-  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+  s.onclick = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
+  s.ontouchstart = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
   s.setAttribute('active', 'true')
   if (caret.symbol) caret.symbol.removeAttribute('active')
   if (caret.childElementCount == 0) 
@@ -824,8 +783,8 @@ function programToStructure(p)
         expression.contentEditable = true
         expression.autocapitalize = false
         expression.spellcheck = false
-        expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
-        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+        expression.onclick = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
+        expression.ontouchstart = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
         var stringcontent = ''
         while (c = peekChar(), c != '"')
         {
@@ -1012,7 +971,7 @@ Keyboard.Area.onpointerdown = function (e) {
 */
 function setTheme(index)
 {
-  var c = colors[index]
+  var c = colors[index % 4]
   var r = document.querySelector(':root')
   r.style.setProperty('--background', c.bg_0)
   r.style.setProperty('--backgroundsecond', c.bg_1)
@@ -1038,4 +997,3 @@ function setTheme(index)
   r.style.setProperty('--brightviolet', c.br_violet)
   r.style.setProperty('--hgl', c.dim_0 + '40')
 }
-window.onload = function() {retreiveState();}
