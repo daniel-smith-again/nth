@@ -8,7 +8,6 @@ helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 const mediaMobile = window.matchMedia("(orientation:landscape)")
-const openmobilekeyboard= document.getElementById('summonthegotdangmobilekeyboard')
 mediaMobile.onchange = () => {
   for (var x = 0; x < area.childElementCount; x++)
   {
@@ -142,7 +141,10 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
-  openmobilekeyboard.focus()
+  var focuselement = document.createElement('input')
+  document.body.appendChild(focuselement)
+  focuselement.focus()
+  document.body.removeChild(focuselement)
   snippet.children[0].focus();
 }
 function createSnippet() 
@@ -154,7 +156,6 @@ function createSnippet()
   snippet.id = null
   snippet.style.display = 'grid'
   active = snippet
-  openmobilekeyboard.focus()
   active.children[0].focus()
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
@@ -182,7 +183,6 @@ function setActive(e)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
   active = snippet
-  openmobilekeyboard.focus()
   active.children[0].focus()
 }
 
@@ -550,10 +550,7 @@ function highlightSymbol(e)
     p = p.parentElement
   p = p.parentElement
   if (active != null && active != p) active.caret.removeAttribute('active')
-  {
-    openmobilekeyboard.focus()
-    active = p, active.children[0].focus()
-  }
+  active = p, active.children[0].focus()
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
   active.caret = e.target.parentElement;
@@ -650,8 +647,8 @@ function insertString()
   s.contentEditable = true
   s.autocapitalize = false
   s.spellcheck = false
-  s.onclick = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
-  s.ontouchstart = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
+  s.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
   s.setAttribute('active', 'true')
   if (caret.symbol) caret.symbol.removeAttribute('active')
   if (caret.childElementCount == 0) 
@@ -783,8 +780,8 @@ function programToStructure(p)
         expression.contentEditable = true
         expression.autocapitalize = false
         expression.spellcheck = false
-        expression.onclick = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
-        expression.ontouchstart = (e) => {highlightSymbol(e); openmobilekeyboard.focus(); e.target.focus()}
+        expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
+        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
         var stringcontent = ''
         while (c = peekChar(), c != '"')
         {
