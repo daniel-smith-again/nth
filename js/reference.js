@@ -141,11 +141,8 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
-  var focuselement = document.createElement('input')
-  document.body.appendChild(focuselement)
-  focuselement.focus()
-  document.body.removeChild(focuselement)
-  snippet.children[0].focus();
+  document.getElementById('summonthegotdangmobilekeyboard').focus()
+  //snippet.children[0].focus();
 }
 function createSnippet() 
 {
