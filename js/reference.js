@@ -3,6 +3,8 @@ var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
 var helpbutton = document.getElementsByTagName('help-button')[0]
+var textarea = document.getElementById("fallbacktextarea");
+textarea.oninput = inputFallback;
 var header = document.getElementsByTagName('nth-header')[0]
 helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
 var closehelp = document.getElementsByTagName('close-help')[0]
@@ -141,8 +143,10 @@ area.onclick = (e)=>
     snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
-  snippet.children[0].focus();
-  snippet.children[0].click();
+  //snippet.children[0].focus();
+  //snippet.children[0].click();
+  textarea.focus();
+  textarea.click();
 }
 function createSnippet() 
 {
@@ -167,9 +171,11 @@ function createSnippet()
   snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
   //console.log(active.children[0])
-  active.children[0].oninput = inputFallback
-  active.children[0].focus()
-  active.children[0].click()
+  //active.children[0].oninput = inputFallback
+  textarea.focus()
+  textarea.click()
+  //active.children[0].focus()
+  //active.children[0].click()
   return snippet
 }
 function Close(e)
@@ -184,8 +190,10 @@ function setActive(e)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
   active = snippet
-  active.children[0].focus()
-  active.children[0].click()
+  textarea.focus()
+  textarea.click()
+  //active.children[0].focus()
+  //active.children[0].click()
 }
 
 function dragCode(e)
@@ -579,8 +587,10 @@ function highlightSymbol(e)
   if (active != null && active != p) active.caret.removeAttribute('active')
   {
     active = p; 
-    active.children[0].focus()
-    active.children[0].click()
+    textarea.focus()
+    textarea.click()
+    //active.children[0].focus()
+    //active.children[0].click()
   }
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
