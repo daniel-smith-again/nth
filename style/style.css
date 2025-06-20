@@ -64,7 +64,7 @@ footer > * { margin: auto; }
 #cover-icon{display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
-textarea{visibility:hidden;}
+#fallbacktextarea {position:relative;top:-100vh;opacity:0;}
 nth-source-snippet { white-space: pre; display: inline-block; }
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
 nth-area:empty::after{content:'Click anywhere to create an expression.';display:block;position:relative;margin:auto;text-align:center;padding:0;top:15vh;width:100%;left:0;}
