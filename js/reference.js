@@ -166,7 +166,7 @@ function createSnippet()
   snippet.children[1].children[0].children[2].children[0].children[1].onclick = loadCode
   snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
-  console.log(active.children[0])
+  //console.log(active.children[0])
   active.children[0].oninput = inputFallback
   active.children[0].focus()
   active.children[0].click()
@@ -711,7 +711,7 @@ function saveCode(e)
 }
 function loadCode(e)
 {
-  console.log(e)
+  //console.log(e)
   var input = document.createElement('input')
   input.type = 'file';
   input.style.display = 'none'
@@ -869,7 +869,7 @@ function programToStructure(p)
   try {
     top = parse ()
   }
-  catch(e) {console.log(e);top = document.createElement('nth-symbol').appendChild(document.createTextNode('_'))}
+  catch(e) {top = document.createElement('nth-symbol').appendChild(document.createTextNode('_'))}
   return top
 }
 function Eval(program)
