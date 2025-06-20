@@ -142,6 +142,7 @@ area.onclick = (e)=>
     snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
   }
   snippet.children[0].focus();
+  snippet.children[0].click();
 }
 function createSnippet() 
 {
@@ -168,6 +169,7 @@ function createSnippet()
   console.log(active.children[0])
   active.children[0].oninput = inputFallback
   active.children[0].focus()
+  active.children[0].click()
   return snippet
 }
 function Close(e)
@@ -183,6 +185,7 @@ function setActive(e)
   snippet.setAttribute('active', 'true');
   active = snippet
   active.children[0].focus()
+  active.children[0].click()
 }
 
 function dragCode(e)
@@ -574,7 +577,11 @@ function highlightSymbol(e)
     p = p.parentElement
   p = p.parentElement
   if (active != null && active != p) active.caret.removeAttribute('active')
-  active = p, active.children[0].focus()
+  {
+    active = p; 
+    active.children[0].focus()
+    active.children[0].click()
+  }
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
   active.caret = e.target.parentElement;
@@ -671,8 +678,8 @@ function insertString()
   s.contentEditable = true
   s.autocapitalize = false
   s.spellcheck = false
-  s.onclick = (e) => {highlightSymbol(e); e.target.focus()}
-  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+  s.onclick = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
+  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
   s.setAttribute('active', 'true')
   if (caret.symbol) caret.symbol.removeAttribute('active')
   if (caret.childElementCount == 0) 
@@ -804,8 +811,8 @@ function programToStructure(p)
         expression.contentEditable = true
         expression.autocapitalize = false
         expression.spellcheck = false
-        expression.onclick = (e) => {highlightSymbol(e); e.target.focus()}
-        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus()}
+        expression.onclick = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
+        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
         var stringcontent = ''
         while (c = peekChar(), c != '"')
         {
