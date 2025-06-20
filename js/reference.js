@@ -152,7 +152,7 @@ function createSnippet()
   snippet.id = null
   snippet.style.display = 'grid'
   active = snippet
-  active.children[0].focus()
+  
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
   snippet.children[1].children[0].children[0].onclick = Run
@@ -165,6 +165,9 @@ function createSnippet()
   snippet.children[1].children[0].children[2].children[0].children[1].onclick = loadCode
   snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
+  console.log(active.children[0])
+  active.children[0].oninput = inputFallback
+  active.children[0].focus()
   return snippet
 }
 function Close(e)
@@ -264,6 +267,31 @@ document.onkeydown = (e) => {
                         active.removeAttribute('active'),active.children[0].blur(), active = null, storeState(); break
     }
   }
+}
+function inputFallback(e)
+{
+  e.target.value = '#';
+  e.target.selectionEnd = -1;
+  e.target.selectionStart = -1;
+  switch(e.inputType)
+  {
+    case "insertText" :
+      switch (e.data)
+      {
+        case "(": insertExpression(); break;
+        case ")": outwards(); break;
+        case ' ': insertSymbol(); break;
+        case '"': insertString(); break;
+        default: insertCharacter(e.data);
+      }
+      break;
+    case "deleteContentBackward":
+      backspace(); break;
+    case "insertLineBreak":
+      insertBreak(); break;
+    default: undefined; break;
+  }
+
 }
 function insertCharacter(c) 
 {

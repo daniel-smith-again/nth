@@ -88,6 +88,7 @@ close-help:hover, close-help:active{background-color:var(--backgroundsecond);}
 nth-editor{display:grid;grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;cursor:move;margin:auto;}
 nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;z-index:100;}
 nth-editor textarea, nth-editor input {display:none;appearance:none;width:0;height:0;resize:none;}
+nth-editor textarea{display:block;visibility:hidden;}
 nth-handle{cursor:move;width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--background);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--foregroundsecond)}
 nth-editor[active] nth-options{color:var(--foregroundsecond);}

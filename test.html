@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>nTH Live Reference</title>
+        <style>
+            nth-editor{display:block;width:100%;height:100%;}
+            nth-render{display:block;min-width:80ch;min-height:25ch;background-color:magenta;}
+            /*nth-editor textarea{position:relative;top:-100ch;}*/
+        </style>
+    </head>
+    <body>
+        <nth-editor>
+            <nth-render>
+
+            </nth-render>
+            <textarea cols="0" rows="0" autocapitalize="false" autocomplete="false" autocorrect="false" spellcheck="false"></textarea>
+        </nth-editor>
+    </body>
+    <script>
+        const editor = document.getElementsByTagName("nth-editor")[0]
+        const input = document.getElementsByTagName("textarea")[0]
+        editor.onclick = () => {input.focus();console.log("focused")}
+        input.oninput = (e) => {
+            console.log(e.target.textContent);
+            console.log(e); 
+            editor.appendChild(document.createTextNode(e.data));
+            e.target.value = '#';
+            e.target.selectionEnd = -1;
+            e.target.selectionStart = -1;
+        };
+        input.onselectionchange = (e) => {console.log(e);input.selectionEnd = -1;input.selectionStart = -1;}
+        
+    </script>
+</html>
