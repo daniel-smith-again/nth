@@ -68,7 +68,7 @@ class othernth {
   #default =
   {
     ['\0toplevel']: {},
-    ['\0primitives']: 
+    ['\0primitives']:
     {
       moduleBind: (symbol, data) => {},
       moduleCreate: (symbol, data) => {},
