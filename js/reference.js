@@ -3,21 +3,12 @@ var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
 var helpbutton = document.getElementsByTagName('help-button')[0]
-var textarea = document.getElementById("fallbacktextarea");
+var textarea = document.getElementById("input");
 textarea.oninput = inputFallback;
 var header = document.getElementsByTagName('nth-header')[0]
-helpbutton.addEventListener('click', (e)=>help.style.display = 'block')
+helpbutton.addEventListener('click', (e)=> {help.style.display = 'block'; e.stopPropagation()})
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
-const mediaMobile = window.matchMedia("(orientation:landscape)")
-mediaMobile.onchange = () => {
-  for (var x = 0; x < area.childElementCount; x++)
-  {
-    var snippet = area.children[x]
-    if (snippet.offsetTop < 0) snippet.style.top = '0px';
-    if (snippet.offsetLeft < 0) snippet.style.left = '0px';
-  }  
-}
 const colors = 
 [
   { 'bg_0': '#181818',
@@ -113,6 +104,7 @@ const colors =
     'br_violet': '#6b40c3'
   },
 ]
+
 var Theme = 0
 setTheme(Theme);
 header.onclick = () => {setTheme(Theme = ((Theme + 1) % 4));}
@@ -127,24 +119,20 @@ const shortcutreplace = [
   [/\\\\leq/g, '≤'],
   [/\\\\geq/g, '≥']
 ]
-var active = null;
+var active = document.getElementById("editorwindow")
+active['caret'] = active.lastChild
+active.setAttribute('active', 'true')
+active.focus()
+active.click()
 document['clipboard'] = null;
-area.onclick = (e)=> 
+area.onclick = (e) => 
 {
-  if (area['clicklock']) {area['clicklock'] = false; return;}
-  if (e.target.tagName != 'NTH-AREA') return;
-  e.preventDefault()
-  var snippet = createSnippet()
-  area.appendChild(snippet)
-  //snippet.scrollIntoView();
-  if (mediaMobile)
+  switch(e.target.tagName)
   {
-    var r = snippet.getBoundingClientRect();
-    snippet.style.top = String(Math.floor(e.clientY - (r.height / 2))) + 'px'
-    snippet.style.left = String(Math.floor(e.clientX - (r.width / 2))) + 'px'
+    case 'NTH-SYMBOL':
+      highlightSymbol(e);
+      break;
   }
-  //snippet.children[0].focus();
-  //snippet.children[0].click();
   textarea.focus();
   textarea.click();
 }
@@ -156,7 +144,7 @@ function createSnippet()
   snippet.setAttribute('active', 'true')
   snippet.id = null
   snippet.style.display = 'grid'
-  active = snippet
+  //active = snippet
   
   snippet['caret'] = snippet.lastChild
   snippet.caret.symbol = null
@@ -170,7 +158,6 @@ function createSnippet()
   snippet.children[1].children[0].children[2].children[0].children[1].onclick = loadCode
   snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
-  //console.log(active.children[0])
   //active.children[0].oninput = inputFallback
   textarea.focus()
   textarea.click()
@@ -189,7 +176,7 @@ function setActive(e)
   for (var x = 0; x < area.childElementCount; x++)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
-  active = snippet
+  //active = snippet
   textarea.focus()
   textarea.click()
   //active.children[0].focus()
@@ -209,7 +196,6 @@ function dragCode(e)
   if (snippet.offsetLeft < 0) snippet.style.left = '0px';
   const offsetY = snippet.offsetTop - e.clientY
   const offsetX = snippet.offsetLeft - e.clientX
-  //console.log(snippet.offsetTop, snippet.offsetLeft, window.innerWidth, window.innerHeight)
   const move = function(e)
   {
     e.preventDefault()
@@ -274,8 +260,10 @@ document.onkeydown = (e) => {
       case 'ArrowLeft': backwards(); break
       case 'ArrowUp': outwards(); break
       case 'ArrowDown': inwards(); break
-      case 'Escape': if (active != null) 
-                        active.removeAttribute('active'),active.children[0].blur(), active = null, storeState(); break
+      /*case 'Escape': if (active != null) 
+                        active.removeAttribute('active'),active.children[0].blur()
+      */
+     case 'Escape': break
     }
   }
 }
@@ -575,18 +563,24 @@ function outwards()
     active.caret.symbol = temp
     active.caret.symbol.setAttribute('active', 'true')
   }
+  for (s of active.caret.children)
+  {
+    if (Nth.annotateSymbol(x))
+    
+  }
   //caret.symbol.scrollIntoView()
 }
 function highlightSymbol(e) 
 {
   e.preventDefault()
+  console.log(e)
   var p = e.target
   while (p.parentElement.tagName != 'NTH-EDITOR')
     p = p.parentElement
   p = p.parentElement
   if (active != null && active != p) active.caret.removeAttribute('active')
   {
-    active = p; 
+    //active = p; 
     textarea.focus()
     textarea.click()
     //active.children[0].focus()
@@ -721,7 +715,6 @@ function saveCode(e)
 }
 function loadCode(e)
 {
-  //console.log(e)
   var input = document.createElement('input')
   input.type = 'file';
   input.style.display = 'none'
@@ -758,6 +751,31 @@ function Run(e)
 function Rewrite(e) 
 {
   
+}
+function structureToList()
+{
+  var top = active.lastChild.lastChild
+  const walk = (item) => {
+    switch(item.tagName)
+    {
+      case 'NTH-SYMBOL':
+        return item.textContent;
+        break;
+      case 'NTH-EXPRESSION':
+        var result = []
+        for (x of item.children)
+        {
+          result.push(walk(x))
+        }
+        return result;
+    }
+  }
+  var list = walk(top)
+  console.log(list)
+}
+function listToStructure(l)
+{
+
 }
 function structureToProgram(s) 
 {
@@ -882,13 +900,10 @@ function programToStructure(p)
   catch(e) {top = document.createElement('nth-symbol').appendChild(document.createTextNode('_'))}
   return top
 }
-function Eval(program)
+function Eval()
 {
-  if (program.tagName == 'NTH-CODE')
-  { program = program.lastChild; }
-  var src = structureToProgram(program).replaceAll(/[^\S]/gi, ' ');
-  var result = Nth.eval(src)
-  return programToStructure(result)
+  var result = Nth.eval(structureToList())
+  return ''
 }
 
 let Keyboard = {

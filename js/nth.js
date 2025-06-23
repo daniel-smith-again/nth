@@ -60,14 +60,56 @@
 
 *******************************************************************************/
 
-class othernth {
+class nth {
   constructor()
   {
+   this.eval = (program) => 
+    {
 
+    } 
+    this.isKeyword = (sym) =>
+    this.annotateSymbol(sym)
+    {
+      return (this['\0toplevel']['\0keywords'].includes(sym) ||
+              this['\0toplevel']['\0types'].includes(sym))
+    }
   }
   #default =
   {
-    ['\0toplevel']: {},
+    ['\0toplevel']: {
+      //keywords array is the symbols that should be highlighted in macros
+      '\0keywords': [
+        'define',
+        'function',
+        'let',
+        'do',
+        'with',
+        '?',
+        'module',
+        'data',
+        'syntax',
+        'import',
+        'export'
+      ],
+      //types array is the symbols that should be highlighted that bind types
+      '\0types': [
+        'Boolean',
+        'Function',
+        'Symbol',
+        'Expression',
+        'Program',
+        'List',
+        'Items',
+        'Array',
+        'Number',
+        'Interval',
+        'Natural',
+        'Integer',
+        'Rational',
+        'View'
+      ],
+      '\0syntax': []
+    },
     ['\0primitives']:
     {
       moduleBind: (symbol, data) => {},
@@ -82,11 +124,19 @@ class othernth {
     ['define']: () => {},
     ['function']: () => {},
     ['let']: () => {},
-
+    ['do']: () => {},
+    ['with']: () => {},
+    ['?']: () => {},
+    ['module']: () => {},
+    ['data']: () => {},
+    ['syntax']: () => {},
+    ['import']: () => {},
+    ['export']: () => {},
   }
+  
 }
 
-class nth {
+class othernth {
   constructor(){this.#init(); this.eval = (program) => {this.#setbuffer(program); return this.#eval(); }}
   #string = class { constructor(){}; type = "String"; contents = ""; }
   #number = class { constructor(){}; type = "Number"; contents = ""; }

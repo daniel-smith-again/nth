@@ -1,0 +1,5 @@
+Reference web app implementation is a single page.
+Draggable widgets are per-module.
+Each module forms a widget.
+You can open a widget and edit it. 
+You can scroll around using native scrolling in the area.
