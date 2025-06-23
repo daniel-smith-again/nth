@@ -565,7 +565,7 @@ function outwards()
   }
   for (s of active.caret.children)
   {
-    if (Nth.annotateSymbol(x))
+    
     
   }
   //caret.symbol.scrollIntoView()
