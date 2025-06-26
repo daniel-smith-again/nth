@@ -67,8 +67,8 @@ class nth {
     {
 
     } 
-    this.isKeyword = (sym) =>
-    this.annotateSymbol(sym)
+    this.isKeyword = (sym) => {}
+    this.annotateSymbol = (sym) =>
     {
       return (this['\0toplevel']['\0keywords'].includes(sym) ||
               this['\0toplevel']['\0types'].includes(sym))

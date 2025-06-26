@@ -69,10 +69,18 @@
             Where each expression is of the form 
             <code>(' )</code>
         </dd>
-        <dt>Datatype Definition</dt>
     </dl>
 </dd>
+<dt>Data Definition</dt>
+<dd>
+    Data definition follows the expression type
+    <code>
+        <pre>(let (datatype (' ('' Symbol) (''' Program)))
+     (constructor (' ('' Symbol) ('' (Program | _)) (''' (Program | _))))
+     (' data ('' datatype) (''' (List constructor))))</pre></code>
+</dd>
 <dt>Syntax Definition</dt>
+<dd>(' syntax ''Program ''Program)</dd>
 <dt>Module Linking</dt>
 </dl>
 <h3>Effectful Statements</h3>
@@ -103,7 +111,6 @@
 <h4>Reflection</h4>
 <h4>Relations</h4>
 <dl>
-
 </dl>
 <dl>
     <dt>Module Loading</dt>
@@ -117,5 +124,15 @@
     <dt>Module Construction</dt>
     <dt>Function Construction</dt>
 </dl>
+<h1>Syntax Matching Algorithm</h1>
+<p>
+    A single pattern item may be one of a <code>symbol</code>, <code>expression</code>, <code>program</code>, or a type.
+    If an item is a <code>symbol</code>, then a symbol must be provided at that point.
+    If an item is am <code>expression</code>, then an expression must be provided at that point.
+    If an item is a <code>program</code>, then a symbol or program must be provided at that point.
+    If an item is a type, then the syntax occurring at that point must be macro-resolved and type-checked.
+</p>
+<h1>Type Algorithm</h1>
+
 </body>
 </html>

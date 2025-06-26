@@ -3,3 +3,22 @@ Draggable widgets are per-module.
 Each module forms a widget.
 You can open a widget and edit it. 
 You can scroll around using native scrolling in the area.
+
+
+What should I use for my quotation building?
+When you're building quotes, you just insert stuff.
+I need quote, unquote, and spread.
+
+
+All I need is quote, unquote, and spread.
+What about spreading vs repeating elements?
+Repeating elements is a supertype.
+(spread (List Program)) is the same as (spread Program) because in both cases, it's just a program.
+
+Syntax is untyped. But how is it untyped if I do something like 
+(let (data (make-user-data))
+ (' foo bar ''data))
+where the data is included specifically in the quote?
+What data is actually unprintable?
+None, you can always write any data.
+

@@ -117,7 +117,11 @@ const shortcutreplace = [
   [/\\\\not/g, '¬'],
   [/\\\\neq/g, '≠'],
   [/\\\\leq/g, '≤'],
-  [/\\\\geq/g, '≥']
+  [/\\\\geq/g, '≥'],
+  [/\\\\quote/g, '▶'],
+  [/\\\\unquote/g, '▷'],
+  [/\\\\requote/g, '▽'],
+  [/\\\\inquote/g, '△']
 ]
 var active = document.getElementById("editorwindow")
 active['caret'] = active.lastChild
