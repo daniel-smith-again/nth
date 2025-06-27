@@ -22,3 +22,18 @@ where the data is included specifically in the quote?
 What data is actually unprintable?
 None, you can always write any data.
 
+what are my primitive operations?
+
+allocate stack space
+push something to the stack
+store program instructions
+
+primitive operations:
+
+1. call function
+2. return value
+3. construct number
+4. construct list
+5. define variable
+6. define function
+7. define 
