@@ -60,7 +60,25 @@
 
 *******************************************************************************/
 
-class nth {
+class nth 
+{
+  constructor ()
+  {
+
+  }
+  #top_level = {}
+  #lookup = (symbol) => //find a binding in the top level and return the data 
+  {
+
+  }
+  #check = () => //check if an expression works
+  {
+
+  }
+
+}
+
+class othernth {
   constructor()
   {
    this.eval = (program) => 
@@ -136,7 +154,7 @@ class nth {
   
 }
 
-class othernth {
+class oldothernth {
   constructor(){this.#init(); this.eval = (program) => {this.#setbuffer(program); return this.#eval(); }}
   #string = class { constructor(){}; type = "String"; contents = ""; }
   #number = class { constructor(){}; type = "Number"; contents = ""; }

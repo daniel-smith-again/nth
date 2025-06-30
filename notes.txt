@@ -37,3 +37,14 @@ primitive operations:
 5. define variable
 6. define function
 7. define 
+
+
+formal specification.
+I have to specify grammar, type rules, and semantics for each expression.
+That's not so bad.
+How do I make it interactive though?
+I add it to the runtime?
+The interpreter is the formal specification?
+Well, I specify a grammar using my own expressions.
+It's okay if it's a circular definition.
+Special attention to pattern matching algorithm and subtyping algorithm.
