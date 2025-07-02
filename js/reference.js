@@ -4,6 +4,11 @@ var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
 var helpbutton = document.getElementsByTagName('help-button')[0]
 var textarea = document.getElementById("input");
+function focusInput()
+{
+  textarea.focus()
+  textarea.click()
+}
 textarea.oninput = inputFallback;
 var header = document.getElementsByTagName('nth-header')[0]
 helpbutton.addEventListener('click', (e)=> {help.style.display = 'block'; e.stopPropagation()})
@@ -126,8 +131,7 @@ const shortcutreplace = [
 var active = document.getElementById("editorwindow")
 active['caret'] = active.lastChild
 active.setAttribute('active', 'true')
-active.focus()
-active.click()
+focusInput()
 document['clipboard'] = null;
 area.onclick = (e) => 
 {
@@ -137,8 +141,7 @@ area.onclick = (e) =>
       highlightSymbol(e);
       break;
   }
-  textarea.focus();
-  textarea.click();
+  focusInput()
 }
 function createSnippet() 
 {
@@ -162,11 +165,7 @@ function createSnippet()
   snippet.children[1].children[0].children[2].children[0].children[1].onclick = loadCode
   snippet.children[1].children[0].children[3].onclick = Close
   snippet.onpointerdown = dragCode
-  //active.children[0].oninput = inputFallback
-  textarea.focus()
-  textarea.click()
-  //active.children[0].focus()
-  //active.children[0].click()
+  focusInput()
   return snippet
 }
 function Close(e)
@@ -180,11 +179,7 @@ function setActive(e)
   for (var x = 0; x < area.childElementCount; x++)
     area.children[x].removeAttribute('active')
   snippet.setAttribute('active', 'true');
-  //active = snippet
-  textarea.focus()
-  textarea.click()
-  //active.children[0].focus()
-  //active.children[0].click()
+  focusInput()
 }
 
 function dragCode(e)
@@ -584,11 +579,7 @@ function highlightSymbol(e)
   p = p.parentElement
   if (active != null && active != p) active.caret.removeAttribute('active')
   {
-    //active = p; 
-    textarea.focus()
-    textarea.click()
-    //active.children[0].focus()
-    //active.children[0].click()
+    focusInput()
   }
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')
@@ -686,8 +677,16 @@ function insertString()
   s.contentEditable = true
   s.autocapitalize = false
   s.spellcheck = false
-  s.onclick = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
-  s.ontouchstart = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
+  s.onclick = (e) =>
+    {
+      highlightSymbol(e)
+      focusInput()
+    }
+  s.ontouchstart = (e) => 
+    {
+      highlightSymbol(e)
+      focusInput()
+    }
   s.setAttribute('active', 'true')
   if (caret.symbol) caret.symbol.removeAttribute('active')
   if (caret.childElementCount == 0) 
@@ -843,8 +842,16 @@ function programToStructure(p)
         expression.contentEditable = true
         expression.autocapitalize = false
         expression.spellcheck = false
-        expression.onclick = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
-        expression.ontouchstart = (e) => {highlightSymbol(e); e.target.focus(); e.target.click()}
+        expression.onclick = (e) =>
+          {
+            highlightSymbol(e)
+            focusInput()
+          }
+        expression.ontouchstart = (e) => 
+          {
+            highlightSymbol(e)
+            focusInput()
+          }
         var stringcontent = ''
         while (c = peekChar(), c != '"')
         {
