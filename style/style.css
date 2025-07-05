@@ -48,7 +48,7 @@ footer > * { margin: auto; }
 #cover-icon{display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #cover-icon > * {display:block;min-height:34vh;max-height:30ch;margin:auto;}
 #title-page{min-height:34vh;height:max-content;border:none;width:fit-content;margin:auto;text-align:center;}
-#input {position:relative;top:-100vh;opacity:0;}
+#input {position:relative;top:-100vh;}
 nth-source-snippet { white-space: pre; display: inline-block; }
 nth-area{display:block;width:90vw;height:calc(90vh - 5lh);margin:auto;padding:2ch;overflow:auto;z-index:unset;background-color:unset;}
 nth-area > *{display:block;border-radius:0.5ch;padding:0;margin:0;}
@@ -74,7 +74,7 @@ close-help:hover, close-help:active{background-color:var(--backgroundsecond);}
 nth-editor{display:grid;grid-template-areas: 'handle area' 'options area';font-family:customfont, noto, monospace;min-height:1ch;min-width:1ch;padding:1ch;border-radius:1ch;margin:auto;}
 nth-editor{font-family: nth-hyperspec-overpass, nth-hyperspec-noto;z-index:100;}
 nth-editor textarea, nth-editor input {display:none;appearance:none;width:0;height:0;resize:none;}
-nth-editor textarea{display:block;visibility:hidden;}
+nth-editor textarea{display:block;}
 nth-handle{width:2ch;height:2ch;line-height:2ch;grid-area:handle;display:flex;flex-flow:column nowrap;padding:0;border-radius:0.5ch;background-color:var(--background);text-align:center;font-size:calc(1.2 * var(--size));}
 nth-editor[active] nth-handle{color:var(--foregroundsecond)}
 nth-editor[active] nth-options{color:var(--foregroundsecond);}
