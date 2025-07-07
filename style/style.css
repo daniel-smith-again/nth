@@ -15,7 +15,7 @@
 
 html { width: 100%; height: 100%; }
 html * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
-body { color:var(--foreground); background-color:var(--background); font-size:var(--size); max-width: min(69vw, 160ch); margin: auto; overflow:hidden;}
+body { color:var(--foreground); background-color:var(--background); font-size:var(--size); max-width: min(69vw, 160ch); margin: auto; overflow:auto;}
 body * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto; font-variant-ligatures: none; max-width: 100%; user-select:none;}
 nav { display:flex; height:1lh; width: 100%; flex-flow: row nowrap; justify-content: space-between; }
 a { text-decoration: none; color: var(--foregroundsecond); }
@@ -27,7 +27,8 @@ figure { width: 69%; border: solid 0.2ch var(--foregroundsecond); border-radius:
 figcaption { border-bottom: solid 0.2ch var(--foregroundsecond); margin-bottom: 1lh;}
 main { counter-reset: clause-number 0; counter-reset: article-number 0;}
 main article { counter-set: clause-number 0; counter-increment: article-number; }
-main > article > p::after { content: counter(article-number) '-' counter(clause-number); counter-increment: clause-number; position: relative; left: calc(100% - 13ch); }
+main > article > p {max-width:calc(100% - 3ch);}
+main > article > p::after { content: counter(article-number) '-' counter(clause-number); counter-increment: clause-number; position:absolute; right:calc(0% + 1ch);}
 footer { text-align: center; position: absolute; bottom: 0%; width: 100%; max-width: min(69vw, 160ch); }
 footer > * { margin: auto; }
 *:hover > nth-tooltip > *{visibility:visible;}
