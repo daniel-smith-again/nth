@@ -1,7 +1,7 @@
 @font-face { font-family:nth-hyperspec-overpass; src:url('./OverpassMNerdFontMono-Regular.otf'); }
 @font-face { font-family:nth-hyperspec-noto; src:url('./NotoSansMonoVariable.ttf'); }
 :root {
-  /*
+  
   --bg: rgb(229, 211, 202);
   --bgd: rgb(145,192,189);
   --bgdd: rgb(206, 174, 158);
@@ -9,7 +9,7 @@
   --fg: rgb(87, 36,0);
   --fgl: rgb(154, 52, 1);
   --hg: rgb(94, 228, 217);
-  */
+  
   --size:calc(7px + ((1vw + 1vh) / 2));
 }
 
@@ -18,8 +18,8 @@ html * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto;}
 body { color:var(--foreground); background-color:var(--background); font-size:var(--size); max-width: min(69vw, 160ch); margin: auto; overflow:auto;}
 body * { font-family: nth-hyperspec-overpass, nth-hyperspec-noto; font-variant-ligatures: none; max-width: 100%; user-select:none;}
 nav { display:flex; height:1lh; width: 100%; flex-flow: row nowrap; justify-content: space-between; }
-a { text-decoration: none; color: var(--foregroundsecond); }
-a:hover { color: var(--hgl); }
+a { text-decoration: none; color: var(--diminished); }
+a:hover { color: var(--foregroundsecond); }
 h1 { font-size: calc(var(--size) * 2); }
 h2 { font-size: calc(var(--size) * 1.5); }
 main h1 { width:100%; text-align:center; }
@@ -28,7 +28,7 @@ figcaption { border-bottom: solid 0.2ch var(--foregroundsecond); margin-bottom: 
 main { counter-reset: clause-number 0; counter-reset: article-number 0;}
 main article { counter-set: clause-number 0; counter-increment: article-number; }
 main > article > p {max-width:calc(100% - 3ch);}
-main > article > p::after { content: counter(article-number) '-' counter(clause-number); counter-increment: clause-number; position:absolute; right:calc(0% + 1ch);}
+main > article > p::after { content: counter(article-number) '-' counter(clause-number); counter-increment: clause-number; position:absolute; right:calc(0% + 1ch); color:var(--diminished);}
 footer { text-align: center; position: absolute; bottom: 0%; width: 100%; max-width: min(69vw, 160ch); }
 footer > * { margin: auto; }
 *:hover > nth-tooltip > *{visibility:visible;}
