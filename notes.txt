@@ -48,3 +48,27 @@ The interpreter is the formal specification?
 Well, I specify a grammar using my own expressions.
 It's okay if it's a circular definition.
 Special attention to pattern matching algorithm and subtyping algorithm.
+
+
+what is my whitespace significant notation?
+
+An expression is normally represented by a sequence of symbols bounded by round 
+braces.
+Alternatively, round braces may be replaced by indentation.
+An opening brace is represented by 
+
+relative column-wise indentation corresponds to a '('
+Given a sequence of characters, some whitespace or formatting characters may 
+follow a line-break sequence.
+
+(a b c)
+a b c
+((a)(b)(c))
+ a
+ b
+ c
+(a (b c))
+a
+ b c
+
+

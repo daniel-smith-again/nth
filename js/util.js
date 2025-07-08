@@ -179,7 +179,7 @@ const colors =
     'br_violet': '#6b40c3'
   },
 ]
-var Theme = 0
+var Theme = 3
 function setTheme(index)
 {
   index = Theme
@@ -214,5 +214,4 @@ function setTheme(index)
     Theme = 0
   }
 }
-var Theme = 0
 setTheme(Theme);
