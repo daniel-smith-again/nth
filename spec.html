@@ -14,10 +14,10 @@
     <p>&copy;2025 <a href="mailto:daniel.smith.again@gmail.com">Daniel Smith</a></p>
   </header>
   <main>
-    <details id="toc">
+    <details id="toc" open>
       <summary><h2>Table of Contents</h2></summary>
       <ul style="list-style:none;">
-        <li>Preface</li>
+        <li>Overview</li>
         <li>Syntax</li>
         <li>Evaluation</li>
         <li>Types</li>
@@ -30,12 +30,34 @@
       </ul>
     </details>
 
-    <h2>Preface</h2>
+    
     <article>
+      <h2>Overview</h2>
       <p>
-        This document describes the programming language, "nth", stylized as <i>n</i><sup>th</sup>.
-        
-      </p>
+        This document provides the definition the programming language, "nth", stylized as <i>n</i><sup>th</sup>.
+        Specifically, the meaning, interpretation, and formation of programs written in the <i>n</i><sup>th</sup> programming language.
+        Information is provided in such a way that the reader is able to rely on this document not only to understand how <i>n</i><sup>th</sup> is used, but also how one might implement <i>n</i><sup>th</sup>.
+      </p>      
+    </article>
+    <article>
+      <h2>Terminology</h2>
+      <dl>
+        <dt id="term-host">Host</dt><dd>The arbiter of computing resources in the environment where an implementation executes programs.</dd>
+        <dt id="term-processor">Processor</dt><dd>The agent responsible for executing a program.</dd>
+        <dt id="term-execution">Execution</dt><dd>The process by which the meaning of a program is carried out.</dd>
+        <dt id="term-program">Program</dt><dd>The data to be interpreted during execution.</dd>
+        <dt id="term-context">Context</dt><dd>The enumeration of all bindings.</dd>
+        <dt id="term-binding">Binding</dt><dd>An association between a symbol and some data such that the data may replace the symbol in a program anywhere that association is present.</dd>
+        <dt id="term-symbol">Symbol</dt><dd>An opaque data type which is a component of a program.</dd>
+        <dt id="term-expression">Expression</dt><dd>A composite data type which is a component of a program.</dd>
+        <dt id="term-function">Function</dt><dd>A program which preserves a context to be used during execution.</dd>
+        <dt id="term-syntax">Syntax</dt><dd>The sequence(s) of characters which correspond to a program.</dd>
+        <dt id="term-character">Character</dt><dd>An opaque value corresponding to a visually rendered grapheme.</dd>
+      </dl>
+    </article>
+    <article>
+      <h2>Syntax</h2>
+      <p></p>
     </article>
     <h2>Syntax</h2>
     <h2>Evaluation</h2>
