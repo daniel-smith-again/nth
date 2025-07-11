@@ -131,6 +131,20 @@
         <code>0123456789abcdefABCDEF</code><br>
         namely, the ten decimal digits, and A through F in upper and lower-case form.
       </p>
+      <details>
+        <summary><h4>String Formalization</h4></summary>
+        <p>
+          String data will always correspond to an array of UTF-8 encoded bytes.
+          The data will exist as if constructed with <code>(array Byte)</code>
+        </p>
+        <p>
+          An escape sequence which gives a hexadecimal value will set the value of a single byte at the index in the array where the escape sequence occurred.
+        </p>
+        <p>
+          String data will specifically discard any character values included in the Cc character category as specified in the <a href="https://www.unicode.org/versions/latest">Unicode</a> encoding.
+          Escape sequences are permitted to specify byte values which may be identical to an otherwise discarded character value.
+        </p>
+      </details>
       <h3>Alternative Expression Syntax</h3>
       <p>
         Expressions are cannonically denoted with round brace delimination, however expressions may alternatively be denoted by line breaks and indentation according to the following associations...
@@ -186,135 +200,144 @@
           </tr>
         </table>
       </figure>
-      <h3>Formalization of Syntax</h3>
-      <p><i>n</i><sup>th</sup> syntax depends on the <a href="https://www.unicode.org/versions/latest/">Unicode&reg; Standard</a> character set and UTF-8 encoding convention.</p>
-      <p><i>n</i><sup>th</sup> relies on the following classifications of the <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> general categories...
-        <table border>
-          <tr><td rowspan="5">Graph</td></tr>
-          <tr><td>L</td></tr>
-          <tr><td>M</td></tr>
-          <tr><td>P</td></tr>
-          <tr><td>S</td></tr>
-          <tr><td rowspan="2">Digit</td></tr>
-          <tr><td>N</td></tr>
-          <tr><td rowspan="3">Blank</td></tr>
-          <tr><td>C</td></tr>
-          <tr><td>Z</td></tr>
-        </table>
-      </p>
-      <p>In the case of a constrained environment where Unicode and/or UTF-8 encoding is not available, <i>n</i><sup>th</sup> syntax depends minimally on the following set of characters...</p>
-      <ul>
-        <li>the English alphabet lower case letters,<br>
-        <code>abcdefghijklmnopqrstuvwxyz</code></li>
-        <li>the English alphabet upper case letters,<br>
-        <code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code></li>
-        <li>round braces, <code>( )</code></li>
-        <li>square braces, <code>[ ]</code></li>
-        <li>curly braces, <code>{ }</code></li>
-        <li>the ten decimal digits,
-          <code>0123456789</code></li>
-        <li>the double quote, <code>"</code></li>
-        <li>the single quote, <code>'</code></li>
-        <li>the period dot, <code>.</code></li>
-        <li>the comma, <code>,</code></li>
-        <li>the plus sign, <code>+</code></li>
-        <li>the dash, <code>-</code></li>
-        <li>the product sign, <code>&times;</code></li>
-        <li>the division sign, <code>&divide;</code></li>
-        <li>logical conjunction, <code>&and;</code></li>
-        <li>logical disjunction, <code>&or;</code></li>
-        <li>logical negation, <code>&not;</code></li>
-        <li>ordinal relations, <code>= &ne; &lt; &leq; &gt; &geq;</code></li>
-        <li>forward and backward slash, <code>/ \</code></li>
-        <li>arrows, <code>&rightarrow; &leftarrow; &uparrow; &downarrow;</code></li>
-        <li>the pound sign, <code>#</code></li>
-        <li>the vertical bar, <code>|</code></li>
-        <li>the question mark, <code>?</code></li>
-        <li>the star, <code>*</code></li>
-        <li>the underscore, <code>_</code></li>
-        <li>the at-symbol, <code>@</code></li>
-        <li>the blank space</li>
-        <li>the line break</li>
-        <li>the horizontal tab</li>
-      </ul>
-      <h4>Grammar</h4>
-      <figure>
-        <figcaption>The BNF grammar for <i>n</i><sup>th</sup>.<br>Literal characters are features in <span greyed><code>grey</code></span>.</figcaption>
-        <table bnf>
-          <tr><td>Program</td><td>&rightarrow;</td><td>Symbol | Expression | String</td><td><i>syntax components of a program</i></td></tr>
-          <tr><td>Symbol</td><td>&rightarrow;</td><td><i>Graph</i> Symbol | <i>Digit</i> Symbol</td><td><i>symbol formation</i></td></tr>
-          <tr><td>Expression</td><td>&rightarrow;</td><td>Begin Atoms End | Indent Atoms Indent</td><td>expression syntax</td></tr>
-          <tr><td>Begin</td><td>&rightarrow;</td><td><span greyed><code>(</code></span></td><td><i>expression prefix</i></td></tr>
-          <tr><td>End</td><td>&rightarrow;</td><td><span greyed><code>)</code></span></td><td><i>expression suffix</i></td></tr>
-          <tr><td>Indent</td><td>&rightarrow;</td><td><i>linebreak</i> Tabs</td><td><i>indentation sequence</i></td></tr>
-          <tr><td>Tabs</td><td>&rightarrow;</td><td><i>tab</i> | <i>tab</i> Tabs</td><td><i>tab sequence</i></td></tr>
-          <tr><td>Atoms</td><td>&rightarrow;</td><td>Program | Whitespace | Atoms Atoms</td><td><i>atom list formation</i></td></tr>
-          <tr><td>Whitespace</td><td>&rightarrow;</td><td><i>Blank</i> | <i>Blank</i> Whitespace</td><td><i>blank space sequence</i></td></tr>
-          <tr><td>String</td><td>&rightarrow;</td><td>Quotation Characters Quotation</td><td><i>String data</i></td></tr>
-          <tr><td>Quotation</td><td>&rightarrow;</td><td><span greyed><code>"</code></span></td><td><i>String data delimiter</i></td></tr>
-          <tr><td>Characters</td><td>&rightarrow;</td><td>Characters Characters | <i>character</i> | Escape</td><td><i>characters included in string</i></td></tr>
-          <tr><td>Escape</td><td>&rightarrow;</td><td>Backslash Backslash | Backslash Quotation | Backslash Hex Hex</td><td><i>escape sequences</i></td></tr>
-          <tr><td>Backslash</td><td>&rightarrow;</td><td><span greyed><code>\</code></span></td><td>the backslash character</td></tr>
-          <tr><td>Hex</td><td>&rightarrow;</td><td>
-            <span greyed><code>0</code></span> |
-            <span greyed><code>1</code></span> |
-            <span greyed><code>2</code></span> |
-            <span greyed><code>3</code></span> |
-            <span greyed><code>4</code></span> |
-            <span greyed><code>5</code></span> |
-            <span greyed><code>6</code></span> |
-            <span greyed><code>7</code></span> |
-            <span greyed><code>8</code></span> |
-            <span greyed><code>9</code></span> |
-            <span greyed><code>0</code></span> |<br>
-            <span greyed><code>a</code></span> |
-            <span greyed><code>b</code></span> |
-            <span greyed><code>c</code></span> |
-            <span greyed><code>d</code></span> |
-            <span greyed><code>e</code></span> |
-            <span greyed><code>f</code></span> |<br>
-            <span greyed><code>A</code></span> |
-            <span greyed><code>B</code></span> |
-            <span greyed><code>C</code></span> |
-            <span greyed><code>D</code></span> |
-            <span greyed><code>E</code></span> |
-            <span greyed><code>F</code></span> |
-          </td><td><i>valid hexadecimal digits</i></td></tr>
-        </table>
-      </figure>
-      <h4>Cannonical Syntax</h4>
-      <p>
-        It's possible to write an <i>n</i><sup>th</sup> program without using parentheses.
-        Programs written in this fashion are required to be converted to the cannonical syntax which uses exclusively parentheses to denote expressions.
-        Conversion will happen according to the following rules...
-      </p>
-      <ul>
-        <li>A line corresponds to an expression.</li>
-        <li>Any line following a closed expression will begin a new expression and will be prefixed with <code>(</code>.</li>
-        <li>A line break followed by one or more spaces will continue the expression from the previous line.</li>
-        <li>A line break followed by the same number of tabs as the indentation on the previous line will be converted into the sequence <code>)(</code>.</li>
-        <li>A line break followed by less tabs than the previous line will be converted into the sequence <code>)</code>.</li>
-        <li>A line break followed by more tabs than the previous line will be converted into the sequence <code>(</code>.</li>
-        <li>Two consecutive line breaks will be converted into as many closing parentheses, <code>)</code>, as required to close the outermost expression.</li>
-        <li>Any line following a closed expression, but still being indented, will be prefixed with as many opening round braces, <code>(</code>, as required to guarantee the contents of the least indented line are included in the outermost expression.</li>
-      </ul>
-      <h4>Parsing Rules</h4>
-      <p>
-        A program may be represented not only in a written form with syntax, but as structured data which may be manipulated by another program.
-        Therefore <i>n</i><sup>th</sup> syntax is required to have a strict correspondence to structured program data.
-      </p>
-      <p>
-        The <i>n</i><sup>th</sup> syntax grammar is categorized into three distinct correspondences, symbols, data constants, and expressions.
-      </p>
-      <p>
-        A symbol corresponds to any contiguous sequence of characters formed according to the <i>Symbol</i> production rule in the grammar.
-        A symbol will include all characters up until the first <i>Whitespace</i>, <i>Quotation</i>, or <i>Begin</i> production rule occurs.
-      </p>
-      <p>
-        An expression corresponds to any contiguous sequence of characters formed according to the <i>Expression</i> production rule.
-        After the <i>Begin</i> sequence occurs, each individual sequence occurring before the <i>End</i> sequence will be included as an atom in the expression.
-        The order of the atoms in an expression must exactly match the order in which their corresponding sequences occurred.
-      </p>
+      <details>
+        <summary><h3>Formalization of Syntax</h3></summary>
+        <p><i>n</i><sup>th</sup> syntax depends on the <a href="https://www.unicode.org/versions/latest/">Unicode&reg; Standard</a> character set and UTF-8 encoding convention.</p>
+        <p><i>n</i><sup>th</sup> relies on the following classifications of the <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> general categories...
+          <table border>
+            <tr><td rowspan="5">Graph</td></tr>
+            <tr><td>L</td></tr>
+            <tr><td>M</td></tr>
+            <tr><td>P</td></tr>
+            <tr><td>S</td></tr>
+            <tr><td rowspan="2">Digit</td></tr>
+            <tr><td>N</td></tr>
+            <tr><td rowspan="3">Blank</td></tr>
+            <tr><td>C</td></tr>
+            <tr><td>Z</td></tr>
+          </table>
+        </p>
+        <p>In the case of a constrained environment where Unicode and/or UTF-8 encoding is not available, <i>n</i><sup>th</sup> syntax depends minimally on the following set of characters...</p>
+        <ul>
+          <li>the English alphabet lower case letters,<br>
+          <code>abcdefghijklmnopqrstuvwxyz</code></li>
+          <li>the English alphabet upper case letters,<br>
+          <code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code></li>
+          <li>round braces, <code>( )</code></li>
+          <li>square braces, <code>[ ]</code></li>
+          <li>curly braces, <code>{ }</code></li>
+          <li>the ten decimal digits,
+            <code>0123456789</code></li>
+          <li>the double quote, <code>"</code></li>
+          <li>the single quote, <code>'</code></li>
+          <li>the period dot, <code>.</code></li>
+          <li>the comma, <code>,</code></li>
+          <li>the plus sign, <code>+</code></li>
+          <li>the dash, <code>-</code></li>
+          <li>the product sign, <code>&times;</code></li>
+          <li>the division sign, <code>&divide;</code></li>
+          <li>logical conjunction, <code>&and;</code></li>
+          <li>logical disjunction, <code>&or;</code></li>
+          <li>logical negation, <code>&not;</code></li>
+          <li>ordinal relations, <code>= &ne; &lt; &leq; &gt; &geq;</code></li>
+          <li>forward and backward slash, <code>/ \</code></li>
+          <li>arrows, <code>&rightarrow; &leftarrow; &uparrow; &downarrow;</code></li>
+          <li>the pound sign, <code>#</code></li>
+          <li>the vertical bar, <code>|</code></li>
+          <li>the question mark, <code>?</code></li>
+          <li>the star, <code>*</code></li>
+          <li>the underscore, <code>_</code></li>
+          <li>the at-symbol, <code>@</code></li>
+          <li>the blank space</li>
+          <li>the line break</li>
+          <li>the horizontal tab</li>
+        </ul>
+        <h4>Grammar</h4>
+        <figure>
+          <figcaption>
+            The BNF grammar for <i>n</i><sup>th</sup>.<br>
+            Literal characters are features in <span greyed><code>grey</code></span>.<br>
+            <i>Graph</i>, <i>Digit</i>, and <i>Blank</i> correspond to the classifications of the <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> general categories.
+          </figcaption>
+          <table bnf>
+            <tr><td>Program</td><td>&rightarrow;</td><td>Symbol | Expression | String</td><td><i>syntax components of a program</i></td></tr>
+            <tr><td>Symbol</td><td>&rightarrow;</td><td><i>Graph</i> Symbol | <i>Digit</i> Symbol</td><td><i>symbol formation</i></td></tr>
+            <tr><td>Expression</td><td>&rightarrow;</td><td>Begin Atoms End | Indent Atoms Indent</td><td>expression syntax</td></tr>
+            <tr><td>Begin</td><td>&rightarrow;</td><td><span greyed><code>(</code></span></td><td><i>expression prefix</i></td></tr>
+            <tr><td>End</td><td>&rightarrow;</td><td><span greyed><code>)</code></span></td><td><i>expression suffix</i></td></tr>
+            <tr><td>Indent</td><td>&rightarrow;</td><td><i>linebreak</i> Tabs</td><td><i>indentation sequence</i></td></tr>
+            <tr><td>Tabs</td><td>&rightarrow;</td><td><i>tab</i> | <i>tab</i> Tabs</td><td><i>tab sequence</i></td></tr>
+            <tr><td>Atoms</td><td>&rightarrow;</td><td>Program | Whitespace | Atoms Atoms</td><td><i>atom list formation</i></td></tr>
+            <tr><td>Whitespace</td><td>&rightarrow;</td><td><i>Blank</i> | <i>Blank</i> Whitespace</td><td><i>blank space sequence</i></td></tr>
+            <tr><td>String</td><td>&rightarrow;</td><td>Quotation Characters Quotation</td><td><i>String data</i></td></tr>
+            <tr><td>Quotation</td><td>&rightarrow;</td><td><span greyed><code>"</code></span></td><td><i>String data delimiter</i></td></tr>
+            <tr><td>Characters</td><td>&rightarrow;</td><td>Characters Characters | <i>character</i> | Escape</td><td><i>characters included in string</i></td></tr>
+            <tr><td>Escape</td><td>&rightarrow;</td><td>Backslash Backslash | Backslash Quotation | Backslash Hex Hex</td><td><i>escape sequences</i></td></tr>
+            <tr><td>Backslash</td><td>&rightarrow;</td><td><span greyed><code>\</code></span></td><td>the backslash character</td></tr>
+            <tr><td>Hex</td><td>&rightarrow;</td><td>
+              <span greyed><code>0</code></span> |
+              <span greyed><code>1</code></span> |
+              <span greyed><code>2</code></span> |
+              <span greyed><code>3</code></span> |
+              <span greyed><code>4</code></span> |
+              <span greyed><code>5</code></span> |
+              <span greyed><code>6</code></span> |
+              <span greyed><code>7</code></span> |
+              <span greyed><code>8</code></span> |
+              <span greyed><code>9</code></span> |
+              <span greyed><code>0</code></span> |<br>
+              <span greyed><code>a</code></span> |
+              <span greyed><code>b</code></span> |
+              <span greyed><code>c</code></span> |
+              <span greyed><code>d</code></span> |
+              <span greyed><code>e</code></span> |
+              <span greyed><code>f</code></span> |<br>
+              <span greyed><code>A</code></span> |
+              <span greyed><code>B</code></span> |
+              <span greyed><code>C</code></span> |
+              <span greyed><code>D</code></span> |
+              <span greyed><code>E</code></span> |
+              <span greyed><code>F</code></span> |
+            </td><td><i>valid hexadecimal digits</i></td></tr>
+          </table>
+        </figure>
+        <h4>Cannonical Syntax</h4>
+        <p>
+          It's possible to write an <i>n</i><sup>th</sup> program without using parentheses.
+          Programs written in this fashion are required to be converted to the cannonical syntax which uses exclusively parentheses to denote expressions.
+          Conversion will happen according to the following rules...
+        </p>
+        <ul>
+          <li>A line corresponds to an expression.</li>
+          <li>Any line following a closed expression will begin a new expression and will be prefixed with <code>(</code>.</li>
+          <li>A line break followed by one or more spaces will continue the expression from the previous line.</li>
+          <li>A line break followed by the same number of tabs as the indentation on the previous line will be converted into the sequence <code>)(</code>.</li>
+          <li>A line break followed by less tabs than the previous line will be converted into the sequence <code>)</code>.</li>
+          <li>A line break followed by more tabs than the previous line will be converted into the sequence <code>(</code>.</li>
+          <li>Two consecutive line breaks will be converted into as many closing parentheses, <code>)</code>, as required to close the outermost expression.</li>
+          <li>Any line following a closed expression, but still being indented, will be prefixed with as many opening round braces, <code>(</code>, as required to guarantee the contents of the least indented line are mapped to atoms in the outermost expression.</li>
+        </ul>
+        <h4>Parsing Rules</h4>
+        <p>
+          A program may be represented not only in a written form with syntax, but as structured data which may be manipulated by another program.
+          Therefore <i>n</i><sup>th</sup> syntax is required to have a strict correspondence to structured program data.
+        </p>
+        <p>
+          The <i>n</i><sup>th</sup> syntax grammar is categorized into three distinct correspondences, symbols, data constants, and expressions.
+        </p>
+        <p>
+          A symbol corresponds to any contiguous sequence of characters formed according to the <i>Symbol</i> production rule in the grammar.
+          A symbol will include all characters up until the first <i>Whitespace</i>, <i>Quotation</i>, or <i>Begin</i> production rule occurs.
+        </p>
+        <p>
+          An expression corresponds to any contiguous sequence of characters formed according to the <i>Expression</i> production rule.
+          After the <i>Begin</i> sequence occurs, each individual sequence occurring before the <i>End</i> sequence will be included as an atom in the expression.
+          The order of the atoms in an expression must exactly match the order in which their corresponding sequences occurred.
+        </p>
+      </details>
+    </article>
+    <article>
+      <h2>Evaluation</h2>
     </article>
   </main>
 </body>
