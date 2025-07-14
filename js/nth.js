@@ -62,20 +62,154 @@
 
 class nth 
 {
-  constructor ()
-  {
-
-  }
+  
+  #buffer = ""
+  #output = ""
+  #ast = undefined
   #top_level = {}
   #lookup = (symbol) => //find a binding in the top level and return the data 
   {
 
   }
-  #check = () => //check if an expression works
+  #parse = () =>
   {
+    this.#buffer = this.#buffer.replaceAll(/\s\s*/g, ' ')
+    console.log(this.#buffer)
+    var str = this.#buffer
+    var p = 0
+    function checkdelim(c)
+    {
+      switch(c)
+      {
+        case '(':
+        case ')':
+        case ' ':
+        case '"':
+          return true;
+        default:
+          return false;
+      }
+    }
+    function next()
+    {
+      return str[p]
+    }
+    function advance()
+    {
+      var c = str[p]
+      p++
+      if (p < str.length)
+        return c
+      else
+        throw "EOF"
+    }
+    function descend()
+    {
+     switch(next())
+     {
+      case '(':
+        var exp = []
+        advance()
+        while (next() != ')')
+        {
+          if (next() == ' ')
+          {
+            advance()
+            continue
+          }
+          exp.push(descend())
+        }
+        advance()
+        return exp
+        break;
+      case ')':
+        throw "\"unexpected closing brace\""
+      case '"':
+        advance()
+        var string = ""
+        while (next() != '"')
+        {
+          if (next() == '\\')
+          {
+            advance()
+            if (next() == '\\' || next() == '"')
+            {
+              string = string + advance()
+            }
+            else if (next().match(/[a-fA-F0-9]/g))
+            {
+              var pair = "" + advance()
+              if (next().match(/[a-fA-F0-9]/g))
+              {
+                pair = pair + advance()
+              }
+              else
+              {
+                throw "\"malformed escape sequence\""
+              }
+              string = string + String.fromCharCode(parseInt(pair, 16));
+            }
+            else 
+            {
+              throw "\"malformed escape sequence\""
+            }
+          }
+          else
+          {
+            string = string + advance()
+          }
+        }
+        advance()
+        return string
+      default:
+        var symb = "" + advance()
+        while (!checkdelim(next()))
+        {
+          symb = symb + advance()
+        }
+        try {symb = BigInt(symb)}
+        catch(e) {}
+        return symb
+        break;
+     }
+    }
+    try
+    {
+      this.#ast = descend()
+    }
+    catch(e)
+    {
+      this.#ast = []
+      this.#output = e
+    }
+    console.log(this.#ast)
 
+    this.#expand()
   }
-
+  #expand = () =>
+  {
+    this.#check()
+  }
+  #check = () =>
+  {
+    this.#execute()
+  }
+  #execute = () =>
+  {
+  }
+  #print = () => 
+  {
+    this.#output = "()"
+  }
+  constructor ()
+  {
+    this.eval = (str) => 
+    {
+      this.#buffer = str
+      this.#parse()
+      return this.#output
+    }
+  }
 }
 
 class othernth {

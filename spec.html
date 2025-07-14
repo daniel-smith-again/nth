@@ -5,14 +5,15 @@
 <title>The Definition of nth</title>
 <link rel="icon" href="./icon/icon.gif" type="image/x-icon" />
 <link rel="stylesheet" href="./style/style.css">
+<script src="./js/nth.js"></script>
 <script src="./js/util.js"></script>
 <link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
 </head>
-<body >
+<body onload="setup()">
   <header onclick="setTheme()">
-    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidyMin" version="1.1" style="" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMin" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
       <defs id="defs54" />
       <ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--foreground);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
       ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
@@ -26,6 +27,10 @@
     <p>&copy;2025 <a href="mailto:daniel.smith.again@gmail.com">Daniel Smith</a></p>
   </header>
   <main>
+    <!--<figure>
+        <figcaption>Sample session</figcaption>
+        <textarea nth>foo bar baz biff</textarea>
+      </figure>-->
     <article>
       <h2 id="chapter-overview">Overview</h2>
       <p>
@@ -37,10 +42,84 @@
         Information is generally organized such that the informal description of the language is given first, and then formalizations are supplemented after.
         Hopefully the reader will be able to gain an intuition quickly and when they desire more detailed information about the mechanisms of the language, they can easily find them.
       </p>
-      <h3 id="section-description">What is <i>n</i><sup>th</sup>?</h3>
+      <h3 id="section-what-is-nth">What is <i>n</i><sup>th</sup>?</h3>
       <p>
-        <i>n</i><sup>th</sup> is a programming language. More specifically, it is a functional, statically typed language featuring extended algebraic data types, arbitrary precision arithmetic, and first-class modules.
+        <i>n</i><sup>th</sup> is a programming language. 
+        More specifically, it is a function-oriented language which provides features such as
+        extended tagged unions, lexically delimited continuations, lexically scoped bindings, and records for modular separation of larger programs.
       </p>
+      <p>
+        <i>n</i><sup>th</sup> programs are created interactivally using a workflow called "imaged-based development".
+        What this means is that programs and systems are <i>not</i> comprised of ad-hoc collections of source text files.
+        Instead, programs are represented as blobs of data which the programmer will modify by interacting with a live session.
+        Within a live session, the programmer can run partial programs, inspect and modify data or definitions, make queries about program behavior, and debug a program that is running.
+      </p>
+      <h3 id="section-session-interaction">Interacting with an <i>n</i><sup>th</sup> Session</h3>
+      <p>
+        A session is the interface that the programmer uses to interact with an <i>n</i><sup>th</sup> image.
+        How a session is started depends on the implementation being used, and the host system that it runs on.
+        Once a session is running, the programmer will be able to submit <i>n</i><sup>th</sup> programs which will manipulate various aspects of the image when executed.
+        Minimally, the session should support a duplex channel where the programmer may send utf-8 encoded programs and receive programs and data resulting from execution.
+      </p>
+      <p>
+        Session interaction may generally take any form so long as the session is condcted by the sending and recieving of <i>n</i><sup>th</sup> programs.
+      </p>
+    </article>
+    <article>
+      <h2 id="chapter-modules">Modules</h2>
+      <p>
+        Modules are the mechanism through which <i>n</i><sup>th</sup> accomplishes "image-based development".
+        A module is a symbolic key-value store which contains all the data and programs that a programmer might construct over the duration of one or more sessions.
+        In addition to enabling recalling of live data in an ongoing session, modules are also the storage format where a live session may be saved and then resumed at a later point.
+      </p>
+      <h3 id="section-loading-modules">Loading Modules</h3>
+      <p>
+        During a session, additional modules may be loaded within the scope of the current <code>toplevel</code> with the function, <code>load</code>.
+        <code>load</code> accepts a symbol or a string. A symbol will search certain parts of the host environment where modules are stored automatically. 
+        A string must correspond to an exact pathname where a stored module is located in a filesystem.
+      </p>
+      <figure>
+        <figcaption>Examples of using the <code>load</code> function.</figcaption>
+        <table>
+          <tr><td><code>(load 'foo)</code></td><td>loads a module named <code>foo</code> from the default location.</td></tr>
+          <tr><td><code>(load "DRIVE-1/directory/folder/my_module")</code></td><td>loads a module stored under the filename <code>my_module</code></td></tr>
+        </table>
+      </figure>
+      <details>
+        <summary><h4 id="subsection-semantics-of-load">Semantics of Load</h4></summary>
+        <p>
+          The <code>load</code> function assumes that the underlying host system has some file storage capability.
+          Specifically, the host should provide some capability to recall a file from a storage medium according to an identifier.
+        </p>
+        <p>
+          When <code>load</code> is called with a symbol, the session will attempt to search several likely areas of the host's filesystem for the corresponding module.
+          In order of priority, 
+        </p>
+        <ol>
+          <li>
+            The current "working directory" associated with the session's process. 
+            This search is skipped if the host does not have the necessary capabilities.
+          </li>
+          <li>
+            Any "local user" directories where user-specific application data is stored.
+            This search is skipped if the host does not have the necessary capabilities.
+          </li>
+          <li>
+            The implementation's default storage location for saved modules.
+            This search is guaranteed to take place since all implementations must have a default storage location for saved modules.
+          </li>
+          <li>
+            The host dependent location for libraries, archives, and other software modules.
+            This search is skipped if the host does not have the necessary capabilities.
+          </li>
+        </ol>
+        <p>
+          When <code>load</code> is called with a string, the session will attempt to interpret the string as a filesystem location and interpret the corresponding file as a module.
+          This feature depends on the host possessing the necessary capabilities. 
+          This feature also is dependent on the host's filesystem location naming convention.
+          A string which successfully identifies a saved module in a session on one host may not necessarily identify that module on a different host.
+        </p>
+      </details>
     </article>
     <article>
     <details id="toc" open>
@@ -83,6 +162,9 @@
         <dt id="term-character">Character</dt><dd>An opaque value corresponding to a visually rendered grapheme.</dd>
         <dt id="term-number">Number</dt><dd>A number.</dd>
         <dt id="term-evaluation">Evaluation</dt><dd>The reductive process of deriving the next component of a program which execution will interpret.</dd>
+        <dt id="term-session">Session</dt><dd>A channel of communication between the live image and the programmer.</dd>
+        <dt id="term-image">Image</dt><dd>A stored collection of programs and data.</dd>
+        <dt id="term-system">System</dt><dd>A group of related programs which can be extracted from an image to form a stand-alone software application.</dd>
       </dl>
     </article>
     <article>

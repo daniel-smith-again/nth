@@ -179,7 +179,7 @@ const colors =
     'br_violet': '#6b40c3'
   },
 ]
-var Theme = 3
+var Theme = 2
 function setTheme(index)
 {
   index = Theme
@@ -215,3 +215,64 @@ function setTheme(index)
   }
 }
 setTheme(Theme);
+
+function setup()
+{
+  for (x of document.querySelectorAll('textarea[nth]'))
+  {
+    x.oninput = handleInput
+  }
+}
+
+function FindLastExpression(str)
+{
+  var x = str.length
+  var nesting = 0
+  for (; x > 0; x --)
+  {
+    if (str[x] == ')')
+    {
+      nesting ++;
+    }
+    else if (str[x] == '(')
+    {
+      if (nesting < 2)
+      {
+        break;
+      }
+      else
+      {
+        nesting --;
+      }
+    }
+    else if (str[x] == ' ')
+    {
+      if (nesting == 0)
+      {
+        break;
+      }
+    }
+    else if (str[x] == '"')
+    {
+      if (nesting == 0)
+      {
+        break;
+      }
+    }
+  }
+  return str.slice(x, str.length)
+}
+const Nth = new nth()
+function handleInput(e)
+{
+  e.preventDefault()
+  e.stopPropagation()
+  if (e.inputType == 'insertLineBreak')
+  {
+    if (e.target.selectionEnd == e.target.value.length && e.target.value[e.target.value.length - 2] == '\n')
+    {
+      result = Nth.eval(FindLastExpression(e.target.value))
+      e.target.value = e.target.value.slice(0, -1) + result + '\n'
+    }
+  }
+}
