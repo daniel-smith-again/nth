@@ -49,7 +49,7 @@ span[greyed]{color:var(--diminished)}
 main *, header *, footer * {font-family:nth-definition-serif;}
 main nth-editor *, main code {font-family: nth-definition-overpass, nth-definition-noto;}
 main > article > p {max-width:calc(100% - 3ch); counter-increment: clause-number;}
-main > article > p::after { content: ' ' counter(clause-number) ' '; position:absolute; right:calc(0% + 1ch); color:var(--diminished);}
+main > article > p::after { vertical-align:top; content: ' ' counter(clause-number) ' '; position:absolute; right:calc(0% + 1ch); color:var(--diminished); }
 footer { text-align: center; position: absolute; bottom: 0%; width: 100%; max-width: min(69vw, 160ch); }
 footer > * { margin: auto; }
 *:hover > nth-tooltip > *{visibility:visible;}
