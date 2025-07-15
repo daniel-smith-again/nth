@@ -180,8 +180,9 @@ const colors =
   },
 ]
 var Theme = 2
-function setTheme(index)
+function setTheme()
 {
+  console.log("setting theme")
   index = Theme
   var c = colors[index % 4]
   var r = document.querySelector(':root')
@@ -224,55 +225,28 @@ function setup()
   }
 }
 
-function FindLastExpression(str)
-{
-  var x = str.length
-  var nesting = 0
-  for (; x > 0; x --)
-  {
-    if (str[x] == ')')
-    {
-      nesting ++;
-    }
-    else if (str[x] == '(')
-    {
-      if (nesting < 2)
-      {
-        break;
-      }
-      else
-      {
-        nesting --;
-      }
-    }
-    else if (str[x] == ' ')
-    {
-      if (nesting == 0)
-      {
-        break;
-      }
-    }
-    else if (str[x] == '"')
-    {
-      if (nesting == 0)
-      {
-        break;
-      }
-    }
-  }
-  return str.slice(x, str.length)
-}
 const Nth = new nth()
 function handleInput(e)
 {
-  e.preventDefault()
-  e.stopPropagation()
-  if (e.inputType == 'insertLineBreak')
+  switch(e.inputType)
   {
-    if (e.target.selectionEnd == e.target.value.length && e.target.value[e.target.value.length - 2] == '\n')
-    {
-      result = Nth.eval(FindLastExpression(e.target.value))
-      e.target.value = e.target.value.slice(0, -1) + result + '\n'
-    }
+    case 'insertLineBreak':
+      if (e.target.selectionEnd == e.target.value.length && e.target.value[e.target.value.length - 2] == '\n')
+      {
+        e.target.value = Nth.eval(e.target.value.slice(0, -2))
+      }
+      break;
+    case 'insertText':
+      var content = ""
+      switch(e.data)
+      {
+        case '(': content = ')'; break;
+        case '"': content = '"'; break;
+      }
+      var start = e.target.selectionStart, end = e.target.selectionEnd
+      e.target.value = e.target.value.slice(0, e.target.selectionStart) + content + e.target.value.slice(e.target.selectionEnd)
+      e.target.selectionStart = start
+      e.target.selectionEnd = end
+      break;
   }
 }

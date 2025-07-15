@@ -71,4 +71,66 @@ a b c
 a
  b c
 
+No significant whitespace.
+Projectional structure editors make better sense since it's an image-based environment.
+I'm not ever dealing with text, and if I was, it would be formatted anyways.
+You're only ever importing and exporting modules.
 
+
+nth language definition for those already in the know
+
+Modules:
+    modules are records. 
+    You can store data and various definitions under a single namespace.
+    It's a flat namespace similar to a binary object file.
+
+Modules are defined with the module macro.
+(module ...)
+
+You put declarations inside.
+
+(define ...)
+(syntax ...)
+(data ...)
+(use ...)
+
+'use is a way to import certain things from a module in a way that doesn't collide with the current namespace.
+
+(use (name (pairs)))
+
+(use 
+    (open close permissions filesystem)
+    (time nanoseconds (clock system-clock) cpu)
+    ((fs filesystem))
+)
+
+how to parameterize modules?
+Do I want a separate language from the normal language?
+nah, I already have macros. Running module code should be fine.
+Actually if I have macros, I already have modules.
+First class modules should be fine.
+Bundles of code that don't own any data or resources. That should be fine.
+
+(module 
+ (use ...)
+ (define ... )
+ (syntax ... )
+ (data ...))
+
+Can't I just overload define with a bunch of stuff?
+
+(define _ _) is a symbolic binding.
+(define () ...) is a datatype
+(define (' ) ... ) is a macro
+How do I define polymorphism though?
+
+(define poly-id ((function x x) > 
+ (type 
+    (function (x : Natural) x)
+    (function (x : Boolean) x) 
+    (function (x : Integer) x)
+ )))
+
+(define poly-foo ((function (T) T) > (
+    (function (x : Natural))
+)

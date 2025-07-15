@@ -77,6 +77,23 @@ class nth
     console.log(this.#buffer)
     var str = this.#buffer
     var p = 0
+    function next()
+    {
+      return str[p]
+    }
+    function get()
+    {
+      var c = str[p]
+      if (p < str.length)
+      {
+        p++;
+      }
+      else 
+      {
+        throw "\"Unexpected EOF\""
+      }
+      return c
+    }
     function checkdelim(c)
     {
       switch(c)
@@ -86,104 +103,63 @@ class nth
         case ' ':
         case '"':
           return true;
-        default:
+        default: 
           return false;
       }
     }
-    function next()
-    {
-      return str[p]
-    }
-    function advance()
-    {
-      var c = str[p]
-      p++
-      if (p < str.length)
-        return c
-      else
-        throw "EOF"
-    }
     function descend()
     {
-     switch(next())
-     {
-      case '(':
-        var exp = []
-        advance()
-        while (next() != ')')
-        {
+      switch(next())
+      {
+        case '(':
+          get()
+          var expression = []
+          while(next() != ')')
+            expression.push(descend())
+          get()
+          return expression
+        case ')':
+          throw "\"Unexpected Closing Brace\""
+        case '"':
+          var string = ""
+          get()
+          while (next() != '"')
+            if (next() == '\\')
+            {
+              get()
+              if (next() == '\\' || next() == '"')
+                string = string + get()
+              else if (next().match(/a-fA-F0-9/))
+              {
+                var pair = "" + get()
+                if (next().match(/a-fA-F0-9/))
+                {
+                  pair = pair + get()
+                  string = string + String.fromCharCode(parseInt(pair, 16))
+                }
+                else throw "\"Malformed Escape Sequence\""
+              }
+              else throw "\"Malformed Escape Sequence\""
+            }
+          return string
+        default:
+          var symbol = "" + get()
+          while (!checkdelim(next()))
+            symbol = symbol + get()
           if (next() == ' ')
-          {
-            advance()
-            continue
-          }
-          exp.push(descend())
-        }
-        advance()
-        return exp
-        break;
-      case ')':
-        throw "\"unexpected closing brace\""
-      case '"':
-        advance()
-        var string = ""
-        while (next() != '"')
-        {
-          if (next() == '\\')
-          {
-            advance()
-            if (next() == '\\' || next() == '"')
-            {
-              string = string + advance()
-            }
-            else if (next().match(/[a-fA-F0-9]/g))
-            {
-              var pair = "" + advance()
-              if (next().match(/[a-fA-F0-9]/g))
-              {
-                pair = pair + advance()
-              }
-              else
-              {
-                throw "\"malformed escape sequence\""
-              }
-              string = string + String.fromCharCode(parseInt(pair, 16));
-            }
-            else 
-            {
-              throw "\"malformed escape sequence\""
-            }
-          }
-          else
-          {
-            string = string + advance()
-          }
-        }
-        advance()
-        return string
-      default:
-        var symb = "" + advance()
-        while (!checkdelim(next()))
-        {
-          symb = symb + advance()
-        }
-        try {symb = BigInt(symb)}
-        catch(e) {}
-        return symb
-        break;
-     }
+            get()
+          return symbol
+      }
     }
-    try
+    try 
     {
-      this.#ast = descend()
+      this.#ast = descend(); 
+      if (p < str.length - 1)
+      {
+        throw "\"Trailing Input\""
+      }
     }
-    catch(e)
-    {
-      this.#ast = []
-      this.#output = e
-    }
-    console.log(this.#ast)
-
+    catch(e) {this.#output = e; return}
     this.#expand()
   }
   #expand = () =>
@@ -196,6 +172,7 @@ class nth
   }
   #execute = () =>
   {
+    this.#print()
   }
   #print = () => 
   {

@@ -115,9 +115,9 @@ nth-expression{border-radius:0.7ch;height:min-content;width:fit-content;vertical
 nth-editor[active] nth-expression[active]{box-shadow: var(--foreground) 0 0 0.7ch;position:relative;z-index:200;}
 nth-expression > * + *{margin-left:1ch;}
 nth-expression > nth-linebreak + *, nth-symbol[quote] + *, nth-symbol[tab] + *, nth-symbol:empty + *, * + nth-symbol[tab]{margin-left:0;}
-nth-expression nth-expression + nth-symbol {vertical-align:bottom;}
+nth-expression nth-expression + nth-symbol {vertical-align:top;}
 nth-editor[active] nth-symbol[active], nth-editor[active] nth-linebreak[active]{background-color:var(--backgroundthird);color:var(--foreground);}
-nth-editor[active] nth-expression[active] nth-expression{background-color:var(--hgl);}
+/*nth-editor[active] nth-expression[active] nth-expression{background-color:var(--hgl);}*/
 nth-expression[active]{background-image:none;}
 nth-symbol, nth-linebreak{cursor:pointer;transition:all 0.2s;padding:0;border-radius:0.5ch;white-space:pre;background-color:unset;}
 nth-symbol:empty{width:1ch;height:1lh;vertical-align:top;border-bottom:dotted var(--foregroundsecond) 0.2ch;border-bottom-left-radius:0;border-bottom-right-radius:0;}

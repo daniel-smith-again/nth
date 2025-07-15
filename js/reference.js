@@ -1,4 +1,4 @@
-const Nth = new nth();
+
 var area = document.getElementsByTagName('nth-area')[0]
 var help = document.getElementsByTagName('nth-help')[0]
 var editor = document.getElementById('editortemplate')
@@ -15,7 +15,6 @@ helpbutton.addEventListener('click', (e)=> {help.style.display = 'block'; e.stop
 var closehelp = document.getElementsByTagName('close-help')[0]
 closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 
-header.onclick = () => {setTheme(Theme = ((Theme + 1) % 4));}
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],
   [/\\\\product/g, '⨯'],
