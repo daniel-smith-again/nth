@@ -15,184 +15,66 @@
   <header onclick="setTheme()">
     <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMin" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
       <defs id="defs54" />
-      <ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--foreground);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+      <ellipse style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--background);stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
       ry="15.550441" rx="38.556782" cy="-1.5364231" cx="62.654388" transform="matrix(0.8,0.6,-0.70710678,0.70710678,0,0)" id="ellipse45" />
-      <path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--foreground);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
+      <path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:var(--background);stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1"
       d="M 66.489828,62.06793 A 18.564376,18.564376 0 0 1 47.925452,82.060335 18.564376,18.564376 0 0 1 30.789107,62.06793 18.564376,18.564376 0 0 1 47.925452,43.503554 18.564376,18.564376 0 0 1 66.489828,63.495959"
       id="path47" />
-      <path style="fill:none;stroke:var(--foreground);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+      <path style="fill:none;stroke:var(--background);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
       d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
       </svg>
-    <h1>The Definition of <i>n</i><sup>th</sup></h1>
+    <h1>The Interactive Definition of <i>n</i><sup>th</sup></h1>
     <p>&copy;2025 <a href="mailto:daniel.smith.again@gmail.com">Daniel Smith</a></p>
   </header>
   <main>
-      <figure>
-        <figcaption>Sample session</figcaption>
-        <textarea nth>foo bar baz biff</textarea>
-      </figure>
     <article>
-      <h2 id="chapter-overview">Overview</h2>
+      <h2>Overview</h2>
       <p>
-        Welcome.
+        Welcome.<br>
         This digital book is intended for anyone who wants to learn about the <i>n</i><sup>th</sup> programming language.
-        By the end, the you will understand how to write programs in <i>n</i><sup>th</sup>, and understand what's required for an implementation.
+        By the end, you will understand how to write programs in <i>n</i><sup>th</sup>, and understand what's required of a n implementation of the language.
       </p>
       <p>
-        Information is generally organized such that the informal description of the language is given first, and then formalizations are supplemented after.
-        Hopefully the reader will be able to gain an intuition quickly and when they desire more detailed information about the mechanisms of the language, they can easily find them.
-      </p>
-      <h3 id="section-what-is-nth">What is <i>n</i><sup>th</sup>?</h3>
-      <p>
-        <i>n</i><sup>th</sup> is a programming language. 
-        More specifically, it is a function-oriented language which provides features such as
-        extended tagged unions, lexically delimited continuations, lexically scoped bindings, and records for modular separation of larger programs.
+        Information about the language, it's semantics, and features is presented informally first with formalizations provided as supplement.
+        Hopefully, any reader will quickly be able to gain a general intuition of how <i>n</i><sup>th</sup> can be used, with more curious readers still having easy access to a detailed specification.
       </p>
       <p>
-        <i>n</i><sup>th</sup> programs are created interactivally using a workflow called "imaged-based development".
-        What this means is that programs and systems are <i>not</i> comprised of ad-hoc collections of source text files.
-        Instead, programs are represented as blobs of data which the programmer will modify by interacting with a live session.
-        Within a live session, the programmer can run partial programs, inspect and modify data or definitions, make queries about program behavior, and debug a program that is running.
-      </p>
-      <h3 id="section-session-interaction">Interacting with an <i>n</i><sup>th</sup> Session</h3>
-      <p>
-        A session is the interface that the programmer uses to interact with an <i>n</i><sup>th</sup> image.
-        How a session is started depends on the implementation being used, and the host system that it runs on.
-        Once a session is running, the programmer will be able to submit <i>n</i><sup>th</sup> programs which will manipulate various aspects of the image when executed.
-        Minimally, the session should support a duplex channel where the programmer may send utf-8 encoded programs and receive programs and data resulting from execution.
-      </p>
-      <p>
-        Session interaction may generally take any form so long as the session is conducted by the sending and recieving of <i>n</i><sup>th</sup> programs.
-      </p>
-    </article>
-    <article>
-      <h2 id="chapter-modules">Modules</h2>
-      <p>
-        Modules are the mechanism through which <i>n</i><sup>th</sup> accomplishes "image-based development".
-        A module is a symbolic key-value store which contains all the data and programs that a programmer might construct over the duration of one or more sessions.
-        In addition to enabling recalling of live data in an ongoing session, modules are also the storage format where a live session may be saved and then resumed at a later point.
-      </p>
-      <h3 id="section-loading-modules">Loading Modules</h3>
-      <p>
-        During a session, additional modules may be loaded within the scope of the current <code>toplevel</code> with the function, <code>load</code>.
-        <code>load</code> accepts a symbol or a string. A symbol will search certain parts of the host environment where modules are stored automatically. 
-        A string must correspond to an exact pathname where a stored module is located in a filesystem.
+        Along the way, the reader can interact with certain figures which are connected to a live session.
+        Those figures look like 
       </p>
       <figure>
-        <figcaption>Examples of using the <code>load</code> function.</figcaption>
-        <table>
-          <tr><td><code>(load 'foo)</code></td><td>loads a module named <code>foo</code> from the default location.</td></tr>
-          <tr><td><code>(load "DRIVE-1/directory/folder/my_module")</code></td><td>loads a module stored under the filename <code>my_module</code></td></tr>
-        </table>
+        <figcaption>An interactive program example.</figcaption>
+        <textarea nth>(print "Hello, world!")</textarea>
       </figure>
+      <p>
+        Formalizations of certain constructs are presented in a collapsible area which can be opened.
+        These areas appear as a title followed by an elipses.
+      </p>
       <details>
-        <summary><h4 id="subsection-semantics-of-load">Semantics of Load</h4></summary>
+        <summary><h4>Formalization</h4></summary>
         <p>
-          The <code>load</code> function assumes that the underlying host system has some file storage capability.
-          Specifically, the host should provide some capability to recall a file from a storage medium according to an identifier.
-        </p>
-        <p>
-          When <code>load</code> is called with a symbol, the session will attempt to search several likely areas of the host's filesystem for the corresponding module.
-          In order of priority, 
-        </p>
-        <ol>
-          <li>
-            The current "working directory" associated with the session's process. 
-            This search is skipped if the host does not have the necessary capabilities.
-          </li>
-          <li>
-            Any "local user" directories where user-specific application data is stored.
-            This search is skipped if the host does not have the necessary capabilities.
-          </li>
-          <li>
-            The implementation's default storage location for saved modules.
-            This search is guaranteed to take place since all implementations must have a default storage location for saved modules.
-          </li>
-          <li>
-            The host dependent location for libraries, archives, and other software modules.
-            This search is skipped if the host does not have the necessary capabilities.
-          </li>
-        </ol>
-        <p>
-          When <code>load</code> is called with a string, the session will attempt to interpret the string as a filesystem location and interpret the corresponding file as a module.
-          This feature depends on the host possessing the necessary capabilities. 
-          This feature also is dependent on the host's filesystem location naming convention.
-          A string which successfully identifies a saved module in a session on one host may not necessarily identify that module on a different host.
+          Math Math mathy math math math<br>
+          formal math math math math
         </p>
       </details>
     </article>
     <article>
-    <details id="toc" open>
-      <summary><h2>Table of Contents</h2></summary>
-      <ul style="list-style:none;">
-        <li><a href="#chapter-overview">Overview</a></li>
-        <li><a href="#chapter-syntax">Syntax</a></li>
-        <li><a href="#chapter-evaluation">Evaluation</a></li>
-        <li><a href="#chapter-types">Types</a></li>
-        <li><a href="#chapter-data">Data</a></li>
-        <li><a href="#chapter-functions">Functions</a></li>
-        <li><a href="#chapter-modules">Modules</a></li>
-        <li><a href="#chapter-arithmetic">Arithmetic</a></li>
-        <li><a href="#chapter-reflection">Reflection</a></li>
-        <li><a href="#chapter-defaults">Defaults</a></li>
-      </ul>
-    </details>
-  </article>
-    <article>
-      <h2>Overview</h2>
-      <p>
-        This document provides the definition the programming language, "nth", stylized as <i>n</i><sup>th</sup>.
-        Specifically, the meaning, interpretation, and formation of programs written in the <i>n</i><sup>th</sup> programming language.
-        Information is provided in such a way that the reader is able to rely on this document not only to understand how <i>n</i><sup>th</sup> is used, but also how one might implement <i>n</i><sup>th</sup>.
-      </p>      
-    </article>
-    <article>
-      <h2>Terminology</h2>
-      <dl>
-        <dt id="term-host">Host</dt><dd>The arbiter of computing resources in the environment where an implementation executes programs.</dd>
-        <dt id="term-processor">Processor</dt><dd>The agent responsible for executing a program.</dd>
-        <dt id="term-execution">Execution</dt><dd>The process by which the meaning of a program is carried out.</dd>
-        <dt id="term-program">Program</dt><dd>The data to be interpreted during execution.</dd>
-        <dt id="term-context">Context</dt><dd>The enumeration of all bindings given a position in a program.</dd>
-        <dt id="term-binding">Binding</dt><dd>An association between a symbol and some data such that the data may replace the symbol in a program anywhere that association is present.</dd>
-        <dt id="term-symbol">Symbol</dt><dd>An opaque data type which is a component of a program.</dd>
-        <dt id="term-expression">Expression</dt><dd>A composite data type which is a component of a program.</dd>
-        <dt id="term-function">Function</dt><dd>A program which preserves a context to be used during execution.</dd>
-        <dt id="term-syntax">Syntax</dt><dd>The sequence(s) of characters which correspond to a program.</dd>
-        <dt id="term-character">Character</dt><dd>An opaque value corresponding to a visually rendered grapheme.</dd>
-        <dt id="term-number">Number</dt><dd>A number.</dd>
-        <dt id="term-evaluation">Evaluation</dt><dd>The reductive process of deriving the next component of a program which execution will interpret.</dd>
-        <dt id="term-session">Session</dt><dd>A channel of communication between the live image and the programmer.</dd>
-        <dt id="term-image">Image</dt><dd>A stored collection of programs and data.</dd>
-        <dt id="term-system">System</dt><dd>A group of related programs which can be extracted from an image to form a stand-alone software application.</dd>
-      </dl>
-    </article>
-    <article>
       <h2>Syntax</h2>
       <p>
-        The syntax of <i>n</i><sup>th</sup> corresponds to the formation and composition of symbols and expressions.
-        In addition there is syntax for describing various forms of data.
-      </p>
-      <h3>Expressions</h3>
-      <p>
-        The syntax for expressions is an opening round brace <code>(</code>, followed by a closing round brace <code>)</code>, forming delimiters around the contents of the expression.
-        An expression is minimally just the two brace characters adjacent to each other.
-      </p>
-      <figure>
-        <figcaption>Examples of expresions.</figcaption>
-        <table>
-          <tr><td><code>()</code></td><td>An empty expression.</td></tr>
-          <tr><td><code>( )</code></td><td>An empty expression written with blank space.</td></tr>
-          <tr><td><code>(<br>&nbsp;)</code></td><td>Another empty expression written with blank space that includes formatting.</td></tr>
-          <tr><td><code>(a b c)</code></td><td>A non-empty expression which encapsulates some symbols.</td></tr>
-        </table>
-      </figure>
-      <h3>Symbols</h3>
-      <p>
-        Symbols are comprised of any character which is not a blank space or expression delimiter.
+        <i>n</i><sup>th</sup> syntax is formed using expressions, symbols, and strings.
+        Expressions denote "doing", while symbols and strings denote "being".
+        Expressions may be nested, enabling the "doing" of multiple things within a single program.
+        An expression which isn't nested may be called a program, since it usually encapsulates a set of behaviors.
+        A nested expression may be referred to as a function or sub-program.
       </p>
       <p>
-        Two symbols which are adjacent are required to be separated using one or more blank spaces, an expression, or a combination of both.
+        <i>n</i><sup>th</sup> syntax is utf-8 encoded and can be written using any valid <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> character.
+        Some categories of characters are discarded in order to avoid obfuscating a program and potentially causing unexpected behaivor.
+        Generally, all visible (printable) <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> are accepted in <i>n</i><sup>th</sup> syntax.
+      </p>
+      <h3>Symbol Syntax</h3>
+      <p>
+        Symbols are comprised sequences of any character which isn't a round brace, double quote, or blank space.
       </p>
       <figure>
         <figcaption>Some examples of symbols.</figcaption>
@@ -214,92 +96,137 @@
           </tr>
         </table>
       </figure>
-      <h3>Strings</h3>
+      <h3>String Syntax</h3>
       <p>
-        String data is written by surrounding arbitrary character sequences with a pair of double quotations, <code>"</code>.
-        All visible characters are included as items in the string data, including blank spaces.
-        Formatting characters such as tabs, line breaks, and other control characters are ignored.
+        Strings are comprised of double quotes surrounding a sequence of arbitrary characters.
+        A string will ignore any character which is a formatting character, such as line breaks or horizontal tabs.
       </p>
       <p>
-        String syntax includes an "escape" sequence where values can be written according to a character sequence rather than a character value taken literally.
-        An escape sequence begins with a backward slash, <code>\</code> followed by a double quotation, a backward slash, or a two-digit hexadecimal sequence.
+        A string may optionally contain an "escape sequence" which is an additional syntax relevant only between a pair of double quotes.
+        All escape sequences begin with a backward slash.
+        There are three escape sequences required by <i>n</i><sup>th</sup>, a backslash escape, a quotation escape, and a byte escape.
       </p>
       <p>
-        Hexadecimal digits may only be one of the characters appearing in the following sequence,<br>
-        <code>0123456789abcdefABCDEF</code><br>
-        namely, the ten decimal digits, and A through F in upper and lower-case form.
+        The backslash escape is a backslash followed by a second backslash, <code>\\</code>
+        The initial backslash is discarded and the second backslash is included as a character in the string.
       </p>
-      <details>
-        <summary><h4>String Formalization</h4></summary>
-        <p>
-          String data will always correspond to an array of UTF-8 encoded bytes.
-          The data will exist as if constructed with <code>(array Byte)</code>
-        </p>
-        <p>
-          An escape sequence which gives a hexadecimal value will set the value of a single byte at the index in the array where the escape sequence occurred.
-        </p>
-        <p>
-          String data will specifically discard any character values included in the Cc character category as specified in the <a href="https://www.unicode.org/versions/latest">Unicode</a> encoding.
-          Escape sequences are permitted to specify byte values which may be identical to an otherwise discarded character value.
-        </p>
-      </details>
-      <h3>Alternative Expression Syntax</h3>
       <p>
-        Expressions are cannonically denoted with round brace delimination, however expressions may alternatively be denoted by line breaks and indentation according to the following associations...
+        The quotation escape is a backslash followed by a double quote, <code>\"</code>.
+        The initial backslash is discarded and the quotation is included as a character in the string.
       </p>
-      <ol>
-        <li>A single line corresponds to a single expression.</li>
-        <li>A line break followed by an identical tab sequence to the previous line will begin a new expression.</li>
-        <li>A line break followed by a tab sequence longer than the previous line will begin a new expression nested in the expression begun on the previous line.</li>
-        <li>A line break followed by a tab sequence shorter than the previous line will close the expression on the previous line and continue in the next outer expression.</li>
-        <li>Any two lines beginning with identical tab sequences correspond to the contents of the same expression.</li>
-        <li>Two consecutive line breaks correspond to the minimum number of closing round braces required to close the current expression.</li>
-        <li>Round brace delimiters must be paired only with other round brace delimiters and cannot be paired with indentation and line breaks.</li>
-      </ol>
       <p>
-        Generally, an <i>n</i><sup>th</sup> program may be written in any visual format using line breaks and blank spaces for non-significant indentation.
-        Introducing tab characters directly after a line break will engage the alternative expression syntax.
+        The byte escape sequence is a backslash followed by exactly two hexadecimal digits.
+        The initial backslash is discarded and the two hexadecimal digits are interpreted as a byte value to include at the position where a character would be included in the string.
+        The hexadecimal digits accepted in a byte escape sequence are
+        <code>0123456789abcdefABCDEF</code>.
       </p>
       <figure>
-        <figcaption>Examples of the correspondence between a parenthesized expression and an indented expression.</figcaption>
+        <figcaption>Some examples of strings</figcaption>
         <table>
-          <tr>
-            <td><code>a b c</code></td><td>Corresponds to the expression,<code>(a b c)</code></td>
-          </tr>
-          <tr>
-            <td><code>a <span greyed>&#x21A9;</span><br>c</code></td><td>Corresponds to the expression, <code>(a)(b)</code></td>
-          </tr>
-          <tr>
-            <td><code>a<span greyed>&#x21a9;<br>&#x21E5;</span>b c</code></td><td>Corresponds to (a (b c))</td>
-          </tr>
-          <tr>
-            <td>
-              <code>
-                let<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;</span>x 1<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;</span>y 2<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;</span>z 3<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;</span>foo x<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;&#x21E5;</span>bar y<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;&#x21E5;&#x21E5;</span>baz z<span greyed>&#x21a9;<br>&#x21a9;</span>
-              </code>
-            </td>
-            <td>Corresponds to<br><code>(let (x 1)(y 2)(z 3)<br>(foo x (bar y (baz z))))</code></td>
-          </tr>
-          <tr>
-            <td>
-              <code>
-                foo (<span greyed>&#x21a9;<br></span>
-                <span greyed>&#x21E5;&#x21E5;&#x21E5;</span>bar<span greyed>&#x21a9;<br></span>
-                baz)
-              </code>
-            </td>
-            <td>Corresponds to<br><code>(foo ((bar) baz))</code><br>rather than<br><code>(foo (bar) baz)</code><br>if the parentheses were left out.</td>
-          </tr>
+          <tr><td><code>"Hello, World!"</code></td><td>A classic example</td></tr>
+          <tr><td><code>"\"\""</code></td><td>A string containing two quotation characters.</td></tr>
+          <tr><td><code>"&alpha;&rightarrow;&Beta;"</code></td><td>A valid string containing non-ASCII <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> characters</td></tr>
+          <tr><td><code>"\ce\b1\e2\86\92\ce\92"</code></td><td>The same utf-8 encoded string as above, but represented literally as the bytes in the utf-8 sequence.</td></tr>
         </table>
       </figure>
+      <h3>Expression Syntax</h3>
+      <p>
+        Expressions are written using round braces which surround a series of symbols, strings, and other expressions.
+        Two adjacent symbols in an expression must always be separated by one or more blank space characters.
+      </p>
+      <figure>
+        <figcaption>Examples of expresions.</figcaption>
+        <table>
+          <tr><td><code>()</code></td><td>An empty expression.</td></tr>
+          <tr><td><code>( )</code></td><td>An empty expression written with blank space.</td></tr>
+          <tr><td><code>(<br>&nbsp;)</code></td><td>Another empty expression written with blank space that includes formatting.</td></tr>
+          <tr><td><code>(a b c)</code></td><td>A non-empty expression which encapsulates some symbols.</td></tr>
+        </table>
+      </figure>
+      <h3>Character Escapes</h3>
+      <p>
+        The Unicode character set is expansive and not all graphemes are easily accessible from a normal keyboard.
+        To allow greater unicode accessibility, some characters are expressible using a character escape sequence, which is an ASCII character sequence corresponding to a <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> grapheme.
+      </p>
+      <p>
+        A character escape is a symbol which begins with a single backslash followed by a name written in the ASCII alphabetical characters.
+        That symbol will be replaced with the corresponding <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> grapheme.
+      </p>
       <details>
-        <summary><h3>Formalization of Syntax</h3></summary>
+        <summary><h4>List of Default Character Escapes</h4></summary>
+       <table>
+        <tr><td><code>\function</code></td><td><code>&rightarrow;</code></td></tr>
+        <tr><td><code>\and</code></td><td><code>&and;</code></td></tr>
+        <tr><td><code>\or</code></td><td><code>&or;</code></td></tr>
+        <tr><td><code>\not</code></td><td><code>&not;</code></td></tr>
+        <tr><td><code>\times</code></td><td><code>&times;</code></td></tr>
+        <tr><td><code>\div</code></td><td><code>&div;</code></td></tr>
+        <tr><td><code>\exp</code></td><td><code>&uparrow;</code></td></tr>
+        <tr><td><code>\log</code></td><td><code>&downarrow;</code></td></tr>
+        <tr><td><code>\le</code></td><td><code>&le;</code></td></tr>
+        <tr><td><code>\ge</code></td><td><code>&ge;</code></td></tr>
+        <tr><td><code>\ne</code></td><td><code>&ne;</code></td></tr>
+        <tr><td><code>\Alpha</code></td><td><code>&Alpha;</code></td></tr>
+        <tr><td><code>\Beta</code></td><td><code>&Beta;</code></td></tr>
+        <tr><td><code>\Gamma</code></td><td><code>&Gamma;</code></td></tr>
+        <tr><td><code>\Delta</code></td><td><code>&Delta;</code></td></tr>
+        <tr><td><code>\Epsilon</code></td><td><code>&Epsilon;</code></td></tr>
+        <tr><td><code>\Zeta</code></td><td><code>&Zeta;</code></td></tr>
+        <tr><td><code>\Eta</code></td><td><code>&Eta;</code></td></tr>
+        <tr><td><code>\Theta</code></td><td><code>&Theta;</code></td></tr>
+        <tr><td><code>\Iota</code></td><td><code>&Iota;</code></td></tr>
+        <tr><td><code>\Kappa</code></td><td><code>&Kappa;</code></td></tr>
+        <tr><td><code>\Lambda</code></td><td><code>&Lambda;</code></td></tr>
+        <tr><td><code>\Mu</code></td><td><code>&Mu;</code></td></tr>
+        <tr><td><code>\Nu</code></td><td><code>&Nu;</code></td></tr>
+        <tr><td><code>\Xi</code></td><td><code>&Xi;</code></td></tr>
+        <tr><td><code>\Omicron</code></td><td><code>&Omicron;</code></td></tr>
+        <tr><td><code>\Pi</code></td><td><code>&Pi;</code></td></tr>
+        <tr><td><code>\Rho</code></td><td><code>&Rho;</code></td></tr>
+        <tr><td><code>\Sigma</code></td><td><code>&Sigma;</code></td></tr>
+        <tr><td><code>\Tau</code></td><td><code>&Tau;</code></td></tr>
+        <tr><td><code>\Upsilon</code></td><td><code>&Upsilon;</code></td></tr>
+        <tr><td><code>\Phi</code></td><td><code>&Phi;</code></td></tr>
+        <tr><td><code>\Chi</code></td><td><code>&Chi;</code></td></tr>
+        <tr><td><code>\Omega</code></td><td><code>&Omega;</code></td></tr>
+        <tr><td><code>\alpha</code></td><td><code>&alpha;</code></td></tr>
+        <tr><td><code>\beta</code></td><td><code>&beta;</code></td></tr>
+        <tr><td><code>\gamma</code></td><td><code>&gamma;</code></td></tr>
+        <tr><td><code>\delta</code></td><td><code>&delta;</code></td></tr>
+        <tr><td><code>\epsilon</code></td><td><code>&epsilon;</code></td></tr>
+        <tr><td><code>\zeta</code></td><td><code>&zeta;</code></td></tr>
+        <tr><td><code>\eta</code></td><td><code>&eta;</code></td></tr>
+        <tr><td><code>\theta</code></td><td><code>&theta;</code></td></tr>
+        <tr><td><code>\iota</code></td><td><code>&iota;</code></td></tr>
+        <tr><td><code>\kappa</code></td><td><code>&kappa;</code></td></tr>
+        <tr><td><code>\lambda</code></td><td><code>&lambda;</code></td></tr>
+        <tr><td><code>\mu</code></td><td><code>&mu;</code></td></tr>
+        <tr><td><code>\nu</code></td><td><code>&nu;</code></td></tr>
+        <tr><td><code>\xi</code></td><td><code>&Xi;</code></td></tr>
+        <tr><td><code>\omicron</code></td><td><code>&omicron;</code></td></tr>
+        <tr><td><code>\pi</code></td><td><code>&pi;</code></td></tr>
+        <tr><td><code>\rho</code></td><td><code>&rho;</code></td></tr>
+        <tr><td><code>\sigma</code></td><td><code>&sigma;</code></td></tr>
+        <tr><td><code>\tau</code></td><td><code>&tau;</code></td></tr>
+        <tr><td><code>\upsilon</code></td><td><code>&upsilon;</code></td></tr>
+        <tr><td><code>\phi</code></td><td><code>&phi;</code></td></tr>
+        <tr><td><code>\chi</code></td><td><code>&chi;</code></td></tr>
+        <tr><td><code>\omega</code></td><td><code>&omega;</code></td></tr>
+        <tr><td><code>\uparrow</code></td><td><code>&uparrow;</code></td></tr>
+        <tr><td><code>\downarrow</code></td><td><code>&downarrow;</code></td></tr>
+        <tr><td><code>\rightarrow</code></td><td><code>&rightarrow;</code></td></tr>
+        <tr><td><code>\leftarrow</code></td><td><code>&leftarrow;</code></td></tr>
+        <tr><td><code>\Uparrow</code></td><td><code>&Uparrow;</code></td></tr>
+        <tr><td><code>\Downarrow</code></td><td><code>&Downarrow;</code></td></tr>
+        <tr><td><code>\Leftarrow</code></td><td><code>&Leftarrow;</code></td></tr>
+        <tr><td><code>\Rightarrow</code></td><td><code>&Rightarrow;</code></td></tr>
+        <tr><td><code>\exists</code></td><td><code>&exist;</code></td></tr>
+        <tr><td><code>\forall</code></td><td><code>&forall;</code></td></tr>
+        <tr><td><code>\qed</code></td><td><code>&#x220e;</code></td></tr>
+       </table>
+      </details>
+      <details>
+        <summary><h3>Syntax Formalization</h3></summary>
         <p><i>n</i><sup>th</sup> syntax depends on the <a href="https://www.unicode.org/versions/latest/">Unicode&reg; Standard</a> character set and UTF-8 encoding convention.</p>
         <p><i>n</i><sup>th</sup> relies on the following classifications of the <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> general categories...
           <table border>
@@ -354,17 +281,15 @@
         <figure>
           <figcaption>
             The BNF grammar for <i>n</i><sup>th</sup>.<br>
-            Literal characters are features in <span greyed><code>grey</code></span>.<br>
+            Literal characters are featured in <span greyed><code>grey</code></span>.<br>
             <i>Graph</i>, <i>Digit</i>, and <i>Blank</i> correspond to the classifications of the <a href="https://www.unicode.org/versions/latest">Unicode&reg;</a> general categories.
           </figcaption>
           <table bnf>
             <tr><td>Program</td><td>&rightarrow;</td><td>Symbol | Expression | String</td><td><i>syntax components of a program</i></td></tr>
             <tr><td>Symbol</td><td>&rightarrow;</td><td><i>Graph</i> Symbol | <i>Digit</i> Symbol</td><td><i>symbol formation</i></td></tr>
-            <tr><td>Expression</td><td>&rightarrow;</td><td>Begin Atoms End | Indent Atoms Indent</td><td>expression syntax</td></tr>
+            <tr><td>Expression</td><td>&rightarrow;</td><td>Begin Atoms End</td><td>expression syntax</td></tr>
             <tr><td>Begin</td><td>&rightarrow;</td><td><span greyed><code>(</code></span></td><td><i>expression prefix</i></td></tr>
             <tr><td>End</td><td>&rightarrow;</td><td><span greyed><code>)</code></span></td><td><i>expression suffix</i></td></tr>
-            <tr><td>Indent</td><td>&rightarrow;</td><td><i>linebreak</i> Tabs</td><td><i>indentation sequence</i></td></tr>
-            <tr><td>Tabs</td><td>&rightarrow;</td><td><i>tab</i> | <i>tab</i> Tabs</td><td><i>tab sequence</i></td></tr>
             <tr><td>Atoms</td><td>&rightarrow;</td><td>Program | Whitespace | Atoms Atoms</td><td><i>atom list formation</i></td></tr>
             <tr><td>Whitespace</td><td>&rightarrow;</td><td><i>Blank</i> | <i>Blank</i> Whitespace</td><td><i>blank space sequence</i></td></tr>
             <tr><td>String</td><td>&rightarrow;</td><td>Quotation Characters Quotation</td><td><i>String data</i></td></tr>
@@ -399,22 +324,7 @@
             </td><td><i>valid hexadecimal digits</i></td></tr>
           </table>
         </figure>
-        <h4>Cannonical Syntax</h4>
-        <p>
-          It's possible to write an <i>n</i><sup>th</sup> program without using parentheses.
-          Programs written in this fashion are required to be converted to the cannonical syntax which uses exclusively parentheses to denote expressions.
-          Conversion will happen according to the following rules...
-        </p>
-        <ul>
-          <li>A line corresponds to an expression.</li>
-          <li>Any line following a closed expression will begin a new expression and will be prefixed with <code>(</code>.</li>
-          <li>A line break followed by one or more spaces will continue the expression from the previous line.</li>
-          <li>A line break followed by the same number of tabs as the indentation on the previous line will be converted into the sequence <code>)(</code>.</li>
-          <li>A line break followed by less tabs than the previous line will be converted into the sequence <code>)</code>.</li>
-          <li>A line break followed by more tabs than the previous line will be converted into the sequence <code>(</code>.</li>
-          <li>Two consecutive line breaks will be converted into as many closing parentheses, <code>)</code>, as required to close the outermost expression.</li>
-          <li>Any line following a closed expression, but still being indented, will be prefixed with as many opening round braces, <code>(</code>, as required to guarantee the contents of the least indented line are mapped to atoms in the outermost expression.</li>
-        </ul>
+       
         <h4>Parsing Rules</h4>
         <p>
           A program may be represented not only in a written form with syntax, but as structured data which may be manipulated by another program.
@@ -435,7 +345,72 @@
       </details>
     </article>
     <article>
-      <h2>Evaluation</h2>
+      <h2>Sessions</h2>
+      <p>
+        Programs in <i>n</i><sup>th</sup> are created through the process of "image-based development".
+        Image-based development is an alternative programming workflow.
+        Rather than a program being represented by an ad-hoc collection of source text files, Image-based development involves a "system" which maintains all the program definitions and data constants in a live process.
+
+        Image-based development is an alternative programming process which involves a dynamic "system" which will sustain a live version of the program being created and allow
+      </p>
+      <p>
+        Sessions are the mechanism with which <i>n</i><sup>th</sup> supports "image based development".
+        Image-based development is the practice of creating a program via modifying a blob of programs and data in a "live" programming environment which will automatically react to changes the programmer makes to a system.
+
+      </p>
+      <p>
+        Sessions are the means through which a programmer creates <i>n</i><sup>th</sup> programs.
+        A session is the interface to an image.
+      </p>
+    </article>
+    <article>
+      <h2>Modules</h2>
+    </article>
+    <article>
+      <h2>Definitions</h2>
+    </article>
+    <article>
+      <h2>Functions</h2>
+    </article>
+    <article>
+      <h2>Types</h2>
+    </article>
+    <article>
+      <h2>Data</h2>
+    </article>
+    <article>
+      <h2>Arithmetic</h2>
+    </article>
+    <article>
+      <h2>Control Flow</h2>
+    </article>
+    <article>
+      <h2>Reflection</h2>
+    </article>
+    <article>
+      <h2>Defaults</h2>
+    </article>
+   
+    <article>
+      <h2>Terminology</h2>
+      <dl>
+        <dt id="term-host">Host</dt><dd>The arbiter of computing resources in the environment where an implementation executes programs.</dd>
+        <dt id="term-processor">Processor</dt><dd>The agent responsible for executing a program.</dd>
+        <dt id="term-execution">Execution</dt><dd>The process by which the meaning of a program is carried out.</dd>
+        <dt id="term-program">Program</dt><dd>The data to be interpreted during execution.</dd>
+        <dt id="term-context">Context</dt><dd>The enumeration of all bindings given a position in a program.</dd>
+        <dt id="term-binding">Binding</dt><dd>An association between a symbol and some data such that the data may replace the symbol in a program anywhere that association is present.</dd>
+        <dt id="term-symbol">Symbol</dt><dd>An opaque data type which is a component of a program.</dd>
+        <dt id="term-expression">Expression</dt><dd>A composite data type which is a component of a program.</dd>
+        <dt id="term-function">Function</dt><dd>A program which preserves a context to be used during execution.</dd>
+        <dt id="term-syntax">Syntax</dt><dd>The sequence(s) of characters which correspond to a program.</dd>
+        <dt id="term-character">Character</dt><dd>An opaque value corresponding to a visually rendered grapheme.</dd>
+        <dt id="term-number">Number</dt><dd>A number.</dd>
+        <dt id="term-evaluation">Evaluation</dt><dd>The reductive process of deriving the next component of a program which execution will interpret.</dd>
+        <dt id="term-session">Session</dt><dd>A channel of communication between the live image and the programmer.</dd>
+        <dt id="term-image">Image</dt><dd>A stored collection of programs and data.</dd>
+        <dt id="term-system">System</dt><dd>A group of related programs which can be extracted from an image to form a stand-alone software application.</dd>
+      </dl>
     </article>
   </main>
 </body>

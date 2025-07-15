@@ -74,25 +74,27 @@ class nth
   #parse = () =>
   {
     this.#buffer = this.#buffer.replaceAll(/\s\s*/g, ' ')
-    console.log(this.#buffer)
     var str = this.#buffer
     var p = 0
     function next()
     {
-      return str[p]
+      return (p < str.length ? str[p] : null)
     }
-    function get()
+    function get(t)
     {
       var c = str[p]
       if (p < str.length)
       {
         p++;
+        return c
       }
       else 
       {
-        throw "\"Unexpected EOF\""
+        if (t)
+          throw '"Unexpected End of Input"'
+        else
+          return null
       }
-      return c
     }
     function checkdelim(c)
     {
@@ -102,6 +104,7 @@ class nth
         case ')':
         case ' ':
         case '"':
+        case null:
           return true;
         default: 
           return false;
@@ -112,7 +115,7 @@ class nth
       switch(next())
       {
         case '(':
-          get()
+          get(true)
           var expression = []
           while(next() != ')')
             expression.push(descend())
@@ -122,48 +125,55 @@ class nth
           throw "\"Unexpected Closing Brace\""
         case '"':
           var string = ""
-          get()
+          get(true)
           while (next() != '"')
+          {
             if (next() == '\\')
             {
-              get()
+              get(true)
               if (next() == '\\' || next() == '"')
-                string = string + get()
-              else if (next().match(/a-fA-F0-9/))
+                string = string + get(true)
+              else if (next().match(/[a-fA-F0-9]/) != null)
               {
-                var pair = "" + get()
-                if (next().match(/a-fA-F0-9/))
+                var pair = "" + get(true)
+                if (next().match(/[a-fA-F0-9]/) != null)
                 {
-                  pair = pair + get()
+                  pair = pair + get(true)
                   string = string + String.fromCharCode(parseInt(pair, 16))
                 }
                 else throw "\"Malformed Escape Sequence\""
               }
               else throw "\"Malformed Escape Sequence\""
             }
+            else
+            {
+              string = string + get(true)
+            }
+          }
+          get(true)
           return string
         default:
           var symbol = "" + get()
           while (!checkdelim(next()))
-            symbol = symbol + get()
+          {
+            try { symbol = symbol + get() }
+            catch(e) {break;}
+          }
           if (next() == ' ')
-            get()
+            get(true)
           return symbol
       }
     }
     try 
     {
-      this.#ast = descend(); 
-      if (p < str.length - 1)
-      {
-        throw "\"Trailing Input\""
-      }
+      this.#ast = descend()
     }
     catch(e) {this.#output = e; return}
     this.#expand()
   }
   #expand = () =>
   {
+    console.log(this.#ast)
     this.#check()
   }
   #check = () =>
