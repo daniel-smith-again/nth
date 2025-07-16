@@ -10,10 +10,11 @@ function focusInput()
   textarea.click()
 }
 textarea.oninput = inputFallback;
+focusInput()
 var header = document.getElementsByTagName('nth-header')[0]
-helpbutton.addEventListener('click', (e)=> {help.style.display = 'block'; e.stopPropagation()})
+if (helpbutton) helpbutton.addEventListener('click', (e)=> {help.style.display = 'block'; e.stopPropagation()})
 var closehelp = document.getElementsByTagName('close-help')[0]
-closehelp.addEventListener('click', (e)=>help.style.display = 'none')
+if (closehelp) closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 
 const shortcutreplace = [
   [/\\\\arrow/g, '→'],

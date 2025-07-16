@@ -5,3 +5,30 @@ also how to define ad-hoc functions?
     (a) | 
     (b) |
     (c)  ))
+
+how do I specify syntax?
+How does the (syntax ...) declaration work?
+
+I need to specify structure and keywords.
+So what do I match on?
+A pattern can specify that an item is 
+* a keyword                             'symbol
+* any single item                       x
+* a symbol                              ''x
+* an expression                         '''x
+* repeating                             _ ...
+
+
+('syntax name (expression ...) (body ...))
+('define name (expression ...))
+('data (name ...) constructors ...)
+('use imports ...)
+('in module)
+('leave)
+('export module options ...)
+
+What's the difference between ((foo ...) ...)
+and (foo (...) ...) ?
+          ^ this just folds into the last ...
+((x ...) ...)
+this is a repeating expression

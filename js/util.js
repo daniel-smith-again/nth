@@ -222,6 +222,7 @@ function setup()
   for (x of document.querySelectorAll('textarea[nth]'))
   {
     x.oninput = handleInput
+    x.onkeydown = editorInput
   }
 }
 
@@ -248,5 +249,26 @@ function handleInput(e)
       e.target.selectionStart = start
       e.target.selectionEnd = end
       break;
+  }
+}
+
+function editorInput(e)
+{
+
+}
+var InputVisible = true
+function toggleInput()
+{
+  if (InputVisible)
+  {
+    session.style.left = '1vw';
+    session.style.bottom = '0%';
+    InputVisible = false
+  }
+  else 
+  {
+    session.style.left = 'calc(-100vw + 15ch)';
+    session.style.bottom = 'calc(-25ch + 10ch)';
+    InputVisible = true
   }
 }

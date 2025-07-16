@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="./style/style.css">
 <script src="./js/nth.js"></script>
 <script src="./js/util.js"></script>
+
 <link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
@@ -26,26 +27,25 @@
     <h1>The Interactive Definition of <i>n</i><sup>th</sup></h1>
     <p>&copy;2025 <a href="mailto:daniel.smith.again@gmail.com">Daniel Smith</a></p>
   </header>
+  <!--
+  <live-session id="session" onclick="toggleInput()">
+    <live-session-bar></live-session-bar>
+    <nth-area id="nth-area"><nth-editor id="editorwindow"><textarea id="input" contenteditable="true" cols="0" rows="0" autocapitalize="false" autocomplete="false" spellcheck="false"></textarea>
+      <nth-code></nth-code></nth-editor>
+  </nth-area>
+  </live-session>-->
   <main>
     <article>
       <h2>Overview</h2>
       <p>
         Welcome.<br>
         This digital book is intended for anyone who wants to learn about the <i>n</i><sup>th</sup> programming language.
-        By the end, you will understand how to write programs in <i>n</i><sup>th</sup>, and understand what's required of a n implementation of the language.
+        By the end, you will understand how to write programs in <i>n</i><sup>th</sup>, and understand what's required of an implementation of the language.
       </p>
       <p>
         Information about the language, it's semantics, and features is presented informally first with formalizations provided as supplement.
         Hopefully, any reader will quickly be able to gain a general intuition of how <i>n</i><sup>th</sup> can be used, with more curious readers still having easy access to a detailed specification.
       </p>
-      <p>
-        Along the way, the reader can interact with certain figures which are connected to a live session.
-        Those figures look like 
-      </p>
-      <figure>
-        <figcaption>An interactive program example.</figcaption>
-        <textarea nth>(print "Hello, world!")</textarea>
-      </figure>
       <p>
         Formalizations of certain constructs are presented in a collapsible area which can be opened.
         These areas appear as a title followed by an elipses.
@@ -348,23 +348,94 @@
       <h2>Sessions</h2>
       <p>
         Programs in <i>n</i><sup>th</sup> are created through the process of "image-based development".
-        Image-based development is an alternative programming workflow.
-        Rather than a program being represented by an ad-hoc collection of source text files, Image-based development involves a "system" which maintains all the program definitions and data constants in a live process.
-
-        Image-based development is an alternative programming process which involves a dynamic "system" which will sustain a live version of the program being created and allow
+        Rather than a program being represented by an ad-hoc collection of source text files, Image-based development involves a reactive system which maintains all the program definitions and data constants in a live process.
       </p>
       <p>
-        Sessions are the mechanism with which <i>n</i><sup>th</sup> supports "image based development".
-        Image-based development is the practice of creating a program via modifying a blob of programs and data in a "live" programming environment which will automatically react to changes the programmer makes to a system.
-
-      </p>
-      <p>
-        Sessions are the means through which a programmer creates <i>n</i><sup>th</sup> programs.
-        A session is the interface to an image.
+        A session is minimally a duplex stream whereby the programmer submits programs to the system and the result are sent back to the programmer as if passed as an argument to <code>print</code>.
+        Sessions may provide alternative interfaces with extended capabilities or interactivity, as long as they conform to the notion of sending and recieving <i>n</i><sup>th</sup> programs.
       </p>
     </article>
     <article>
       <h2>Modules</h2>
+      <p>
+        Modules are the construct which allows program and data created in a session to be stored, recalled, and otherwise preserved in a live system.
+        They are essentially lists of bindings.
+        A binding is an association of a symbol to some data, such that when that symbol occurs in a program, it can be replaced with that data.
+      </p>
+      <h3>Default Modules</h3>
+      <p>
+        Within a live session, there are a number of implicit modules which are used to facilitate the capabilities of the <i>n</i><sup>th</sup> language.
+      </p>
+      <h4>Default</h4>
+      <p>
+        The default module is an implicit module which contains all <i>n</i><sup>th</sup> language definitions.
+        All primitive macros, functions, and constants are members of the <code>default</code> module.
+      </p>
+      <p>
+        The default module is immutable and cannot be modified by the programmer.
+      </p>
+      <p>
+        The default module must always be present at the start of a session and cannot be discarded.
+      </p>
+      <h4>Top Level</h4>
+      <p>
+        The default module contains a nested, unnamed module referred to as the Default Top Level.
+        This is the context in which all code submitted to the session is evaluated.
+        It serves to guard the default module from modification.
+      </p>
+      <p>
+        Leaving the context of the Top Level will exit the session.
+      </p>
+      <p>
+        If another module is entered using <code>in</code>, that module will be treated as the Top Level although it is not the Default Top Level.
+        All programs which modify the Top Level will modify that module.
+      </p>
+      <h3>Primitive Macros for Modules</h3>
+      <p>
+        There are seven primitive macros which affect the Top Level when evaluated.
+        They are <code>define</code>, <code>use</code>, <code>syntax</code>, <code>data</code>, <code>in</code>, <code>export</code>, and <code>leave</code>.
+      </p>
+      <h4>Definition</h4>
+      <p>
+        The Definition primitive macro is used to modify the list of bindings held in a module.
+        It is invoked with the symbol, <code>define</code>, followed by a symbol, followed by a sub-program.
+        The symbol is used as the binding variable.
+        The sub-program is evaluated to yield the data which will be the subject of the binding.
+      </p>
+      <figure>
+        <figcaption>Some examples of definition.</figcaption>
+        <table>
+          <tr><td><code>(define foo 1)</code></td><td>The number <code>1</code> is now bound to the symbol <code>foo</code>.</td></tr>
+          <tr><td><code>(define my-array (array Number 800))</code></td><td>The symbol, <code>my-array</code>, binds an array of 800 <code>Number</code>'s.</td></tr>
+        </table>
+      </figure>
+      <h4>Use</h4>
+      <p>
+        The Use primitive macro is used to introduce bindings from other modules into the context of the Top Level.
+        It is invoked with the symbol, <code>Use</code>, followed by one or more import expressions.
+      </p>
+      <p>
+        Use will transfer bindings from a module to the Top Level context.
+        When a binding is transferred, the same variable is used and will bind the instance of data which is held in the module rather than copying it.
+      </p>
+      <p>
+        Use may optionally transfer a binding using a nickname which is a symbol which will be used in place of the variable in the transferred binding in the Top Level.
+      </p>
+      <p>
+        An import expression is one of 
+      </p>
+      <ul>
+        <li>A string corresponding to a filessytem path where the module is stored.</li>
+        <li>A symbol corresponding to the name of a module file stored in one of the default paths.</li>
+        <li>A non-empty expression where each item is an import requirement and the last item is a string or symbol corresponding to a module file.</li>
+      </ul>
+      <p>
+        An import requirement is either a symbol, or an expression containing a pair of symbols.
+        If the requirement is a single symbol, that symbol must be a variable in the module being imported.
+        That symbol will be used as the variable 
+        If the requirement is an expression, then the first symbol is a "nickname" which will be used as the variable when the required binding is established in the Top Level.
+        The second symbol must correspond to a variable in the module being imported.
+      </p>
     </article>
     <article>
       <h2>Definitions</h2>
@@ -410,8 +481,14 @@
         <dt id="term-session">Session</dt><dd>A channel of communication between the live image and the programmer.</dd>
         <dt id="term-image">Image</dt><dd>A stored collection of programs and data.</dd>
         <dt id="term-system">System</dt><dd>A group of related programs which can be extracted from an image to form a stand-alone software application.</dd>
+        <dt id="term-variable">Variable</dt><dd>The symbol in a binding which can be replaced with data.</dd>
+        <dt id="term-subject">Subject</dt><dd>The data in a binding which will replace a symbol.</dd>
+        <dt id="term-type">Type</dt><dd>An abstract list of members which are either data or other types.</dd>
+        <dt id="term-value">Value</dt><dd>A type which has only a single member.</dd>
+        <dt id="term-subtype">Subtype</dt><dd>The relation which establishes that an entity is a member of a type. That is to say, a member of a type must be a subtype of that type.</dd>
       </dl>
     </article>
   </main>
+  <script src="./js/reference.js"></script>
 </body>
 </html>
