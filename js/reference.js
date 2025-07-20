@@ -127,6 +127,11 @@ document.onkeydown = (e) => {
     }
     return
   }
+  console.log(active.getAttribute('active'))
+  if (active.getAttribute('active') != 'true')
+  {
+    return;
+  }
   if (e.ctrlKey)
   {
     switch(e.key)
@@ -162,15 +167,18 @@ document.onkeydown = (e) => {
       case 'ArrowLeft': backwards(); break
       case 'ArrowUp': outwards(); break
       case 'ArrowDown': inwards(); break
-      /*case 'Escape': if (active != null) 
-                        active.removeAttribute('active'),active.children[0].blur()
-      */
+      case 'Escape': if (active != null) 
+                        active.removeAttribute('active')
      case 'Escape': break
     }
   }
 }
 function inputFallback(e)
 {
+  if (active.getAttribute('active') != 'true')
+  {
+    return;
+  }
   e.target.value = '#';
   e.target.selectionEnd = -1;
   e.target.selectionStart = -1;
@@ -475,14 +483,14 @@ function outwards()
 function highlightSymbol(e) 
 {
   e.preventDefault()
-  console.log(e)
   var p = e.target
   while (p.parentElement.tagName != 'NTH-EDITOR')
     p = p.parentElement
   p = p.parentElement
-  if (active != null && active != p) active.caret.removeAttribute('active')
+  if (active != null)
   {
     focusInput()
+    active.setAttribute('active', 'true')
   }
   if (active.caret != null) active.caret.removeAttribute('active')
   if (active.caret.symbol) active.caret.symbol.removeAttribute('active')

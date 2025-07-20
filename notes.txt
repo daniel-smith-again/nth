@@ -32,3 +32,30 @@ and (foo (...) ...) ?
           ^ this just folds into the last ...
 ((x ...) ...)
 this is a repeating expression
+
+
+
+What does nth have?
+Modules,
+Macros,
+Functions,
+GADTs,
+Tuples,
+Lists,
+Sums,
+Arbitrary Precision Integers,
+Binary Types,
+Inversion
+Pattern Matching via structural subtyping
+Reflection
+
+
+
+
+Modules:
+Modules are key-value stores. The correspond directly to binary objects.
+Module functions are Use, In, and Module.
+(syntax Use ('use (clauses) ...) )
+where clauses may either by a module name, an expression listing imports followed by the module name, (a b c abc-module), and any item can be a pair of the name and a nickname.
+The Default module encapsulates all modules in a session.
+The Top Level module is a member of the Default module and encapsulates any definitions entered by the user.

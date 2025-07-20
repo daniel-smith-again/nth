@@ -2,7 +2,7 @@
 
 --------------------------------------------------------------------------------
 |==============================================================================|
-|              The nth Programming Language Reference Interpreter              |
+|                    The nth Programming Language Reference                    |
 |==============================================================================|
 |                                      by                                      |
 |                                Daniel Smith                                  |
@@ -42,8 +42,66 @@
 typedef uint8_t Byte;
 typedef intptr_t Value;
 typedef Byte* Segment;
+typedef struct { Value Instruction; Value Frame; Value Top; } NthContext;
+typedef Byte (_nth_internal_operation)(NthContext)
+void _nth_internal_next_op(NthContext *n)
+{
+
+}
+void _nth_internal_execute(NthContext *n)
+{
+    for (x = n.Code[0];_nth_internal_next_op(n);)
+    {
+        switch(x)
+        {
+            case 0: goto done;
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+            case 6: break;
+            case 7: break;
+            case 8: break;
+            case 9: break;
+            case 10: break;
+            case 11: break;
+            case 12: break;
+            case 13: break;
+        }
+    }
+    done: return;
+}
+
 typedef struct _internal_nth_context NthContext;
 typedef struct _internal_nth_data NthData;
+
+void _nth_next_op(NthContext *n);
+void _nth_execute_program(NthContext *n);
+void _nth_stack_reference(NthContext *n);
+
+typedef struct
+{
+    Segment Code;
+    Value Instruction;
+    Value Frame;
+    Value Top;
+} _internal_nth_context;
+
+typedef struct 
+{
+    Segment Prev;
+    Value PageFlag;
+    Value Locals;
+    Segment Data;
+} _internal_nth_stack_frame;
+
+void _nth_execute(Segment Code)
+{
+    for()
+}
+
+
 
 void _nth_internal_fetch_op(NthContext *n);
 void _nth_internal_init_frame(NthContext *n, void(*c)(NthContext*));
