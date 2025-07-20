@@ -54,8 +54,17 @@ Reflection
 
 Modules:
 Modules are key-value stores. The correspond directly to binary objects.
-Module functions are Use, In, and Module.
-(syntax Use ('use (clauses) ...) )
-where clauses may either by a module name, an expression listing imports followed by the module name, (a b c abc-module), and any item can be a pair of the name and a nickname.
-The Default module encapsulates all modules in a session.
-The Top Level module is a member of the Default module and encapsulates any definitions entered by the user.
+Module functions are Load, Use, In, Export, and Module.
+Load will load a module from a file specified by a pathname or a symbol implying automatic lookup.
+Use will import names from a module into the top level.
+In will set a module as the new top level.
+Export will safe a module or function as a file.
+Module will declare a new module.
+
+Modules are declared in a single expression using nested defines, syntaxes, and data.
+
+
+(define (' foo ('' a) (''' b) c))
+
+
+(define (' use (''' (type Symbol (' a b) (' (''' a) b)))))
