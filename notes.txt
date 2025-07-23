@@ -27,11 +27,84 @@ A pattern can specify that an item is
 ('leave)
 ('export module options ...)
 
+how do I make the distinction between a syntax template and a syntax macro function?
+
+(syntax Foo "foo" (foo) (foo xs ...) [template/function])
+(syntax Foo "foo" (foo) (foo xs ...) (foo-func xs))
+(syntax Foo "foo" (foo bar baz)
+ (foo xs ...) (foo-func xs)
+ (bar xs ...) -> (let (a b c) xs (' foo ('' a) ('' b) (''' c))))
+
+arrow symbol marks lambda
+
+too many arrows or just enough?
+Just enough. I'm actually denoting a function here.
+
 What's the difference between ((foo ...) ...)
 and (foo (...) ...) ?
           ^ this just folds into the last ...
 ((x ...) ...)
 this is a repeating expression
+
+primitive declarations (module components) :
+ define
+ syntax 
+ data
+ use
+
+(module libfoo "foo library" 
+ (foo (function x (x + x))))
+this is convenient until you try to wrap the binding in a closure, then it's 
+unclear what's being bound and what's syntax for other stuff.
+
+vs.
+
+(module libfoo "foo library"
+ (define foo (function x (x + x))))
+this works better because other code might surround the definition, so 
+explicitly marking where the definition happens is useful.
+
+(module a 
+ (let x y 
+  (define foo (x + y))))
+
+vs. 
+
+(module a 
+ foo (let x y (x + y)))
+
+
+(module (use ...))
+direct module constructions are useful because they're easy to emit and read.
+keyword module component declarations are useful for the session though.
+
+Can a function change modules?
+
+(define foo ((m T) (n P) -> 
+ (do 
+  (in mymodule)
+  (foobar x y))))
+Nope. This shouldn't work.
+Although it should....
+
+
+functions :
+ enter 
+ exit 
+ expand 
+
+
+
+function list
+module 
+use
+define 
+syntax 
+data
+enter 
+exit 
+expand
+
 
 
 
@@ -68,3 +141,116 @@ Modules are declared in a single expression using nested defines, syntaxes, and 
 
 
 (define (' use (''' (type Symbol (' a b) (' (''' a) b)))))
+
+you can create a "headless" or embedded module for a limited environment by simply defining a module that doesn't include default, or only includes certain things from default.
+
+for instance,
+
+(define m (module 
+ ((Functions Bits Arrays Types Default)
+  (Kernel-Data-Structures System-Log OS-Kernel-Mod))
+ USB-detect (function (x (Kernel-Data-Structures)))))
+
+
+ What happens when modules aren't erased?
+ They become objects.
+ Not quite, they still become modules.
+Namespace is still a namespace at runtime.
+
+
+typeclasses vs. modules vs. GADTs
+
+(data (Eq a)
+ (eq (p : a) (q : a) -> Bool)
+ (neq (p : a) (q : a) -> Bool))
+
+how is this a typeclass?
+because I can do 
+(define (Eq foo))
+
+What's the difference with 
+
+class Eq a where
+ (==) :: a -> a -> Bool
+ (/=) :: a -> a -> Bool
+
+(data (Eq a)
+ (== (x : a) (y : a) -> Bool)
+ (/= (x : a) (y : a) -> Bool))
+
+Modules are for routines.
+They aren't composeable like classes are.
+
+Types are also polymorphic constructors that accept certain other types and will 
+perform a conversion.
+This is how data is copied in nth.
+
+
+Types :
+ Judgement
+    Yes or No
+ Yes
+    Truthy value. Generally anything that's total and non-null
+ No
+    Falsy value. Null and Boolean false. Anything that's non-total or null.
+ Boolean
+    True or False
+ Bits 
+  Flat contiguous segment of boolean bits.
+  Can be constructed in segments
+ Character
+  A number representing a Unicode character.
+ Function
+  A function that can be applied, possibly with parameters
+ Tuple 
+  Composite packed type
+ List 
+  homogeneous indirect type. a tuple of pointers
+ Array 
+  heterogeneous packed type
+ Module 
+  key-value store of code
+ Number
+  Arbitrary width whole integer
+
+in addition, new data types can be created using tagged tuples.
+
+macros :
+ (module ...)               module constructor
+ (use ...)                  module import declaration
+ (define ...)               module export
+ (syntax ...)               module syntax
+ (data ...)                 module type definition
+ (function ...)             function constructor
+ (... -> ...)               function constructor
+ (reduce ...)               evaluate math as combined PEMDAS expression
+ (with ...)                 inversion (delimited continuation) control expression
+ (_ ? _ _ ...)              pattern matching
+ (_ ? _ _)                  conditional evaluation
+ (_ ...)                    function application
+ (apply ...)                function composition
+ (_ : _)                    type assertion
+ ( _ | ...)                 type sum
+ (type ...)                 type sum
+ 
+
+
+Functions :
+ (add : ((a Number) (b : Number) -> Number))
+ (subtract : ((a : Number) (b : Number) -> Number))
+ (multiply : ((a : Number) (b : Number) -> Number))
+ (divide : ((a : Number) (b : Number) -> Number))
+ (remainder : ((a : Number) (b : Number) -> Number))
+ (modulus : ((a : Number) (b : Number) -> Number))
+ (power : ((a : Number) (b : Number) -> Number))
+ (root : ((a : Number) (b : Number) -> Number))
+ (logarithm : ((a : Number) (b : Number) -> Number))
+ (and : (let (t (type Judgement Boolean Bits))
+         ((a : t) (b : t) -> t)))
+ (or : (let (t (type Judgement Boolean Bits))
+        ((a : t) (b : t) -> t)))
+ (not : (let (t (type Judgement Boolean Bits))
+         ((a : t) -> t)))
+ (shiftup : ((a : Bits) (b : Number) -> Bits))
+ (shiftdown : ((a : Bits) (b : Number) -> Bits))
+ (# : ((a : *) -> Number))
