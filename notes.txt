@@ -178,6 +178,9 @@ class Eq a where
  (== (x : a) (y : a) -> Bool)
  (/= (x : a) (y : a) -> Bool))
 
+
+(define Eq (a -> (module )))
+
 Modules are for routines.
 They aren't composeable like classes are.
 
@@ -254,3 +257,10 @@ Functions :
  (shiftup : ((a : Bits) (b : Number) -> Bits))
  (shiftdown : ((a : Bits) (b : Number) -> Bits))
  (# : ((a : *) -> Number))
+
+
+
+VERY IMPORTANT
+You can target constrained environments by including only portions of the default module.
+For instance,
+(define foo (module (use (Functions Numbers Booleans Default))))
