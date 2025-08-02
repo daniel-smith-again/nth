@@ -3,9 +3,11 @@ function SelectSymbol(e)
   switch(e.target.tagName)
   {
     case 'NTH-SESSION':
-      e.target.focus()
+      console.log(e.target)
+      //e.target.focus()
       e.target.firstChild.focus()
       e.target.firstChild.click()
+      navigator.virtualKeyboard?.show()
       window['focused'] = e.target
       break;
     case 'NTH-SYMBOL':
@@ -16,17 +18,18 @@ function SelectSymbol(e)
       break;
     case 'NTH-INDENT':
       break;
-    case 'TEXTAREA':
-      e.target.focus()
   }
-  console.log(e)
+  //console.log(e)
 }
 
 function SessionInput(e)
 {
+  console.log(e)
   switch(e.key)
   {
     case 'Enter':
+      break;
+    case ' ':
       break;
   }
 }
