@@ -18,8 +18,8 @@ function SelectSymbol(e)
   }
   if (e.target.tagName == "NTH-SESSION")
   {
-    e.target.focus()
-    e.target.firstChild.click()
+    //e.target.focus()
+    //e.target.firstChild.click()
     e.target.firstChild.focus()
   }
   console.log(e)
