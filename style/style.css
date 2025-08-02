@@ -50,6 +50,8 @@ main *, header *, footer * {font-family:nth-definition-serif;}
 main nth-editor *, main code {font-family: nth-definition-overpass, nth-definition-noto; white-space:pre;}
 main > article p {max-width:calc(100% - 3ch); counter-increment: clause-number;}
 main > article p::after { vertical-align:top; content: ' ' counter(clause-number) ' '; position:absolute; right:calc(0% + 17vw); color:var(--diminished); }
+nth-session {display:block;width:40ch;height:15ch;color:var(--foreground);background-color:var(--background);border-radius:1ch;border:solid 0.2ch var(--foreground);padding:1ch;margin:auto;white-space:pre;white-space-collapse:preserve;overflow:hidden;}
+nth-session textarea {position:relative;top:-20ch;}
 
 footer { text-align: center; position: absolute; bottom: 0%; width: 100%; max-width: min(69vw, 160ch); }
 footer > * { margin: auto; }
@@ -59,6 +61,13 @@ footer > * { margin: auto; }
     figure { width: fit-content; }
     main > article p::after{position: absolute; right:calc(0% + 3vw);}
 }
+
+
+
+
+
+
+
 textarea[nth] { color:var(--backgroundthird); background-color:var(--foreground); caret-color: var(--foregroundsecond); border-radius:1ch; border:solid var(--foregroundsecond) 0.2ch; font-family: nth-definition-overpass, nth-definition-noto; outline:none; padding:1ch; resize:both; width:min-content; height:min-content; field-sizing:content; white-space:pre; max-width:80ch; max-height:80ch; line-height:1lh; vertical-align:middle; }
 :target{all:none;}
 #searchbar{background-color:inherit;color:inherit;font-size:inherit;border:solid calc(0.2 * var(--size)) var(--foreground);border-radius:1ch;display:block;margin:auto;height:3ch;width:31%;}
