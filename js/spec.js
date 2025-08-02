@@ -5,7 +5,6 @@ function SelectSymbol(e)
     case 'NTH-SESSION':
       e.target.focus()
       e.target.firstChild.focus()
-      e.target.firstChild.click()
       //e.target.firstChild.click()
       window['focused'] = e.target
       break;
@@ -23,8 +22,10 @@ function SelectSymbol(e)
 
 function SessionInput(e)
 {
-  console.log(e)
-  console.log(window.focused)
+  switch(e.key)
+  {
+    case
+  }
 }
 
 window.onkeydown = SessionInput
