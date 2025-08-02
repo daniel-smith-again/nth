@@ -4,7 +4,7 @@ function SelectSymbol(e)
   {
     case 'NTH-SESSION':
       e.target.focus()
-      e.target.firstChild.click()
+      //e.target.firstChild.click()
       window['focused'] = e.target
       break;
     case 'NTH-SYMBOL':
@@ -15,12 +15,6 @@ function SelectSymbol(e)
       break;
     case 'NTH-INDENT':
       break;
-  }
-  if (e.target.tagName == "NTH-SESSION")
-  {
-    //e.target.focus()
-    //e.target.firstChild.click()
-    e.target.firstChild.focus()
   }
   console.log(e)
 }
