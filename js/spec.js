@@ -4,6 +4,8 @@ function SelectSymbol(e)
   {
     case 'NTH-SESSION':
       e.target.focus()
+      e.target.firstChild.focus()
+      e.target.firstChild.click()
       //e.target.firstChild.click()
       window['focused'] = e.target
       break;
