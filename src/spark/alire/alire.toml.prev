@@ -1,0 +1,17 @@
+name = "nth"
+description = "language interpreter and runtime"
+version = "0.1.0-dev"
+
+authors = ["dos"]
+maintainers = ["dos <daniel.smith.again@gmail.com>"]
+licenses = "MIT"
+website = ""
+tags = []
+
+executables = ["nth"]
+
+[[depends-on]]
+gnatprove = "^15.1.0"
+
+[[depends-on]]
+gnat = "^15.1.2"

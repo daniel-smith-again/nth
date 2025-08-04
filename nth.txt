@@ -1,0 +1,13 @@
+The Prose Definition of Nth
+
+   Nth is a general purpose, multi-paradigm programming language.
+It includes facilities such as higher order functions, higher order modules, extended tagged sum types, arbitrary precision arithmetic, macros, and lexically delimited continuations.
+
+Nth programs are stored and transmitted as UTF-8 encoded Unicode text.
+Nth syntax is written and read from left-to-right. 
+In order to eliminate conflicting Unicode representations of a program, Unicode code points are interpreted as syntax in the order in which they are received, regardless of any formatting modes which the code points may signify.
+
+Programs are composed by a programmer or other agent via a Session abstraction.
+A Session involves the agent submitting commands to the live Session process in order to inspect or modify the definitions of various entities.
+These commands are represented as components of the Nth language and programs may be written which engage those commands as a result of being evaluated.
+
