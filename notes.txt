@@ -1,3 +1,18 @@
+Here's the issue. 
+I want to link to a module while I'm making a program and use its components 
+as if they were defined by mine own hand in the image.
+
+> (in 'foo)
+> (use (my-mod a b c))
+> (define (f : a) (function m n (...)))
+               ^--- I want this. 
+               I want to take an entity from a library and use it as if it were 
+               native in my language.
+
+I can record the intensional supertype of a function body to use when comparing
+functions.
+
+
 how to define polymorphic functions.
 also how to define ad-hoc functions?
 

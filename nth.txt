@@ -1,6 +1,6 @@
 The Prose Definition of Nth
 
-   Nth is a general purpose, multi-paradigm programming language.
+Nth is a general purpose, multi-paradigm programming language.
 It includes facilities such as higher order functions, higher order modules, extended tagged sum types, arbitrary precision arithmetic, macros, and lexically delimited continuations.
 
 Nth programs are stored and transmitted as UTF-8 encoded Unicode text.
@@ -10,4 +10,26 @@ In order to eliminate conflicting Unicode representations of a program, Unicode 
 Programs are composed by a programmer or other agent via a Session abstraction.
 A Session involves the agent submitting commands to the live Session process in order to inspect or modify the definitions of various entities.
 These commands are represented as components of the Nth language and programs may be written which engage those commands as a result of being evaluated.
+
+The session commands are...
+
+('enter module)
+ Moves the scope of evaluation into the scope of a module
+
+('exit)
+ Moves the scope of evaluation into the parent module, or exits the session when at top-level
+
+('import pathname/symbol)
+ Loads a module from a file specified by pathname/symbol.
+
+('export module 'as pathname/symbol (arguments ...))
+('export pathname/symbol (arguments ...))
+ Saves a module as pathname/symbol, or saves the current scope if no module is specified.
+
+('inspect entity)
+ Will allow the user to navigate an instance of structured data.
+
+('describe entity)
+ Will print out an automated description of the entity.
+
 
