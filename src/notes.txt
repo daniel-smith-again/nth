@@ -1,16 +1,15 @@
-I'm making the nth implementation in two parts. 
-There's the header-only library which implements the nth language, bytecode
-interpreter, and other things.
-Then there's the ".c" file which is operating-system specific.
+Organization:
+ The actual definition of the language interpreter is in the header file.
+ It's organized as an OS agnostic header-only library.
+ OS-dependent things are implemented in the c file which includes the header.
+ 
+I should optimize for the case that I know the size of everything.
+Garbage collection and not knowing the size of things should be the exception.
+Specifically when I start using lists and appending and things like that.
+Basically string manip.
 
-The H file is responsible for...
-- Parsing a UTF-8 string into an AST
-- Interpreting the AST
-- providing the nth defaults
-- managing the live image state
-
-The Cpp file is responsible for...
-- the entry into the nth executable
-- managing the frontend interface (i.e. how the user enters source code)
-- providing memory management
-- providing primitive routines necessary for nth to work
+How are modules stored?
+Are they lists of lists?
+Are they dictionaries?
+Hash tables are hard to get performant for all cases.
+Hash tables also make modules less portable.
