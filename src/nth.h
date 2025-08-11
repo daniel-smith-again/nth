@@ -36,130 +36,49 @@
 #ifndef ___NTH___
 #define ___NTH___
 
-#include <cstdint>
-#include <stddef.h>
-
-typedef uint8_t Byte;
-typedef intptr_t Value;
-typedef Byte* Segment;
-typedef struct { Value Instruction; Value Frame; Value Top; } NthContext;
-typedef Byte (_nth_internal_operation)(NthContext)
-void _nth_internal_next_op(NthContext *n)
+typedef struct {unsigned int value : 8;} Byte;
+typedef struct {signed int value : 32;} Chunk;
+typedef void* Reference;
+typedef Byte* String;
+typedef String Symbol;
+typedef struct {Chunk length; Reference *items;} List;
+typedef Byte* Natural;
+typedef struct {Byte sign; Natural digits;} Integer;
+typedef struct __nth_internal_page Page;
+struct {Reference prev; Reference next; Reference size; Byte* contents;} __nth_internal_page;
+typedef struct {List symbols; List data;} Module;
+typedef struct 
 {
+    Module *module;
+    Page *pages;
+    Reference(*page)(void);
+    void(*drop)(Reference);
+    void(*print)(String);
+    String(*read)(void);
+} Session;
 
-}
-void _nth_internal_execute(NthContext *n)
+Module* NthInitModule(Module *module)
 {
-    for (x = n.Code[0];_nth_internal_next_op(n);)
-    {
-        switch(x)
-        {
-            case 0: goto done;
-            case 1: break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
-            case 5: break;
-            case 6: break;
-            case 7: break;
-            case 8: break;
-            case 9: break;
-            case 10: break;
-            case 11: break;
-            case 12: break;
-            case 13: break;
-        }
-    }
-    done: return;
+    module->symbols.length.value = 0;
+    module->data.length.value = 0;
 }
 
-typedef struct _internal_nth_context NthContext;
-typedef struct _internal_nth_data NthData;
-
-void _nth_next_op(NthContext *n);
-void _nth_execute_program(NthContext *n);
-void _nth_stack_reference(NthContext *n);
-
-typedef struct
+Session* NthInitSession(Session* s, Module* module, Reference(*page)(void), void(*drop)(Reference), void(*print)(String), String(*read)(void))
 {
-    Segment Code;
-    Value Instruction;
-    Value Frame;
-    Value Top;
-} _internal_nth_context;
+    s->module = module;
+    s->pages = 0;
+    s->page = page;
+    s->drop = drop;
+    s->print = print;
+    s->read = read;
+}
 
 typedef struct 
 {
-    Segment Prev;
-    Value PageFlag;
-    Value Locals;
-    Segment Data;
-} _internal_nth_stack_frame;
+    struct {Reference PC; Reference FP; Reference SP;} 
+} NthContext;
 
-void _nth_execute(Segment Code)
-{
-    for()
-}
-
-
-
-void _nth_internal_fetch_op(NthContext *n);
-void _nth_internal_init_frame(NthContext *n, void(*c)(NthContext*));
-void _nth_intenral_function_call(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_push(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_function_return(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_handler_call(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_add(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_subtract(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_multiply(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_quotient(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_remainder(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_modulus(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_exponent(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_root(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_arithmetic_logarithm(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_boolean_conjunction(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_boolean_disjunction(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_boolean_negation(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_list_concatenate(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_list_subscript(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_function(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_list(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_number(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_boolean(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_type(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_array(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_interval(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_natural(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_integer(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_constructor_fraction(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_define_binding(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_define_function(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_define_data(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_define_syntax(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_load_module(NthContext *n, void(*c)(NthContext*));
-void _nth_internal_export_module(NthContext *n, void(*c)(NthContext*));
-
-struct _internal_nth_data
-{
-    Value length;
-    Segment contents;
-};
-
-struct _internal_nth_context
-{
-    NthContext* self;
-    Value(*allocate)(Value);
-    Value(*deallocate)(Value);
-    Segment frame;
-    Segment top;
-    Value frameMax;
-};
-
-NthContext*NthInitializeContext(NthContext *c, Value(*a)(Value), Value(*d)(Value))
-{
-    return c->self = c, c->allocate = a, c->deallocate = d, c;
-}
+void __nth_bytecode_
 
 #endif //___NTH___
 
