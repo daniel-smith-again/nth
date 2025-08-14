@@ -33,6 +33,9 @@ A pattern can specify that an item is
 * an expression                         '''x
 * repeating                             _ ...
 
+(syntax foo (a b c) 
+ )
+
 
 ('syntax name (expression ...) (body ...))
 ('define name (expression ...))

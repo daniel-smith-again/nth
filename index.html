@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="./style/style.css">
 <script src="./js/nth.js"></script>
 <script src="./js/util.js"></script>
-
 <link rel="apple-touch-icon" sizes="180x180" href="./icon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="./icon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./icon/favicon-16x16.png">
@@ -46,36 +45,79 @@
         Information about the language, it's semantics, and features is presented informally first with formalizations provided as supplement.
         Hopefully, any reader will quickly be able to gain a general intuition of how <i>n</i><sup>th</sup> can be used, with more curious readers still having easy access to a detailed specification.
       </p>
+      <h3>Formalizations</h3>
       <p>
         Formalizations of certain constructs are presented in a collapsible area which can be opened.
         These areas appear as a title followed by an elipses.
       </p>
-      <details>
-        <summary><h4>Formalization</h4></summary>
-        <p>
-          Math Math mathy math math math<br>
-          formal math math math math
-        </p>
-      </details>
+      <h3>Notation Conventions</h3>
+      <p>
+        <i>n</i><sup>th</sup> programs are structured via nested expressions where each expression has a specific structural formation.
+        The formation of an expression is denoted via a figure such as the following figure illustrating the function constructor expression...
+      </p>
+      <figure>
+        <code>(</code><b>parameters</b> <code>&rightarrow;</code> <i>body</i><code>)</code><br>
+        <code>(function</code> <b>parameters</b> <i>body</i><code>)</code>
+      </figure>
+      <p>
+        These figures make use of three styles of symbols: keyword, item, and list.
+        <code>Keyword</code> symbols denote keywords.
+        <i>Items</i> name a single position within the expression.
+        <b>Lists</b> name a variable length sequence of items.
+      </p>
     </article>
     <article>
       <h2>Sessions</h2>
       <p>
         Sessions are the mechanism through which a programmer will... program in <i>n</i><sup>th</sup>.
-        A session is a live process which will allow the programmer to manipulate and inspect the definition of that module.
+        A session is a live process which will allow the programmer to manipulate and inspect the definition of modules, which are the way <i>n</i><sup>th</sup> packages programs.
       </p>
       <p>
-        Minimally, a session provides a dual channel whereby the programmer can submit an <i>n</i><sup>th</sup> program to be evaluated and observe the subsequent effects of evaluation.
+        Minimally, a session provides a UTF-8 formatted half-duplex communication channel which the programmer will send programs to be evaluated and the session can send the results back to the user.
+        Since the capabilities of the session are defined as features of the programming language, submitting programs is sufficient to engage any and all language facilities.
       </p>
+      <h3>Session Commands</h3>
+      <p>
+        Session commands are functions defined as part of the <i>n</i><sup>th</sup> Default module which affect the internal state of a live session.
+      </p>
+      <nth-editor><nth-code><nth-expression><nth-symbol>foo</nth-symbol></nth-expression></nth-code></nth-editor>
+      <h4>Load</h4>
+      <figure>
+        <code>(load</code> <i>module</i><code>)</code>
+      </figure>
+      <p>
+        <code>load</code> will attempt to locate a module in the filesystem, specified by <i>module</i>, which will be loaded as a module entity and returned.
+      </p>
+      <p>
+        <code>load</code> will attempt to interpret <i>module</i> as a path description of a stored module in the host's filesystem.
+        <i>module</i> may either be a symbol or a string.
+      </p>
+      <p>
+        If <i>module</i> is a symbol, then it must correspond to a module stored using that symbol as a filename in the default directory.
+        The correspondence is such that <code>(load 'foo)</code> is equivalent to <code>(load ((Default 'directory) + (format 'foo)))</code>.
+      </p>
+      <p>
+        If <i>module</i> is a string, then it must be a string which can be interpreted as a valid filesystem path by the host.
+      </p>
+      <h4>Store</h4>
       <figure>
         <figcaption>
-          An example of an interactive <i>n</i><sup>th</sup> session.
-          Try it!
+          (<code>store</code> <i>module</i> <i>pathname</i>)<br>
+          (<code>store</code> <i>pathname</i>)
         </figcaption>
-        <nth-session><textarea contenteditable="true" cols="0" rows="0" autocapitalize="false" autocomplete="false" spellcheck="false"></textarea>
-        </nth-session>
+        <p>
+          <code>store</code> will save a module as a file in the host's filesystem.
+          It make be invoked in two ways, with or without a variable binding a module.
+        </p>
+        <p>
+          If <code>store</code> is invoked with a variable binding a module, then the module bound by that variable will be stored in a file signified by the <i>pathname</i>.
+        </p>
+        <p>
+          If <code>store</code> is invoked without <i>module</i>, then the top level module will be stored in a file signified by the <i>pathname</i>.
+        </p>
       </figure>
     </article>
+    
     <article>
       <h2>Syntax</h2>
       <p>
@@ -414,6 +456,10 @@
         They are <code>define</code>, <code>use</code>, <code>syntax</code>, <code>data</code>, <code>in</code>, <code>export</code>, and <code>leave</code>.
       </p>
       <h4>Definition</h4>
+      <figure>
+        <code>(define </code> <i>identifier</i> <i>value</i><code>)</code><br>
+        <code>(define (</code><i>family</i> <b>parameters</b><code>)</code> <b>constructors</b><code>)</code>
+      </figure>
       <p>
         The Definition primitive macro is used to modify the list of bindings held in a module.
         It is invoked with the symbol, <code>define</code>, followed by a symbol, followed by a sub-program.
@@ -456,7 +502,33 @@
       </p>
     </article>
     <article>
-      <h2>Definitions</h2>
+      <h2>The Default Module</h2>
+      <p>
+        The Default module is an implicit module which is never accessible by the user. 
+        It contains all the transforms, definitions, and bindings which are required to interpret an <i>n</i><sup>th</sup> program.
+        It is implicit because the actual nature of the definitions and bindings are subject to the discretion of an implementation and have no bearing on the programming language itself outside of proper conformance.
+      </p>
+      <p>
+        The Default module is the composition of several sub-modules which encapsulate various component featuresets of the language.
+        They are as follows...
+      </p>
+      <ul>
+        <li>Sessions</li>
+        <li>Modules</li>
+        <li>Functions</li>
+        <li>Inversions</li>
+        <li>Numerics</li>
+        <li>Logic</li>
+        <li>Lists</li>
+        <li>Binary</li>
+        <li>Conditionals</li>
+        <li>Sequencing</li>
+        <li>Closures</li>
+      </ul>
+      <p>
+        When a Module is constructed, these sub-modules are always implicitly included so that the definitions inside the module have access to the entire definition of the language.
+        This behavior can be modified by explicitly importing the Default module and excluding certain sub-modules with the <code>without</code> clause.
+      </p>
     </article>
     <article>
       <h2>Functions</h2>

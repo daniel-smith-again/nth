@@ -36,8 +36,41 @@
 #ifndef ___NTH___
 #define ___NTH___
 
+typedef unsigned _BitInt(8) Byte;
+typedef unsigned _BitInt(16) Short;
+typedef signed _BitInt(32) Wide;
+typedef unsigned _BitInt(32) WideNat;
+typedef signed _BitInt(64) Long;
+typedef unsigned _BitInt(64) LongNat;
+typedef void* Reference;
+typedef Byte* String;
+typedef String Symbol;
+typedef struct {WideNat length; Reference *items;} List;
+typedef Byte* Natural;
+typedef struct {Byte sign; Natural digits};
+typedef struct __nth_internal_page Page;
+struct __nth_internal_page {Reference prev; Reference next; Reference size; Byte *contents;};
+typedef struct {List symbols; List data;} Module;
+typedef struct __nth_internal_session Session;
+struct __nth_internal_session
+{
+    Module *module;
+    Page *pages;
+    Reference(*page)(void);
+    void(*drop)(Reference);
+    void(*print)(String);
+    String(*read)(void);
+}
+
 typedef struct {unsigned int value : 8;} Byte;
-typedef struct {signed int value : 32;} Chunk;
+typedef struct {union {unsigned int u : 16; signed int s : 16;};} Short;
+typedef struct {union {unsigned int u : 32; signed int s : 32;};} Wide;
+typedef struct {union {unsigned int u : 64; signed int s : 64;};} Long;
+
+typedef struct {unsigned int value : 8;} Byte;
+typedef struct {unsigned int value : 16;} Short;
+typedef struct {signed int value : 32;} ;
+typedef struct {signed int value : 64;} Long;
 typedef void* Reference;
 typedef Byte* String;
 typedef String Symbol;
@@ -47,7 +80,8 @@ typedef struct {Byte sign; Natural digits;} Integer;
 typedef struct __nth_internal_page Page;
 struct {Reference prev; Reference next; Reference size; Byte* contents;} __nth_internal_page;
 typedef struct {List symbols; List data;} Module;
-typedef struct 
+typedef struct __nth_internal_session Session;
+struct __nth_internal_session
 {
     Module *module;
     Page *pages;
@@ -55,7 +89,7 @@ typedef struct
     void(*drop)(Reference);
     void(*print)(String);
     String(*read)(void);
-} Session;
+};
 
 Module* NthInitModule(Module *module)
 {
@@ -72,13 +106,6 @@ Session* NthInitSession(Session* s, Module* module, Reference(*page)(void), void
     s->print = print;
     s->read = read;
 }
-
-typedef struct 
-{
-    struct {Reference PC; Reference FP; Reference SP;} 
-} NthContext;
-
-void __nth_bytecode_
 
 #endif //___NTH___
 
