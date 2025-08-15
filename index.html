@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>The Definition of nth</title>
+<title>The Standard Definition of nth</title>
 <link rel="icon" href="./icon/icon.gif" type="image/x-icon" />
 <link rel="stylesheet" href="./style/style.css">
 <script src="./js/nth.js"></script>
@@ -23,7 +23,7 @@
       <path style="fill:none;stroke:var(--background);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
       d="M 60.777712,2.0907162 37.92925,97.768652" id="path49" />
       </svg>
-    <h1>The Interactive Definition of <i>n</i><sup>th</sup></h1>
+    <h1>The Standard Definition of <i>n</i><sup>th</sup></h1>
     <p>&copy;2025 <a href="mailto:daniel.smith.again@gmail.com">Daniel Smith</a></p>
   </header>
   <!--
@@ -80,7 +80,6 @@
       <p>
         Session commands are functions defined as part of the <i>n</i><sup>th</sup> Default module which affect the internal state of a live session.
       </p>
-      <nth-editor><nth-code><nth-expression><nth-symbol>foo</nth-symbol></nth-expression></nth-code></nth-editor>
       <h4>Load</h4>
       <figure>
         <code>(load</code> <i>module</i><code>)</code>
@@ -101,21 +100,23 @@
       </p>
       <h4>Store</h4>
       <figure>
-        <figcaption>
-          (<code>store</code> <i>module</i> <i>pathname</i>)<br>
-          (<code>store</code> <i>pathname</i>)
-        </figcaption>
-        <p>
-          <code>store</code> will save a module as a file in the host's filesystem.
-          It make be invoked in two ways, with or without a variable binding a module.
-        </p>
-        <p>
-          If <code>store</code> is invoked with a variable binding a module, then the module bound by that variable will be stored in a file signified by the <i>pathname</i>.
-        </p>
-        <p>
-          If <code>store</code> is invoked without <i>module</i>, then the top level module will be stored in a file signified by the <i>pathname</i>.
-        </p>
+        <code>(store </code><i>module</i> <i>pathname</i><code>(</code><b>flags</b><code>))</code><br>
+        <code>(store </code><i>pathname</i><code>(</code><b>flags</b><code>))</code>
       </figure>
+      <p>
+        <code>store</code> will save a module as a file in that host's filesystem.
+        It may be invoked in two ways, with or without a variable binding a module, given by <i>module</i>.
+      </p>
+      <p>
+        If <code>store</code> is invoked with <i>module</i> supplied, then the module bound by that variable will be stored in a file with a name given by <i>pathname</i>.
+      </p>
+      <p>
+        If <code>store</code> is invoked with only a <i>pathname</i>, then the context module will be stored in a file with a name given by <i>pathname</i>.
+      </p>
+      <p>
+        <b>Flags</b> are implementation-defined expressions which may be provided to modify how a module is stored in the filesystem.
+        The form of these expressions, their meaning, and their effect on <code>store</code> are beyond the scope of this document.
+      </p>
     </article>
     
     <article>
@@ -474,6 +475,9 @@
         </table>
       </figure>
       <h4>Use</h4>
+      <figure>
+        <code>(use</code> <b>clauses</b><code>)</code>
+      </figure>
       <p>
         The Use primitive macro is used to introduce bindings from other modules into the context of the Top Level.
         It is invoked with the symbol, <code>Use</code>, followed by one or more import expressions.
