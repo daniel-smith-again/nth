@@ -303,6 +303,8 @@ Normal lisps support the notion of a "cons pair" which all other data structures
 In nth, there are n-tuples. 
 They introduce indirection in the same manner as a lisp pair, however pairs are replaced with n-elements.
 Thus the normal cons pair (a . b) may be extended arbitrarily, (a . b . c . d ...).
+The difference between these cons-tuples and cons-pairs is simply that tuples imply the adjacency of an arbitrary number of references.
+A list may now be simply a tuple, and a Lisp list proper be an indirect linked list.
 
 
 What's the difference between a mutable ADT and a new ADT?
@@ -317,3 +319,7 @@ If I do something like
 
 (let (x (array (5000 (box i32))))
      (set (x _ 1500) (i32 5)))
+
+
+
+nth is a lisp, but not.

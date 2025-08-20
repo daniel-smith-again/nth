@@ -131,58 +131,50 @@ function setTheme()
 }
 setTheme(Theme);
 
+const Nth = new nth()
+
 function setup()
 {
-  for (x of document.querySelectorAll('textarea[nth]'))
-  {
-    x.oninput = handleInput
-    x.onkeydown = editorInput
-  }
-}
-
-const Nth = new nth()
-function handleInput(e)
-{
-  switch(e.inputType)
-  {
-    case 'insertLineBreak':
-      if (e.target.selectionEnd == e.target.value.length && e.target.value[e.target.value.length - 2] == '\n')
-      {
-        e.target.value = Nth.eval(e.target.value.slice(0, -2))
-      }
-      break;
-    case 'insertText':
-      var content = ""
-      switch(e.data)
-      {
-        case '(': content = ')'; break;
-        case '"': content = '"'; break;
-      }
-      var start = e.target.selectionStart, end = e.target.selectionEnd
-      e.target.value = e.target.value.slice(0, e.target.selectionStart) + content + e.target.value.slice(e.target.selectionEnd)
-      e.target.selectionStart = start
-      e.target.selectionEnd = end
-      break;
-  }
+  document.querySelectorAll('article[nth]')[0].onkeydown = editorInput
 }
 
 function editorInput(e)
 {
+  console.log(e.key)
+  console.log(window.getSelection().anchorNode)
+  switch(e.key)
+  {
+    case '(':
+      var r = window.getSelection().getRangeAt(0)
+      if (r.startContainer.parentElement.tagName != 'CODE')
+      {
+        console.log("inserting element")
+        e.preventDefault()
+        var c = document.createElement('code')
+        c.appendChild(document.createTextNode('('))
+        r.deleteContents()
+        r.insertNode(c)
+        r.setStart(c.firstChild, 1)
+        r.setEnd(c.firstChild, 1)
+        r.endContainer.insertData(r.endOffset, ')')
+      }
+      else 
+      {
+        if (r.endContainer.nodeType == 3)
+        {
+          r.endContainer.insertData(r.endOffset, ')')
+        }
+      }
+      break;
+    case 'Enter':
+      e.preventDefault()
+      var r = window.getSelection().getRangeAt(0)
+      r.deleteContents()
+      var br = document.createElement('br')
+      r.insertNode(br)
+      r.setStartAfter(br)
+      r.setEndAfter(br)
+      break;
+  }
+}
 
-}
-var InputVisible = true
-function toggleInput()
-{
-  if (InputVisible)
-  {
-    session.style.left = '1vw';
-    session.style.bottom = '0%';
-    InputVisible = false
-  }
-  else 
-  {
-    session.style.left = 'calc(-100vw + 15ch)';
-    session.style.bottom = 'calc(-25ch + 10ch)';
-    InputVisible = true
-  }
-}
