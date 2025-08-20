@@ -282,3 +282,38 @@ VERY IMPORTANT
 You can target constrained environments by including only portions of the default module.
 For instance,
 (define foo (module (use (Functions Numbers Booleans Default))))
+
+
+nth is a Lisp language, however it differs drastically at a philosophical level.
+For example, it is statically typed.
+Latent typing is eschewed in favor of inferred types and static verification.
+Prefix notation is relegated to function application and macros are applied via syntax patterns.
+It also trades pairs for n-tuples. 
+The traditional cons pair may be extended arbitrarily. 
+Compare (a . b) to (a, b, c, d, e, ...)
+
+
+
+nth is a new lisp.
+It's fundamentally different from what one would normally consider a lisp.
+For example, it's statically typed.
+Rather than the usual Read-Eval-Print cycle, there is instead Read-Verify-Eval-Print.
+Another difference is that there is no concept of pairs. 
+Normal lisps support the notion of a "cons pair" which all other data structures are formed.
+In nth, there are n-tuples. 
+They introduce indirection in the same manner as a lisp pair, however pairs are replaced with n-elements.
+Thus the normal cons pair (a . b) may be extended arbitrarily, (a . b . c . d ...).
+
+
+What's the difference between a mutable ADT and a new ADT?
+Transforms are ALWAYS in-place.
+
+(define (mut t)
+        (box t)
+        (set (box x) y -> (box y))
+        (get (box x) -> x))
+
+If I do something like 
+
+(let (x (array (5000 (box i32))))
+     (set (x _ 1500) (i32 5)))
