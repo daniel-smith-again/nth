@@ -140,8 +140,7 @@ function setup()
 
 function editorInput(e)
 {
-  console.log(e.key)
-  console.log(window.getSelection().anchorNode)
+  console.log(e)
   switch(e.key)
   {
     case '(':
@@ -166,14 +165,85 @@ function editorInput(e)
         }
       }
       break;
+    case ')':
+      var r = window.getSelection().getRangeAt(0)
+      if (r.endContainer.parentNode.tagName == 'CODE')
+      {
+        s = r.endContainer.parentNode.textContent;
+        console.log(s)
+        var insideQuote = false
+        var ParenBalance = 0
+        for (c of s)
+        {
+          switch(c)
+          {
+            case '(': ParenBalance ++; break;
+            case ')': ParenBalance --; break;
+          }
+        }
+        if (ParenBalance == 0)
+        {
+          e.preventDefault()
+          var b = document.createElement('br')
+          var t = document.createTextNode('(_)')
+          r.endContainer.after(b)
+          b.after(t)
+          b = document.createElement('br')
+          t.after(b)
+          t = document.createTextNode('')
+          b.after(t)
+          r.setStart(t, 0)
+          r.setEnd(t, 0)
+        }
+        else
+        {
+          if (r.endOffset < r.endContainer.length)
+          {
+            if (r.endContainer.data[r.endOffset] == ')')
+            {
+              e.preventDefault()
+              r.setEnd(r.endContainer, r.endOffset + 1)
+              r.setStart(r.endContainer, r.endOffset)
+            }
+          }
+        }
+      }
+      break;
     case 'Enter':
       e.preventDefault()
       var r = window.getSelection().getRangeAt(0)
-      r.deleteContents()
-      var br = document.createElement('br')
-      r.insertNode(br)
-      r.setStartAfter(br)
-      r.setEndAfter(br)
+      if (r.endContainer.parentNode.tagName == 'CODE' && r.endOffset == r.endContainer.length)
+      {
+        var b = document.createElement('br')
+        r.endContainer.parentElement.after(b)
+        var s = document.createElement('span')
+        t.after(s)
+        r.setStart(s, 0)
+        r.setEnd(s, 0)
+      }
+      else 
+      {
+        var b = document.createElement('br')
+        var t = document.createTextNode('')
+        r.endContainer.after(b)
+        b.after(t)
+        r.setStart(t, 0)
+        r.setEnd(t, 0)
+      }
+      break;
+      default:
+        var r = window.getSelection().getRangeAt(0)
+        if (e.key.length == 1)
+        {
+          //console.log(r.endContainer.parentNode, r.endOffset, r.endContainer.length)
+          if ((r.endContainer.parentNode.tagName == 'CODE') && (r.endOffset == r.endContainer.length))
+          {
+            var t = document.createTextNode('')
+            r.endContainer.parentElement.after(t)
+            r.setStart(t, 0)
+            r.setEnd(t, 0)
+          }
+        }
       break;
   }
 }
