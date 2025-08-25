@@ -36,6 +36,18 @@
 #ifndef ___NTH___
 #define ___NTH___
 
+typedef unsigned _BitInt(8)            Byte;
+typedef void*                          Value;
+typedef Byte*                          String;
+typedef String                         Symbol;
+typedef struct {Value l; Value *n;}    List;
+typedef Byte*                          Number;
+
+
+
+typedef unsigned  _BitInt(8) Byte;
+typedef signed    _BitInt(8) 
+
 typedef unsigned _BitInt(8) Byte;
 typedef unsigned _BitInt(16) Short;
 typedef signed _BitInt(32) Wide;
