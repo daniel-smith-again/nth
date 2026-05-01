@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>NIL</title>
+    <link rel="icon" href="./icon/icon.gif" type="image/x-icon"/>
+    <link rel="manifest" href="./icon/site.webmanifest"/>
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="theme-color" content="#ffffff"/>
+    <style>
+      @font-face { font-family:MonoSpaced; src:url('./style/FreeMono.woff'); }
+      @font-face { font-family:BackupMono; src:url('./style/NotoSansMonoVariable.ttf'); }
+      :root { --size:calc(7px + ((1vw + 1vh) / 2));}
+      html * {font-family:Monospaced, BackupMono;font-size:var(--size);user-select:none;color:var(--foreground);background-color:var(--background);}
+      body {display:grid;grid-template-areas: 't' 'm';grid-template-rows: 3lh auto;touch-action:none;min-height:100vh;padding:0;margin:0;}
+      header {grid-area:t;height:1lh;display:grid;width:fit-content;margin:auto;justify-content:center;align-items:center;padding:1ch;border-radius:1ch;}
+      header:hover{color:var(--foregroundsecond);background-color:var(--backgroundsecond);}
+      main {grid-area:m;display:flex;flex-flow:column nowrap;justify-content:center;align-items:center;min-height:3lh;width:90vw;margin:auto;justify-self:center;padding-bottom:7lh;margin-bottom:auto;margin-top:7%;}
+      nil-atom, nil-list, nil-break {display:inline-block;vertical-align:top;min-width:1ch;line-height:1lh;min-height:1lh;padding:0;scroll-padding:7lh;scroll-margin:7lh;scroll-snap-align:center;}
+      nil-atom{transition: all 0.2s;padding:0;white-space:pre;border-radius:0.3ch;background-color:none;height:1lh;}
+      nil-atom:empty, nil-list:empty{height:1lh;width:1ch;}
+      nil-atom:empty{border-bottom:dashed 0.2ch var(--foregroundsecond)}
+      nil-atom + nil-atom, nil-atom + nil-list, nil-list + nil-atom{margin-left:1ch;}
+      nil-list{border-radius:0.7ch;}
+      nil-list:has(> nil-atom[focused]){outline:solid 0.3ch var(--backgroundsecond);}
+      main > nil-list {outline-style:none;}
+      main > nil-list[focused]{outline-style:none;}
+      main > nil-list:empty{outline-style:solid;}
+      nil-break{display:inline;border-radius:0.3ch;width:1ch;height:1lh;color:var(--backgroundthird);height:1lh;}
+      * + nil-break{margin-left:1ch;}
+      *[focused]{outline:solid 0.3ch var(--backgroundsecond);}
+      nil-list[focused]{outline-color:var(--backgroundthird);}
+      nil-break[focused]::before{content:'↵'}
+      #Options{position:absolute;display:block;min-width:7ch;min-height:3lh;border:solid var(--foreground) 0.2ch;border-radius:0.5ch;padding:0;}
+      #Options > * {display:grid;text-align:center;align-items:center;justify-content:center;border-collapse:collapse;cursor:pointer;}
+      #Options > * + * {border-top:solid var(--foreground) 0.2ch;}
+      #Options > *:hover {background-color:var(--backgroundthird);}
+      #Options > *:first-child {border-radius: 0.5ch 0.5ch 0 0;}
+      #Options > *:last-child {border-radius: 0 0 0.5ch 0.5ch;}
+    </style>
+  </head>
+  <body>
+      <header onclick="setColorTheme()">
+        NIL Reference Implementation
+      </header>
+      <main id="NIL">
+        <p></p>
+      </main>
+  </body>
+  <script>
+    const colors = 
+    [
+      { 'bg_0': '#181818',
+        'bg_1': '#252525',
+        'bg_2': '#3b3b3b',
+        'dim_0': '#777777',
+        'fg_0': '#b9b9b9',
+        'fg_1': '#dedede',
+        'red': '#ed4a46',
+        'green': '#70b433',
+        'yellow': '#d1a416',
+        'blue': '#368aeb',
+        'magenta': '#3b6eb7',
+        'cyan': '#3fc5b7',
+        'orange': '#e67f43',
+        'violet': '#a580e2',
+        'br_red': '#ff5e56',
+        'br_green': '#83c746',
+        'br_yellow': '#efc541',
+        'br_blue': '#4f9cfe',
+        'br_magenta': '#ff81ca',
+        'br_cyan': '#56d8c9',
+        'br_orange': '#fa9153',
+        'br_violet': '#b891f5'
+      },
+      { 'bg_0': '#103c48',
+        'bg_1': '#184956',
+        'bg_2': '#2d5b69',
+        'dim_0': '#72898f',
+        'fg_0': '#adbcbc',
+        'fg_1': '#cad8d9',
+        'red': '#fa5750',
+        'green': '#75b938',
+        'yellow': '#dbb32d',
+        'blue': '#4695f7',
+        'magenta': '#f275be',
+        'cyan': '#41c7b9',
+        'orange': '#ed8649',
+        'violet': '#af88eb',
+        'br_red': '#ff665c',
+        'br_green': '#84c747',
+        'br_yellow': '#ebc13d',
+        'br_blue': '#58a3ff',
+        'br_magenta': '#ff84cd',
+        'br_cyan': '#53d6c7',
+        'br_orange': '#fd9456',
+        'br_violet': '#bd96fa'
+      },
+      { 'bg_0': '#fbf3db',
+        'bg_1': '#ece3cc',
+        'bg_2': '#d5cdb6',
+        'dim_0': '#909995',
+        'fg_0': '#53676d',
+        'fg_1': '#3a4d53',
+        'red': '#d2212d',
+        'green': '#489100',
+        'yellow': '#ad8900',
+        'blue': '#0072d4',
+        'magenta': '#ca4898',
+        'cyan': '#009c8f',
+        'orange': '#c25d1e',
+        'violet': '#8762c6',
+        'br_red': '#cc1729',
+        'br_green': '#428b00',
+        'br_yellow': '#a78300',
+        'br_blue': '#006dce',
+        'br_magenta': '#c44392',
+        'br_cyan': '#00978a',
+        'br_orange': '#bc5819',
+        'br_violet': '#825dc0'
+      },
+      { 'bg_0': '#ffffff',
+        'bg_1': '#ebebeb',
+        'bg_2': '#cdcdcd',
+        'dim_0': '#878787',
+        'fg_0': '#474747',
+        'fg_1': '#282828',
+        'red': '#d6000c',
+        'green': '#1d9700',
+        'yellow': '#c49700',
+        'blue': '#0064e4',
+        'magenta': '#dd0f9d',
+        'cyan': '#00ad9c',
+        'orange': '#d04a00',
+        'violet': '#7f51d6',
+        'br_red': '#bf0000',
+        'br_green': '#008400',
+        'br_yellow': '#af8500',
+        'br_blue': '#0054cf',
+        'br_magenta': '#c7008b',
+        'br_cyan': '#009a8a',
+        'br_orange': '#ba3700',
+        'br_violet': '#6b40c3'
+      },
+    ]
+    var Theme = 3
+    function setColorTheme()
+    {
+      var index = Theme
+      var c = colors[index]
+      var r = document.querySelector(':root')
+      r.style.setProperty('--background', c.bg_0)
+      r.style.setProperty('--backgroundsecond', c.bg_1)
+      r.style.setProperty('--backgroundthird', c.bg_2)
+      r.style.setProperty('--diminished', c.dim_0)
+      r.style.setProperty('--foreground', c.fg_0)
+      r.style.setProperty('--foregroundsecond', c.fg_1)
+      r.style.setProperty('--red', c.red)
+      r.style.setProperty('--green', c.green)
+      r.style.setProperty('--yellow', c.yellow)
+      r.style.setProperty('--blue', c.blue)
+      r.style.setProperty('--magenta', c.magenta)
+      r.style.setProperty('--cyan', c.cyan)
+      r.style.setProperty('--orange', c.orange)
+      r.style.setProperty('--violet', c.violet)
+      r.style.setProperty('--brightred', r.br_red)
+      r.style.setProperty('--brightgreen', c.br_green)
+      r.style.setProperty('--brightyellow', c.br_yellow)
+      r.style.setProperty('--brightblue', c.br_blue)
+      r.style.setProperty('--brightmagenta', c.br_magenta)
+      r.style.setProperty('--brightcyan', c.br_cyan)
+      r.style.setProperty('--brightorange', c.br_orange)
+      r.style.setProperty('--brightviolet', c.br_violet)
+      r.style.setProperty('--hgl', c.dim_0 + '40')
+      if (Theme == 0 || Theme == 1)
+      {
+        r.style.setProperty('--shadow', c.bg_0)
+      }
+      else
+      {
+        r.style.setProperty('--shadow', c.fg_1)
+      }
+      Theme = (Theme + 1) % 4
+    }
+    setColorTheme(Theme);
+    window['NIL'] = 
+    {
+      editor : 
+      {
+        element : undefined,
+        model : undefined,
+        /*
+        tree of [<type>, <parent>, <data>]
+        */
+        cursor : undefined,
+        sample: undefined,
+        makeAtom : function(type, parent, previous, next, data)
+        {
+          return {  type: type,
+                    parent: parent,
+                    previous: previous,
+                    next: next,
+                    data: data
+                 }
+        },
+        focus : function(atom)
+        {
+          if (atom)
+          {
+            this.cursor = atom
+          }
+          if (this.model == undefined)
+          {
+            this.model = this.makeAtom(undefined, undefined, undefined, undefined, undefined)
+            this.model.next = this.model
+            this.model.previous = this.model
+            this.cursor = this.model
+          }
+          return this.cursor
+        },
+        insertAtom : function()
+        {
+          var atom = this.focus()
+          if (atom.type == undefined)
+          {
+            atom.type = "list"
+          }
+          else
+          {
+            if (atom.parent != undefined)
+            {
+              atom.next = this.makeAtom(undefined, atom.parent, atom, atom.next, undefined)
+              atom.next.previous = atom
+              atom.next.next.previous = atom.next
+            }
+            this.focus(atom.next)
+          }          
+        },
+        appendCharacter : function(character)
+        {
+          var atom = this.focus()
+          if (atom.type == undefined)
+          {
+            atom.type = "atom"
+            atom.data = ""
+          }
+          else if (atom.type == "list")
+          {
+            atom.data = this.makeAtom("atom", atom, undefined, undefined, "")
+            atom.data.next = atom.data
+            atom.data.previous = atom.data
+            this.focus(atom.data)
+          }
+          else if (atom.type == "break")
+          {
+            this.insertAtom()
+            this.focus().type = "atom"
+            this.focus().data = ""
+          }
+          this.focus().data = this.focus().data + character
+        },
+        deleteCharacter : function()
+        {
+          var atom = this.focus()
+          if (atom.type == "atom")
+          {
+            if (atom.data.length > 0)
+            {
+              atom.data = atom.data.slice(0, atom.data.length - 1)
+              if (atom.data.length == 0)
+              {
+                atom.type = undefined
+                atom.data = undefined
+              }
+            }
+            else
+            {
+              this.deleteAtom()
+            }
+          }
+          else
+          {
+            this.deleteAtom()
+          }
+        },
+        deleteAtom : function()
+        {
+          var atom = this.focus()
+          if (atom.next === atom.previous && atom.previous === atom && atom === atom.next)
+          {
+            if (atom.parent != undefined)
+            {
+              this.focus(atom.parent)
+              this.focus().data = undefined
+            }
+            else
+            {
+              this.model = undefined
+              this.cursor = undefined
+            }
+          }
+          else
+          {
+            atom.previous.next = atom.next
+            atom.next.previous = atom.previous
+            if (atom.parent.data === atom)
+            {
+              atom.parent.data = atom.next
+              this.focus(atom.next)
+            }
+            else
+            {
+              this.focus(atom.previous)
+            }
+          }
+        },
+        insertBreak : function()
+        {
+          if (this.focus().parent != undefined)
+          {
+            this.insertAtom()
+            this.focus().type = "break"
+            //this.insertAtom()
+          }
+        },
+        moveCursorForward : function()
+        {
+          this.focus(this.focus().next)
+        },
+        moveCursorBackward : function()
+        {
+          this.focus(this.focus().previous)
+        },
+        moveCursorInward : function()
+        {
+          if (this.focus().type == "list")
+          {
+            if (this.focus().data != undefined)
+            {
+              this.focus(this.focus().data)
+            }
+          }
+        },
+        moveCursorOutward : function()
+        {
+          if (this.focus().parent != undefined)
+          {
+            this.focus(this.focus().parent)
+          }
+        },
+        sampleAtom : function()
+        {
+
+        },
+        putAtom : function()
+        {
+
+        },
+        spreadAtom : function()
+        {
+
+        },
+        showModel : function()
+        {
+          const display = function(n)
+          {
+            var element = undefined
+            if (n === undefined)
+            {
+              return undefined
+            }
+            switch(n.type)
+            {
+              case undefined:
+                element = document.createElement('nil-atom')
+                break;
+              case "atom":
+                element = document.createElement('nil-atom')
+                element.appendChild(document.createTextNode(n.data))
+                element.style.cursor = "pointer"
+                element.onclick = (e) => {
+                  const atom = n
+                  window.NIL.editor.focus(atom)
+                  window.NIL.editor.showModel()
+                }
+                break;
+              case "break":
+                element = document.createElement('nil-break')
+                //element.appendChild(document.createTextNode('\u21b5'))
+                element.appendChild(document.createTextNode(''))
+                element.appendChild(document.createElement('br'))
+                break;
+              case "list":
+                element = document.createElement('nil-list')
+                if (n.data != undefined)
+                {
+                  var x = n.data
+                  do
+                  {
+                    element.appendChild(display(x))
+                    x = x.next
+                  }
+                  while (x != n.data)
+                }
+                break;
+            }
+            if (window.NIL.editor.focus() === n)
+            {
+              element.setAttribute("focused", "true")
+              element.id = "FocusedAtom"
+            }
+            return element
+          }
+          var tree = display(this.model)
+          if (tree == undefined) tree = document.createElement('p')
+          this.element.firstChild.replaceWith(tree)
+          //window.scrollTo(FocusedAtom.offsetLeft, FocusedAtom.offsetTop)
+          if (document.getElementById("FocusedAtom"))
+          {
+            FocusedAtom.scrollIntoView(true)
+          }
+        },
+        processCommand : function(edit, input)
+        {
+          if (edit)
+          {
+            switch(input)
+            {
+              case 'Space':
+                this.insertAtom()
+                break;
+              case 'Enter':
+                this.insertBreak()
+                break;
+              case 'Backspace':
+                this.deleteCharacter()
+                break;
+              case 'Up':
+                this.moveCursorOutward()
+                break;
+              case 'Down':
+                this.moveCursorInward()
+                break;
+              case 'Left':
+                this.moveCursorBackward()
+                break;
+              case 'Right':
+                this.moveCursorForward()
+                break;
+              case 'Sample':
+                break;
+              case 'Put':
+                break;
+              case 'Spread':
+                break;
+            }
+          }
+          else
+          {
+            this.appendCharacter(input)
+          }
+          this.showModel()
+        }
+      },
+      interpreter : 
+      {
+
+      },
+      Init(element)
+      {
+        this.editor.element = element
+        var t = document.createElement("textarea")
+        t.id = "nil-editor"
+        t.autocapitalize = "false"
+        t.autocomplete = "off"
+        t.spellcheck = "false"
+        t.style.resize = "none"
+        t.style.overflow = "auto"
+        t.style.position = "absolute"
+        t.style.left = "-100vw"
+        t.style.top = "-100vh"
+        t.oninput = function(e)
+        {
+          e.preventDefault()
+          t.value = "##\n##\n##"
+          t.selectionEnd = 4
+          t.selectionStart = 4
+          switch(e.inputType)
+          {
+            case 'insertText':
+              if (e.data != ' ')
+              {
+                window.NIL.editor.processCommand(false, e.data)
+              }
+              break;
+            case 'deleteContentBackward':
+              window.NIL.editor.processCommand(true, "Backspace")
+              break;
+            case 'insertLineBreak':
+              //window.NIL.editor.processCommand(true, "Enter")
+              break;
+          }
+        }
+        //t.onselectionchange = function(e)
+        //{
+        //  t.selectionEnd = 4
+        //  t.selectionStart = 4
+        //}
+        this.editor.element.appendChild(t)
+        t.focus()
+        t.click()
+
+        document.body.onclick = function(e)
+        {
+          t.focus()
+          t.click()
+          e.preventDefault()
+        }
+        document.body.onpointerdown = function(e)
+        {
+          e.preventDefault()
+          const DragData = {x : e.clientX, y : e.clientY}
+          const DragDetection = function(e)
+          {
+            var vdim = Math.floor(window.screen.height / 25)
+            var wdim = Math.floor(window.screen.width / 50)
+            var vertical = e.clientY - DragData.y
+            var horizontal = e.clientX - DragData.x
+            if (vertical > vdim)
+            {
+              DragData.y = e.clientY
+              window.NIL.editor.processCommand(true, "Down")
+            }
+            else if (vertical < 0 && Math.abs(vertical) > vdim)
+            {
+              DragData.y = e.clientY
+              window.NIL.editor.processCommand(true, "Up")
+            }
+            if (horizontal > wdim)
+            {
+              DragData.x = e.clientX
+              window.NIL.editor.processCommand(true, "Right")
+            }
+            else if (horizontal < 0 && Math.abs(horizontal) > wdim)
+            {
+              DragData.x = e.clientX
+              window.NIL.editor.processCommand(true, "Left")
+            }
+            
+          }
+          document.body.addEventListener("pointermove", DragDetection)
+          const DragDetectionOff = function(e)
+          {
+            document.body.removeEventListener("pointermove", DragDetection)
+            document.body.removeEventListener("pointerup", DragDetectionOff)
+            document.body.removeEventListener("pointercancel", DragDetectionOff)
+          }
+          document.body.addEventListener("pointerup", DragDetectionOff)
+          document.body.addEventListener("pointercancel", DragDetectionOff)
+        }
+        document.body.onpointerup = function(e)
+        {
+          e.preventDefault()
+        }
+        document.body.onpointermove = function(e)
+        {
+          e.preventDefault()
+        }
+        document.body.oncontextmenu = function(e)
+        {
+          e.preventDefault()
+          if (document.getElementById("Options"))
+          {
+            return;
+          }
+          if (window.NIL.editor.cursor != undefined)
+          {
+            var atom = document.getElementById('FocusedAtom').getBoundingClientRect()
+            var menu = document.createElement('div')
+            menu.id = "Options"
+            menu.appendChild(document.createElement('div'))
+            menu.lastChild.appendChild(document.createTextNode('\u29c9'))
+            menu.lastChild.onclick = function(e)
+            {
+              window.NIL.editor.processCommand(true, "Sample")
+              menu.remove()
+            }
+            menu.appendChild(document.createElement('div'))
+            menu.lastChild.appendChild(document.createTextNode('\u2193'))
+            menu.lastChild.onclick = function(e)
+            {
+              window.NIL.editor.processCommand(true, "Put")
+              menu.remove()
+            }
+            menu.appendChild(document.createElement('div'))
+            menu.lastChild.appendChild(document.createTextNode('\u21e3'))
+            menu.lastChild.onclick = function(e)
+            {
+              window.NIL.editor.processCommand(true, "Spread")
+              menu.remove()
+            }
+            menu.style.position = "fixed"
+            document.body.appendChild(menu)
+            menu.style.top = "" + (e.y - 5) + "px"
+            menu.style.left = "" + (e.x - 5) + "px"
+            menu.onpointerleave = function(e)
+            {
+              menu.remove()
+            }
+          }
+        }
+        document.body.onkeydown = function(e)
+        {
+          switch(e.key)
+          {
+            case 'ArrowLeft':
+              window.NIL.editor.processCommand(true, "Left")
+              e.preventDefault()
+              break;
+            case 'ArrowRight':
+              window.NIL.editor.processCommand(true, "Right")
+              e.preventDefault()
+              break;
+            case 'ArrowUp':
+              window.NIL.editor.processCommand(true, "Up")
+              e.preventDefault()
+              break;
+            case 'ArrowDown':
+              window.NIL.editor.processCommand(true, "Down")
+              e.preventDefault()
+              break;
+            case 'Enter':
+              if (e.shiftKey)
+              {
+                window.NIL.editor.processCommand(true, "Down")
+                e.preventDefault()
+              }
+              else
+              {
+                window.NIL.editor.processCommand(true, "Enter")
+                e.preventDefault()
+              }
+              break;
+            case 'Backspace':
+              window.NIL.editor.processCommand(true, "Backspace")
+              break;
+            case ' ':
+              if (e.shiftKey)
+              {
+                window.NIL.editor.processCommand(true, "Up")
+                e.preventDefault()
+              }
+              else
+              {
+                window.NIL.editor.processCommand(true, "Space")
+                e.preventDefault()
+              }
+              break;
+          }
+        }
+        document.body.onkeyup = function(e)
+        {
+
+        }
+      }
+    }
+    window.NIL.Init(document.getElementById("NIL"))
+  </script>
+</html>

@@ -17,7 +17,9 @@ var closehelp = document.getElementsByTagName('close-help')[0]
 if (closehelp) closehelp.addEventListener('click', (e)=>help.style.display = 'none')
 
 const shortcutreplace = [
+  [/\\\\quote/g, '"'],
   [/\\\\arrow/g, '→'],
+  [/\\\\Arrow/g, '⇒'],
   [/\\\\product/g, '⨯'],
   [/\\\\quotient/g, '÷'],
   [/\\\\and/g, '∧'],
@@ -26,10 +28,6 @@ const shortcutreplace = [
   [/\\\\neq/g, '≠'],
   [/\\\\leq/g, '≤'],
   [/\\\\geq/g, '≥'],
-  [/\\\\quote/g, '▶'],
-  [/\\\\unquote/g, '▷'],
-  [/\\\\requote/g, '▽'],
-  [/\\\\inquote/g, '△']
 ]
 var active = document.getElementById("editorwindow")
 active['caret'] = active.lastChild
