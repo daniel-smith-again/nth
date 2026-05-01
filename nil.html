@@ -509,6 +509,7 @@
         this.editor.element.appendChild(t)
         t.focus()
         t.click()
+        window.focus()
 
         document.body.onclick = function(e)
         {
@@ -615,7 +616,6 @@
         }
         document.body.onkeydown = function(e)
         {
-          window.alert(e.key)
           switch(e.key)
           {
             case 'ArrowLeft':
@@ -638,12 +638,12 @@
               if (e.shiftKey)
               {
                 window.NIL.editor.processCommand(true, "Down")
-                e.preventDefault()
+                //e.preventDefault()
               }
               else
               {
                 window.NIL.editor.processCommand(true, "Enter")
-                e.preventDefault()
+                //e.preventDefault()
               }
               break;
             case 'Backspace':
@@ -653,12 +653,12 @@
               if (e.shiftKey)
               {
                 window.NIL.editor.processCommand(true, "Up")
-                e.preventDefault()
+                //e.preventDefault()
               }
               else
               {
                 window.NIL.editor.processCommand(true, "Space")
-                e.preventDefault()
+                //e.preventDefault()
               }
               break;
           }
