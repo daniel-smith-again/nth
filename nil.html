@@ -522,27 +522,31 @@
           const DragData = {x : e.clientX, y : e.clientY}
           const DragDetection = function(e)
           {
-            var vdim = Math.floor(window.screen.height / 13)
+            var vdim = Math.floor(window.screen.height / 20)
             var wdim = Math.floor(window.screen.width / 13)
             var vertical = e.clientY - DragData.y
             var horizontal = e.clientX - DragData.x
             if (vertical > vdim)
             {
+              if (navigator.vibrate) {navigator.vibrate(100)}
               DragData.y = e.clientY
               window.NIL.editor.processCommand(true, "Down")
             }
             else if (vertical < 0 && Math.abs(vertical) > vdim)
             {
+              if (navigator.vibrate) {navigator.vibrate(100)}
               DragData.y = e.clientY
               window.NIL.editor.processCommand(true, "Up")
             }
             if (horizontal > wdim)
             {
+              if (navigator.vibrate) {navigator.vibrate(100)}
               DragData.x = e.clientX
               window.NIL.editor.processCommand(true, "Right")
             }
             else if (horizontal < 0 && Math.abs(horizontal) > wdim)
             {
+              if (navigator.vibrate) {navigator.vibrate(100)}
               DragData.x = e.clientX
               window.NIL.editor.processCommand(true, "Left")
             }
