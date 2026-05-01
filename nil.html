@@ -509,7 +509,6 @@
         this.editor.element.appendChild(t)
         t.focus()
         t.click()
-        window.focus()
 
         document.body.onclick = function(e)
         {
@@ -614,7 +613,8 @@
             }
           }
         }
-        document.body.onkeydown = function(e)
+        //document.body.onkeydown = function(e)
+        t.onkeydown = function(e)
         {
           switch(e.key)
           {
