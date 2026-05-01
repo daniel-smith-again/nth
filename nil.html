@@ -616,6 +616,7 @@
         //document.body.onkeydown = function(e)
         t.onkeydown = function(e)
         {
+          document.body.appendChild(document.createTextNode(e.key))
           switch(e.key)
           {
             case 'ArrowLeft':
