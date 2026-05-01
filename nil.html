@@ -497,7 +497,10 @@
               window.NIL.editor.processCommand(true, "Backspace")
               break;
             case 'insertLineBreak':
-              //window.NIL.editor.processCommand(true, "Enter")
+              window.NIL.editor.processCommand(true, "Enter")
+              break;
+            case ' ':
+              window.NIL.editor.processCommand(true, "Space")
               break;
           }
         }
@@ -613,10 +616,8 @@
             }
           }
         }
-        //document.body.onkeydown = function(e)
-        t.onkeydown = function(e)
+        document.body.onkeydown = function(e)
         {
-          document.body.appendChild(document.createTextNode(e.key))
           switch(e.key)
           {
             case 'ArrowLeft':
@@ -639,27 +640,28 @@
               if (e.shiftKey)
               {
                 window.NIL.editor.processCommand(true, "Down")
-                //e.preventDefault()
+                e.preventDefault()
               }
               else
               {
                 window.NIL.editor.processCommand(true, "Enter")
-                //e.preventDefault()
+                e.preventDefault()
               }
               break;
             case 'Backspace':
               window.NIL.editor.processCommand(true, "Backspace")
+              e.preventDefault()
               break;
             case ' ':
               if (e.shiftKey)
               {
                 window.NIL.editor.processCommand(true, "Up")
-                //e.preventDefault()
+                e.preventDefault()
               }
               else
               {
                 window.NIL.editor.processCommand(true, "Space")
-                //e.preventDefault()
+                e.preventDefault()
               }
               break;
           }
