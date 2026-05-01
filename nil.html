@@ -528,25 +528,25 @@
             var horizontal = e.clientX - DragData.x
             if (vertical > vdim)
             {
-              if (navigator.vibrate) {navigator.vibrate(100)}
+              if (navigator.vibrate) {navigator.vibrate(10)}
               DragData.y = e.clientY
               window.NIL.editor.processCommand(true, "Down")
             }
             else if (vertical < 0 && Math.abs(vertical) > vdim)
             {
-              if (navigator.vibrate) {navigator.vibrate(100)}
+              if (navigator.vibrate) {navigator.vibrate(10)}
               DragData.y = e.clientY
               window.NIL.editor.processCommand(true, "Up")
             }
             if (horizontal > wdim)
             {
-              if (navigator.vibrate) {navigator.vibrate(100)}
+              if (navigator.vibrate) {navigator.vibrate(10)}
               DragData.x = e.clientX
               window.NIL.editor.processCommand(true, "Right")
             }
             else if (horizontal < 0 && Math.abs(horizontal) > wdim)
             {
-              if (navigator.vibrate) {navigator.vibrate(100)}
+              if (navigator.vibrate) {navigator.vibrate(10)}
               DragData.x = e.clientX
               window.NIL.editor.processCommand(true, "Left")
             }
@@ -615,6 +615,7 @@
         }
         document.body.onkeydown = function(e)
         {
+          window.alert("foo")
           switch(e.key)
           {
             case 'ArrowLeft':
