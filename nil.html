@@ -522,8 +522,8 @@
           const DragData = {x : e.clientX, y : e.clientY}
           const DragDetection = function(e)
           {
-            var vdim = Math.floor(window.screen.height / 25)
-            var wdim = Math.floor(window.screen.width / 50)
+            var vdim = Math.floor(window.screen.height / 13)
+            var wdim = Math.floor(window.screen.width / 13)
             var vertical = e.clientY - DragData.y
             var horizontal = e.clientX - DragData.x
             if (vertical > vdim)
