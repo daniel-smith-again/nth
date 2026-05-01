@@ -492,15 +492,16 @@
               {
                 window.NIL.editor.processCommand(false, e.data)
               }
+              else
+              {
+                window.NIL.editor.processCommand(true, "Space")
+              }
               break;
             case 'deleteContentBackward':
               window.NIL.editor.processCommand(true, "Backspace")
               break;
             case 'insertLineBreak':
               window.NIL.editor.processCommand(true, "Enter")
-              break;
-            case ' ':
-              window.NIL.editor.processCommand(true, "Space")
               break;
           }
         }
